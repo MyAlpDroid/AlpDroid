@@ -19,7 +19,8 @@
 
 Les trames MMU sont peu nombreuses, les trames ECU sont très nombreuses et peuvent surcharger la connexion USB.
 
-Il faut donc prévoir une latence sur les trames ECU pour laisser "le temps" à l'interface USB de dialoguer
+Il faut donc prévoir une latence sur les trames ECU pour laisser "le temps" à l'interface USB de dialoguer :
+
   if (delayTime+50<millis())
               {
                 delayTime=millis();                                  
@@ -28,7 +29,9 @@ Il faut donc prévoir une latence sur les trames ECU pour laisser "le temps" à 
                  // wait a little between to ECU frame - due to heavy flow form ECU
                  writeFrame(1, &io_can_frame_read);
               }
+              
 Par défaut l'écriture sur le bus CAN ECU est interdit. A changer si on veut envoyer des trames vers ECU.
+
       case 1: // do not write to CAN ECU, if you are not sure of what you do
              // canECU->sendMessage(&io_can_frame);
            break;
