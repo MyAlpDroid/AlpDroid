@@ -1,0 +1,3 @@
+/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/arm64-v8a/CMakeFiles/canbus-lib.dir

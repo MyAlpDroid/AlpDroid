@@ -1,0 +1,2 @@
+ninja: Entering directory `/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/x86'
+ninja: no work to do.

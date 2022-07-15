@@ -1,0 +1,40 @@
+{
+  "stringTable": {},
+  "buildFiles": [
+    "/Users/philippetangre/Downloads/MBUX-Port-master 2/app/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+      "-C",
+      "/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+    "-C",
+    "/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "canbus-lib-Debug-x86_64": {
+      "buildCommandComponents": [
+        "/Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+        "-C",
+        "/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/x86_64",
+        "canbus-lib"
+      ],
+      "buildType": "debug",
+      "abi": "x86_64",
+      "artifactName": "canbus-lib",
+      "output": "/Users/philippetangre/Downloads/MBUX-Port-master 2/app/build/intermediates/cxx/Debug/5y431555/obj/x86_64/libcanbus-lib.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {},
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

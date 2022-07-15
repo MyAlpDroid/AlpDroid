@@ -1,0 +1,7 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="scrobble_new_players"
+        android:summary="@string/pref_title_new_players"/>
+</PreferenceScreen>
+

@@ -1,0 +1,40 @@
+{
+  "stringTable": {},
+  "buildFiles": [
+    "/Users/philippetangre/Documents/MyAlpDroid/app/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+      "-C",
+      "/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/311x5u4q/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+    "-C",
+    "/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/311x5u4q/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "canbus-lib-Debug-x86": {
+      "buildCommandComponents": [
+        "/Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+        "-C",
+        "/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/311x5u4q/x86",
+        "canbus-lib"
+      ],
+      "buildType": "debug",
+      "abi": "x86",
+      "artifactName": "canbus-lib",
+      "output": "/Users/philippetangre/Documents/MyAlpDroid/app/build/intermediates/cxx/Debug/311x5u4q/obj/x86/libcanbus-lib.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {},
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

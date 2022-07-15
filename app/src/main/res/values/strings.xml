@@ -1,0 +1,55 @@
+<resources>
+
+    <string name="app_name" translatable="false">MyAlpDroid</string>
+
+    <!-- Enabled players settings -->
+    <string name="pref_header_players">Recherche des medias players</string>
+    <string name="pref_title_new_players">AlpDroid automatic discovery</string>
+
+    <!-- Settings menu item -->
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Notification settings -->
+    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_group_title_notification_types">Notification types</string>
+    <string name="pref_title_notifications_now_playing">Now Playing</string>
+    <string name="pref_title_notifications_alpdroid">Track Read</string>
+    <string name="pref_group_title_notification_settings">Notification settings</string>
+    <string name="pref_title_notification_vibrate">Vibrate</string>
+    <string name="pref_title_notification_sound">Sound</string>
+    <string name="pref_title_notification_light">Light</string>
+
+    <!-- Strings related to notifications -->
+    <string name="notification_channel_name_alpdroid">Alpdroids</string>
+    <string name="notification_channel_name_error">Errors</string>
+    <string name="notification_channel_name_now_playing">Now Playing</string>
+    <string name="authentication_error_title">Alpdroid authentication error</string>
+    <string name="authentication_error_content">You have been logged out from
+        Alpdroid and MyAlpDroid is paused. Tap here to login.</string>
+
+    <!-- Strings related to login -->
+    <string name="title_activity_login">Sign in</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="progress_logging_in">Logging in…</string>
+    <string name="error">Error</string>
+    <string name="error_unknown">An unknown error occurred</string>
+    <string name="error_internet">You are not connected to the internet</string>
+    <string name="splash_notification_access">Notification Access required</string>
+    <string name="splash_notification_access_text">The Notification Access permission is required by Scroball to read device playback state.</string>
+    <string name="lastfm_logo_description">Last.fm logo</string>
+
+    <!-- Main window tabs -->
+    <string name="tab_now_playing">Now Playing</string>
+    <string name="tab_history">History</string>
+    <string name="engine_display">Engine</string>
+    <string name="confort_display">Confort</string>
+    <string name="computer_display">Board Computer</string>
+
+    <!-- Strings related to Settings -->
+    <string name="saved_session_key" translatable="false">sessionKey</string>
+    <!-- Strings related to the now playing screen -->
+    <string name="nothing_playing">Nothing playing</string>
+
+    <!-- Strings related to the main screen -->
+    <string name="settings">Settings</string>
+</resources>

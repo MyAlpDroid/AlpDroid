@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/dessinCar"
+                android:layout_width="227dp"
+                android:layout_height="293dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/car"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_press_FL"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="52dp"
+                android:background="#070E32"
+                android:text="Pression Front Left"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/dessinCar"
+                app:layout_constraintTop_toTopOf="@+id/dessinCar" />
+
+            <TextView
+                android:id="@+id/text_temp_FL"
+                android:layout_width="47dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:background="#070E32"
+                android:text="Temp.  Front Left"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="@+id/text_press_FL"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/text_press_FL"
+                app:layout_constraintTop_toBottomOf="@+id/text_press_FL" />
+
+            <TextView
+                android:id="@+id/text_temp_RL"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginBottom="24dp"
+                android:background="#070E32"
+                android:text="Temp.  Rear Left"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
+                app:layout_constraintStart_toStartOf="@+id/text_press_RL" />
+
+            <TextView
+                android:id="@+id/text_press_RL"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginBottom="8dp"
+                android:background="#070E32"
+                android:text="Pression Rear Left"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/text_temp_RL"
+                app:layout_constraintStart_toStartOf="@+id/text_press_FL" />
+
+            <TextView
+                android:id="@+id/text_press_FR"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="52dp"
+                android:background="#070E32"
+                android:text="Pression Front Right"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintTop_toTopOf="@+id/dessinCar" />
+
+            <TextView
+                android:id="@+id/text_temp_FR"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="8dp"
+                android:background="#070E32"
+                android:text="Temp. Front Right"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/text_press_FR"
+                app:layout_constraintTop_toBottomOf="@+id/text_press_FR" />
+
+            <TextView
+                android:id="@+id/text_temp_RR"
+                android:layout_width="40dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="24dp"
+                android:background="#070E32"
+                android:text="Temp. Rear Right"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
+                app:layout_constraintStart_toStartOf="@+id/text_press_RR" />
+
+            <TextView
+                android:id="@+id/text_press_RR"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginBottom="8dp"
+                android:background="#070E32"
+                android:text="Pression Rear Right"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/text_temp_RR"
+                app:layout_constraintEnd_toEndOf="@+id/dessinCar" />
+
+            <ImageView
+                android:id="@+id/gear_Active"
+                android:layout_width="68dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="28dp"
+                android:src="@drawable/gear_d1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dessinCar" />
+
+            <ImageView
+                android:id="@+id/gear_Next"
+                android:layout_width="68dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/gear_d2"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+            <com.github.anastr.speedviewlib.ProgressiveGauge
+                android:id="@+id/throttle_Press"
+                android:layout_width="242dp"
+                android:layout_height="188dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
+                app:layout_constraintStart_toEndOf="@+id/Intake_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/CooL_jauge"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_orientation="HORIZONTAL"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_RIGHT"
+                app:sv_speedometerBackColor="@color/black_overlay"
+                app:sv_speedometerColor="#3AE641"
+                app:sv_textColor="#FFFFFF"
+                app:sv_unit="%"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitUnderSpeedText="false" />
+
+            <com.github.anastr.speedviewlib.ProgressiveGauge
+                android:id="@+id/brake_Press"
+                android:layout_width="62dp"
+                android:layout_height="122dp"
+                android:verticalScrollbarPosition="defaultPosition"
+                app:layout_constraintStart_toEndOf="@+id/throttle_Press"
+                app:layout_constraintTop_toTopOf="@+id/throttle_Press"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_orientation="VERTICAL"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="4dp"
+                app:sv_speedTextPosition="TOP_LEFT"
+                app:sv_speedometerBackColor="@color/black_overlay"
+                app:sv_speedometerColor="#F42828"
+                app:sv_textColor="#FFFFFF"
+                app:sv_unit="%"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitUnderSpeedText="false" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/OIL_jauge"
+                android:layout_width="232dp"
+                android:layout_height="216dp"
+                android:layout_marginStart="112dp"
+                app:layout_constraintStart_toEndOf="@+id/dessinCar"
+                app:sv_image="@drawable/alpine_jauge_rpm"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#DDECF3"
+                app:sv_markColor="#0434E4"
+                app:sv_markHeight="14dp"
+                app:sv_markStyle="ROUND"
+                app:sv_marksNumber="5"
+                app:sv_marksPadding="26dp"
+                app:sv_maxSpeed="150"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="52dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_speedTextSize="22dp"
+                app:sv_textColor="#FFFFFF"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="40dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_withIndicatorLight="true"
+                app:sv_withTremble="false"
+                tools:layout_editor_absoluteY="60dp" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/Intake_jauge"
+                android:layout_width="232dp"
+                android:layout_height="216dp"
+                android:layout_marginTop="48dp"
+                app:layout_constraintBottom_toBottomOf="@+id/Oil_Pressure"
+                app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge"
+                app:sv_image="@drawable/alpine_jauge_temp2"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#157CB3"
+                app:sv_markColor="#0434E4"
+                app:sv_markHeight="14dp"
+                app:sv_markStyle="ROUND"
+                app:sv_marksNumber="7"
+                app:sv_marksPadding="26dp"
+                app:sv_maxSpeed="70"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_textColor="#FFFFFF"
+                app:sv_tickNumber="8"
+                app:sv_tickPadding="40dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#FFFFFF" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/Oil_Pressure"
+                android:layout_width="232dp"
+                android:layout_height="216dp"
+                android:layout_marginTop="48dp"
+                app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/Gear_jauge"
+                app:sv_image="@drawable/alpine_jauge_pression"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#DDECF3"
+                app:sv_markColor="#0434E4"
+                app:sv_markHeight="12dp"
+                app:sv_markStyle="ROUND"
+                app:sv_markWidth="3dp"
+                app:sv_marksNumber="5"
+                app:sv_marksPadding="26dp"
+                app:sv_maxSpeed="90"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#DDECF3"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_textColor="#DDECF3"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="40dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="Bar"
+                app:sv_unitTextColor="#DDECF3" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/CooL_jauge"
+                android:layout_width="232dp"
+                android:layout_height="216dp"
+                android:layout_marginStart="64dp"
+                app:layout_constraintBottom_toBottomOf="@+id/OIL_jauge"
+                app:layout_constraintStart_toEndOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toTopOf="@+id/OIL_jauge"
+                app:layout_constraintVertical_bias="0.0"
+                app:sv_backgroundCircleColor="#FFEB3B"
+
+                app:sv_image="@drawable/alpine_jauge_oil"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#DDECF3"
+                app:sv_markColor="#0434E4"
+                app:sv_markHeight="14dp"
+                app:sv_markStyle="ROUND"
+                app:sv_marksNumber="5"
+                app:sv_marksPadding="26dp"
+                app:sv_maxSpeed="150"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#DDECF3"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_textColor="#DDECF3"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="40dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#DDECF3" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/Gear_jauge"
+                android:layout_width="232dp"
+                android:layout_height="216dp"
+                android:layout_marginStart="64dp"
+                app:layout_constraintBottom_toBottomOf="@+id/CooL_jauge"
+                app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
+                app:layout_constraintTop_toTopOf="@+id/CooL_jauge"
+                app:layout_constraintVertical_bias="0.0"
+                app:sv_image="@drawable/alpine_jauge_rpm"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#DDECF3"
+                app:sv_markColor="#0434E4"
+                app:sv_markHeight="14dp"
+                app:sv_markStyle="ROUND"
+                app:sv_marksNumber="11"
+                app:sv_marksPadding="24dp"
+                app:sv_maxSpeed="129"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#DDECF3"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_textColor="#DDECF3"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="40dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#DDECF3" />
+
+            <com.github.anastr.speedviewlib.ImageLinearGauge
+                android:id="@+id/rpmgauge"
+                android:layout_width="551dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="@+id/Oil_Pressure"
+                app:layout_constraintStart_toStartOf="@+id/Intake_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/text_fuelInst"
+                app:sv_image="@drawable/lineargauge"
+                app:sv_maxSpeed="7500"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#E10E0E"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedometerColor="#03A9F4"
+                app:sv_unit="RPM"
+                app:sv_unitTextColor="#E10E0E" />
+
+            <TextView
+                android:id="@+id/text_yawRate"
+                android:layout_width="97dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:background="#02082B"
+                android:contentDescription="Yaw Rate"
+                android:drawableTint="#611111"
+                android:drawableTintMode="screen"
+                android:text="km"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/yawrate"
+                app:layout_constraintTop_toBottomOf="@+id/yawrate" />
+
+            <TextView
+                android:id="@+id/yawrate"
+                android:layout_width="100dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Distance KM"
+                android:textColor="#E1EEFB"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/Intake_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/text_speed" />
+
+            <TextView
+                android:id="@+id/text_fuelInst"
+                android:layout_width="89dp"
+                android:layout_height="27dp"
+                android:background="#02082B"
+                android:contentDescription="Conso.Inst"
+                android:drawableTint="#611111"
+                android:drawableTintMode="screen"
+                android:text="Conso. Inst. l/s"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/fuelinst"
+                app:layout_constraintTop_toTopOf="@+id/text_yawRate" />
+
+            <TextView
+                android:id="@+id/fuelinst"
+                android:layout_width="64dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:text="Conso. Inst. l/s"
+                android:textColor="#E1EEFB"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/text_yawRate"
+                app:layout_constraintTop_toTopOf="@+id/yawrate" />
+
+            <TextView
+                android:id="@+id/text_fueLevel"
+                android:layout_width="91dp"
+                android:layout_height="29dp"
+                android:background="#02082B"
+                android:contentDescription="Fuel level"
+                android:drawableTint="#611111"
+                android:drawableTintMode="screen"
+                android:text="Niveau carb. l"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/fuelevel"
+                app:layout_constraintStart_toStartOf="@+id/fuelevel"
+                app:layout_constraintTop_toTopOf="@+id/text_fuelInst" />
+
+            <TextView
+                android:id="@+id/fuelevel"
+                android:layout_width="84dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Carburant (l)"
+                android:textColor="#E1EEFB"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/Oil_Pressure"
+                app:layout_constraintStart_toEndOf="@+id/text_fuelInst"
+                app:layout_constraintTop_toTopOf="@+id/fuelinst" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/angularWheel"
+                android:layout_width="161dp"
+                android:layout_height="181dp"
+                android:layout_marginTop="48dp"
+                app:layout_constraintEnd_toEndOf="@+id/gear_Next"
+                app:layout_constraintStart_toStartOf="@+id/gear_Active"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:sv_image="@drawable/alpine_jauge"
+                app:sv_indicator="HalfLineIndicator"
+                app:sv_indicatorColor="#E91E63"
+                app:sv_indicatorWidth="2dp"
+                app:sv_markColor="#3F51B5"
+                app:sv_markStyle="ROUND"
+                app:sv_maxSpeed="360"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPosition="CENTER"
+                app:sv_speedometerMode="NORMAL"
+                app:sv_startDegree="95"
+                app:sv_unit="°" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="49dp"
+                android:layout_height="22dp"
+                android:text="Oil"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/OIL_jauge"
+                app:layout_constraintHorizontal_bias="0.473"
+                app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="78dp"
+                android:layout_height="36dp"
+                android:text="Cool"
+                android:textAlignment="center"
+                android:textColor="#02DEFA"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/CooL_jauge"
+                app:layout_constraintHorizontal_bias="0.487"
+                app:layout_constraintStart_toStartOf="@+id/CooL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/CooL_jauge" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="67dp"
+                android:layout_height="35dp"
+                android:text="Gear °C"
+                android:textAlignment="center"
+                android:textColor="#F1F6F6"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
+                app:layout_constraintStart_toStartOf="@+id/Gear_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/Gear_jauge" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="82dp"
+                android:layout_height="37dp"
+                android:text="Intake"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/Intake_jauge"
+                app:layout_constraintStart_toStartOf="@+id/Intake_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/Intake_jauge" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="129dp"
+                android:layout_height="38dp"
+                android:text="Oil Pressure"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/Oil_Pressure"
+                app:layout_constraintStart_toStartOf="@+id/Oil_Pressure"
+                app:layout_constraintTop_toBottomOf="@+id/Oil_Pressure" />
+
+            <TextView
+                android:id="@+id/text_speed"
+                android:layout_width="296dp"
+                android:layout_height="61dp"
+                android:layout_marginTop="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="sans-serif-medium"
+                android:justificationMode="none"
+                android:singleLine="true"
+                android:text="0 Km/h"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textColor="#FFFFFF"
+                android:textSize="42sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/brake_Press"
+                app:layout_constraintStart_toStartOf="@+id/throttle_Press"
+                app:layout_constraintTop_toBottomOf="@+id/throttle_Press" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="62dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="28dp"
+                android:foreground="@drawable/fleche"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/gear_Active"
+                app:layout_constraintStart_toEndOf="@+id/gear_Active"
+                app:srcCompat="@drawable/fleche" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

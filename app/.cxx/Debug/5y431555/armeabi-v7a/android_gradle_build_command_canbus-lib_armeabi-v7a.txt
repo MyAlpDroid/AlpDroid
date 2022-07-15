@@ -1,0 +1,7 @@
+Executable : /Users/philippetangre/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/Debug/5y431555/armeabi-v7a
+canbus-lib
+jvmArgs : 
+

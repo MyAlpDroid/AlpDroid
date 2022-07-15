@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/5b6b362p/x86_64",
+  "command": "/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android21 --gcc-toolchain=/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dcanbus_lib_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -o CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o -c /Users/philippetangre/Documents/MyAlpDroid/app/src/main/cpp/canbus.cpp",
+  "file": "/Users/philippetangre/Documents/MyAlpDroid/app/src/main/cpp/canbus.cpp"
+},
+{
+  "directory": "/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/5b6b362p/x86_64",
+  "command": "/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android21 --gcc-toolchain=/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dcanbus_lib_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -o CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o -c /Users/philippetangre/Documents/MyAlpDroid/app/src/main/cpp/readBuffer.cpp",
+  "file": "/Users/philippetangre/Documents/MyAlpDroid/app/src/main/cpp/readBuffer.cpp"
+},
+{
+  "directory": "/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/5b6b362p/x86_64",
+  "command": "/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android21 --gcc-toolchain=/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/philippetangre/Library/Android/sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dcanbus_lib_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -o CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o -c /Users/philippetangre/Documents/MyAlpDroid/app/src/main/cpp/CanbusDecoder.cpp",
+  "file": "/Users/philippetangre/Documents/MyAlpDroid/app/src/main/cpp/CanbusDecoder.cpp"
+}
+]

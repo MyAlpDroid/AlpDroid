@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Arduino USB ID -->
+    <usb-device vendor-id="9025" />
+    <usb-device product-id="67" />
+    <!-- Vendor ID of Arduino -->
+</resources>

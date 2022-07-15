@@ -1,0 +1,14 @@
+# ninja log v5
+0	640	1649493345	CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o	ea4c48ca75272d1f
+1	949	1649493345	CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o	8cde528f884a8138
+1	1054	1649493346	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	eb9acdac1f391e8a
+1054	1204	1649493346	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/x86/libcanbus-lib.so	d291748b0bd8c1d0
+1	9	0	clean	cf890c5683155505
+3	979	1650087179	CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o	ea4c48ca75272d1f
+1	1287	1650087179	CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o	8cde528f884a8138
+4	1414	1650087179	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	eb9acdac1f391e8a
+1414	1629	1650087179	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/x86/libcanbus-lib.so	d291748b0bd8c1d0
+8	4343	1650091431	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	eb9acdac1f391e8a
+4343	4781	1650091432	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/x86/libcanbus-lib.so	d291748b0bd8c1d0
+1	1087	1650091677	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	eb9acdac1f391e8a
+1087	1283	1650091677	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/x86/libcanbus-lib.so	d291748b0bd8c1d0

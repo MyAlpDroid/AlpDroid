@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/normalMode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:outlineSpotShadowColor="#03A9F4">
+
+        <CheckBox
+            android:id="@+id/driftBox"
+            android:layout_width="151dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="192dp"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:duplicateParentState="false"
+            android:shadowColor="#E91E63"
+            android:text="Drift Mode"
+            android:textColor="#F6F6F1"
+            android:textColorHighlight="#F44336"
+            android:textColorHint="#FFEB3B"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/sportMode"
+            app:layout_constraintTop_toBottomOf="@+id/sportMode" />
+
+        <Switch
+            android:id="@+id/sportMode"
+            android:layout_width="400dp"
+            android:layout_height="93dp"
+            android:layout_marginTop="128dp"
+            android:height="22dp"
+            android:checked="false"
+            android:ellipsize="start"
+            android:lineHeight="34dp"
+            android:lineSpacingExtra="16sp"
+            android:lineSpacingMultiplier="2"
+            android:lines="4"
+            android:maxLength="23"
+            android:maxLines="4"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="24dp"
+            android:text="Toggle Sport Mode"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:checked="true"
+            tools:layout_editor_absoluteX="120dp" />
+
+        <Button
+            android:id="@+id/lumibutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Lumière"
+            app:layout_constraintStart_toStartOf="@+id/driftBox"
+            app:layout_constraintTop_toBottomOf="@+id/driftBox" />
+
+        <TextView
+            android:id="@+id/luminy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="00%"
+            android:textColor="#CFBB09"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/lumibutton"
+            app:layout_constraintStart_toEndOf="@+id/lumibutton"
+            app:layout_constraintTop_toTopOf="@+id/lumibutton" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

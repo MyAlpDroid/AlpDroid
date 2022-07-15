@@ -1,0 +1,12 @@
+# ninja log v5
+2	1279	1649493342	CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o	118ec721b41925dc
+1	1837	1649493342	CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o	9a01df7be5192fac
+3	1952	1649493342	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	ef394b8a864a907
+1952	2156	1649493343	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/arm64-v8a/libcanbus-lib.so	a10c078acdd30b86
+1	10	0	clean	cf890c5683155505
+5	1695	1650087747	CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o	118ec721b41925dc
+2	2195	1650087748	CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o	9a01df7be5192fac
+7	2312	1650087748	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	ef394b8a864a907
+2312	2644	1650087748	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/arm64-v8a/libcanbus-lib.so	a10c078acdd30b86
+5	1491	1650204810	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	ef394b8a864a907
+1491	1753	1650204810	../../../../build/intermediates/cxx/Debug/443b3i6w/obj/arm64-v8a/libcanbus-lib.so	a10c078acdd30b86
