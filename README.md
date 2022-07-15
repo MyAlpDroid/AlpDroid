@@ -25,8 +25,8 @@ Pour plus d'information, Consulter le Wiki :[ici}(https://github.com/MyAlpDroid/
 
 Le projet s'inspire et utilise les résultats des projets suivants :
 
-Library Arduino et Serial USB : [ici](https://github.com/OmarAflak/Arduino-Library) qui s'appuie aussi sur Libray SerialUSB :[ici](https://github.com/felHR85/UsbSerial)
-Article et exemple de développement autour du CD4066 (multiplexeur à 2 voies) : J'ai perdu la référence, j'en suis désolé, je la remettrai si l'auteur se reconnait ou si je la retrouve entretemps.
-L'excellente Library CANBUS pour Arduino autowp : [ici](https://github.com/autowp/arduino-mcp2515)
-Exemple très bien documenté de pilotage d'une Mercedes et réingéniering des trames CAN : [ici](https://github.com/rnd-ash/W203-canbus)
-Library SpeedView pour les compteurs : [ici](https://github.com/anastr/SpeedView)
+* Library Arduino et Serial USB : [ici](https://github.com/OmarAflak/Arduino-Library) qui s'appuie aussi sur Libray SerialUSB :[ici](https://github.com/felHR85/UsbSerial)
+* Article et exemple de développement autour du CD4066 (multiplexeur à 2 voies) : J'ai perdu la référence, j'en suis désolé, je la remettrai si l'auteur se reconnait ou si je la retrouve entretemps.
+* L'excellente Library CANBUS pour Arduino autowp : [ici](https://github.com/autowp/arduino-mcp2515)
+* Exemple très bien documenté de pilotage d'une Mercedes et réingéniering des trames CAN : [ici](https://github.com/rnd-ash/W203-canbus)
+* Library SpeedView pour les compteurs : [ici](https://github.com/anastr/SpeedView)
