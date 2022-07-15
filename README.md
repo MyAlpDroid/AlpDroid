@@ -69,7 +69,7 @@ Connecteur type USB : **arrivée vidéo du poste**
 Connecteur Noir : **alimentation & CAN** (Rouge+12v, Noir GND, Vert CANH, Blanc CANL)
 
 Cela signifie que l'écran récupère l'image et le multiplexage du touchscreen via un lien LVDS (connecteur type USB & Fakra Violet) et se met en marche sur la base d'une trame CANBUS qui lui indique s'il faut s'allumer ou non.
-Voici le briochage des connecteurs de ce câble:
+Voici le brochage des connecteurs de ce câble:
 ![](https://github.com/MyAlpDroid/AlpDroid/blob/main/Pictures/HSD%20et%20USB.png)
 
 La trame est probablement celle-ci :
