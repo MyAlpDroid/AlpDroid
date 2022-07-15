@@ -19,86 +19,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/checksums/checksums.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/checksums/md5-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/checksums/sha1-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/dependencies-accessors/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/7.3.3/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/configuration-cache/57y80p999xo3nuhn1h5spvi26/work.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/configuration-cache/configuration-cache.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/configuration-cache/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_07_2022_17_21_[Default_Changelist]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_07_2022_17_21__Default_Changelist_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAlpdroid_bom.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/1m_screen_cable.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/1m_screen_cable_02.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Ajout rallonge step 1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Alimentation et HP.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Alpine version DIY.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Arrière Poste Alpine.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Decodeur Key1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Demontage Ecran.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Ecran démonté.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Ecran sans support.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Ecran sortie.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Enlever protection supérieur.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Faisceau Alim.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Fixation Ecran.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Joying Commandes Volant.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Joying Unboxing.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Montage Alpine Micro.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/MyAlpdroid_bb.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Ouvrir Poste.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Prise Antenne GPS.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Resultat poste.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/Schéma du circuit.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/faisceau poste et prise antenne.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/faisceau terminé.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pictures/passage cable.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/.vscode/arduino.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/.vscode/c_cpp_properties.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/.vscode/settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/UNO_CODE.ino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/build/arduino.avr.uno/UNO_CODE.ino.eep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/build/arduino.avr.uno/UNO_CODE.ino.elf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/build/arduino.avr.uno/UNO_CODE.ino.hex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/build/arduino.avr.uno/UNO_CODE.ino.with_bootloader.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/build/arduino.avr.uno/UNO_CODE.ino.with_bootloader.hex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/can.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/mcp2515.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UNO_CODE/mcp2515.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -340,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657899579975</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
+      <created>1657905785738</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1657905785738</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
