@@ -21,7 +21,7 @@ Mais en premier, ce projet a pour objet de partager toute l'expérience et de pe
 
 **Veuillez noter qu'il s'agit d'un projet expérimental, qu'il peut y avoir des dysfonctionnements dans les composants comme dans les programmes pouvant entrainer alarmes ou arrêt du véhicule pour mise en sécurité. Vous utilisez les résultats de ce projet à vos propres risques et périls, l'auteur n'assurera aucun support ou garantie suite à l'utilisation des programmes et informations issues de ce projet.**
 
-Pour plus d'information, Consulter le Wiki :[ici](https://github.com/MyAlpDroid/AlpDroid/wiki
+Pour plus d'information, Consulter le Wiki :[ici}(https://github.com/MyAlpDroid/AlpDroid/wiki)
 
 Le projet s'inspire et utilise les résultats des projets suivants :
 
