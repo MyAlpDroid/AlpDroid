@@ -1,0 +1,2 @@
+rootProject.name='MyAlpineDroid'
+include ':app'

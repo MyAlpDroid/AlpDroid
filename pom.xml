@@ -1,0 +1,6 @@
+<dependency>
+    <groupId>com.github.anastr</groupId>
+    <artifactId>speedviewlib</artifactId>
+    <version>1.6.0</version>
+    <type>pom</type>
+</dependency>
