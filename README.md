@@ -4,7 +4,7 @@ Le poste multimédia Alpine présente 2 inconvénients : il n'est pas compatible
 
 Il présente aussi comme inconvénient qu'Alpine a manifestement décidé qu'il n'y aurait pas d'upgrade de celui-ci. Ceci étant d'autant plus dommage qu'il s'agit du même poste Multimédia **Bosch** que celui qu'on retrouve dans la Suzuki Swift 2014 et que l'écran **Valeo** est le même que celui du Renault Kadjar 2016.
 Pour ces deux modèles, des upgrades ont été livrés pour faire bénéficier d'Android & Apple leurs utilisateurs. 
-Bon, après, on parle de véhicules très haut de gamme (la swift et le Kaddjar), normal qu'il y ait un peu d'animation en après vente...
+Bon, après, on parle de véhicules très haut de gamme (la swift et le Kadjar 2016), normal qu'il y ait un peu d'animation en après vente...
 
 Concernant l'Alpine, il est assez complexe de travailler sur une carte qui aurait pour objet d'intercepter le signal vidéo de l'Alpine pour permettre de switcher avec un adaptateur Android Auto ou CarPlay. Après avoir longuement étudié la question, la solution a semblé relativement couteuse et longue à produire. 
 
@@ -26,7 +26,7 @@ Il est d'origine **BOSCH**.
 On peut retrouver la documentation sur les modules opensource utilisés pour son logiciel [ici](https://oss.bosch-cm.com/alpine.html) 
 
 L'arrière du poste se présente ainsi :
-![ ](https://github.com/MyAlpDroid/AlpDroid/blob/main/Pictures/Arrie%CC%80re%20Poste%20Alpine.jpg)
+![ ](https://github.com/MyAlpDroid/AlpDroid/blob/main/Pictures/Arri%C3%A8re%20Poste%20Alpine.jpg)
 
 De gauche à droite : 
 
