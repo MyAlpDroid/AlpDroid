@@ -2,22 +2,18 @@ package com.alpdroid.huGen10;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.google.common.eventbus.EventBus;
 
 public class AlpdroidEr {
 
   private static final String TAG = AlpdroidEr.class.getName();
-  private static final int MINIMUM_SCROBBLE_TIME = 30 * 1000;
+  private static final int MINIMUM_PLAYING_TIME = 30 * 1000;
 
   private final ConnectivityManager connectivityManager;
 
   private final EventBus eventBus = AlpdroidApplication.Companion.getEventBus();
 
-  private boolean isScrobbling = false;
-  private long lastScrobbleTime = 0;
-  private final long nextScrobbleDelay = 0;
 
   public AlpdroidEr(
       ConnectivityManager connectivityManager) {
@@ -65,7 +61,7 @@ public class AlpdroidEr {
 
     int playCount = (int) (playTime / duration);
 
-    if (duration < MINIMUM_SCROBBLE_TIME) {
+    if (duration < MINIMUM_PLAYING_TIME) {
       return;
     }
 
@@ -79,6 +75,8 @@ public class AlpdroidEr {
 
   }
 
+
+  /*
   public void fetchTrackDurationAndSubmit(final PlaybackItem playbackItem) {
     NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
     boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -91,25 +89,17 @@ public class AlpdroidEr {
           submit(playbackItem);
           return ;
 
-  }
+  }*/
 
-  public void alpdroidPending() {
+
+
+/*  public void alpdroidPending() {
     NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
     boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-    boolean backoff = lastScrobbleTime + nextScrobbleDelay > System.currentTimeMillis();
-
-    if (isScrobbling) {
-      return;
-    }
-
-
-    isScrobbling = false;
-    lastScrobbleTime = System.currentTimeMillis();
-
     return ;
   }
-
+*/
 
 
 }

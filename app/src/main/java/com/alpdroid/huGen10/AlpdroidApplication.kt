@@ -177,9 +177,6 @@ class AlpdroidApplication : Application() {
     }
 
 
-
-
-
     fun getEventBus(): EventBus? {
         return eventBus
     }

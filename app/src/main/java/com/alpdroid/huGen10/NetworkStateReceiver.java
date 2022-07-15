@@ -22,7 +22,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 
             if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
                 Log.d(TAG, "Network connected, scrobbling");
-                alpdroidEr.alpdroidPending();
+     //           alpdroidEr.alpdroidPending();
             }
         }
     }

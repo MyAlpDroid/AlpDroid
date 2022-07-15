@@ -1,30 +1,5 @@
 package com.alpdroid.huGen10;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.AudioAttributes;
-import android.media.RingtoneManager;
-import android.os.Build;
-
-import com.alpdroid.huGen10.ui.MainActivity;
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
-import com.alpdroid.huGen10.ui.SplashScreen;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 public class AlpdroidNotificationManager {
 
   private static final int NOW_PLAYING_ID = 0;
@@ -37,12 +12,12 @@ public class AlpdroidNotificationManager {
 
   private static final String NOTIFICATION_DISMISS_ACTION = "alpdroid_notification_dismissed";
 
-  private final Context context;
+ /*private final Context context;
   private final SharedPreferences sharedPreferences;
   private final NotificationManager notificationManager;
   private final Map<Track, Integer> playCounts = new HashMap<>();
-  private final BroadcastReceiver deliveryBroadcastReceiver;
-
+  private final BroadcastReceiver deliveryBroadcastReceiver;*/
+/*
   public AlpdroidNotificationManager(
       Context context, SharedPreferences sharedPreferences) {
     this.context = context;
@@ -252,4 +227,6 @@ public class AlpdroidNotificationManager {
       playCounts.clear();
     }
   }
+
+ */
 }
