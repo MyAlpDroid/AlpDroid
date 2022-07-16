@@ -8,6 +8,14 @@ Il présente aussi comme inconvénient qu'Alpine a manifestement décidé qu'il 
 Pour ces deux modèles, des upgrades ont été livrés pour faire bénéficier d'Android & Apple leurs utilisateurs. 
 Bon, après, on parle de véhicules très haut de gamme (la swift et le Kadjar 2016), normal qu'il y ait un peu d'animation en après vente...
 
+Bref, ce qu'on souhaite tout simplement c'est avoir ça :
+
+![Avoir des vrais apps](https://github.com/MyAlpDroid/AlpDroid/blob/main/Pictures/Spotify-Coyote.jpg)
+
+![Garder la télémtrie](https://github.com/MyAlpDroid/AlpDroid/blob/main/Pictures/Te%CC%81le%CC%81me%CC%81trie.jpg)
+
+![Avoir Apple Carplay ou Android Auto](https://github.com/MyAlpDroid/AlpDroid/blob/main/Pictures/AppleCarPlay.jpg)
+
 Concernant l'Alpine, il est assez complexe de travailler sur une carte qui aurait pour objet d'intercepter le signal vidéo de l'Alpine pour permettre de switcher avec un adaptateur Android Auto ou CarPlay. Après avoir longuement étudié la question, la solution a semblé relativement couteuse et longue à produire. 
 
 L'autre solution pourrait consister à adapter un poste Android avec l'écran de l'Alpine. On verra plus loin qu'il faudrait redévelopper une carte affichage et ajouter un contrôleur CAN pour réussir l'opération. C'est possible. Un peu complexe mais possible.

@@ -36,6 +36,7 @@ class EngineDisplay : UIFragment(250) {
     lateinit var gear_active: ImageView
     lateinit var gear_next: ImageView
     lateinit var speed : TextView
+    lateinit var rpm_gauge : ImageLinearGauge
     lateinit var angle_steering : ImageSpeedometer
     lateinit var oil_temp : ImageSpeedometer
     lateinit var cool_temp : ImageSpeedometer
@@ -74,6 +75,8 @@ class EngineDisplay : UIFragment(250) {
         angle_steering = fragmentBlankBinding!!.angularWheel
 
         speed = fragmentBlankBinding!!.textSpeed
+
+        rpm_gauge = fragmentBlankBinding!!.rpmgauge
 
         oil_temp = fragmentBlankBinding!!.OILJauge
         cool_temp = fragmentBlankBinding!!.CooLJauge
@@ -129,11 +132,13 @@ class EngineDisplay : UIFragment(250) {
                         ((alpineServices.get_RearRightBrakeTemperature() * 5) - 50)
                     )
 
+                    rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat())
+
                     val steeringAngle:Float = ((alpineServices.get_SteeringWheelAngle()/10)-3276.7).toFloat()
-                    if (steeringAngle>0)
+                    if (steeringAngle>=0)
                         angle_steering.speedTo(steeringAngle+180)
                     else
-                        angle_steering.speedTo(steeringAngle+90)
+                        angle_steering.speedTo(steeringAngle+360)
                     oil_temp.speedTo((alpineServices.get_OilTemperature() - 40).toFloat())
                     cool_temp.speedTo((alpineServices.get_EngineCoolantTemp() - 40).toFloat())
                     intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
