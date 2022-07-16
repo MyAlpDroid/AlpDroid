@@ -1,4 +1,4 @@
-[![paypal](https://www.paypalobjects.com/fr_FR/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
+
 
 <H1> Alpine : Remplacer le poste multimédia  par un poste Android </H1>
 
@@ -33,7 +33,6 @@ Mais en premier, ce projet a pour objet de partager toute l'expérience et de pe
 
 Pour plus d'information, Consulter le Wiki :[ici](https://github.com/MyAlpDroid/AlpDroid/wiki)
 
-Si ce projet vous a fait gagner du temps : [![paypal](https://www.paypalobjects.com/fr_FR/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
 
 Le projet s'inspire et utilise les résultats des projets suivants :
 
