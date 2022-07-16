@@ -1,3 +1,5 @@
+[![paypal](https://www.paypalobjects.com/fr_FR/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
+
 <H1> Alpine : Remplacer le poste multimédia  par un poste Android </H1>
 
 Le poste multimédia Alpine présente 2 inconvénients : il n'est pas compatible Android Auto/Apple CarPlay. Il a perdu au fur et à mesure les apps intéressantes comme Spotify via MySpin. On pourrait ajouter que l'écran 7 pouces peut sembler un peu petit.
@@ -22,6 +24,8 @@ Mais en premier, ce projet a pour objet de partager toute l'expérience et de pe
 **Veuillez noter qu'il s'agit d'un projet expérimental, qu'il peut y avoir des dysfonctionnements dans les composants comme dans les programmes pouvant entrainer alarmes ou arrêt du véhicule pour mise en sécurité. Vous utilisez les résultats de ce projet à vos propres risques et périls, l'auteur n'assurera aucun support ou garantie suite à l'utilisation des programmes et informations issues de ce projet.**
 
 Pour plus d'information, Consulter le Wiki :[ici](https://github.com/MyAlpDroid/AlpDroid/wiki)
+
+Si ce projet vous a fait gagner du temps : [![paypal](https://www.paypalobjects.com/fr_FR/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
 
 Le projet s'inspire et utilise les résultats des projets suivants :
 
