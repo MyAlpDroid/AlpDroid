@@ -30,6 +30,15 @@ android {
         }
     }
 
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def appName = "MyAlpDroid-"
+            def date = new Date()
+            def formattedDate = date.format('dd-mm-yy')
+            outputFileName = appName + formattedDate + "-${variant.versionName}-${variant.versionCode}.apk"
+        }
+    }
+
     ndkVersion "21.3.6528147"
     compileOptions {
         targetCompatibility 1.8

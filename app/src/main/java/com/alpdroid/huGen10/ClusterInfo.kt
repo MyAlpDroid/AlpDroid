@@ -122,6 +122,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
             ))
     // Init Source Album & trackname info
 
+        // Cluster will be updated every 2,5 Secomds
         executor.scheduleAtFixedRate(
             {
                 try {
@@ -180,7 +181,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
             endIndex = this.length
 
             if (index>0)
-                finalResult=this.substring(index, endIndex)+" "+this.substring(0,index)
+                finalResult=this.substring(index, endIndex)+"-"+this.substring(0,index)
             else
                 finalResult=this.substring(0, endIndex)
         } else {
@@ -211,12 +212,12 @@ class ClusterInfo (val alpineServices : VehicleServices)
         if (startIndexTrack>trackName.length)
             startIndexTrack=0
 
-
-        prevartistName = artistName.rotate(startIndexArtist)
+    // No need to rotate artist Name
+    /*    prevartistName = artistName.rotate(startIndexArtist)
         startIndexArtist+=1
         if (startIndexArtist>artistName.length)
             startIndexArtist=0
-
+    */
 
         for (i in 0..4) {
             alpineServices.addFrame(
@@ -234,7 +235,8 @@ class ClusterInfo (val alpineServices : VehicleServices)
                     getStringLine(prevtrackName, i + 1)
                 )
             )
-/*
+
+/*  We will forget Album Name
             if (i<3)
             alpineServices.addFrame(
                 CanFrame(0,CanMCUAddrs.Audio_Display.idcan+i+8,getStringLine(prevalbumName,i+1))
@@ -248,26 +250,9 @@ class ClusterInfo (val alpineServices : VehicleServices)
             north_Params=0
 
         rightNow = Calendar.getInstance()
-            alpineServices.setFrameParams(
-                CanMCUAddrs.CustomerClockSync.idcan,
-                3,
-                5,
-                rightNow.get(Calendar.HOUR_OF_DAY)
-            )
-            alpineServices.setFrameParams(
-                CanMCUAddrs.CustomerClockSync.idcan,
-                10,
-                6,
-                rightNow.get(Calendar.MINUTE)
-            )
-            alpineServices.setFrameParams(
-                CanMCUAddrs.CustomerClockSync.idcan,
-                18,
-                6,
-                rightNow.get(Calendar.SECOND)
-
-            )
-
+            alpineServices.set_VehicleClock_Hour(rightNow.get(Calendar.HOUR_OF_DAY))
+            alpineServices.set_VehicleClock_Minute(rightNow.get(Calendar.MINUTE))
+            alpineServices.set_VehicleClock_Second(rightNow.get(Calendar.SECOND))
 
     }
 
