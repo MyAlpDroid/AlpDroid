@@ -31,7 +31,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
-    private int number=0;
+    private final int number=0;
     private CanFrame frame;
     private String buff;
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static AlpdroidApplication application;
     public static VehicleServices alpineServices;
 
-    private byte[] message="{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".getBytes();
+    private final byte[] message="{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".getBytes();
 
     /**
      * The {@link PagerAdapter} that will provide fragments for each of the

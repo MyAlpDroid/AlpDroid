@@ -171,7 +171,7 @@ class EngineDisplay : UIFragment(250) {
 
                     val id =
                         resources.getIdentifier(
-                            "gear_$StringGenerated",
+                            "shift_$StringGenerated",
                             "drawable",
                             context?.packageName
                         )

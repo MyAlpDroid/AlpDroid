@@ -19,8 +19,6 @@ public class AlpdroidEr {
       ConnectivityManager connectivityManager) {
     this.connectivityManager = connectivityManager;
 
-    // TODO write unit test to ensure non-network plays get scrobbled with duration lookup.
-
     eventBus.register(this);
   }
 
@@ -62,42 +60,14 @@ public class AlpdroidEr {
     if (duration < MINIMUM_PLAYING_TIME) {
       return;
     }
-
-//     for (int i = playbackItem.getPlaysScrobbled(); i < playCount; i++) {
      int itemTimestamp = (int) ((timestamp + duration) / 1000);
 
     Alpdroid alpdroid = Alpdroid.builder().track(track).timestamp(itemTimestamp).build();
 
- //   }
-
 
   }
 
 
-  /*
-  public void fetchTrackDurationAndSubmit(final PlaybackItem playbackItem) {
-    NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-    boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-
-    Track track = playbackItem.getTrack();
-
-          Log.d(TAG, String.format("Track info updated: %s", playbackItem));
-
-          submit(playbackItem);
-          return ;
-
-  }*/
-
-
-
-/*  public void alpdroidPending() {
-    NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-    boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-    return ;
-  }
-*/
 
 
 }

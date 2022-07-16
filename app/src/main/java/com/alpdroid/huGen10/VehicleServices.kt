@@ -120,7 +120,7 @@ class VehicleServices : Service(), ArduinoListener
 
 
     fun isVehicleEnabled(): Boolean {
-        return arduino.isOpened()
+        return arduino.isOpened
     }
 
 

@@ -19,11 +19,6 @@ import com.alpdroid.huGen10.ui.MainActivity.application
 class ComputerDisplay : UIFragment(250) {
 
     private  var fragmentBlankBinding: ComputerDisplayBinding?=null
-    lateinit var mpg_text: TextView
-    lateinit var avg_mpg_text: TextView
-    lateinit var tank_mpg: TextView
-    lateinit var fuel_usage: TextView
-    lateinit var fuel_consumed_curr: TextView
     lateinit var ac_header : TextView
     lateinit var canframeText: TextView
     lateinit var canframeText2: TextView
@@ -50,31 +45,30 @@ class ComputerDisplay : UIFragment(250) {
         canframeText = fragmentBlankBinding!!.canFrameView
         canframeText2 =fragmentBlankBinding!!.canFrameView2
 
-        canframeText.setMovementMethod(ScrollingMovementMethod())
-        canframeText2.setMovementMethod(ScrollingMovementMethod())
+        canframeText.movementMethod = ScrollingMovementMethod()
+        canframeText2.movementMethod = ScrollingMovementMethod()
 
         ac_header = fragmentBlankBinding!!.acHeader
 
-        val rx_metric = fragmentBlankBinding!!.bytesRx
-        val tx_metric = fragmentBlankBinding!!.bytesTx
+        val arduinostate = fragmentBlankBinding!!.arduinoState
+        val transmitstate = fragmentBlankBinding!!.transmitState
 
-        Log.d("MPG Display", "MPG init")
 
 if (application.isBound)
         timerTask = {
             activity?.runOnUiThread {
 
                 if (alpineServices?.alpine2Cluster!!.clusterStarted)
-                    ac_header.setText("Cluster Is Working")
-                else ac_header.setText("Cluster Disconnected")
+                    ac_header.text = "Cluster Is Working"
+                else ac_header.text = "Cluster Disconnected"
 
                 if (alpineServices?.isVehicleEnabled() == true)
-                    rx_metric.setText("Arduino Is Working")
-                else rx_metric.setText("Arduino Disconnected")
+                    arduinostate.text = "Arduino Is Working"
+                else arduinostate.text = "Arduino Disconnected"
 
                 if (alpineServices?.isBad == false)
-                    tx_metric.setText(".....Ok")
-                else tx_metric.setText("......Bad")
+                    transmitstate.text = ".....Ok"
+                else transmitstate.text = "......Bad"
 
 
                 val keyItem: MutableSet<Int> = alpineServices.mapFrame.keys

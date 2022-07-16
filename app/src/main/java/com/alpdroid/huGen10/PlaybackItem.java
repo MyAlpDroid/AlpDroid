@@ -12,7 +12,6 @@ public class PlaybackItem {
     private long amountPlayed;
     private long playbackStartTime;
     private boolean isPlaying;
-   // private int playsScrobbled;
 
 
     public PlaybackItem(Track track, long timestamp) {
@@ -34,9 +33,6 @@ public class PlaybackItem {
         return track;
     }
 
-    //* Mod   public void updateTrack(Track track) {
-    //* Mod      this.track = track;
-    //* Mod   }
 
     public long getTimestamp() {
         return timestamp;
@@ -50,13 +46,6 @@ public class PlaybackItem {
         return isPlaying;
     }
 
- //  public int getPlaysScrobbled() {
- //   return playsScrobbled;
- //}
-
-   //* Mod public void addScrobble() {
-    //* Mod      playsScrobbled++;
-    //* Mod  }
 
 
     public void startPlaying() {
@@ -94,7 +83,6 @@ public class PlaybackItem {
                 isPlaying,
                 amountPlayed,
                 playbackStartTime
-                //* Mod    playsScrobbled
         );
     }
 }

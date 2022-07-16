@@ -28,7 +28,7 @@ class ConfortDisplay : UIFragment(250) {
         isInPage = true
         super.onViewCreated(view, savedInstanceState)
 
-        val sportMode = view.findViewById<SwitchCompat>(R.id.sportMode)
+        val sportMode = view.findViewById<Switch>(R.id.sportMode)
         val raceMode = view.findViewById<CheckBox>(R.id.driftBox)
 
         val luminosity = view.findViewById<Button>(R.id.lumibutton)

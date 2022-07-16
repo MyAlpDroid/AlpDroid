@@ -24,7 +24,7 @@
             android:layout_marginBottom="50dp">
 
             <TextView
-                android:id="@+id/bytes_tx"
+                android:id="@+id/transmit_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -36,24 +36,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/bytes_rx"
+                android:id="@+id/arduino_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="220dp"
                 android:text="rx"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/bytes_tx"
-                app:layout_constraintStart_toEndOf="@+id/bytes_tx"
-                app:layout_constraintTop_toTopOf="@+id/bytes_tx" />
+                app:layout_constraintBottom_toBottomOf="@+id/transmit_state"
+                app:layout_constraintStart_toEndOf="@+id/transmit_state"
+                app:layout_constraintTop_toTopOf="@+id/transmit_state" />
 
             <TextView
                 android:id="@+id/ac_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Fuel consumption and power"
-                android:textColor="#FFEB3B"
+                android:text="Computer State"
+                android:textColor="#0FAABD"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -8,8 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.alpdroid.huGen10.*
 
-import java.util.*
-
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
 class StatusBar : UIFragment(250) {
@@ -25,8 +23,8 @@ class StatusBar : UIFragment(250) {
         val trackName = view.findViewById<TextView>(R.id.trackName)
         val trackNext = view.findViewById<ImageView>(R.id.track_next)
         val trackPrev = view.findViewById<ImageView>(R.id.track_prev)
-        val rx_metric = view.findViewById<TextView>(R.id.bytes_rx)
-        val tx_metric = view.findViewById<TextView>(R.id.bytes_tx)
+        val rx_metric = view.findViewById<TextView>(R.id.arduino_state)
+        val tx_metric = view.findViewById<TextView>(R.id.transmit_state)
 
         val batt_img = view.findViewById<ImageView>(R.id.bat_img)
         val batt_text = view.findViewById<TextView>(R.id.batt_text)

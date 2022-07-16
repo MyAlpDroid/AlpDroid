@@ -9,15 +9,12 @@ import java.util.Map;
 
 public class PlaybackTracker {
 
-//    private final AlpdroidNotificationManager alpdroidNotificationManager;
     private final AlpdroidEr alpdroidEr;
     private final MetadataTransformers metadataTransformers = new MetadataTransformers();
     private final Map<String, PlayerState> playerStates = new HashMap<>();
 
     public PlaybackTracker(
      AlpdroidEr alpdroidEr) {
-        //    AlpdroidNotificationManager alpdroidNotificationManager,
-   //     this.alpdroidNotificationManager = alpdroidNotificationManager;
         this.alpdroidEr = alpdroidEr;
     }
 
@@ -59,7 +56,7 @@ public class PlaybackTracker {
         PlayerState playerState = playerStates.get(player);
 
         if (!playerStates.containsKey(player)) {
-            playerState = new PlayerState(player, alpdroidEr); // , alpdroidNotificationManager
+            playerState = new PlayerState(player, alpdroidEr);
             playerStates.put(player, playerState);
         }
 

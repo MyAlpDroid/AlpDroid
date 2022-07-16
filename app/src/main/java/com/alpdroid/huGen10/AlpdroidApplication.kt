@@ -48,7 +48,7 @@ class AlpdroidApplication : Application() {
 
        val threadVehicleServices: Thread = object : Thread() {
             override fun run() {
-                val intent = Intent(getApplicationContext(), VehicleServices::class.java)
+                val intent = Intent(applicationContext, VehicleServices::class.java)
                 if (bindService(intent, alpineConnection, BIND_AUTO_CREATE)) {
                     Log.d("Application", "Thread VehicleServices started")
                     isStarted = true

@@ -5,25 +5,19 @@ import android.util.Log;
 
 import com.google.common.eventbus.EventBus;
 
-import java.util.Timer;
-
 public class PlayerState {
 
     private static final String TAG = PlayerState.class.getName();
 
     private final String player;
     private final AlpdroidEr alpdroidEr;
- //   private final AlpdroidNotificationManager notificationManager;
     private final EventBus eventBus = AlpdroidApplication.Companion.getEventBus();
     private PlaybackItem playbackItem;
-    private Timer submissionTimer;
 
     public PlayerState(
             String player, AlpdroidEr alpdroidEr) {
-  //, AlpdroidNotificationManager notificationManager
         this.player = player;
         this.alpdroidEr = alpdroidEr;
-        //this.notificationManager = notificationManager;
         eventBus.register(this);
     }
 
@@ -41,13 +35,10 @@ public class PlayerState {
             Log.d(TAG, "Track playing");
             postEvent(playbackItem.getTrack());
             playbackItem.startPlaying();
-    //* Mod        notificationManager.updateNowPlaying(playbackItem.getTrack());
-    //* Mod        scheduleSubmission();
         } else {
             Log.d(TAG, String.format("Track paused (state %d)", state));
             postEvent(Track.empty());
             playbackItem.stopPlaying();
-      //* Mod      notificationManager.removeNowPlaying();
             alpdroidEr.submit(playbackItem);
         }
     }
@@ -82,15 +73,10 @@ public class PlayerState {
       if (isPlaying) {
             postEvent(track);
             alpdroidEr.updateNowPlaying(track);
-    //* Mod        notificationManager.updateNowPlaying(track);
             playbackItem.startPlaying();
             alpdroidEr.submit(playbackItem);
         }
     }
-
- //   private void scheduleSubmission() {
- //       Log.d(TAG, "Audio submission");
-//    }
 
     private void postEvent(Track track) {
         eventBus.post(NowPlayingChangeEvent.builder().track(track).source(player).build());

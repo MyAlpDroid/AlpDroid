@@ -171,18 +171,29 @@ class ClusterInfo (val alpineServices : VehicleServices)
 
     fun String.rotate(index:Int):String
     {
-        var endIndex:Int=index+16
+        var endIndex:Int=index+20
+        var padding:Int=0
+        var finalResult:String
 
-        return if (this.length<endIndex) {
+
+        if (this.length<endIndex) {
             endIndex = this.length
+
             if (index>0)
-                (this.substring(index, endIndex)+" "+this.substring(0,index-1))
+                finalResult=this.substring(index, endIndex)+" "+this.substring(0,index)
             else
-                (this.substring(0, endIndex))
+                finalResult=this.substring(0, endIndex)
         } else {
 
-            this.substring(index, endIndex)
+            finalResult=this.substring(index, endIndex)
         }
+
+        padding=20-finalResult.length
+        if (padding>0)
+            finalResult=finalResult.padEnd(padding)
+
+        return finalResult
+
     }
 
     fun clusterInfoUpdate()
@@ -207,7 +218,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
             startIndexArtist=0
 
 
-        for (i in 0..3) {
+        for (i in 0..4) {
             alpineServices.addFrame(
                 CanFrame(
                     0,
