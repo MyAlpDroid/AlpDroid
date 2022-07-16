@@ -28,8 +28,6 @@ public class AlpdroidEr {
 
     NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 
-    return ;
-
   }
 
 
@@ -65,12 +63,12 @@ public class AlpdroidEr {
       return;
     }
 
-     for (int i = playbackItem.getPlaysScrobbled(); i < playCount; i++) {
-     int itemTimestamp = (int) ((timestamp + i * duration) / 1000);
+//     for (int i = playbackItem.getPlaysScrobbled(); i < playCount; i++) {
+     int itemTimestamp = (int) ((timestamp + duration) / 1000);
 
     Alpdroid alpdroid = Alpdroid.builder().track(track).timestamp(itemTimestamp).build();
 
-    }
+ //   }
 
 
   }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import com.alpdroid.huGen10.CanECUAddrs
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.ui.MainActivity.alpineServices
@@ -19,7 +20,7 @@ class ConfortDisplay : UIFragment(250) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.engine_display, container, false)
+        return inflater.inflate(R.layout.confort_display, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,7 +28,7 @@ class ConfortDisplay : UIFragment(250) {
         isInPage = true
         super.onViewCreated(view, savedInstanceState)
 
-        val sportMode = view.findViewById<Switch>(R.id.sportMode)
+        val sportMode = view.findViewById<SwitchCompat>(R.id.sportMode)
         val raceMode = view.findViewById<CheckBox>(R.id.driftBox)
 
         val luminosity = view.findViewById<Button>(R.id.lumibutton)

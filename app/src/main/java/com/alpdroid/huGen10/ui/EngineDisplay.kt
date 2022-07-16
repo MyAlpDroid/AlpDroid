@@ -14,13 +14,13 @@ import com.github.anastr.speedviewlib.*
 import com.alpdroid.huGen10.ui.MainActivity.application
 import com.alpdroid.huGen10.ui.MainActivity.alpineServices
 import com.alpdroid.huGen10.R
-import com.alpdroid.huGen10.databinding.AcDisplayBinding
+import com.alpdroid.huGen10.databinding.EngineDisplayBinding
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
 class EngineDisplay : UIFragment(250) {
 
-    private  var fragmentBlankBinding: AcDisplayBinding?=null
+    private  var fragmentBlankBinding: EngineDisplayBinding?=null
 
     lateinit var press_FL : TextView
     lateinit var press_RL: TextView
@@ -48,7 +48,7 @@ class EngineDisplay : UIFragment(250) {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val binding = AcDisplayBinding.inflate(inflater, container, false)
+        val binding = EngineDisplayBinding.inflate(inflater, container, false)
         fragmentBlankBinding = binding
         return binding.root
     }
@@ -57,7 +57,7 @@ class EngineDisplay : UIFragment(250) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = AcDisplayBinding.bind(view)
+        val binding = EngineDisplayBinding.bind(view)
         fragmentBlankBinding = binding
 
         press_FL = fragmentBlankBinding!!.textPressFL

@@ -1,5 +1,7 @@
 package com.alpdroid.huGen10;
 
+import androidx.annotation.NonNull;
+
 import java.util.Locale;
 
 public class PlaybackItem {
@@ -10,7 +12,7 @@ public class PlaybackItem {
     private long amountPlayed;
     private long playbackStartTime;
     private boolean isPlaying;
-    private int playsScrobbled;
+   // private int playsScrobbled;
 
 
     public PlaybackItem(Track track, long timestamp) {
@@ -48,9 +50,9 @@ public class PlaybackItem {
         return isPlaying;
     }
 
-   public int getPlaysScrobbled() {
-    return playsScrobbled;
- }
+ //  public int getPlaysScrobbled() {
+ //   return playsScrobbled;
+ //}
 
    //* Mod public void addScrobble() {
     //* Mod      playsScrobbled++;
@@ -81,6 +83,7 @@ public class PlaybackItem {
         playbackStartTime = now;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return String.format(

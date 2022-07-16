@@ -63,7 +63,7 @@ class StatusBar : UIFragment(250) {
                         when {
         //                    CarData.batt_voltage < 11.8 -> R.drawable.bat_red
           //                  CarData.batt_voltage < 12.5 -> R.drawable.bat_white
-                            else ->R.drawable.bat_green
+                            else ->R.drawable.batterie_ok
                         }
                     )
 

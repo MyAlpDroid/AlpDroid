@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.alpdroid.huGen10.databinding.MpgDisplayBinding
+import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
 import com.alpdroid.huGen10.ui.MainActivity.alpineServices
 import com.alpdroid.huGen10.ui.MainActivity.application
 
@@ -18,7 +18,7 @@ import com.alpdroid.huGen10.ui.MainActivity.application
 @ExperimentalStdlibApi
 class ComputerDisplay : UIFragment(250) {
 
-    private  var fragmentBlankBinding: MpgDisplayBinding?=null
+    private  var fragmentBlankBinding: ComputerDisplayBinding?=null
     lateinit var mpg_text: TextView
     lateinit var avg_mpg_text: TextView
     lateinit var tank_mpg: TextView
@@ -31,7 +31,7 @@ class ComputerDisplay : UIFragment(250) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
-        val binding = MpgDisplayBinding.inflate(inflater, container, false)
+        val binding = ComputerDisplayBinding.inflate(inflater, container, false)
         fragmentBlankBinding = binding
         return binding.root
     }
@@ -44,7 +44,7 @@ class ComputerDisplay : UIFragment(250) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        val binding = MpgDisplayBinding.bind(view)
+        val binding = ComputerDisplayBinding.bind(view)
         fragmentBlankBinding = binding
 
         canframeText = fragmentBlankBinding!!.canFrameView

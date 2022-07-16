@@ -15,9 +15,8 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-@RequiresApi(Build.VERSION_CODES.N)
 
-// (val context:Context, val baudRate: Int, name: String)
+// Main CLass, as a service, listening to Arduino, sending to arduino and giving Frame value
 
 class VehicleServices : Service(), ArduinoListener
 
@@ -50,7 +49,7 @@ class VehicleServices : Service(), ArduinoListener
 
     /* TODO : Implement ECU & MCU class or list enum */
     /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         // TODO: Return the communication channel to the service.
         Log.d(TAG, "Vehicle Services Binded")
         return iBinder
@@ -84,6 +83,10 @@ class VehicleServices : Service(), ArduinoListener
                  alpine2Cluster = ClusterInfo(this)
              Log.d(TAG, "Arduino Listener started")
 
+
+             // sending frame from FiFo queue every 125 ms due to unidirectionnal USB 2.0
+             // with USB 3.0 port this could be change
+
              executor.scheduleAtFixedRate(
                  {
                      try {
@@ -105,9 +108,6 @@ class VehicleServices : Service(), ArduinoListener
              Log.d(TAG, "Arduino Listener stopped")
              arduino.unsetArduinoListener()
              arduino.close()
-      /*       val restartServiceIntent = Intent(applicationContext, this.javaClass)
-             restartServiceIntent.setPackage(packageName)
-             startService(restartServiceIntent)*/
              isConnected=false
          }
 
@@ -178,10 +178,11 @@ class VehicleServices : Service(), ArduinoListener
         arduino.close()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Synchronized
     override fun onArduinoMessage(bytes: ByteArray?) {
 
+        //receive frame as Gson message
         val frame: CanFrame
         val buff = String(bytes!!)
         val gson = GsonBuilder()
@@ -228,7 +229,7 @@ class VehicleServices : Service(), ArduinoListener
 
 
     fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
-        var frame:CanFrame
+        val frame:CanFrame
 
         try {
             frame= this.getFrame(canID)!!
@@ -238,7 +239,7 @@ class VehicleServices : Service(), ArduinoListener
             return 0
         }
 
-        return frame.getValue(bytesNum,len).toInt()
+        return frame.getValue(bytesNum,len)
 
     }
 
@@ -252,7 +253,7 @@ class VehicleServices : Service(), ArduinoListener
 
             frame=it
 
-           // Traverse in given range
+           // Set in given range
 
             frame.setBitRange(bytesNum,len,param)
 
@@ -274,6 +275,7 @@ class VehicleServices : Service(), ArduinoListener
 
     fun pushFifoFrame(candID: Int)
     {
+        // Push frame to send into FiFO queue
         getFrame(candID).also { if (it!=null)
             queueoutFrame.put(candID,it)
         }
@@ -284,8 +286,9 @@ class VehicleServices : Service(), ArduinoListener
     {
         val keys: Set<Int> = queueoutFrame.keys
         val iterator = keys.iterator()
-        var key2fifo:CanFrame
+        val key2fifo:CanFrame
 
+        //Unqueue frame : first in first out
         if (queueoutFrame.isNotEmpty()) {
             key2fifo = queueoutFrame.get(iterator.next())!!
             sendFrame(key2fifo.id)
@@ -298,6 +301,7 @@ class VehicleServices : Service(), ArduinoListener
     @Synchronized
     fun sendFrame(candID: Int) {
         getFrame(candID).also {
+         //send frame as byte to serial port
             if (it != null) {
                 arduino.send(it.toByteArray())
 
@@ -306,6 +310,8 @@ class VehicleServices : Service(), ArduinoListener
     }
 
     fun checkFrame(ecuAddrs:Int):Boolean {
+
+        // check if the frame is valuable
         if (this.getFrame(ecuAddrs)!=null) {
             return true
         }
@@ -316,8 +322,9 @@ class VehicleServices : Service(), ArduinoListener
 
     // ECU Params Functions
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_580h
+     *  Return the state of the frame parameters
+     *  Some params are note available on all Renault Cars
+     *  GearBox & Torque
      **/
 
     /** Gets code GearboxOilTemperature **/
@@ -328,8 +335,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_DifferentialTorqueCalculated() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 8, 16)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_580h
+     *  Lot of params : Acc, Clim, Batt, etc
      **/
 
     /** Gets code ACCompPowerUsed_V2 **/
@@ -384,8 +390,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_InternalTemp() : Int = this.getFrameParams(CanECUAddrs.CLIM_CANHS_R_03.idcan, 40, 16)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of 06FB
+     *  Oil, Batt, Washer Level, Fuel
      **/
 
     /** Gets code MILDisplayState **/
@@ -432,8 +437,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_PersoOilDrainingRange() : Int = this.getFrameParams(CanECUAddrs.CLUSTER_CANHS_R_01.idcan, 56, 8)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_1F6h
+     *  Engine params
      **/
 
     /** Gets code EngineFanSpeedRequest **/
@@ -495,8 +499,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_ACCompMaximumPower() : Int = this.getFrameParams(CanECUAddrs.ECM_CANHS_RNr_01.idcan, 56, 8)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_211h
+     *  Lights, Ambient, Batt
      **/
 
     /** Gets code EMM_Refuse_to_Sleep **/
@@ -555,8 +558,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_BatteryVoltage() : Int = this.getFrameParams(CanECUAddrs.EMM_CANHS_R_01.idcan, 56, 8)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_597h
+     *  Brakes Temp
      **/
 
     /** Gets code FrontLeftBrakeTemperature **/
@@ -577,8 +579,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_RightDrivenWheelSlip() : Int = this.getFrameParams(CanECUAddrs.MMI_BRAKE_CANHS_Rst_01.idcan, 38, 2)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_673h
+     *  Tires Pressure
      **/
 
     /** Gets code SpeedPressureMisadaptation **/
@@ -621,8 +622,8 @@ class VehicleServices : Service(), ArduinoListener
 
     // MCU Params Functions
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of Audio_Info AAD_05EBh
+     *  MCU Params, Multimedia Data
+     *  Radio State
      **/
 
     /** Gets CurrentAudioSourceV2 **/
@@ -647,8 +648,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_CurrentAudioTrackNumber() : Int = this.getFrameParams(CanMCUAddrs.Audio_Info.idcan, 24, 8)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of CLUSTER_CANM_01
+     *  Temp / Light
      **/
 
 
@@ -665,8 +665,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_MM_CustomerDeparture() : Int = this.getFrameParams(CanMCUAddrs.CLUSTER_CANM_01.idcan, 17, 7)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of CustomerClockSync
+     *  Clock
      **/
 
 
@@ -696,8 +695,7 @@ class VehicleServices : Service(), ArduinoListener
     }
    
       /**
-       *  Returns the most recent Can Frame representing the state
-       *  of GW_Chassis_Data1
+       *  Speed, Oddometer
        **/
   
       /** Gets AccurateOdometer from Cluster **/
@@ -745,8 +743,7 @@ class VehicleServices : Service(), ArduinoListener
       fun get_VehicleSpeed() : Int = this.getFrameParams(CanMCUAddrs.GW_Chassis_Data1.idcan, 48, 16)
 
    /**
-    *  Returns the most recent Can Frame representing the state
-    *  of GW_Chassis_Data2
+    * Acceleration, YawRate
     **/
   
    /** Gets LongitudinalAcceleration_MM **/
@@ -768,8 +765,7 @@ class VehicleServices : Service(), ArduinoListener
    fun get_LongitudinalAccelerationExtented() : Int = this.getFrameParams(CanMCUAddrs.GW_Chassis_Data2.idcan, 41, 7)
 
    /**
-    *  Returns the most recent Can Frame representing the state
-    *  of GW_Engine_Data
+    *  Engine RPM, Launch Control, Sport Mode, Gear
     **/
 
     /** Gets Engine RPM**/
@@ -811,8 +807,7 @@ class VehicleServices : Service(), ArduinoListener
     fun get_AT_Parkfailure() : Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 50, 1)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of GW_Engine_Data1
+     *  Cool temp, Oil Temp, etc
      **/
     
     /** Gets EngineCoolantTemp **/
@@ -864,8 +859,7 @@ class VehicleServices : Service(), ArduinoListener
    fun get_EngineOilPressure() : Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data1.idcan, 57, 7)
 
    /**
-    *  Returns the most recent Can Frame representing the state
-    *  of GW_Engine_Data2
+    *  Throttle, Brake Pressure, Gear
     **/
   
    /** Gets EngineRPM **/
@@ -892,8 +886,7 @@ class VehicleServices : Service(), ArduinoListener
    fun get_BrakingPressure() : Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data2.idcan, 48, 8)
 
    /**
-    *  Returns the most recent Can Frame representing the state
-    *  of GW_Steering1
+    * Steering Wheel Angle
     **/
 
    /** Gets LightSensorStatus_MM**/
@@ -909,8 +902,7 @@ class VehicleServices : Service(), ArduinoListener
    fun get_SwaSensorInternalStatus() : Int = this.getFrameParams(CanMCUAddrs.GW_Steering.idcan, 44, 3)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_399h
+     *  Navigation to Cluster
      **/
 
     /** Gets code NextAction_Distance **/
@@ -929,11 +921,10 @@ class VehicleServices : Service(), ArduinoListener
     fun get_NextActionsIconOrder() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 48, 2)
 
     /**
-     *  Returns the most recent Can Frame representing the state
-     *  of AAD_558h
+     *  Light and DisplayPanel
      **/
 
-    /** Gets code NextAction_Distance **/
+
     fun get_DayNightStatus_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_MMI_Info1.idcan, 4, 2)
 
     fun get_DisplayActivation() : Int = this.getFrameParams(CanMCUAddrs.GW_MMI_Info1.idcan, 6, 2)
@@ -954,8 +945,7 @@ class VehicleServices : Service(), ArduinoListener
          fun get_DistanceTotalizer_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
 
          /**
-          *  Returns the most recent Can Frame representing the state
-          *  of 0x0402
+          *  TODO : test luminosity value
           **/
          fun set_AmbientLightingActivationRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,0,2,param)
          fun set_HMDDeploymentRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,2,2,param)

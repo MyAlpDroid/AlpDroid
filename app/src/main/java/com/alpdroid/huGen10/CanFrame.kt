@@ -19,7 +19,7 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
     private var datatonum: Long = 0
 
 
-    // creating a BitSet view of bytearray - for bits usage
+    // creating a view of bytearray - for bits usage
     init {
 
         require (data.size <= 8) { "Too many bytes for frame content! Max size is 8" }
@@ -58,7 +58,7 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
     @Synchronized
     fun setBitRange(offset: Int, len: Int, value: Int) {
 
-        var maskinv:Long
+        val maskinv:Long
 
         if (offset+len > dlc*8) {
             throw IndexOutOfBoundsException("Offset+Len > ${dlc*8}")
@@ -112,7 +112,7 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
 
     fun toByteArray(): ByteArray {
 
-        var arrayByte = ByteArray(12)
+        val arrayByte = ByteArray(12)
 
         arrayByte[0] = this.bus.toByte()
         arrayByte[1] = (this.id).toByte()
