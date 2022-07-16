@@ -1,2 +1,0 @@
-ninja: Entering directory `/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/311x5u4q/x86_64'
-ninja: no work to do.

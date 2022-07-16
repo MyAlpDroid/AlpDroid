@@ -1,5 +1,0 @@
-# ninja log v5
-0	531	1649000932	CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o	12dd98ae69007e48
-0	828	1649000933	CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o	3b6763f5b0ca4fc9
-0	890	1649000933	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	660b23b2366820a3
-890	1007	1649000933	../../../../build/intermediates/cxx/Debug/5b6b362p/obj/x86_64/libcanbus-lib.so	1f356846f0cc31e4

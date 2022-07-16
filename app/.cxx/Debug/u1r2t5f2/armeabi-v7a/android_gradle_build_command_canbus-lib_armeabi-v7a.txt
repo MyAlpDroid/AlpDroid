@@ -1,7 +1,0 @@
-Executable : /Users/philippetangre/Library/Android/sdk/cmake/3.18.1/bin/ninja
-arguments : 
--C
-/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/u1r2t5f2/armeabi-v7a
-canbus-lib
-jvmArgs : 
-

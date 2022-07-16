@@ -1,7 +1,0 @@
-ninja: Entering directory `/Users/philippetangre/Downloads/MBUX-Port-master 2/app/.cxx/cmake/debug/x86'
-[1/6] Building CXX object CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o
-[2/6] Building CXX object CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o
-[3/6] Building CXX object CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o
-[4/6] Building CXX object CMakeFiles/canbus-lib.dir/src/main/cpp/AGWDisplay.cpp.o
-[5/6] Building CXX object CMakeFiles/canbus-lib.dir/src/main/cpp/AGW.cpp.o
-[6/6] Linking CXX shared library ../../../../build/intermediates/cmake/debug/obj/x86/libcanbus-lib.so

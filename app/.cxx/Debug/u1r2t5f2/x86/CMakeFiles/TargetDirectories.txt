@@ -1,3 +1,0 @@
-/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/u1r2t5f2/x86/CMakeFiles/rebuild_cache.dir
-/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/u1r2t5f2/x86/CMakeFiles/edit_cache.dir
-/Users/philippetangre/Documents/MyAlpDroid/app/.cxx/Debug/u1r2t5f2/x86/CMakeFiles/canbus-lib.dir
