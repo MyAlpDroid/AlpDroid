@@ -25,6 +25,8 @@ Mais en premier, ce projet a pour objet de partager toute l'expérience et de pe
 
 Pour plus d'information, Consulter le Wiki :[ici](https://github.com/MyAlpDroid/AlpDroid/wiki)
 
+Si ce projet vous a fait gagner du temps : [![paypal](https://www.paypalobjects.com/fr_FR/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
+
 Le projet s'inspire et utilise les résultats des projets suivants :
 
 * Library Arduino et Serial USB : [ici](https://github.com/OmarAflak/Arduino-Library) qui s'appuie aussi sur Libray SerialUSB :[ici](https://github.com/felHR85/UsbSerial)
