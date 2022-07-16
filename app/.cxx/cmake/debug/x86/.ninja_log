@@ -1,7 +1,0 @@
-# ninja log v5
-7	1190	1643790199	CMakeFiles/canbus-lib.dir/src/main/cpp/readBuffer.cpp.o	fb6fb67698d24d2a
-2	1929	1643790200	CMakeFiles/canbus-lib.dir/src/main/cpp/canbus.cpp.o	bebbd459f5091583
-8	1993	1643790200	CMakeFiles/canbus-lib.dir/src/main/cpp/CanbusDecoder.cpp.o	8bd298f4c2dab07
-9	2002	1643790200	CMakeFiles/canbus-lib.dir/src/main/cpp/AGWDisplay.cpp.o	b431efca662901c9
-7	2020	1643790200	CMakeFiles/canbus-lib.dir/src/main/cpp/AGW.cpp.o	6652e7e60c515244
-2020	2224	1643790200	../../../../build/intermediates/cmake/debug/obj/x86/libcanbus-lib.so	265fd79f9932fc8e
