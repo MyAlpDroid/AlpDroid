@@ -5,3 +5,8 @@ local.properties
 /gradle/
 /UNO_CODE/build/
 /UNO_CODE/.vscode/
+/app/.cxx/
+/app/cmake-build-debug/
+/app/libs/
+/app/build/
+
