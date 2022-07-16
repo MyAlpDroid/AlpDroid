@@ -1,14 +1,13 @@
 package com.alpdroid.huGen10.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             Executors.newScheduledThreadPool(1);
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -116,14 +114,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings_item:
-                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivityForResult(intent, 1);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.settings_item) {
+            Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
+            startActivityForResult(intent, 1);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -142,12 +138,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onStop() {
 
         application.close();
-
         super.onStop();
     }
 
@@ -159,12 +153,13 @@ public class MainActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         List<Fragment> fragments =
-                ImmutableList.of(new NowPlayingFragment(),new ACDisplay(), new PTDisplay() , new MPGDisplay());
+                ImmutableList.of(new NowPlayingFragment(),new EngineDisplay(), new ConfortDisplay() , new ComputerDisplay());
 
         public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
