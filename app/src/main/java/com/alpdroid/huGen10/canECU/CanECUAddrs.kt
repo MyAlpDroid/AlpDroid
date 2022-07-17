@@ -20,5 +20,6 @@ enum class CanECUAddrs(val idcan: Int) {
 	BRAKE_CANHS_RNr_01(0x0242),
 	BRAKE_CANHS_RNr_02(0x029A),
 	BRAKE_CANHS_RNr_03(0x029C),
+	CLUSTER_CANHS_R_05(0x0646),
 
 }

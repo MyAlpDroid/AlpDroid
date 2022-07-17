@@ -365,12 +365,12 @@
 
 
             <TextView
-                android:id="@+id/text_yawRate"
+                android:id="@+id/text_oddoRate"
                 android:layout_width="97dp"
                 android:layout_height="28dp"
                 android:layout_marginTop="8dp"
                 android:background="#02082B"
-                android:contentDescription="Yaw Rate"
+                android:contentDescription="oddo Rate"
                 android:drawableTint="#611111"
                 android:drawableTintMode="screen"
                 android:text="km"
@@ -378,11 +378,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/yawrate"
-                app:layout_constraintTop_toBottomOf="@+id/yawrate" />
+                app:layout_constraintStart_toStartOf="@+id/oddorate"
+                app:layout_constraintTop_toBottomOf="@+id/oddorate" />
 
             <TextView
-                android:id="@+id/yawrate"
+                android:id="@+id/oddorate"
                 android:layout_width="100dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="8dp"
@@ -407,7 +407,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/fuelinst"
-                app:layout_constraintTop_toTopOf="@+id/text_yawRate" />
+                app:layout_constraintTop_toTopOf="@+id/text_oddoRate" />
 
             <TextView
                 android:id="@+id/fuelinst"
@@ -417,8 +417,8 @@
                 android:text="Conso. Inst. l/s"
                 android:textColor="#E1EEFB"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/text_yawRate"
-                app:layout_constraintTop_toTopOf="@+id/yawrate" />
+                app:layout_constraintStart_toEndOf="@+id/text_oddoRate"
+                app:layout_constraintTop_toTopOf="@+id/oddorate" />
 
             <TextView
                 android:id="@+id/text_fueLevel"
@@ -450,28 +450,16 @@
                 app:layout_constraintStart_toEndOf="@+id/text_fuelInst"
                 app:layout_constraintTop_toTopOf="@+id/fuelinst" />
 
-            <com.github.anastr.speedviewlib.ImageSpeedometer
+            <ImageView
                 android:id="@+id/angularWheel"
                 android:layout_width="161dp"
                 android:layout_height="181dp"
                 android:layout_marginTop="48dp"
+                android:rotation="0"
+                android:src="@drawable/volant"
                 app:layout_constraintEnd_toEndOf="@+id/gear_Next"
                 app:layout_constraintStart_toStartOf="@+id/gear_Active"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:sv_image="@drawable/alpine_jauge"
-                app:sv_indicator="HalfLineIndicator"
-                app:sv_indicatorColor="#E91E63"
-                app:sv_indicatorWidth="2dp"
-                app:sv_markColor="#3F51B5"
-                app:sv_markStyle="ROUND"
-                app:sv_maxSpeed="360"
-                app:sv_minSpeed="0"
-                app:sv_speedTextColor="#FFFFFF"
-                app:sv_speedTextFormat="INTEGER"
-                app:sv_speedTextPosition="CENTER"
-                app:sv_speedometerMode="NORMAL"
-                app:sv_startDegree="95"
-                app:sv_unit="°" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <com.github.anastr.speedviewlib.ImageLinearGauge
                 android:id="@+id/rpmgauge"

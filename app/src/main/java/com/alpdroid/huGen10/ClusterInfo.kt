@@ -1,8 +1,6 @@
 package com.alpdroid.huGen10
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -104,7 +102,8 @@ class ClusterInfo (val alpineServices : VehicleServices)
                 )
             ))
 
-        // Creating first Luminosity Frame
+        // Creating first Luminosity Frame - not working
+        // TODO : finding real luminosity frame
         alpineServices.addFrame(
             CanFrame(
                 0,
@@ -122,7 +121,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
             ))
     // Init Source Album & trackname info
 
-        // Cluster will be updated every 2,5 Secomds
+        // Cluster will be updated every 2,5 Seconds
         executor.scheduleAtFixedRate(
             {
                 try {
@@ -173,7 +172,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
     fun String.rotate(index:Int):String
     {
         var endIndex:Int=index+20
-        var padding:Int=0
+        var padding:Int
         var finalResult:String
 
 
@@ -236,7 +235,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
                 )
             )
 
-/*  We will forget Album Name
+/*  We will not use Album Name
             if (i<3)
             alpineServices.addFrame(
                 CanFrame(0,CanMCUAddrs.Audio_Display.idcan+i+8,getStringLine(prevalbumName,i+1))

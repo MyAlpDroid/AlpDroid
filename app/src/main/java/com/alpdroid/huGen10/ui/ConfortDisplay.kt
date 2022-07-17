@@ -5,65 +5,101 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.SwitchCompat
-import com.alpdroid.huGen10.CanECUAddrs
 import com.alpdroid.huGen10.R
+import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
 import com.alpdroid.huGen10.ui.MainActivity.alpineServices
-import com.alpdroid.huGen10.ui.MainActivity.application
+import java.util.*
 
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
 class ConfortDisplay : UIFragment(250) {
-   var isInPage = false
-    lateinit var textLum:TextView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private  var fragmentBlankBinding: ConfortDisplayBinding?=null
 
-        return inflater.inflate(R.layout.confort_display, container, false)
+    lateinit var battstate:ImageView
+    lateinit var batttext:TextView
+    var battvalue:Float = 0.0f
+    lateinit var enginestate:ImageView
+    var enginevalue:Int =0
+    var tankvalue:Int = 0
+    lateinit var tanklevel:ImageView
+    lateinit var tanktext:TextView
+    lateinit var washerlevel:ImageView
+    var washerLevel:Int=0
+    lateinit var calendar: CalendarView
+    lateinit var externaltemp:TextView
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val binding = ConfortDisplayBinding.inflate(inflater, container, false)
+        fragmentBlankBinding = binding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        isInPage = true
         super.onViewCreated(view, savedInstanceState)
+        val binding = ConfortDisplayBinding.bind(view)
+        fragmentBlankBinding = binding
 
-        val sportMode = view.findViewById<Switch>(R.id.sportMode)
-        val raceMode = view.findViewById<CheckBox>(R.id.driftBox)
+        externaltemp=fragmentBlankBinding!!.externalTemp
 
-        val luminosity = view.findViewById<Button>(R.id.lumibutton)
+        battstate=fragmentBlankBinding!!.batterieState
+        batttext=fragmentBlankBinding!!.batterieValue
 
-        textLum=view.findViewById(R.id.luminy)
+        calendar=fragmentBlankBinding!!.calendarView
 
-        textLum = view.findViewById<CheckBox>(R.id.luminy)
+        tanklevel=fragmentBlankBinding!!.gastankLevel
+        tanktext=fragmentBlankBinding!!.tankValue
 
-            luminosity.setOnClickListener {
-            alpineServices?.alpine2Cluster?.increasePanel()
-           textLum.text=String.format("%d %%",alpineServices?.alpine2Cluster?.panelLuminosity)
+        enginestate=fragmentBlankBinding!!.engineState
 
-        }
-        raceMode.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
-                application.startVehicleServices()
-            else
-                application.stopVehicleServices()
-        }
+        washerlevel=fragmentBlankBinding!!.washerLevel
+
+        calendar.date = Calendar.getInstance().timeInMillis
 
         timerTask = {
             activity?.runOnUiThread {
-                // to be used
 
-                if (sportMode.isChecked && alpineServices.checkFrame(CanECUAddrs.ECM_CANHS_RNr_01.idcan))
-                {
-                    alpineServices.set_RST_VehicleMode(2)
-                    alpineServices.sendFrame(CanECUAddrs.ECM_CANHS_RNr_01.idcan)
-                }
-                else
-                    if (alpineServices.checkFrame(CanECUAddrs.ECM_CANHS_RNr_01.idcan))
-                {
-                    alpineServices.set_RST_VehicleMode(1)
-                    alpineServices.sendFrame(CanECUAddrs.ECM_CANHS_RNr_01.idcan)
-                }
+                externaltemp.text=String.format(
+                    " %d °C",
+                    alpineServices.get_MM_ExternalTemp()-40)
+
+                battvalue= (alpineServices.get_BatteryVoltage()/16).toFloat()
+                tankvalue= alpineServices.get_FuelLevelDisplayed()
+
+                battstate.setImageResource(R.drawable.batterie_ok)
+                batttext.text=String.format(
+                    " %.2f V",
+                    battvalue)
+
+                if (battvalue<9.5)
+                    battstate.setImageResource(R.drawable.batterie_ko)
+                else if (battvalue<13.5)
+                    battstate.setImageResource(R.drawable.batterie_norm)
+
+                tanklevel.setImageResource(R.drawable.gastank_levelfull)
+                tanktext.text=String.format(
+                    " %2d l",
+                   tankvalue)
+
+                if (tankvalue<5)
+                    tanklevel.setImageResource(R.drawable.gastank_levellow)
+                else if (tankvalue<15)
+                    tanklevel.setImageResource(R.drawable.gastank_levelmed)
+
+                enginestate.setImageResource(R.drawable.engine_ok)
+                enginevalue= alpineServices.get_GlobalVehicleWarningState()
+                if (enginevalue!=0)
+                    enginestate.setImageResource(R.drawable.engine_check)
+
+                washerlevel.setImageResource(R.drawable.washerlevel_norm)
+
+                if (alpineServices.get_WasherLevelWarningState())
+                    washerlevel.setImageResource(R.drawable.washerlevel_low)
+
+
             }
         }
    }

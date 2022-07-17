@@ -1,20 +1,19 @@
 package com.alpdroid.huGen10.ui
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
-
-import com.github.anastr.speedviewlib.*
-
-import com.alpdroid.huGen10.ui.MainActivity.application
-import com.alpdroid.huGen10.ui.MainActivity.alpineServices
-import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.EngineDisplayBinding
+import com.alpdroid.huGen10.ui.MainActivity.alpineServices
+import com.alpdroid.huGen10.ui.MainActivity.application
+import com.github.anastr.speedviewlib.ImageLinearGauge
+import com.github.anastr.speedviewlib.ImageSpeedometer
+import com.github.anastr.speedviewlib.ProgressiveGauge
+
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
@@ -22,6 +21,8 @@ class EngineDisplay : UIFragment(250) {
 
     private  var fragmentBlankBinding: EngineDisplayBinding?=null
 
+    private var currentDegree:Float = 90.0f
+    private var steeringAngle:Float = 90.0f
     lateinit var press_FL : TextView
     lateinit var press_RL: TextView
     lateinit var press_FR: TextView
@@ -30,14 +31,14 @@ class EngineDisplay : UIFragment(250) {
     lateinit var temp_FR: TextView
     lateinit var temp_RL: TextView
     lateinit var temp_RR: TextView
-    lateinit var yaw_Rate: TextView
+    lateinit var oddo_Rate: TextView
     lateinit var fuel_inst: TextView
     lateinit var fuel_level: TextView
     lateinit var gear_active: ImageView
     lateinit var gear_next: ImageView
     lateinit var speed : TextView
     lateinit var rpm_gauge : ImageLinearGauge
-    lateinit var angle_steering : ImageSpeedometer
+    lateinit var angle_steering : ImageView
     lateinit var oil_temp : ImageSpeedometer
     lateinit var cool_temp : ImageSpeedometer
     lateinit var intake_temp : ImageSpeedometer
@@ -82,7 +83,7 @@ class EngineDisplay : UIFragment(250) {
         cool_temp = fragmentBlankBinding!!.CooLJauge
         intake_temp = fragmentBlankBinding!!.IntakeJauge
         gear_temp = fragmentBlankBinding!!.GearJauge
-        yaw_Rate = fragmentBlankBinding!!.textYawRate
+        oddo_Rate = fragmentBlankBinding!!.textOddoRate
         fuel_inst = fragmentBlankBinding!!.textFuelInst
         fuel_level = fragmentBlankBinding!!.textFueLevel
 
@@ -134,11 +135,11 @@ class EngineDisplay : UIFragment(250) {
 
                     rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat())
 
-                    val steeringAngle:Float = ((alpineServices.get_SteeringWheelAngle()/10)-3276.7).toFloat()
-                    if (steeringAngle>=0)
-                        angle_steering.speedTo(steeringAngle+180)
-                    else
-                        angle_steering.speedTo(steeringAngle+360)
+                    var steeringAngle:Float = -((alpineServices.get_SteeringWheelAngle()/10)-3276.7).toFloat()
+
+                    angle_steering.rotation=steeringAngle
+
+
                     oil_temp.speedTo((alpineServices.get_OilTemperature() - 40).toFloat())
                     cool_temp.speedTo((alpineServices.get_EngineCoolantTemp() - 40).toFloat())
                     intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
@@ -148,12 +149,12 @@ class EngineDisplay : UIFragment(250) {
 
                     otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat())
 
-                    yaw_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()/100).toFloat())
+                    oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()/100).toFloat())
                     fuel_level.text =
                         String.format(" %2d l", (alpineServices.get_FuelLevelDisplayed()))
                     fuel_inst.text = String.format(
                         " %.2f l/s",
-                        ((alpineServices.get_FuelConsumption() * 8/100000).toFloat() )
+                        ((alpineServices.get_TripAverageConsumption() /10).toFloat() )
                     )
 
                     brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)

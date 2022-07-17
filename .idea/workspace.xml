@@ -19,10 +19,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

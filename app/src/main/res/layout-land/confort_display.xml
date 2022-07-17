@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,68 +12,135 @@
         android:background="@drawable/background"
         android:outlineSpotShadowColor="#03A9F4">
 
-        <CheckBox
-            android:id="@+id/driftBox"
-            android:layout_width="151dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="192dp"
-            android:layout_marginTop="24dp"
-            android:clickable="true"
-            android:duplicateParentState="false"
-            android:shadowColor="#E91E63"
-            android:text="Drift Mode"
-            android:textColor="#F6F6F1"
-            android:textColorHighlight="#F44336"
-            android:textColorHint="#FFEB3B"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/sportMode"
-            app:layout_constraintTop_toBottomOf="@+id/sportMode" />
-
-        <Switch
-            android:id="@+id/sportMode"
-            android:layout_width="400dp"
-            android:layout_height="93dp"
-            android:layout_marginTop="128dp"
-            android:height="22dp"
-            android:checked="false"
-            android:ellipsize="start"
-            android:lineHeight="34dp"
-            android:lineSpacingExtra="16sp"
-            android:lineSpacingMultiplier="2"
-            android:lines="4"
-            android:maxLength="23"
-            android:maxLines="4"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="24dp"
-            android:text="Toggle Sport Mode"
+        <TextView
+            android:id="@+id/tank_value"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:text="32 l"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:checked="true"
-            tools:layout_editor_absoluteX="120dp" />
-
-        <Button
-            android:id="@+id/lumibutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Lumière"
-            app:layout_constraintStart_toStartOf="@+id/driftBox"
-            app:layout_constraintTop_toBottomOf="@+id/driftBox" />
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/gastank_level"
+            app:layout_constraintStart_toStartOf="@+id/batterie_value"
+            app:layout_constraintTop_toTopOf="@+id/gastank_level" />
 
         <TextView
-            android:id="@+id/luminy"
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="64dp"
+            android:text="Paramètres véhicule"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/batterie_state"
+            android:layout_width="100dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:srcCompat="@drawable/batterie_ok" />
+
+        <TextView
+            android:id="@+id/batterie_value"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
             android:layout_marginStart="32dp"
-            android:text="00%"
-            android:textColor="#CFBB09"
+            android:text="14.0 V"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/batterie_state"
+            app:layout_constraintStart_toEndOf="@+id/batterie_state"
+            app:layout_constraintTop_toTopOf="@+id/batterie_state" />
+
+        <ImageView
+            android:id="@+id/gastank_level"
+            android:layout_width="82dp"
+            android:layout_height="119dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="@+id/batterie_state"
+            app:layout_constraintTop_toBottomOf="@+id/batterie_state"
+            app:srcCompat="@drawable/gastank_levelfull" />
+
+        <ImageView
+            android:id="@+id/engine_state"
+            android:layout_width="114dp"
+            android:layout_height="79dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="@+id/gastank_level"
+            app:layout_constraintTop_toBottomOf="@+id/gastank_level"
+            app:srcCompat="@drawable/engine_ok" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/engine_state"
+            app:layout_constraintTop_toBottomOf="@+id/engine_state"
+            app:srcCompat="@drawable/fleche" />
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            style="@android:style/Widget.CalendarView"
+            android:layout_width="308dp"
+            android:layout_height="226dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:dateTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:selectedWeekBackgroundColor="#03A9F4"
+            android:unfocusedMonthDateColor="#888183"
+            android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:weekNumberColor="#00BCD4"
+            android:weekSeparatorLineColor="#3F51B5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckedTextView
+            android:id="@+id/checkedTextView"
+            android:layout_width="261dp"
+            android:layout_height="129dp"
+            android:layout_marginStart="64dp"
+            android:text="@android:string/unknownName"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+        <ImageView
+            android:id="@+id/washer_level"
+            android:layout_width="139dp"
+            android:layout_height="113dp"
+            app:layout_constraintBottom_toTopOf="@+id/checkedTextView"
+            app:layout_constraintStart_toStartOf="@+id/calendarView"
+            app:srcCompat="@drawable/washerlevel_norm" />
+
+        <TextView
+            android:id="@+id/externalTemp"
+            android:layout_width="119dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:text="20°C"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/lumibutton"
-            app:layout_constraintStart_toEndOf="@+id/lumibutton"
-            app:layout_constraintTop_toTopOf="@+id/lumibutton" />
+            app:layout_constraintBottom_toTopOf="@+id/washer_level"
+            app:layout_constraintStart_toStartOf="@+id/washer_level"
+            app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="External Temp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/externalTemp"
+            app:layout_constraintStart_toStartOf="@+id/externalTemp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
