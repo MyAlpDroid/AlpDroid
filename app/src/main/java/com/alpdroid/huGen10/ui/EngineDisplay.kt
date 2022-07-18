@@ -133,7 +133,7 @@ class EngineDisplay : UIFragment(250) {
                         ((alpineServices.get_RearRightBrakeTemperature() * 5) - 50)
                     )
 
-                    rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat())
+                    rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat()/100)
 
                     var steeringAngle:Float = -((alpineServices.get_SteeringWheelAngle()/10)-3276.7).toFloat()
 
@@ -154,7 +154,7 @@ class EngineDisplay : UIFragment(250) {
                         String.format(" %2d l", (alpineServices.get_FuelLevelDisplayed()))
                     fuel_inst.text = String.format(
                         " %.2f l/s",
-                        (alpineServices.get_TripConsumption().toFloat()/10 )
+                        (alpineServices.get_TripConsumption().toFloat()/10)
                     )
 
                     brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)
