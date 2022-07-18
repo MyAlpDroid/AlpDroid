@@ -66,12 +66,12 @@ class ConfortDisplay : UIFragment(250) {
                     " %d °C",
                     alpineServices.get_MM_ExternalTemp()-40)
 
-                battvalue= (alpineServices.get_BatteryVoltage()/16).toFloat()
+                battvalue= (alpineServices.get_BatteryVoltage().toFloat()/16)
                 tankvalue= alpineServices.get_FuelLevelDisplayed()
 
                 battstate.setImageResource(R.drawable.batterie_ok)
                 batttext.text=String.format(
-                    " %.2f V",
+                    "%.2f V",
                     battvalue)
 
                 if (battvalue<9.5)

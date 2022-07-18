@@ -4,12 +4,11 @@ import android.app.Application
 import android.content.*
 import android.os.Build
 import android.os.IBinder
-import androidx.preference.PreferenceManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
-import java.util.*
 
 
 class AlpdroidApplication : Application() {
@@ -17,8 +16,11 @@ class AlpdroidApplication : Application() {
     var isBound = false
     var isStarted = false
 
+    lateinit var context:Context
+
     private var sharedPreferences: SharedPreferences? = null
     private var intent: Intent? = null
+
 
     private val alpineConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName,
@@ -42,6 +44,9 @@ class AlpdroidApplication : Application() {
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
         super.onCreate()
+
+        context = applicationContext
+
         Log.d("Application", "onCreate done")
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         eventBus.register(this)
@@ -62,6 +67,10 @@ class AlpdroidApplication : Application() {
 
         threadVehicleServices.start()
 
+    }
+
+    fun getAppContext(): Context? {
+        return context
     }
 
     fun startListenerService() {

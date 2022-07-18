@@ -1,12 +1,20 @@
 package com.alpdroid.huGen10
 
+import android.Manifest
 import android.util.Log
+import com.alpdroid.huGen10.ui.MainActivity
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class ClusterInfo (val alpineServices : VehicleServices)
 {
+    private val REQUEST_CODE_PERMISSION = 2
+    var mPermission: String = Manifest.permission.ACCESS_FINE_LOCATION
+
+    // GPSTracker class
+    var gps: GPSTracker = GPSTracker(alpineServices.application.applicationContext)
+
     var albumName : String = "Phil"
     var trackName : String = "Alpdroid"
     var artistName: String = "2022(c)"
@@ -33,7 +41,9 @@ class ClusterInfo (val alpineServices : VehicleServices)
 
     init {
 
+
         clusterStarted=true
+
         // Setting audio Info to Internet Source
         alpineServices.addFrame(
             CanFrame(
@@ -242,11 +252,17 @@ class ClusterInfo (val alpineServices : VehicleServices)
             )*/
         }
 
+        Log.d("Location Active :",gps.canGetLocation().toString())
+
+        if (gps.canGetLocation())
+        {
+            Log.d("Has Location Active :","^^^^")
+            Log.d("value is:",gps.bearing.toString())
+            north_Params= gps.bearing.toInt()
+        }
 
         alpineServices.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,north_Params)
-        north_Params+=1
-        if (north_Params>180)
-            north_Params=0
+
 
         rightNow = Calendar.getInstance()
             alpineServices.set_VehicleClock_Hour(rightNow.get(Calendar.HOUR_OF_DAY))

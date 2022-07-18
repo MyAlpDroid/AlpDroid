@@ -149,16 +149,16 @@ class EngineDisplay : UIFragment(250) {
 
                     otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat())
 
-                    oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()/100).toFloat())
+                    oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
                     fuel_level.text =
                         String.format(" %2d l", (alpineServices.get_FuelLevelDisplayed()))
                     fuel_inst.text = String.format(
                         " %.2f l/s",
-                        ((alpineServices.get_TripAverageConsumption() /10).toFloat() )
+                        (alpineServices.get_TripAverageConsumption().toFloat()/10 )
                     )
 
                     brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)
-                    speedthrottle.speedTo((alpineServices.get_RawSensor() / 8).toFloat())
+                    speedthrottle.speedTo(alpineServices.get_RawSensor().toFloat()/8)
 
                     var StringGenerated: String
 
