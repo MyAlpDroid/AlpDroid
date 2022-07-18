@@ -154,7 +154,7 @@ class EngineDisplay : UIFragment(250) {
                         String.format(" %2d l", (alpineServices.get_FuelLevelDisplayed()))
                     fuel_inst.text = String.format(
                         " %.2f l/s",
-                        (alpineServices.get_TripAverageConsumption().toFloat()/10 )
+                        (alpineServices.get_TripConsumption().toFloat()/10 )
                     )
 
                     brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)
