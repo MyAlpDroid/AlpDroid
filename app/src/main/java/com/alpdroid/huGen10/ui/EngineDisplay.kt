@@ -133,7 +133,7 @@ class EngineDisplay : UIFragment(250) {
                         ((alpineServices.get_RearRightBrakeTemperature() * 5) - 50)
                     )
 
-                    rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat()/100)
+                    rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat()/8)
 
                     var steeringAngle:Float = -((alpineServices.get_SteeringWheelAngle()/10)-3276.7).toFloat()
 

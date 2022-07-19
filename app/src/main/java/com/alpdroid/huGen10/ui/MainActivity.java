@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.CanFrame;
+import com.alpdroid.huGen10.GPSTracker;
 import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
 import com.google.android.material.tabs.TabLayout;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static AlpdroidApplication application;
     public static VehicleServices alpineServices;
+    // GPSTracker class
+    public static GPSTracker gps;
 
     private final byte[] message="{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".getBytes();
 
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         int initialTab = getIntent().getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE);
         mViewPager.setCurrentItem(initialTab);
 
+        gps= new GPSTracker(getApplicationContext());
 
     }
 

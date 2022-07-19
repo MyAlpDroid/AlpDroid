@@ -11,9 +11,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
 {
     private val REQUEST_CODE_PERMISSION = 2
     var mPermission: String = Manifest.permission.ACCESS_FINE_LOCATION
-
-    // GPSTracker class
-    var gps: GPSTracker = GPSTracker(alpineServices.application.applicationContext)
+    
 
     var albumName : String = "Phil"
     var trackName : String = "Alpdroid"
@@ -251,14 +249,11 @@ class ClusterInfo (val alpineServices : VehicleServices)
                 CanFrame(0,CanMCUAddrs.Audio_Display.idcan+i+8,getStringLine(prevalbumName,i+1))
             )*/
         }
+        
 
-        Log.d("Location Active :",gps.canGetLocation().toString())
-
-        if (gps.canGetLocation())
+        if (MainActivity.gps.canGetLocation())
         {
-            Log.d("Has Location Active :","^^^^")
-            Log.d("value is:",gps.bearing.toString())
-            north_Params= gps.bearing.toInt()
+            north_Params= MainActivity.gps.bearing.toInt()
         }
 
         alpineServices.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,north_Params)

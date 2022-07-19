@@ -12,11 +12,12 @@ import com.google.common.eventbus.Subscribe
 
 
 class AlpdroidApplication : Application() {
+
     var alpdroidService: VehicleServices?=null
     var isBound = false
     var isStarted = false
 
-    lateinit var context:Context
+    var context:Context=applicationContext
 
     private var sharedPreferences: SharedPreferences? = null
     private var intent: Intent? = null
@@ -45,7 +46,6 @@ class AlpdroidApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        context = applicationContext
 
         Log.d("Application", "onCreate done")
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -69,9 +69,6 @@ class AlpdroidApplication : Application() {
 
     }
 
-    fun getAppContext(): Context? {
-        return context
-    }
 
     fun startListenerService() {
         if (ListenerService.isNotificationAccessEnabled(this)) {

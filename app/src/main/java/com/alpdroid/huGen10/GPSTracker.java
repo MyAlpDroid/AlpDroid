@@ -174,11 +174,8 @@ public class GPSTracker extends Service implements LocationListener {
     public float getBearing(){
 
         if (location!=null)
-            if (location.hasBearing()) {
-                Log.d("Has Bearing : ", String.format("%.2f", location.getBearing()));
                 return location.getBearing();
-            }
-
+        else
                 return 0.0f;
 
     }
