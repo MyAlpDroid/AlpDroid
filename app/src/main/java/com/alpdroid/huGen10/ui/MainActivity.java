@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         int initialTab = getIntent().getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE);
         mViewPager.setCurrentItem(initialTab);
 
-        gps= new GPSTracker(getApplicationContext());
+        gps= new GPSTracker(application.getContext());
 
     }
 

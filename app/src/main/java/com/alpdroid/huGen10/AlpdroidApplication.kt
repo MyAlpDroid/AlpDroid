@@ -17,7 +17,7 @@ class AlpdroidApplication : Application() {
     var isBound = false
     var isStarted = false
 
-    var context:Context=applicationContext
+    var context:Context?=null
 
     private var sharedPreferences: SharedPreferences? = null
     private var intent: Intent? = null
@@ -47,10 +47,10 @@ class AlpdroidApplication : Application() {
         super.onCreate()
 
 
-        Log.d("Application", "onCreate done")
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         eventBus.register(this)
 
+        context=this.applicationContext
        val threadVehicleServices: Thread = object : Thread() {
             override fun run() {
                 val intent = Intent(applicationContext, VehicleServices::class.java)
