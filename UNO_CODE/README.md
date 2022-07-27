@@ -3,9 +3,12 @@
 Le programme pour Arduino va se charger de recevoir les trames CAN depuis le ou les CANSHIELD et de renvoyer la trame au format GSON vers le poste Android.
 
 Les trames sont toujours du type :
-NUMERO DU BUS CAN : 0 ou 1 selon le nombre de CANSHIELD
-ID de la Trame CAN : Adresse de l'expéditeur de la trame comprise entre 0 et 0x7FF. Il s'agit des adresses des composants sur le réseau ECU/MMU etc qui peuvent envoyer ou recevoir une trame.
-DATA : les données de la trame sur 8 Octects.
+NUMERO DU BUS CAN : 0 ou 1 selon le nombre de CANSHIELD  
+ID de la Trame CAN : Adresse de l'expéditeur de la trame comprise entre 0 et 0x7FF. Il s'agit des adresses des composants sur le réseau ECU/MMU etc qui peuvent envoyer ou recevoir une trame.  
+DATA : les données de la trame sur 8 Octects.  
+
+Exemple : {bus:0,id:0x07E8,data:{0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7}}  
+
 
 Concernant le programme : 
 
@@ -74,6 +77,11 @@ https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploadi
 Si vous avez sélectionné le mauvais port USB, vous verrez apparaitre en boucle (10 fois) un message indiquant qu'il ne trouve pas la carte.
 
 Une fois le programme chargé, il se lance automatiquement dès qu'on alimente la carte et boucle indéfiniment.
+
+Vous pouvez tester le bon fonctionnement du programme en branchant la carte avec son CANSHIELD sur l'un des bus CAN de l'Alpine via la prise OBD et en branchant la carte Arduino, via USB, sur une tablette ou un téléphone Android et en utilisant l'excellente application "USB SERIAL TERMINAL" : 
+https://play.google.com/store/apps/details?id=de.kai_morich.serial_usb_terminal&hl=fr&gl=US
+
+Régler l'application sur un débit de 115 200 Bauds, connecter sur l'Arduino une fois détecter et vous verrez les messages GSON représentant les trames CAN apparaitre.
 
 
 
