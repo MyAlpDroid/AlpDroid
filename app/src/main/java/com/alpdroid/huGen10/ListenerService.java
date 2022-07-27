@@ -40,7 +40,6 @@ public class ListenerService extends NotificationListenerService
     private AlpdroidApplication application;
     private AlpdroidEr alpdroidEr;
     private NetworkStateReceiver networkStateReceiver;
-  //  private AlpdroidNotificationManager alpdroidNotificationManager;
 
     @Override
     public void onCreate() {
@@ -50,13 +49,11 @@ public class ListenerService extends NotificationListenerService
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        //alpdroidNotificationManager =
-         //       new AlpdroidNotificationManager (this, sharedPreferences);
-        alpdroidEr =
+       alpdroidEr =
                 new AlpdroidEr(connectivityManager);
-// alpdroidNotificationManager,
+
         playbackTracker = new PlaybackTracker( alpdroidEr );
-// alpdroidNotificationManager,
+
         Log.d(TAG, "NotificationListenerService started");
 
         MediaSessionManager mediaSessionManager =

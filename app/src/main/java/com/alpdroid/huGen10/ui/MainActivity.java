@@ -1,6 +1,8 @@
 package com.alpdroid.huGen10.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -19,7 +23,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.CanFrame;
-import com.alpdroid.huGen10.GPSTracker;
 import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
 import com.google.android.material.tabs.TabLayout;
@@ -42,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static AlpdroidApplication application;
     public static VehicleServices alpineServices;
-    // GPSTracker class
-    public static GPSTracker gps;
+
+    public static boolean locationPermissionGranted;
 
     private final byte[] message="{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".getBytes();
 
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         application = (AlpdroidApplication) getApplication();
         application.startListenerService();
-  //      application.startVehicleServices();
+  //    application.startVehicleServices();
 
         Log.d("Main", "MainActivity started");
 
@@ -104,10 +107,22 @@ public class MainActivity extends AppCompatActivity {
         int initialTab = getIntent().getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE);
         mViewPager.setCurrentItem(initialTab);
 
-        gps= new GPSTracker(application.getContext());
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+                locationPermissionGranted=true;
+                Log.d("access permission granted","ok");
+            }
+            locationPermissionGranted=true;
+        } catch (Exception e){
+            locationPermissionGranted=true;
+            e.printStackTrace();
+
+        }
+
+
 
     }
-
 
 
     @Override
@@ -157,7 +172,8 @@ public class MainActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         List<Fragment> fragments =
-                ImmutableList.of(new NowPlayingFragment(),new EngineDisplay(), new ConfortDisplay() , new ComputerDisplay());
+                ImmutableList.of(new NowPlayingFragment(), new EngineDisplay(), new ConfortDisplay(), new ComputerDisplay(), new MapsDisplay());
+
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -185,10 +201,12 @@ public class MainActivity extends AppCompatActivity {
                     return getString(R.string.engine_display);
 
                 case 2:
-                   return getString(R.string.confort_display);
+                   return getString(R.string.comfort_display);
 
                 case 3:
                     return getString(R.string.computer_display);
+                case 4 :
+                    return getString(R.string.maps_display);
             }
             return null;
         }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import java.util.*
 
 abstract class UIFragment(private val uiRefreshTime: Long) : Fragment() {
+
     open fun onKeyDown(code: Int, keyEvent: KeyEvent): Boolean = true
 
     protected var timerTask: (() -> Unit?)? = null
@@ -23,4 +24,5 @@ abstract class UIFragment(private val uiRefreshTime: Long) : Fragment() {
         super.onPause()
         runningTimer.cancel()
     }
+
 }

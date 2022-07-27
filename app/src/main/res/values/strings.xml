@@ -40,10 +40,10 @@
 
     <!-- Main window tabs -->
     <string name="tab_now_playing">Now Playing</string>
-    <string name="tab_history">History</string>
     <string name="engine_display">Engine</string>
-    <string name="confort_display">Confort</string>
+    <string name="comfort_display">Comfort</string>
     <string name="computer_display">Board Computer</string>
+    <string name="maps_display">Google Maps</string>
 
     <!-- Strings related to Settings -->
     <string name="saved_session_key" translatable="false">sessionKey</string>

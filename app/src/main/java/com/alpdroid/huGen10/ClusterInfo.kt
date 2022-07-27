@@ -1,8 +1,6 @@
 package com.alpdroid.huGen10
 
 import android.Manifest
-import android.util.Log
-import com.alpdroid.huGen10.ui.MainActivity
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -36,6 +34,9 @@ class ClusterInfo (val alpineServices : VehicleServices)
     var rightNow = Calendar.getInstance()
 
     var clusterStarted:Boolean
+
+    // GPSTracker class
+    var gps: GPSTracker? = null
 
     init {
 
@@ -153,7 +154,6 @@ class ClusterInfo (val alpineServices : VehicleServices)
 
                 }
                 catch (e: Exception) {
-                    Log.d("Cluster Info : ","Exception")
                     clusterStarted=false
                 }
 
@@ -251,9 +251,9 @@ class ClusterInfo (val alpineServices : VehicleServices)
         }
         
 
-        if (MainActivity.gps.canGetLocation())
+        if (gps!!.canGetLocation())
         {
-            north_Params= MainActivity.gps.bearing.toInt()
+            north_Params= gps!!.bearing.toInt()
         }
 
         alpineServices.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,north_Params)
