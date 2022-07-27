@@ -1,4 +1,5 @@
 
+[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MyAlpDroid)
 
 <H1> Alpine : Remplacer le poste multimédia  par un poste Android </H1>
 
@@ -33,6 +34,9 @@ Mais en premier, ce projet a pour objet de partager toute l'expérience et de pe
 
 Pour plus d'information, Consulter le Wiki :[ici](https://github.com/MyAlpDroid/AlpDroid/wiki)
 
+N'oubliez pas de me sponsoriser :
+
+[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MyAlpDroid)
 
 Le projet s'inspire et utilise les résultats des projets suivants :
 
