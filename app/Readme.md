@@ -4,7 +4,7 @@ Tant que l'application ne sera pas disponible via Google Play Store, il faudra u
 
 ### Passer le poste en mode développeur
 
-Il faut aller dans les paramètres systèmes, puis dans les "A propos" ou "Device Info", taper 10 fois sur "Buld Number", le système doit afficher un message indiquant qu'on est passé en mode développeur.
+Il faut aller dans les paramètres systèmes, puis dans les "A propos" ou "Device Info", taper 10 fois sur "Build Number", le système doit afficher un message indiquant qu'on est passé en mode développeur.
 
 ### Récupérer l'APK de l'application
 
