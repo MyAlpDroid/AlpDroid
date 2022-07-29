@@ -11,7 +11,7 @@ Il faut aller dans les paramètres systèmes, puis dans les "A propos" ou "Devic
 L'APK en dernière version est pour l'instant ici :
 [ dernière version ](https://drive.google.com/drive/folders/1cToGbZd3wZ49ZU1cTHJ8dAAtLZSSz_Xb?usp=sharing)
  
-Il suffit de cliquer l'APK est le poste va le télécharger puis vous proposer de l'installer.
+Il suffit de cliquer l'APK et le poste va le télécharger puis vous proposer de l'installer.
 
 Au démarrage, l'application ne dispose pas des droits suffisant pour utiliser le port USB ou le GPS. Il faut autoriser les usages sinon l'application ne fonctionnera pas.
 
