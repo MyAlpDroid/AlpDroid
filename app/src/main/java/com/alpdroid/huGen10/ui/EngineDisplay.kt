@@ -2,11 +2,14 @@ package com.alpdroid.huGen10.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.EngineDisplayBinding
 import com.alpdroid.huGen10.ui.MainActivity.alpineServices
 import com.alpdroid.huGen10.ui.MainActivity.application
@@ -47,6 +50,7 @@ class EngineDisplay : UIFragment(250) {
     lateinit var speedthrottle : ProgressiveGauge
     lateinit var brakethrottle : ProgressiveGauge
     lateinit var textCtl : TextView
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -95,43 +99,121 @@ class EngineDisplay : UIFragment(250) {
 
         otherJauge3 = fragmentBlankBinding!!.OilPressure
 
-
         if (application.isBound)
         {
             timerTask = {
                 activity?.runOnUiThread {
+
+                    var flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
+                    var frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
+                    var rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
+                    var rrbrake_temp:Int = (alpineServices.get_RearRightBrakeTemperature() * 5) - 50
+                    var flbrake_press:Int = alpineServices.get_FrontLeftWheelPressure_V2() * 30
+                    var frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
+                    var rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
+                    var rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
+
+
                     press_FL.text = String.format(
                         " %d mBar",
-                        (alpineServices.get_FrontLeftWheelPressure_V2() * 30)
+                        flbrake_press
                     )
+
+                    if (flbrake_press<2300)
+                        press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (flbrake_press<2500)
+                        press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
                     temp_FL.text = String.format(
                         " %d °C",
-                        ((alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50)
+                        flbrake_temp
                     )
+
+                    if (flbrake_temp<120)
+                        temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (flbrake_temp<250)
+                        temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+
                     press_RL.text = String.format(
                         " %d mBar",
-                        (alpineServices.get_RearLeftWheelPressure_V2() * 30)
+                        rlbrake_press
                     )
+
+                    if (rlbrake_press<2300)
+                        press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (rlbrake_press<2500)
+                        press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+
                     temp_RL.text = String.format(
                         " %d °C",
-                        ((alpineServices.get_RearLeftBrakeTemperature() * 5) - 50)
+                       rlbrake_temp
                     )
+
+                    if (rlbrake_temp<120)
+                        temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (rlbrake_temp<250)
+                        temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+
                     press_FR.text = String.format(
                         " %d mBar",
-                        (alpineServices.get_FrontRightWheelPressure_V2() * 30)
+                        frbrake_press
                     )
+
+                    if (frbrake_press<2300)
+                        press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (frbrake_press<2500)
+                        press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
                     temp_FR.text = String.format(
                         "  %d °C",
-                        ((alpineServices.get_FrontRightBrakeTemperature() * 5) - 50)
+                        frbrake_temp
                     )
+
+                    if (frbrake_temp<120)
+                        temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (frbrake_temp<250)
+                        temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
                     press_RR.text = String.format(
                         " %d mBar",
-                        (alpineServices.get_RearRightWheelPressure_V2() * 30)
+                        rrbrake_press
                     )
+
+                    if (rrbrake_press<2300)
+                        press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (rrbrake_press<2500)
+                        press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+
                     temp_RR.text = String.format(
                         "  %d°C",
-                        ((alpineServices.get_RearRightBrakeTemperature() * 5) - 50)
+                        rrbrake_temp
                     )
+
+                    if (rrbrake_temp<120)
+                        temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (rrbrake_temp<250)
+                        temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
 
                     rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat()/8)
 
@@ -139,13 +221,12 @@ class EngineDisplay : UIFragment(250) {
 
                     angle_steering.rotation=steeringAngle
 
-
                     oil_temp.speedTo((alpineServices.get_OilTemperature() - 40).toFloat())
                     cool_temp.speedTo((alpineServices.get_EngineCoolantTemp() - 40).toFloat())
                     intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
                     gear_temp.speedTo((alpineServices.get_RST_ATClutchTemperature() + 60).toFloat())
 
-                   speed.text = String.format(" %d KM/H", (alpineServices.get_Disp_Speed_MM()/100))
+                    speed.text = String.format(" %d KM/H", (alpineServices.get_Disp_Speed_MM()/100))
 
                     otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat())
 
@@ -160,45 +241,19 @@ class EngineDisplay : UIFragment(250) {
                     brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)
                     speedthrottle.speedTo(alpineServices.get_RawSensor().toFloat()/8)
 
-                    var StringGenerated: String
-
-                    when (alpineServices.get_CurrentGear()) {
-                        0 -> StringGenerated = "1"
-                        1 -> StringGenerated = "2"
-                        2 -> StringGenerated = "3"
-                        3 -> StringGenerated = "4"
-                        4 -> StringGenerated = "5"
-                        5 -> StringGenerated = "6"
-                        6 -> StringGenerated = "7"
-                        else -> {
-                            StringGenerated = "n"
-                        }
-                    }
 
                     val id =
                         resources.getIdentifier(
-                            "shift_$StringGenerated",
+                            "shift_${alpineServices.get_CurrentGear()}",
                             "drawable",
                             context?.packageName
                         )
                     gear_active.setImageResource(id)
+                    Log.d("Shift : ","shift_${alpineServices.get_CurrentGear()}")
 
-
-                    when (alpineServices.get_RST_ATPreSelectedRange()) {
-                        0 -> StringGenerated = "1"
-                        1 -> StringGenerated = "2"
-                        2 -> StringGenerated = "3"
-                        3 -> StringGenerated = "4"
-                        4 -> StringGenerated = "5"
-                        5 -> StringGenerated = "6"
-                        6 -> StringGenerated = "7"
-                        else -> {
-                            StringGenerated = "n"
-                        }
-                    }
                     val id1 =
                         resources.getIdentifier(
-                            "shift_$StringGenerated",
+                            "shift_${alpineServices.get_RST_ATPreSelectedRange()}",
                             "drawable",
                             context?.packageName
                         )

@@ -4,12 +4,10 @@ package com.alpdroid.huGen10.util;
 https://github.com/lishen2/isotp-c
 */
 
-import static com.alpdroid.huGen10.util.IsoTpProtocolControlInformation.ISOTP_PCI_TYPE_FIRST_FRAME;
-import static com.alpdroid.huGen10.util.IsoTpProtocolControlInformation.ISOTP_PCI_TYPE_SINGLE;
-import static com.alpdroid.huGen10.util.IsoTpProtocolControlInformation.TSOTP_PCI_TYPE_CONSECUTIVE_FRAME;
 import static com.alpdroid.huGen10.util.isoTPdefines.*;
 
 import java.util.Arrays;
+
 
 public class isoTPLink {
 
@@ -26,7 +24,30 @@ public class isoTPLink {
     static int ISOTP_PROTOCOL_RESULT_WFT_OVRN = -7;
     static int ISOTP_PROTOCOL_RESULT_BUFFER_OVFLW = -8;
     static int ISOTP_PROTOCOL_RESULT_ERROR = -9;
+    /* Max number of messages the receiver can receive at one time, this value
+     * is affectied by can driver queue length
+     */
 
+           static byte ISO_TP_DEFAULT_BLOCK_SIZE=   8;
+
+            /* The STmin parameter value specifies the minimum time gap allowed between
+             * the transmission of consecutive frame network protocol data units
+             */
+            static int ISO_TP_DEFAULT_ST_MIN    =   0;
+
+            /* This parameter indicate how many FC N_PDU WTs can be transmitted by the
+             * receiver in a row.
+             */
+            static int ISO_TP_MAX_WFT_NUMBER   =    1;
+
+            /* Private: The default timeout to use when waiting for a response during a
+             * multi-frame send or receive.
+             */
+           static int ISO_TP_DEFAULT_RESPONSE_TIMEOUT=100;
+
+            /* Private: Determines if by default, padding is added to ISO-TP message frames.
+             */
+            static boolean ISO_TP_FRAME_PADDING=true;
     /**
      * @brief Struct containing the data for linking an application to a CAN instance.
      * The data stored in this struct is used internally and may be used by software programs
@@ -49,7 +70,7 @@ public class isoTPLink {
                                                    start at sending FF, CF, receive FC
                                                    end at receive FC */
     int send_protocol_result;
-    byte send_status;
+    IsoTpSendStatusTypes send_status;
 
     /* receiver paramters */
     int receive_arbitration_id;
@@ -65,7 +86,30 @@ public class isoTPLink {
                                                      start at sending FC, receive CF
                                                      end at receive FC */
     int receive_protocol_result;
-    byte receive_status;
+    IsoTpReceiveStatusTypes receive_status;
+
+
+    /**************************************************************
+     * protocol specific defines
+     *************************************************************/
+
+    /* Private: Protocol Control Information (PCI) types, for identifying each frame of an ISO-TP message.
+     */
+
+    //  IsoTpProtocolControlInformation
+    final static byte ISOTP_PCI_TYPE_SINGLE = 0x0;
+    final static byte ISOTP_PCI_TYPE_FIRST_FRAME = 0x1;
+    final static byte TSOTP_PCI_TYPE_CONSECUTIVE_FRAME = 0x2;
+    final static byte ISOTP_PCI_TYPE_FLOW_CONTROL_FRAME = 0x3;
+
+
+    /* Private: Protocol Control Information (PCI) flow control identifiers.
+     */
+
+    //  public enum IsoTpFlowStatus
+    final static byte PCI_FLOW_STATUS_CONTINUE = 0x0;
+    final static byte PCI_FLOW_STATUS_WAIT = 0x1;
+    final static byte PCI_FLOW_STATUS_OVERFLOW = 0x2;
 
 ///////////////////////////////////////////////////////
 ///                 STATIC FUNCTIONS                ///
@@ -98,6 +142,10 @@ public class isoTPLink {
         return ms;
     }
 
+    /* return logic true if 'a' is after 'b' */
+    public boolean IsoTpTimeAfter(int a, int b) {
+        return ((b - a) < 0);
+    }
 
 
     int isotp_send_flow_control( byte flow_status, byte block_size, byte st_min_ms) {
@@ -106,7 +154,7 @@ public class isoTPLink {
         int ret;
 
         /* setup message  */
-        message.flow_control.type = IsoTpProtocolControlInformation.ISOTP_PCI_TYPE_FLOW_CONTROL_FRAME;
+        message.flow_control.type = ISOTP_PCI_TYPE_FLOW_CONTROL_FRAME;
         message.flow_control.FS = flow_status;
         message.flow_control.BS = block_size;
         message.flow_control.STmin = isotp_ms_to_st_min(st_min_ms);
@@ -284,6 +332,10 @@ public class isoTPLink {
     }
 
 
+///////////////////////////////////////////////////////
+///                 PUBLIC FUNCTIONS                ///
+///////////////////////////////////////////////////////
+
     /**
      * @param sendid      The ID used to send data to other CAN nodes.
      * @param sendbuf     A pointer to an area in memory which can be used as a buffer for data to be sent.
@@ -295,8 +347,8 @@ public class isoTPLink {
     void isotp_init_link(int sendid,
                          byte[] sendbuf, int sendbufsize,
                          byte[] recvbuf, int recvbufsize) {
-        this.receive_status = 0; // ISOTP_RECEIVE_STATUS_IDLE;
-        this.send_status = 0; // ISOTP_SEND_STATUS_IDLE;
+        this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_IDLE;
+        this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_IDLE;
         this.send_arbitration_id = sendid;
         this.send_buffer = sendbuf;
         this.send_buf_size = sendbufsize;
@@ -309,7 +361,55 @@ public class isoTPLink {
      */
 
     void isotp_poll() {
+
+        int ret;
+
+        /* only polling when operation in progress */
+        if ( IsoTpSendStatusTypes.ISOTP_SEND_STATUS_INPROGRESS == this.send_status) {
+
+            /* continue send data */
+            if (/* send data if bs_remain is invalid or bs_remain large than zero */
+                    (ISOTP_INVALID_BS == this.send_bs_remain || this.send_bs_remain > 0) &&
+                            /* and if st_min is zero or go beyond interval time */
+                            (0 == this.send_st_min || (0 != this.send_st_min && IsoTpTimeAfter(isotp_user_get_ms(), this.send_timer_st)))) {
+
+                ret = isotp_send_consecutive_frame();
+                if (ISOTP_RET_OK == ret) {
+                    if (ISOTP_INVALID_BS != this.send_bs_remain) {
+                        this.send_bs_remain -= 1;
+                    }
+                    this.send_timer_bs = isotp_user_get_ms() + ISO_TP_DEFAULT_RESPONSE_TIMEOUT;
+                    this.send_timer_st = isotp_user_get_ms() + this.send_st_min;
+
+                    /* check if send finish */
+                    if (this.send_offset >= this.send_size) {
+                        this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_IDLE;
+                    }
+                } else {
+                    this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_ERROR;
+                }
+            }
+
+            /* check timeout */
+            if (IsoTpTimeAfter(isotp_user_get_ms(), this.send_timer_bs)) {
+                this.send_protocol_result = ISOTP_PROTOCOL_RESULT_TIMEOUT_BS;
+                this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_ERROR;
+            }
+        }
+
+        /* only polling when operation in progress */
+        if (IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_INPROGRESS == this.receive_status) {
+
+            /* check timeout */
+            if (IsoTpTimeAfter(isotp_user_get_ms(), this.receive_timer_cr)) {
+                this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_TIMEOUT_CR;
+                this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_IDLE;
+            }
+        }
+
+        return;
     }
+
 
     /**
      * @param data The data received via CAN.
@@ -318,6 +418,151 @@ public class isoTPLink {
      * Determines whether an incoming message is a valid ISO-TP frame or not and handles it accordingly.
      */
     void isotp_on_can_message(byte[] data, byte len) {
+        IsoTpCanMessage message = new IsoTpCanMessage();
+        int ret;
+
+        if (len < 2 || len > 8) {
+            return;
+        }
+
+   //     memcpy(message.data_array.ptr, data, len);
+   //     memset(message.data_array.ptr + len, 0, message.data_array.ptr.length - len);
+
+        switch (message.common.type) {
+            case ISOTP_PCI_TYPE_SINGLE: {
+                /* update protocol result */
+                if (IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_INPROGRESS == this.receive_status) {
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_UNEXP_PDU;
+                } else {
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_OK;
+                }
+
+                /* handle message */
+                ret = isotp_receive_single_frame(message, len);
+
+                if (ISOTP_RET_OK == ret) {
+                    /* change status */
+                    this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_FULL;
+                }
+                break;
+            }
+            case ISOTP_PCI_TYPE_FIRST_FRAME: {
+                /* update protocol result */
+                if (IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_INPROGRESS == this.receive_status) {
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_UNEXP_PDU;
+                } else {
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_OK;
+                }
+
+                /* handle message */
+                ret = isotp_receive_first_frame(message, len);
+
+                /* if overflow happened */
+                if (ISOTP_RET_OVERFLOW == ret) {
+                    /* update protocol result */
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_BUFFER_OVFLW;
+                    /* change status */
+                    this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_IDLE;
+                    /* send error message */
+                    isotp_send_flow_control(PCI_FLOW_STATUS_OVERFLOW, (byte) 0, (byte) 0);
+                    break;
+                }
+
+                /* if receive successful */
+                if (ISOTP_RET_OK == ret) {
+                    /* change status */
+                    this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_INPROGRESS;
+                    /* send fc frame */
+                    this.receive_bs_count = ISO_TP_DEFAULT_BLOCK_SIZE;
+                    isotp_send_flow_control(PCI_FLOW_STATUS_CONTINUE, this.receive_bs_count, (byte) ISO_TP_DEFAULT_ST_MIN);
+                    /* refresh timer cs */
+                    this.receive_timer_cr = isotp_user_get_ms() + ISO_TP_DEFAULT_RESPONSE_TIMEOUT;
+                }
+
+                break;
+            }
+            case TSOTP_PCI_TYPE_CONSECUTIVE_FRAME: {
+                /* check if in receiving status */
+                if (IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_INPROGRESS != this.receive_status) {
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_UNEXP_PDU;
+                    break;
+                }
+
+                /* handle message */
+                ret = isotp_receive_consecutive_frame(message, len);
+
+                /* if wrong sn */
+                if (ISOTP_RET_WRONG_SN == ret) {
+                    this.receive_protocol_result = ISOTP_PROTOCOL_RESULT_WRONG_SN;
+                    this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_IDLE;
+                    break;
+                }
+
+                /* if success */
+                if (ISOTP_RET_OK == ret) {
+                    /* refresh timer cs */
+                    this.receive_timer_cr = isotp_user_get_ms() + ISO_TP_DEFAULT_RESPONSE_TIMEOUT;
+
+                    /* receive finished */
+                    if (this.receive_offset >= this.receive_size) {
+                        this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_FULL;
+                    } else {
+                        /* send fc when bs reaches limit */
+                        if (0 == --this.receive_bs_count) {
+                            this.receive_bs_count = ISO_TP_DEFAULT_BLOCK_SIZE;
+                            isotp_send_flow_control(PCI_FLOW_STATUS_CONTINUE, this.receive_bs_count, (byte) ISO_TP_DEFAULT_ST_MIN);
+                        }
+                    }
+                }
+
+                break;
+            }
+            case ISOTP_PCI_TYPE_FLOW_CONTROL_FRAME:
+                /* handle fc frame only when sending in progress  */
+                if (IsoTpSendStatusTypes.ISOTP_SEND_STATUS_INPROGRESS != this.send_status) {
+                    break;
+                }
+
+                /* handle message */
+                ret = isotp_receive_flow_control_frame(message, len);
+
+                if (ISOTP_RET_OK == ret) {
+                    /* refresh bs timer */
+                    this.send_timer_bs = isotp_user_get_ms() + ISO_TP_DEFAULT_RESPONSE_TIMEOUT;
+
+                    /* overflow */
+                    if (PCI_FLOW_STATUS_OVERFLOW == message.flow_control.FS) {
+                        this.send_protocol_result = ISOTP_PROTOCOL_RESULT_BUFFER_OVFLW;
+                        this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_ERROR;
+                    }
+
+                    /* wait */
+                    else if (PCI_FLOW_STATUS_WAIT == message.flow_control.FS) {
+                        this.send_wtf_count += 1;
+                        /* wait exceed allowed count */
+                        if (this.send_wtf_count > ISO_TP_MAX_WFT_NUMBER) {
+                            this.send_protocol_result = ISOTP_PROTOCOL_RESULT_WFT_OVRN;
+                            this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_ERROR;
+                        }
+                    }
+
+                    /* permit send */
+                    else if (PCI_FLOW_STATUS_CONTINUE == message.flow_control.FS) {
+                        if (0 == message.flow_control.BS) {
+                            this.send_bs_remain = ISOTP_INVALID_BS;
+                        } else {
+                            this.send_bs_remain = message.flow_control.BS;
+                        }
+                        this.send_st_min = isotp_st_min_to_ms(message.flow_control.STmin);
+                        this.send_wtf_count = 0;
+                    }
+                }
+                break;
+            default:
+                break;
+        };
+
+        return;
     }
 
     /**
@@ -334,14 +579,57 @@ public class isoTPLink {
      * Multi-frame messages will be sent consecutively when calling isotp_poll.
      */
     int isotp_send(byte[] payload, int size) {
-        return 0;
+        return isotp_send_with_id(this.send_arbitration_id, payload, size);
     }
 
     /**
      * @brief See @link isotp_send @endlink, with the exception that this function is used only for functional addressing.
      */
-    int isotp_send_with_id(int id, byte[] payload, int size) {
-        return 0;
+    int isotp_send_with_id(int id, byte[] payload, int size){
+        int ret;
+
+        if (this == null) {
+            isotp_user_debug("Link is null!");
+            return ISOTP_RET_ERROR;
+        }
+
+        if (size > this.send_buf_size) {
+            isotp_user_debug("Message size too large. Increase ISO_TP_MAX_MESSAGE_SIZE to set a larger buffer\n");
+        //    char message[128];
+        //    sprintf(&message[0], "Attempted to send %d bytes; max size is %d!\n", size, this.send_buf_size);
+            return ISOTP_RET_OVERFLOW;
+        }
+
+        if (IsoTpSendStatusTypes.ISOTP_SEND_STATUS_INPROGRESS == this.send_status) {
+            isotp_user_debug("Abort previous message, transmission in progress.\n");
+            return ISOTP_RET_INPROGRESS;
+        }
+
+        /* copy into local buffer */
+        this.send_size = size;
+        this.send_offset = 0;
+     //   (void) memcpy(this.send_buffer, payload, size);
+
+        if (this.send_size < 8) {
+            /* send single frame */
+            ret = isotp_send_single_frame(id);
+        } else {
+            /* send multi-frame */
+            ret = isotp_send_first_frame(id);
+
+            /* init multi-frame control flags */
+            if (ISOTP_RET_OK == ret) {
+                this.send_bs_remain = 0;
+                this.send_st_min = 0;
+                this.send_wtf_count = 0;
+                this.send_timer_st = isotp_user_get_ms();
+                this.send_timer_bs = isotp_user_get_ms() + ISO_TP_DEFAULT_RESPONSE_TIMEOUT;
+                this.send_protocol_result = ISOTP_PROTOCOL_RESULT_OK;
+                this.send_status = IsoTpSendStatusTypes.ISOTP_SEND_STATUS_INPROGRESS;
+            }
+        }
+
+        return ret;
     }
 
     /**
@@ -353,9 +641,27 @@ public class isoTPLink {
      * - @link ISOTP_RET_NO_DATA @endlink
      * @brief Receives and parses the received data and copies the parsed data in to the internal buffer.
      */
-    int isotp_receive(byte[] payload, int payload_size, int out_size) {
-        return 0;
+    int isotp_receive(byte[] payload, int payload_size, int out_size){
+        int copylen;
+
+        if (IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_FULL != this.receive_status) {
+            return ISOTP_RET_NO_DATA;
+        }
+
+        copylen = this.receive_size;
+        if (copylen > payload_size) {
+            copylen = payload_size;
+        }
+
+    //    memcpy(payload, this.receive_buffer, copylen);
+    // out_size = reference to data ?? voir si ce n'est pas this...
+        out_size = copylen;
+
+        this.receive_status = IsoTpReceiveStatusTypes.ISOTP_RECEIVE_STATUS_IDLE;
+
+        return ISOTP_RET_OK;
     }
+
 
 
 

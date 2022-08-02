@@ -21,5 +21,7 @@ enum class CanMCUAddrs(val idcan: Int) {
 	Compass_Info(0x0405),
 	GW_DiagInfo(0x0578),
 	UserSetPrefs2_MM(0x0402),
+	CLUSTER_CANHS_R_07(0x05CE),
+	MMI_BCM_CANHS_R_01(0x05DE),
 
 }

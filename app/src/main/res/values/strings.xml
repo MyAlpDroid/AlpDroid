@@ -52,4 +52,7 @@
 
     <!-- Strings related to the main screen -->
     <string name="settings">Settings</string>
+
+    <string name="location_updated">Location Updated: %1$s</string>
+
 </resources>

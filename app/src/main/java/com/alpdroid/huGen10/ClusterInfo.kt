@@ -35,8 +35,6 @@ class ClusterInfo (val alpineServices : VehicleServices)
 
     var clusterStarted:Boolean
 
-    // GPSTracker class
-    var gps: GPSTracker? = null
 
     init {
 
@@ -167,7 +165,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
         panelLuminosity+=5
         if (panelLuminosity>100)
             panelLuminosity=0
-        alpineServices.set_CPanelDisplayDayLuminosityReques(panelLuminosity)
+       // alpineServices.set_CPanelDisplayDayLuminosityReques(panelLuminosity)
 
     }
 
@@ -251,10 +249,6 @@ class ClusterInfo (val alpineServices : VehicleServices)
         }
         
 
-        if (gps!!.canGetLocation())
-        {
-            north_Params= gps!!.bearing.toInt()
-        }
 
         alpineServices.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,north_Params)
 

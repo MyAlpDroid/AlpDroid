@@ -15,13 +15,6 @@ final class isoTPdefines {
     static final int ISOTP_RET_TIMEOUT = -6;
     static final int ISOTP_RET_LENGTH = -7;
 
-    /* return logic true if 'a' is after 'b' */
-    public boolean IsoTpTimeAfter(int a, int b) {
-        return ((b - a) < 0);
-    }
-
-    ;
-
     /*  invalid bs */
     static final int ISOTP_INVALID_BS = 0xFFFF;
 
@@ -138,25 +131,6 @@ final class isoTPdefines {
 
      }
 
-    /**************************************************************
-     * protocol specific defines
-     *************************************************************/
 
-    /* Private: Protocol Control Information (PCI) types, for identifying each frame of an ISO-TP message.
-     */
-    class IsoTpProtocolControlInformation {
-        static byte ISOTP_PCI_TYPE_SINGLE = 0x0;
-        static byte ISOTP_PCI_TYPE_FIRST_FRAME = 0x1;
-        static byte TSOTP_PCI_TYPE_CONSECUTIVE_FRAME = 0x2;
-        static byte ISOTP_PCI_TYPE_FLOW_CONTROL_FRAME = 0x3;
-    }
-
-    /* Private: Protocol Control Information (PCI) flow control identifiers.
-     */
-     class IsoTpFlowStatus {
-        static byte PCI_FLOW_STATUS_CONTINUE = 0x0;
-        static byte PCI_FLOW_STATUS_WAIT = 0x1;
-        static byte PCI_FLOW_STATUS_OVERFLOW = 0x2;
-    }
 
 

@@ -646,6 +646,94 @@ class VehicleServices : Service(), ArduinoListener
 
      fun get_AdvisorEcoLightingActivationStat() : Int = this.getFrameParams(CanECUAddrs.CLUSTER_CANHS_R_05.idcan, 60, 2)
 
+         /** Get MilageMinBeforeOverhaul **/
+     fun get_MilageMinBeforeOverhaul() : Int = this.getFrameParams(CanMCUAddrs.CLUSTER_CANHS_R_07.idcan, 0, 8)
+
+        /** Get  TimeBeforeOverhaul**/
+     fun get_TimeBeforeOverhaul() : Int = this.getFrameParams(CanMCUAddrs.CLUSTER_CANHS_R_07.idcan, 8, 9)
+
+       /** Get  AlertMinBeforeOverhaul**/
+     fun get_AlertMinBeforeOverhaul() : Int = this.getFrameParams(CanMCUAddrs.CLUSTER_CANHS_R_07.idcan, 17, 2)
+
+/** Get    FlashingIndicatorStatusDisplay **/
+fun get_FlashingIndicatorStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 0, 3)
+/** Get    RearFogLightStateDisplay **/
+fun get_RearFogLightStateDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 3, 1)!=0
+/** Get         FrontFogLightsDisplay **/
+fun get_FrontFogLightsDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 4, 1)!=0
+/** Get         PositionLightsDisplay **/
+fun get_PositionLightsDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 5, 1)!=0
+/** Get         LowBeamDisplay **/
+fun get_LowBeamDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 6, 1)!=0
+/** Get         HighBeamDisplay **/
+fun get_HighBeamDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 7, 1)!=0
+/** Get         PositionLightsOmissionWarning **/
+fun get_PositionLightsOmissionWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 8, 2)
+/** Get         ALSMalfunction **/
+fun get_ALSMalfunctionl() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 10, 1)!=0
+/** Get        FrontLeftDoorOpenWarning **/
+fun get_FrontLeftDoorOpenWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 11, 2)
+/** Get        FrontRightDoorOpenWarning **/
+fun get_FrontRightDoorOpenWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 13, 2)
+/** Get         KeyInfoReemissionRequest **/
+fun get_KeyInfoReemissionRequestl() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 15, 1)!=0
+/** Get        RearLeftDoorOpenWarning **/
+fun get_RearLeftDoorOpenWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 16, 2)
+/** Get         RearRightDoorOpenWarning **/
+fun get_RearRightDoorOpenWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 18, 2)
+/** Get         BDUSafetyLineFailure **/
+fun get_BDUSafetyLineFailure() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 20, 1)!=0
+/** Get        SteeringLock_Failure **/
+fun get_SteeringLock_Failure() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 21, 2)
+/** Get         UnlockingSteeringColumnWarning **/
+fun get_UnlockingSteeringColumnWarning() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 23, 1)!=0
+/** Get         AutomaticLockUpActivationState **/
+fun get_AutomaticLockUpActivationState() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 24, 1)!=0
+/** Get         BadgeBatteryLow **/
+fun get_BadgeBatteryLow() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 25, 1)!=0
+/** Get        ChildproofLockMalfunctionDisplay **/
+fun get_ChildproofLockMalfunctionDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 26, 2)
+/** Get         TripDisplayScrollingRequest **/
+fun get_TripDisplayScrollingRequest() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 28, 2)
+/** Get         StartAutoInformationDisplay **/
+fun get_StartAutoInformationDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 30, 2)
+/** Get         SmartKeylessInformationDisplay **/
+fun get_SmartKeylessInformationDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 32, 4)
+/** Get         KeylessInfoReemissionRequest **/
+fun get_KeylessInfoReemissionRequest() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 34, 1)!=0
+/** Get         KeylessCardReaderFailureDisplay **/
+fun get_KeylessCardReaderFailureDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 35, 1)!=0
+/** Get         DRLstate **/
+fun get_DRLstate() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 36, 2)
+/** Get         FollowMeHomeDurationDisplay **/
+fun get_FollowMeHomeDurationDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 40, 3)
+/** Get         SingleDoorOpeningState **/
+fun get_SingleDoorOpeningState() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 43, 2)
+/** Get        ManualLockDisplayRequest **/
+fun get_ManualLockDisplayRequest() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 45, 1)!=0
+/** Get         ClutchSwitchFaultDisplay **/
+fun get_ClutchSwitchFaultDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 46, 1)!=0
+/** Get         BrakeSwitchFaultDisplay **/
+fun get_BrakeSwitchFaultDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 47, 1)!=0
+/** Get         StopLampFailureDisplay_BCM **/
+fun get_StopLampFailureDisplay_BCM() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 49, 1)!=0
+/** Get         FlashingIndicatorFailureDisplay **/
+fun get_FlashingIndicatorFailureDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 50, 1)!=0
+/** Get         VarPowSteeringFailureDisplay **/
+fun get_VarPowSteeringFailureDisplay() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 51, 1)!=0
+/** Get        AutomaticLockUpInhibitionWarning **/
+fun get_AutomaticLockUpInhibitionWarning() : Boolean = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 52, 1)!=0
+/** Get        KeyInformationDisplay **/
+fun get_KeyInformationDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 52, 3)
+/** Get         RearWiperStatus **/
+fun get_RearWiperStatus() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 56, 2)
+/** Get         BootOpenWarning **/
+fun get_BootOpenWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 58, 2)
+/** Get         GlasshatchOpenWarning **/
+fun get_GlasshatchOpenWarning() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 60, 2)
+/** Get         EcoModeStatusDisplay **/
+fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_CANHS_R_01.idcan, 62, 2)
+
     // MCU Params Functions
     /**
      *  MCU Params, Multimedia Data
@@ -965,7 +1053,7 @@ class VehicleServices : Service(), ArduinoListener
 
          /**
           *  Returns the most recent Can Frame representing the state
-          *  of AAD_578h
+          *  Distance Totalizer
           **/
 
          fun get_DistanceTotalizer_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
@@ -973,21 +1061,5 @@ class VehicleServices : Service(), ArduinoListener
          /**
           *  TODO : test luminosity value
           **/
-         fun set_AmbientLightingActivationRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,0,2,param)
-         fun set_HMDDeploymentRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,2,2,param)
-         fun set_HMDAutoDimmingRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,4,2,param)
-         fun set_CPanelDisplayDayLuminosityReques(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,6,5,param)
-         fun set_CPanelDisplayNightLuminosityRequ(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,12,5,param)
-         fun set_HMDDayLuminosityRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,18,5,param)
-         fun set_HMDNightLuminosityRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,24,5,param)
-         fun set_AmbientLightingIntensityRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,30,5,param)
-         fun set_AmbientLightingColorRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,36,5,param)
-         fun set_HMDImageHeightRequest(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,42,6,param)
-         fun set_AmbientLightingArea1Request(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,48,2,param)
-         fun set_AmbientLightingArea2Request(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,50,2,param)
-         fun set_AmbientLightingArea3Request(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,52,2,param)
-         fun set_AmbientLightingArea4Request(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,54,2,param)
-         fun set_MultiDriveMode_ECM(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,57,3,param)
-         fun set_MexModeState(param: Int) = this.setFrameParams(CanMCUAddrs.UserSetPrefs2_MM.idcan,60,3,param)
 
      }

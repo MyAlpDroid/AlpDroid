@@ -2,9 +2,9 @@ package com.alpdroid.huGen10.ui
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.alpdroid.huGen10.GPSTracker
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
 import com.alpdroid.huGen10.ui.MainActivity.alpineServices
@@ -38,9 +37,17 @@ class ConfortDisplay : UIFragment(250) {
     var washerLevel:Int=0
     lateinit var calendar: CalendarView
     lateinit var externaltemp:TextView
+    lateinit var internaltemp:TextView
+    lateinit var fanspeedstate:ImageView
+    lateinit var nextoverhaul:TextView
+    lateinit var opendoorFront:ImageView
+    lateinit var opendoorRear:ImageView
+    lateinit var opendoorLeft:ImageView
+    lateinit var opendoorRight:ImageView
 
-    // GPSTracker class
-    var gps: GPSTracker? = null
+    private var latitude:Double = 0.0
+    private var longitude:Double = 0.0
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = ConfortDisplayBinding.inflate(inflater, container, false)
@@ -64,20 +71,11 @@ class ConfortDisplay : UIFragment(250) {
             e.printStackTrace()
         }
 
-        this.context?.let { getLocation(it) }
 
         return binding.root
     }
 
-    fun getLocation(context: Context) {
-        gps = GPSTracker(context)
-        if (gps!!.canGetLocation()) {
-            val latitude: Double = gps!!.getLatitude()
-            val longitude: Double = gps!!.getLongitude()
-        } else {
-            gps!!.showSettingsAlert()
-        }
-    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
@@ -85,6 +83,7 @@ class ConfortDisplay : UIFragment(250) {
         fragmentBlankBinding = binding
 
         externaltemp=fragmentBlankBinding!!.externalTemp
+        internaltemp=fragmentBlankBinding!!.internalTemp
 
         battstate=fragmentBlankBinding!!.batterieState
         batttext=fragmentBlankBinding!!.batterieValue
@@ -98,6 +97,15 @@ class ConfortDisplay : UIFragment(250) {
 
         washerlevel=fragmentBlankBinding!!.washerLevel
 
+        fanspeedstate=fragmentBlankBinding!!.fanSpeedstate
+
+        nextoverhaul=fragmentBlankBinding!!.nextOverhaulKM
+
+        opendoorFront=fragmentBlankBinding!!.cardoorFront
+        opendoorRear=fragmentBlankBinding!!.cardoorRear
+        opendoorLeft=fragmentBlankBinding!!.cardoorLeft
+        opendoorRight=fragmentBlankBinding!!.cardoorRight
+
         calendar.date = Calendar.getInstance().timeInMillis
 
         timerTask = {
@@ -107,10 +115,16 @@ class ConfortDisplay : UIFragment(250) {
                     " %d °C",
                     alpineServices.get_MM_ExternalTemp()-40)
 
-             //   battvalue= (alpineServices.get_BatteryVoltage().toFloat()/16)
-                  battvalue = gps?.getLongitude()!!.toFloat()
-             //   tankvalue= alpineServices.get_FuelLevelDisplayed()
-                  tankvalue = gps?.latitude!!.toFloat()
+                internaltemp.text=String.format(
+                    " %d °C",
+                    alpineServices.get_InternalTemp()-40)
+
+                battvalue= (alpineServices.get_BatteryVoltage().toFloat()/16)
+             //     battvalue = gps?.getLongitude()!!.toFloat()
+                  tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
+             //     tankvalue = gps?.latitude!!.toFloat()
+
+                nextoverhaul.text= String.format(" %d Km", alpineServices.get_MilageMinBeforeOverhaul()*250)
 
                 battstate.setImageResource(R.drawable.batterie_ok)
                 batttext.text=String.format(
@@ -142,6 +156,28 @@ class ConfortDisplay : UIFragment(250) {
                 if (alpineServices.get_WasherLevelWarningState())
                     washerlevel.setImageResource(R.drawable.washerlevel_low)
 
+                val id =
+                    resources.getIdentifier(
+                        "enginefanspeed_on${alpineServices.get_EngineFanSpeedRequest()}",
+                        "drawable",
+                        context?.packageName
+                    )
+
+                fanspeedstate.setImageResource(id)
+                Log.d("Engine Fan : ","enginefanspeed_on${alpineServices.get_EngineFanSpeedRequest()}")
+
+                if (alpineServices.get_FrontLeftDoorOpenWarning()>0)
+                    opendoorLeft.setImageResource((R.drawable.cardoor_leftopen))
+                else
+                    opendoorLeft.setImageResource((R.drawable.cardoor_left))
+                if (alpineServices.get_FrontRightDoorOpenWarning()>0)
+                    opendoorRight.setImageResource(R.drawable.cardoor_rightopen)
+                else
+                    opendoorRight.setImageResource(R.drawable.cardoor_right)
+                if (alpineServices.get_BootOpenWarning()>0)
+                    opendoorFront.setImageResource(R.drawable.cardoor_frontopen)
+                else
+                    opendoorFront.setImageResource(R.drawable.cardoor_front)
 
             }
         }

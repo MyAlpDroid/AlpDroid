@@ -1,6 +1,7 @@
 package com.alpdroid.huGen10.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -27,6 +29,8 @@ import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.collect.ImmutableList;
+
+import org.osmdroid.config.Configuration;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -120,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        Context ctx = getApplicationContext();
+        //important! set your user agent to prevent getting banned from the osm servers
+
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
 
 
     }
@@ -147,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d("Main", "MainActivity Resume");
         application.resume();  // Start listening notifications from UsbService
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+//        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+
     }
 
     @Override
@@ -172,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         List<Fragment> fragments =
-                ImmutableList.of(new NowPlayingFragment(), new EngineDisplay(), new ConfortDisplay(), new ComputerDisplay(), new MapsDisplay());
+                ImmutableList.of(new NowPlayingFragment(), new EngineDisplay(), new ConfortDisplay(), new ComputerDisplay(), new MapsDisplay(500));
 
 
         public SectionsPagerAdapter(FragmentManager fm) {
