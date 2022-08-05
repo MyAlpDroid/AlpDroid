@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.alpdroid.huGen10.*
+import com.alpdroid.huGen10.R
+import com.alpdroid.huGen10.ui.MainActivity.alpineServices
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
 class StatusBar : UIFragment(250) {
-
-    var alpineServices : VehicleServices? = MainActivity.application.alpdroidService
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.status_bar, container, false)

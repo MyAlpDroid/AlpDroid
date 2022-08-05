@@ -51,7 +51,9 @@ class AlpdroidApplication : Application() {
         eventBus.register(this)
 
         context=this.applicationContext
-       val threadVehicleServices: Thread = object : Thread() {
+
+        /**
+        val threadVehicleServices: Thread = object : Thread() {
             override fun run() {
                 val intent = Intent(applicationContext, VehicleServices::class.java)
                 if (bindService(intent, alpineConnection, BIND_AUTO_CREATE)) {
@@ -66,7 +68,7 @@ class AlpdroidApplication : Application() {
         }
 
         threadVehicleServices.start()
-
+*/
     }
 
 
@@ -78,9 +80,15 @@ class AlpdroidApplication : Application() {
     }
 
     fun startVehicleServices() {
-        intent=Intent(this, VehicleServices::class.java)
-        startService(intent)
-        if (alpdroidService?.bindService(intent, alpineConnection, Context.BIND_AUTO_CREATE) == true) {
+        if (ListenerService.isNotificationAccessEnabled(this)) {
+            intent = Intent(applicationContext, VehicleServices::class.java)
+            if (bindService(intent, alpineConnection, BIND_AUTO_CREATE)) {
+                Log.d("Application", "Thread VehicleServices started")
+                isStarted = true
+                isBound = true
+            }
+            else
+                Log.d("Application", "Thread VehicleServices not binded")
             isStarted = true
             isBound = true
             Log.d("Application", "VehicleListener started")
@@ -93,8 +101,7 @@ class AlpdroidApplication : Application() {
     }
 
     fun stopVehicleServices() {
-        alpdroidService?.stopService(Intent(alpdroidService, VehicleServices::class.java))
-        alpdroidService?.unbindService(alpineConnection)
+        stopService(Intent(this, VehicleServices::class.java))
         isBound=false
         isStarted=false
         Log.d("Application", "VehicleListener stopped")
@@ -114,41 +121,20 @@ class AlpdroidApplication : Application() {
     @RequiresApi(api = Build.VERSION_CODES.N)
     fun resume() {
 
-        intent=Intent(this, VehicleServices::class.java)
-
-        isStarted = false
+   /**    isStarted = false
         isBound = false
-        if (bindService(intent, alpineConnection, Context.BIND_AUTO_CREATE)) {
-            alpdroidService?.bindService(intent, alpineConnection, Context.BIND_AUTO_CREATE)
-            isStarted = true
-            isBound = true
-        }
+        startVehicleServices()
+   */
 
-        if (alpdroidService!=null) {
-            Log.d("Application", "VehicleListener resume")
-          }
-        else
-            Log.d("Application", "VehicleListener destroy and not resume")
     }
 
 
     fun pause() {
-        intent=Intent(this, VehicleServices::class.java)
-
+   /**
         isStarted = false
         isBound = false
-        if (bindService(intent, alpineConnection, Context.BIND_AUTO_CREATE)) {
-            alpdroidService?.bindService(intent, alpineConnection, Context.BIND_AUTO_CREATE)
-            isStarted = true
-            isBound = true
-        }
-
-        if (alpdroidService!=null) {
-            Log.d("Application", "VehicleListener pause")
-        }
-        else
-            Log.d("Application", "VehicleListener destroy and not pause")
-
+        startVehicleServices()
+*/
     }
 
 

@@ -46,3 +46,4 @@ Le projet s'inspire et utilise les résultats des projets suivants :
 * Exemple très bien documenté de pilotage d'une Mercedes et réingéniering des trames CAN : [ici](https://github.com/rnd-ash/W203-canbus)
 * Library SpeedView pour les compteurs : [ici](https://github.com/anastr/SpeedView)
 * Les services de reconnaissance de musique et service media de Scroball : [ici](https://github.com/peterjosling/scroball)
+* Les API de l'application OsmAND pour le renvoi des directives de navigation vers le tableau de bord : [ici](https://github.com/osmandapp/osmand-api-demo)

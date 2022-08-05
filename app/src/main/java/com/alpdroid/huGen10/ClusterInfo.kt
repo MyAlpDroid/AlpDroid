@@ -1,15 +1,13 @@
 package com.alpdroid.huGen10
 
-import android.Manifest
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class ClusterInfo (val alpineServices : VehicleServices)
 {
-    private val REQUEST_CODE_PERMISSION = 2
-    var mPermission: String = Manifest.permission.ACCESS_FINE_LOCATION
-    
+
+    var frameFlowTurn : Int = 0
 
     var albumName : String = "Phil"
     var trackName : String = "Alpdroid"
@@ -25,7 +23,6 @@ class ClusterInfo (val alpineServices : VehicleServices)
     var prevtrackName:String = trackName
     var prevartistName:String = artistName
 
-    var north_Params:Int=0
 
     var panelLuminosity:Int=0
 
@@ -109,26 +106,14 @@ class ClusterInfo (val alpineServices : VehicleServices)
                 )
             ))
 
-        // Creating first Luminosity Frame - not working
-        // TODO : finding real luminosity frame
-        alpineServices.addFrame(
-            CanFrame(
-                0,
-                CanMCUAddrs.UserSetPrefs2_MM.idcan,
-                byteArrayOf(
-                    0x02.toByte(),
-                    0x95.toByte(),
-                    0xC1.toByte(),
-                    0x00.toByte(),
-                    0x20.toByte(),
-                    0x81.toByte(),
-                    0x00.toByte(),
-                    0x18.toByte()
-                )
-            ))
+
     // Init Source Album & trackname info
 
-        // Cluster will be updated every 2,5 Seconds
+        // Cluster will be entirely updated every 2,5 Seconds
+        // 180 ms 3 frames
+
+
+
         executor.scheduleAtFixedRate(
             {
                 try {
@@ -136,18 +121,54 @@ class ClusterInfo (val alpineServices : VehicleServices)
 
                     clusterInfoUpdate()
 
-                    alpineServices.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan+0)
+                    when (frameFlowTurn)
+                    {
+                        0-> {
+                            alpineServices.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan+0)
 
-                    alpineServices.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan+0)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan+0)
 
-                    alpineServices.pushFifoFrame(CanMCUAddrs.Compass_Info.idcan+0)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Compass_Info.idcan+0)
 
-                    alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan+0)
+                        }
 
-                    for (i in 0..10) {
-                        alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + i)
+                        1->
+                        {
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan+0)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 0)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 1)
+                        }
+                        2->
+                        {
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 2)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 3)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 4)
+
+                        }
+                        3->
+                        {
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 5)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 6)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 7)
+
+                        }
+                        4->
+                        {
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
+                            alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 10)
+
+                        }
                     }
 
+                    frameFlowTurn++
+
+                    if (frameFlowTurn>4) frameFlowTurn=0
+
+
+                 /**   for (i in 0..10) {
+                        alpineServices.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + i)
+                    }*/
 
 
                 }
@@ -155,10 +176,11 @@ class ClusterInfo (val alpineServices : VehicleServices)
                     clusterStarted=false
                 }
 
-            }, 0, 2500, TimeUnit.MILLISECONDS
+            }, 0, 500, TimeUnit.MILLISECONDS
         )
 
     }
+
 
     fun increasePanel() {
 
@@ -250,7 +272,7 @@ class ClusterInfo (val alpineServices : VehicleServices)
         
 
 
-        alpineServices.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,north_Params)
+        alpineServices.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,alpineServices.get_CompassOrientation())
 
 
         rightNow = Calendar.getInstance()

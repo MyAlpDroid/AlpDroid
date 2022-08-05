@@ -13,6 +13,30 @@
         android:background="@drawable/background"
         android:outlineSpotShadowColor="#03A9F4">
 
+        <!--check.xml--><![CDATA[
+        android:layout_margin="10dp"
+        android:textOn=""
+        android:textOff=""
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_centerVertical="true"/>
+
+        ]]>
+
+        <ToggleButton
+            android:id="@+id/toggle"
+            android:layout_width="69dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/check"
+            android:textColor="@color/black_overlay"
+            android:textOff=" "
+            android:textOn=" "
+            app:layout_constraintBottom_toBottomOf="@+id/startstopState"
+            app:layout_constraintStart_toEndOf="@+id/startstopState"
+            app:layout_constraintTop_toBottomOf="@+id/escState"
+            app:layout_constraintVertical_bias="1.0" />
+
         <TextView
             android:id="@+id/internalTemp"
             android:layout_width="119dp"

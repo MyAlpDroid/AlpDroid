@@ -1,17 +1,22 @@
 package com.alpdroid.huGen10
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.hardware.GeomagneticField
 import android.hardware.usb.UsbDevice
-import android.os.Binder
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.*
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
-import com.alpdroid.huGen10.CanFrame
 import com.google.gson.GsonBuilder
+import org.osmdroid.views.overlay.compass.IOrientationConsumer
+import org.osmdroid.views.overlay.compass.IOrientationProvider
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -19,9 +24,7 @@ import java.util.concurrent.TimeUnit
 
 // Main CLass, as a service, listening to Arduino, sending to arduino and giving Frame value
 
-class VehicleServices : Service(), ArduinoListener
-
-     {
+class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientationConsumer {
          companion object {
              fun isNotificationAccessEnabled(context: Context): Boolean {
 
@@ -47,6 +50,16 @@ class VehicleServices : Service(), ArduinoListener
 
     private var executor = Executors.newScheduledThreadPool(1)
 
+         var deviceOrientation = 0
+         var overlay: MyLocationNewOverlay? = null
+         var compass: IOrientationProvider? = null
+         var gpsspeed = 0f
+         var gpsbearing = 0f
+         var lat = 0f
+         var lon = 0f
+         var alt = 0f
+         var timeOfFix: Long = 0
+         var compassOrientation:Int = 0
 
     /* TODO : Implement ECU & MCU class or list enum */
     /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
@@ -63,7 +76,6 @@ class VehicleServices : Service(), ArduinoListener
              }
          }
       override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        // onTaskRemoved(intent)
           Log.d(TAG, "Vehicle Services started")
 
           isConnected=true
@@ -75,6 +87,7 @@ class VehicleServices : Service(), ArduinoListener
          return START_STICKY
         }
 
+         @SuppressLint("MissingPermission")
          override fun onCreate() {
              super.onCreate()
              isConnected=true
@@ -83,6 +96,20 @@ class VehicleServices : Service(), ArduinoListener
              if (alpine2Cluster==null)
                  alpine2Cluster = ClusterInfo(this)
              Log.d(TAG, "Arduino Listener started")
+
+             val lm: LocationManager = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
+
+             try {
+                 //on API15 AVDs,network provider fails. no idea why
+                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f,this)
+                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, this)
+             } catch (ex: java.lang.Exception) {
+                 //usually permissions or
+                 //java.lang.IllegalArgumentException: provider doesn't exist: network
+                 ex.printStackTrace()
+             }
+             if (compass == null) compass = InternalCompassOrientationProvider(applicationContext)
+             compass!!.startOrientationProvider(this)
 
 
              // sending frame from FiFo queue every 125 ms due to unidirectionnal USB 2.0
@@ -110,11 +137,18 @@ class VehicleServices : Service(), ArduinoListener
              arduino.unsetArduinoListener()
              arduino.close()
              isConnected=false
+             executor.shutdown()
+             alpine2Cluster?.onDestroy()
+             Log.d(TAG, "Vehicle Services Removed")
+             executor.shutdown()
          }
+
 
     override fun onDestroy() {
         super.onDestroy()
-        onTaskRemoved(Intent(applicationContext, this.javaClass))
+        onTaskRemoved(Intent(this, VehicleServices.javaClass))
+        Log.d(TAG, "Arduino Listener Destroy")
+        compass?.destroy()
         Log.d(TAG, "Vehicle Services Destroy")
     }
 
@@ -124,6 +158,21 @@ class VehicleServices : Service(), ArduinoListener
         return arduino.isOpened
     }
 
+    fun onResume() {
+        isConnected=true
+        arduino=Arduino(this, 115200)
+        arduino.setArduinoListener(this)
+        Log.d(TAG, "Arduino Listener started")
+        if (alpine2Cluster==null)
+            alpine2Cluster = ClusterInfo(this)
+
+        val lm = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
+        try {
+            lm.removeUpdates(this)
+        } catch (ex: java.lang.Exception) {
+        }
+
+    }
 
     fun onPause() {
 
@@ -134,6 +183,87 @@ class VehicleServices : Service(), ArduinoListener
         if (alpine2Cluster==null)
             alpine2Cluster = ClusterInfo(this)
 
+       val lm = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
+        try {
+            lm.removeUpdates(this)
+        } catch (ex: java.lang.Exception) {
+        }
+
+    }
+
+
+    override fun onLocationChanged(location: Location) {
+        gpsbearing = location.bearing
+        gpsspeed = location.speed
+        lat = location.latitude.toFloat()
+        lon = location.longitude.toFloat()
+        alt = location.altitude.toFloat() //meters
+        timeOfFix = location.time
+
+
+        //use gps bearing instead of the compass
+        var t = 360 - gpsbearing - deviceOrientation
+        if (t < 0) {
+            t += 360f
+        }
+        if (t > 360) {
+            t -= 360f
+        }
+
+        //help smooth everything out
+        t = t.toInt().toFloat()
+        t = t / 5
+        t = t.toInt().toFloat()
+        t = t * 5
+
+        if (gpsspeed >= 0.01) {
+
+            compassOrientation = t.toInt()
+
+        }
+     //   updateDisplay(location.bearing, true)
+    }
+
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+
+    var trueNorth = 0f
+
+    override fun onOrientationChanged(
+        orientationToMagneticNorth: Float,
+        source: IOrientationProvider?
+    ) {
+        //note, on devices without a compass this never fires...
+
+        //only use the compass bit if we aren't moving, since gps is more accurate when we are moving
+        if (gpsspeed < 0.01) {
+            var gf: GeomagneticField? = GeomagneticField(lat, lon, alt, timeOfFix)
+            trueNorth = orientationToMagneticNorth + gf!!.declination
+            gf = null
+            synchronized(trueNorth) {
+                if (trueNorth > 360.0f) {
+                    trueNorth = trueNorth - 360.0f
+                }
+                var actualHeading = 0f
+
+                //this part adjusts the desired map rotation based on device orientation and compass heading
+                var t = 360 - trueNorth - deviceOrientation
+                if (t < 0) {
+                    t += 360f
+                }
+                if (t > 360) {
+                    t -= 360f
+                }
+                actualHeading = t
+                //help smooth everything out
+                t = t.toInt().toFloat()
+                t = t / 5
+                t = t.toInt().toFloat()
+                t = t * 5
+
+                compassOrientation = t.toInt()
+            }
+        }
     }
 
          fun setalbumName(albumname:String)
@@ -320,6 +450,12 @@ class VehicleServices : Service(), ArduinoListener
     }
 
     // Update Regular Services
+
+    fun get_CompassOrientation() : Int = compassOrientation
+
+    // Calculate Functions for Cluster
+
+
 
     // ECU Params Functions
     /**
@@ -1058,8 +1194,6 @@ fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_C
 
          fun get_DistanceTotalizer_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
 
-         /**
-          *  TODO : test luminosity value
-          **/
+
 
      }

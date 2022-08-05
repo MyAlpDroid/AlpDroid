@@ -69,6 +69,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         intentFilter.addAction(ACTION_USB_DEVICE_PERMISSION);
+
         context.registerReceiver(usbReceiver, intentFilter);
 
         lastArduinoAttached = getAttachedArduino();
