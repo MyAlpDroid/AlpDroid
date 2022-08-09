@@ -31,7 +31,7 @@
             android:value="${MAPS_API_KEY}" />
 
             <activity
-            android:name="com.alpdroid.huGen10.ui.SplashScreen"
+                android:name="com.alpdroid.huGen10.ui.SplashScreen"
                 android:exported="true">
               <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -48,11 +48,11 @@
           </service>
 
         <service
-                android:name="com.alpdroid.huGen10.VehicleServices"
+                android:name="com.alpdroid.huGen10.CanFrameServices"
                 android:enabled="true"
                 android:exported="true">
             <intent-filter>
-                <action android:name="com.alpdroid.huGen10.VehicleServices"/>
+                <action android:name="com.alpdroid.huGen10.CanFrameServices"/>
             </intent-filter>
         </service>
 

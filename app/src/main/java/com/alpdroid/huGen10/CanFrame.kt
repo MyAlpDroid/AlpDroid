@@ -1,15 +1,9 @@
 package com.alpdroid.huGen10
 
 
-import android.util.Log
-import androidx.work.workDataOf
 import com.alpdroid.huGen10.util.clearBitsSlice
 import com.alpdroid.huGen10.util.getBit
 import com.alpdroid.huGen10.util.getBitsSlice
-import com.alpdroid.huGen10.util.setBitsSlice
-import java.util.*
-import kotlin.experimental.and
-import kotlin.experimental.or
 
 
 class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
@@ -82,7 +76,6 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
         this.data[pos] = value
 
     }
-
 
 
     override fun toString(): String {

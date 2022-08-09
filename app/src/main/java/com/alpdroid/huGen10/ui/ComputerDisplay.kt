@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
-import com.alpdroid.huGen10.ui.MainActivity.alpineServices
 import com.alpdroid.huGen10.ui.MainActivity.application
 
 
@@ -19,7 +18,10 @@ class ComputerDisplay : UIFragment(250) {
     lateinit var ac_header : TextView
     lateinit var canframeText: TextView
     lateinit var canframeText2: TextView
-
+    lateinit var arduinostate : TextView
+    lateinit var transmitstate : TextView
+    var framestring1 : String=""
+    var framestring2 : String=""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -36,56 +38,55 @@ class ComputerDisplay : UIFragment(250) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        val binding = ComputerDisplayBinding.bind(view)
-        fragmentBlankBinding = binding
-
         canframeText = fragmentBlankBinding!!.canFrameView
-        canframeText2 =fragmentBlankBinding!!.canFrameView2
+        canframeText2 = fragmentBlankBinding!!.canFrameView2
 
         canframeText.movementMethod = ScrollingMovementMethod()
         canframeText2.movementMethod = ScrollingMovementMethod()
 
         ac_header = fragmentBlankBinding!!.acHeader
+        arduinostate = fragmentBlankBinding!!.arduinoState
+        transmitstate = fragmentBlankBinding!!.transmitState
 
-        val arduinostate = fragmentBlankBinding!!.arduinoState
-        val transmitstate = fragmentBlankBinding!!.transmitState
 
-
-if (application.isBound)
         timerTask = {
-            activity?.runOnUiThread {
+                activity?.runOnUiThread {
+                    if (application.isBound) {
+                        if (application.alpdroidData.alpine2Cluster.clusterStarted)
+                            ac_header.text = "Cluster Is Working"
+                        else ac_header.text = "Cluster Disconnected"
 
-                if (alpineServices?.alpine2Cluster!!.clusterStarted)
-                    ac_header.text = "Cluster Is Working"
-                else ac_header.text = "Cluster Disconnected"
+                        if (application.alpdroidServices.isCanFrameEnabled() == true)
+                            arduinostate.text = "Arduino Is Working"
+                        else arduinostate.text = "Arduino Disconnected"
 
-                if (alpineServices?.isVehicleEnabled() == true)
-                    arduinostate.text = "Arduino Is Working"
-                else arduinostate.text = "Arduino Disconnected"
+                        if (application.alpdroidServices.isBad == false)
+                            transmitstate.text = ".....Ok"
+                        else transmitstate.text = "......Bad"
+                        framestring1=""
+                        framestring2=""
+            //            GlobalScope.launch(Dispatchers.Default) {
+                            val keyItem: MutableSet<Int> = application.alpineCanFrame.getMapKeys()
+                            for (key in keyItem) {
+                                if (application.alpineCanFrame.getFrame(key)?.bus != 1) {
+                                    framestring1 += application.alpineCanFrame.getFrame(key)
+                                        .toString()
 
-                if (alpineServices?.isBad == false)
-                    transmitstate.text = ".....Ok"
-                else transmitstate.text = "......Bad"
+                                    framestring1 += System.getProperty("line.separator")
+                                } else {
+                                    framestring2 +=
+                                        application.alpineCanFrame.getFrame(key).toString()
 
+                                    framestring2 += System.getProperty("line.separator")
+                                }
+                            }
+                //        }
+                        canframeText.append(framestring1)
+                        canframeText2.append(framestring2)
 
-                val keyItem: MutableSet<Int> = alpineServices.mapFrame.keys
-
-                for (key in keyItem) {
-                    if (alpineServices.getFrame(key)?.bus!=1) {
-                        canframeText.append(alpineServices.getFrame(key).toString())
-                        canframeText.append(System.getProperty("line.separator"))
-                    }
-                    else
-                    {
-                        canframeText2.append(alpineServices.getFrame(key).toString())
-                        canframeText2.append(System.getProperty("line.separator"))
                     }
                 }
-
-
             }
-        }
     }
-
 
 }

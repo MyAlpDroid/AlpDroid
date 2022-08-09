@@ -1,54 +1,33 @@
 package com.alpdroid.huGen10
 
 import android.annotation.SuppressLint
-import android.app.Service
-import android.content.Context
-import android.content.Intent
+import android.content.Context.LOCATION_SERVICE
 import android.hardware.GeomagneticField
-import android.hardware.usb.UsbDevice
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.*
-import android.util.Log
-import androidx.core.app.NotificationManagerCompat
-import com.google.gson.GsonBuilder
+import android.os.Bundle
+import com.alpdroid.huGen10.ui.MainActivity
 import org.osmdroid.views.overlay.compass.IOrientationConsumer
 import org.osmdroid.views.overlay.compass.IOrientationProvider
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 
-// Main CLass, as a service, listening to Arduino, sending to arduino and giving Frame value
+// Main CLass, writing and reading canFrame value
+// giving other value to Cluster like Location, Compass, Directions
 
-class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientationConsumer {
-         companion object {
-             fun isNotificationAccessEnabled(context: Context): Boolean {
-
-                 return NotificationManagerCompat.getEnabledListenerPackages(context)
-                     .contains(context.packageName)
-             }
-         }
+@SuppressLint("MissingPermission")
+class VehicleServices : LocationListener, IOrientationConsumer {
 
     private val TAG = VehicleServices::class.java.name
 
-    var mapFrame : ConcurrentHashMap<Int, CanFrame> = ConcurrentHashMap<Int, CanFrame>(100)
+    var alpine2Cluster: ClusterInfo = ClusterInfo()
 
-    var queueoutFrame : LinkedHashMap<Int, CanFrame> = LinkedHashMap(50)
-
-    private lateinit var arduino : Arduino
-
-    private val iBinder = VehicleServicesBinder()
-
-    var alpine2Cluster: ClusterInfo? = null
+    val application  = MainActivity.application
 
     var isConnected : Boolean = false
     var isBad : Boolean = false
-
-    private var executor = Executors.newScheduledThreadPool(1)
 
          var deviceOrientation = 0
          var overlay: MyLocationNewOverlay? = null
@@ -61,43 +40,10 @@ class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientati
          var timeOfFix: Long = 0
          var compassOrientation:Int = 0
 
-    /* TODO : Implement ECU & MCU class or list enum */
-    /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
-    override fun onBind(intent: Intent): IBinder {
-        // TODO: Return the communication channel to the service.
-        Log.d(TAG, "Vehicle Services Binded")
-        return iBinder
-       // throw UnsupportedOperationException("Not yet implemented")
-    }
-         inner class VehicleServicesBinder : Binder() {
-             fun getService() : VehicleServices {
-                 Log.d(TAG, "Vehicle Services get bind intent")
-                 return this@VehicleServices
-             }
-         }
-      override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-          Log.d(TAG, "Vehicle Services started")
 
-          isConnected=true
-          arduino=Arduino(this, 115200)
-          arduino.setArduinoListener(this)
-          if (alpine2Cluster==null)
-              alpine2Cluster = ClusterInfo(this)
+       init {
 
-         return START_STICKY
-        }
-
-         @SuppressLint("MissingPermission")
-         override fun onCreate() {
-             super.onCreate()
-             isConnected=true
-             arduino=Arduino(this, 115200)
-             arduino.setArduinoListener(this)
-             if (alpine2Cluster==null)
-                 alpine2Cluster = ClusterInfo(this)
-             Log.d(TAG, "Arduino Listener started")
-
-             val lm: LocationManager = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
+             val lm: LocationManager = application.getSystemService(LOCATION_SERVICE) as LocationManager
 
              try {
                  //on API15 AVDs,network provider fails. no idea why
@@ -108,88 +54,14 @@ class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientati
                  //java.lang.IllegalArgumentException: provider doesn't exist: network
                  ex.printStackTrace()
              }
-             if (compass == null) compass = InternalCompassOrientationProvider(applicationContext)
+             if (compass == null) compass = InternalCompassOrientationProvider(application)
              compass!!.startOrientationProvider(this)
 
 
-             // sending frame from FiFo queue every 125 ms due to unidirectionnal USB 2.0
-             // with USB 3.0 port this could be change
-
-             executor.scheduleAtFixedRate(
-                 {
-                     try {
-
-                         this.sendFifoFrame()
-
-                     }
-                     catch (e: Exception) {
-                         Log.d("VehicleServices sending frame : ","Exception")
-
-                     }
-
-                 }, 0, 125, TimeUnit.MILLISECONDS
-             )
          }
 
-         override fun onTaskRemoved(rootIntent: Intent) {
-             super.onTaskRemoved(rootIntent)
-             Log.d(TAG, "Arduino Listener stopped")
-             arduino.unsetArduinoListener()
-             arduino.close()
-             isConnected=false
-             executor.shutdown()
-             alpine2Cluster?.onDestroy()
-             Log.d(TAG, "Vehicle Services Removed")
-             executor.shutdown()
-         }
+    // TODO : creating onCanframeBuffer Change / CanframeBuffer Listener
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        onTaskRemoved(Intent(this, VehicleServices.javaClass))
-        Log.d(TAG, "Arduino Listener Destroy")
-        compass?.destroy()
-        Log.d(TAG, "Vehicle Services Destroy")
-    }
-
-
-
-    fun isVehicleEnabled(): Boolean {
-        return arduino.isOpened
-    }
-
-    fun onResume() {
-        isConnected=true
-        arduino=Arduino(this, 115200)
-        arduino.setArduinoListener(this)
-        Log.d(TAG, "Arduino Listener started")
-        if (alpine2Cluster==null)
-            alpine2Cluster = ClusterInfo(this)
-
-        val lm = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
-        try {
-            lm.removeUpdates(this)
-        } catch (ex: java.lang.Exception) {
-        }
-
-    }
-
-    fun onPause() {
-
-        isConnected=true
-        arduino=Arduino(this, 115200)
-        arduino.setArduinoListener(this)
-        Log.d(TAG, "Arduino Listener started")
-        if (alpine2Cluster==null)
-            alpine2Cluster = ClusterInfo(this)
-
-       val lm = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
-        try {
-            lm.removeUpdates(this)
-        } catch (ex: java.lang.Exception) {
-        }
-
-    }
 
 
     override fun onLocationChanged(location: Location) {
@@ -235,6 +107,7 @@ class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientati
     ) {
         //note, on devices without a compass this never fires...
 
+
         //only use the compass bit if we aren't moving, since gps is more accurate when we are moving
         if (gpsspeed < 0.01) {
             var gf: GeomagneticField? = GeomagneticField(lat, lon, alt, timeOfFix)
@@ -268,102 +141,55 @@ class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientati
 
          fun setalbumName(albumname:String)
          {
-             alpine2Cluster?.albumName=albumname
-             alpine2Cluster?.prevalbumName=albumname.substring(0,minOf(albumname.length, 16))
-             alpine2Cluster?.startIndexAlbum=0
+             alpine2Cluster.albumName=albumname
+             alpine2Cluster.prevalbumName=albumname.substring(0,minOf(albumname.length, 16))
+             alpine2Cluster.startIndexAlbum=0
 
          }
 
          fun getalbumName(): String? {
-             return alpine2Cluster?.albumName
+             return alpine2Cluster.albumName
          }
          fun settrackName(trackname:String)
          {
-             alpine2Cluster?.trackName=trackname
-             alpine2Cluster?.prevtrackName=trackname.substring(0,minOf(trackname.length, 16))
-             alpine2Cluster?.startIndexTrack=0
+             alpine2Cluster.trackName=trackname
+             alpine2Cluster.prevtrackName=trackname.substring(0,minOf(trackname.length, 16))
+             alpine2Cluster.startIndexTrack=0
          }
 
          fun setartistName(artistname:String)
          {
-             alpine2Cluster?.artistName=artistname
-             alpine2Cluster?.prevartistName=artistname.substring(0,minOf(artistname.length, 16))
-             alpine2Cluster?.startIndexArtist=0
+             alpine2Cluster.artistName=artistname
+             alpine2Cluster.prevartistName=artistname.substring(0,minOf(artistname.length, 16))
+             alpine2Cluster.startIndexArtist=0
          }
 
          fun settrackId(trackid:Int)
          {
-             alpine2Cluster?.trackId=trackid
+             alpine2Cluster.trackId=trackid
          }
          fun settrackLengthInSec(tracklengthinsec:Int)
          {
-             alpine2Cluster?.trackLengthInSec=tracklengthinsec
+             alpine2Cluster.trackLengthInSec=tracklengthinsec
          }
 
-    override fun onArduinoAttached(device: UsbDevice?) {
-        arduino.open(device)
-    }
+    // Update Regular Services
 
-    override fun onArduinoDetached() {
-        isConnected=false
-        arduino.close()
-    }
+    fun get_CompassOrientation() : Int = compassOrientation
 
+    // Calculate Functions for Cluster
 
-    @Synchronized
-    override fun onArduinoMessage(bytes: ByteArray?) {
-
-        //receive frame as Gson message
-        val frame: CanFrame
-        val buff = String(bytes!!)
-        val gson = GsonBuilder()
-            .registerTypeAdapter(CanFrame::class.java, CanframeGsonDeserializer())
-            .create()
-        try {
-            frame = gson.fromJson(buff, CanFrame::class.java)
-            if (frame != null) {
-                this.addFrame(frame)
-                isBad=false
-            }
-        } catch (e:Exception) {
-            //checking bad message
-         Log.d("Vehicle Services", "VehicleServices Bad Frame")
-            isBad=true
-        }
-
+    fun set_Directions()
+    {
+      //TODO
 
     }
-
-    override fun onArduinoOpened() {}
-
-    override fun onUsbPermissionDenied() {
-        Looper.myLooper()?.let { Handler(it).postDelayed({ arduino.reopen() }, 3000) }
-    }
-
-    @Synchronized
-    fun addFrame(frame: CanFrame) {
-
-        if (mapFrame.replace(frame.id,frame)==null)
-            mapFrame[frame.id] = frame
-
-    }
-
-
-   fun getFrame(candID:Int): CanFrame? {
-       try {
-           return mapFrame[candID]
-       }
-       catch (e:Exception) {
-           return null
-       }
-   }
-
 
     fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
         val frame:CanFrame
 
         try {
-            frame= this.getFrame(canID)!!
+            frame= application.alpineCanFrame.getFrame(canID)!!
         }
         catch (e: Exception)
         {
@@ -379,82 +205,30 @@ class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientati
 
         var frame: CanFrame
 
-        getFrame(candID).also {
+        application.alpineCanFrame.getFrame(candID).also {
             if (it != null) {
 
-            frame=it
+                frame=it
 
-           // Set in given range
+                // Set in given range
 
-            frame.setBitRange(bytesNum,len,param)
+                frame.setBitRange(bytesNum,len,param)
 
-            this.addFrame(frame)
+                application.alpineCanFrame.addFrame(frame)
             }
         }
 
- }
+    }
 
     fun getFrameBool(candID:Int, bytesNum:Int): Boolean {
 
-        getFrame(candID).also {
+        application.alpineCanFrame.getFrame(candID).also {
             if (it != null) {
                 return it.getBit(bytesNum)
             }
         }
         return false
     }
-
-    fun pushFifoFrame(candID: Int)
-    {
-        // Push frame to send into FiFO queue
-        getFrame(candID).also { if (it!=null)
-            queueoutFrame.put(candID,it)
-        }
-
-    }
-
-    fun sendFifoFrame()
-    {
-        val keys: Set<Int> = queueoutFrame.keys
-        val iterator = keys.iterator()
-        val key2fifo:CanFrame
-
-        //Unqueue frame : first in first out
-        if (queueoutFrame.isNotEmpty()) {
-            key2fifo = queueoutFrame.get(iterator.next())!!
-            sendFrame(key2fifo.id)
-            queueoutFrame.remove(key2fifo.id)
-
-        }
-
-    }
-
-    @Synchronized
-    fun sendFrame(candID: Int) {
-        getFrame(candID).also {
-         //send frame as byte to serial port
-            if (it != null) {
-                arduino.send(it.toByteArray())
-
-            }
-        }
-    }
-
-    fun checkFrame(ecuAddrs:Int):Boolean {
-
-        // check if the frame is valuable
-        if (this.getFrame(ecuAddrs)!=null) {
-            return true
-        }
-        return false
-    }
-
-    // Update Regular Services
-
-    fun get_CompassOrientation() : Int = compassOrientation
-
-    // Calculate Functions for Cluster
-
 
 
     // ECU Params Functions
@@ -466,7 +240,6 @@ class VehicleServices : Service(), ArduinoListener, LocationListener, IOrientati
 
     /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 0, 8)
-
 
     /** Get Code DifferentialTorqueCalculated **/
     fun get_DifferentialTorqueCalculated() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 8, 16)
@@ -1155,20 +928,34 @@ fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_C
      *  Navigation to Cluster
      **/
 
-    /** Get code NextAction_Distance **/
+    /** Get and Set code Navigation -  NextAction_Distance, Unit, Icon A B C D, Order **/
     fun get_NextAction_Distance() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 0, 12)
+
+    fun set_NextAction_Distance(distance: Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 0, 12, distance)
 
     fun get_NextAction_Unit() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 12, 2)
 
+    fun set_NextAction_Unit(unit: Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 12, 2, unit)
+
     fun get_Action_A_Icon() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 16, 2)
+
+    fun set_Action_A_Icon(icon : Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 16, 2, icon)
 
     fun get_Action_B_Icon() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 24, 2)
 
+    fun set_Action_B_Icon(icon : Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 24, 2, icon)
+
     fun get_Action_C_Icon() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 32, 2)
+
+    fun set_Action_C_Icon(icon : Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 32, 2, icon)
 
     fun get_Action_D_Icon() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 40, 2)
 
+    fun set_Action_D_Icon(icon : Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 40, 2, icon)
+
     fun get_NextActionsIconOrder() : Int = this.getFrameParams(CanMCUAddrs.RoadNavigation.idcan, 48, 2)
+
+    fun set_NextActionsIconOrder(next : Int)  = this.setFrameParams(CanMCUAddrs.RoadNavigation.idcan, 48, 2, next)
 
     /**
      *  Light and DisplayPanel
@@ -1187,13 +974,12 @@ fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_C
 
     fun get_MMDisplayMode_Status_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_MMI_Info1.idcan, 34, 2)
 
-         /**
+    /**
           *  Returns the most recent Can Frame representing the state
           *  Distance Totalizer
-          **/
+    **/
 
-         fun get_DistanceTotalizer_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
+    fun get_DistanceTotalizer_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
 
 
-
-     }
+}

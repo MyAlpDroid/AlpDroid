@@ -11,6 +11,12 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    sourceSets {
+        main {
+            aidl.srcDirs = ['src/main/java']
+        }
+    }
+
     buildFeatures {
         viewBinding = true
     }

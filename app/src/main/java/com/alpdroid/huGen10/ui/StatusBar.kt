@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.alpdroid.huGen10.R
-import com.alpdroid.huGen10.ui.MainActivity.alpineServices
+import com.alpdroid.huGen10.ui.MainActivity.application
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
@@ -19,6 +19,9 @@ class StatusBar : UIFragment(250) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val alpineServices=application.alpdroidData
+
         val trackName = view.findViewById<TextView>(R.id.trackName)
         val trackNext = view.findViewById<ImageView>(R.id.track_next)
         val trackPrev = view.findViewById<ImageView>(R.id.track_prev)
@@ -28,7 +31,7 @@ class StatusBar : UIFragment(250) {
         val batt_img = view.findViewById<ImageView>(R.id.bat_img)
         val batt_text = view.findViewById<TextView>(R.id.batt_text)
 
-        trackName.text = alpineServices?.getalbumName()
+        trackName.text = alpineServices.getalbumName()
 
   //      var rx = String.format("%.1f", CarComm.getRxRate().toDouble() * 4 / 1000.0)
    //     val tx = String.format("%.1f", CarComm.getTxRate().toDouble() * 4 / 1000.0)
@@ -48,7 +51,7 @@ class StatusBar : UIFragment(250) {
         }
 */
 
-                val cc_spd = alpineServices?.get_VehicleSpeed()
+                val cc_spd = alpineServices.get_VehicleSpeed()
 
 
                 activity?.runOnUiThread {

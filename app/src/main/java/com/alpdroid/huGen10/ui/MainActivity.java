@@ -1,6 +1,7 @@
 package com.alpdroid.huGen10.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.ApiActionType;
 import com.alpdroid.huGen10.CanFrame;
+import com.alpdroid.huGen10.CanframeBuffer;
 import com.alpdroid.huGen10.Location;
 import com.alpdroid.huGen10.OsmAndHelper;
 import com.alpdroid.huGen10.R;
@@ -42,7 +44,6 @@ import org.osmdroid.config.Configuration;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -117,11 +118,11 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     public static final int TAB_NOW_PLAYING = 0;
     public static final int TAB_ENGINE = 1;
 
+    @SuppressLint("StaticFieldLeak")
     public static AlpdroidApplication application;
-    public static VehicleServices alpineServices;
+//    private VehicleServices alpineServices=application.getAlpdroidService();
 
     public static boolean locationPermissionGranted;
-//    public static Context mContext= application.getContext();
 
     private final byte[] message="{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".getBytes();
 
@@ -139,12 +140,13 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     private final ScheduledExecutorService executor =
             Executors.newScheduledThreadPool(1);
 
-    private OsmAndHelper mOsmAndHelper= null;
-  //  private OsmAndAidlHelper mAidlHelper = null;
+    public static OsmAndHelper mOsmAndHelper= null;
+
     double lastLatitude =0;
     double lastLongitude =0;
-    
+
     private int delay = 5000;
+
 
     void execApiAction(ApiActionType apiActionType, Boolean delayed, Location location) {
         Location mLocation = Optional.ofNullable(location).isPresent() ? Optional.ofNullable(location).get() : null;
@@ -169,204 +171,6 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
         if (osmandHelper != null) {
             switch (apiActionType) {
                 case UNDEFINED:
-                    break;
-                case AIDL_ADD_MAP_MARKER:
-                    break;
-                case AIDL_UPDATE_MAP_MARKER:
-                    break;
-                case AIDL_REMOVE_MAP_MARKER:
-                    break;
-                case AIDL_ADD_FIRST_MAP_WIDGET:
-                    break;
-                case AIDL_ADD_SECOND_MAP_WIDGET:
-                    break;
-                case AIDL_UPDATE_FIRST_MAP_WIDGET:
-                    break;
-                case AIDL_UPDATE_SECOND_MAP_WIDGET:
-                    break;
-                case AIDL_REMOVE_FIRST_MAP_WIDGET:
-                    break;
-                case AIDL_REMOVE_SECOND_MAP_WIDGET:
-                    break;
-                case AIDL_ADD_MAP_POINT:
-                    break;
-                case AIDL_UPDATE_MAP_POINT:
-                    break;
-                case AIDL_REMOVE_MAP_POINT:
-                    break;
-                case AIDL_ADD_MAP_LAYER:
-                    break;
-                case AIDL_UPDATE_MAP_LAYER:
-                    break;
-                case AIDL_REMOVE_MAP_LAYER:
-                    break;
-                case AIDL_IMPORT_GPX:
-                    break;
-                case AIDL_SHOW_GPX:
-                    break;
-                case AIDL_HIDE_GPX:
-                    break;
-                case AIDL_GET_ACTIVE_GPX_FILES:
-                    break;
-                case AIDL_SET_MAP_LOCATION:
-                    break;
-                case AIDL_REFRESH_MAP:
-                    break;
-                case AIDL_ADD_FAVORITE_GROUP:
-                    break;
-                case AIDL_UPDATE_FAVORITE_GROUP:
-                    break;
-                case AIDL_REMOVE_FAVORITE_GROUP:
-                    break;
-                case AIDL_ADD_FAVORITE:
-                    break;
-                case AIDL_UPDATE_FAVORITE:
-                    break;
-                case AIDL_REMOVE_FAVORITE:
-                    break;
-                case AIDL_START_GPX_REC:
-                    break;
-                case AIDL_STOP_GPX_REC:
-                    break;
-                case AIDL_TAKE_PHOTO:
-                    break;
-                case AIDL_START_VIDEO_REC:
-                    break;
-                case AIDL_START_AUDIO_REC:
-                    break;
-                case AIDL_STOP_REC:
-                    break;
-                case AIDL_NAVIGATE:
-                    break;
-                case AIDL_NAVIGATE_GPX:
-                    break;
-                case AIDL_REMOVE_GPX:
-                    break;
-                case AIDL_SHOW_MAP_POINT:
-                    break;
-                case AIDL_SET_NAV_DRAWER_ITEMS:
-                    break;
-                case AIDL_PAUSE_NAVIGATION:
-                    break;
-                case AIDL_RESUME_NAVIGATION:
-                    break;
-                case AIDL_STOP_NAVIGATION:
-                    break;
-                case AIDL_MUTE_NAVIGATION:
-                    break;
-                case AIDL_UNMUTE_NAVIGATION:
-                    break;
-                case AIDL_SEARCH:
-                    break;
-                case AIDL_NAVIGATE_SEARCH:
-                    break;
-                case AIDL_REGISTER_FOR_UPDATES:
-                    break;
-                case AIDL_UNREGISTER_FORM_UPDATES:
-                    break;
-                case AIDL_HIDE_DRAWER_PROFILE:
-                    break;
-                case AIDL_SET_ENABLED_UI_IDS:
-                    break;
-                case AIDL_SET_DISABLED_UI_IDS:
-                    break;
-                case AIDL_SET_ENABLED_MENU_PATTERNS:
-                    break;
-                case AIDL_SET_DISABLED_MENU_PATTERNS:
-                    break;
-                case AIDL_REG_WIDGET_VISIBILITY:
-                    break;
-                case AIDL_REG_WIDGET_AVAILABILITY:
-                    break;
-                case AIDL_CUSTOMIZE_OSMAND_SETTINGS:
-                    break;
-                case AIDL_GET_IMPORTED_GPX_FILES:
-                    break;
-                case AIDL_GET_SQLITEDB_FILES:
-                    break;
-                case AIDL_GET_ACTIVE_SQLITEDB_FILES:
-                    break;
-                case AIDL_SHOW_SQLITEDB_FILE:
-                    break;
-                case AIDL_HIDE_SQLITEDB_FILE:
-                    break;
-                case AIDL_SET_NAV_DRAWER_LOGO:
-                    break;
-                case AIDL_SET_NAV_DRAWER_FOOTER:
-                    break;
-                case AIDL_RESTORE_OSMAND:
-                    break;
-                case AIDL_CHANGE_PLUGIN_STATE:
-                    break;
-                case AIDL_REGISTER_FOR_OSMAND_INITIALIZATION:
-                    break;
-                case AIDL_GET_BITMAP_FOR_GPX:
-                    break;
-                case AIDL_COPY_FILE_TO_OSMAND:
-                    break;
-                case AIDL_REGISTER_FOR_NAV_UPDATES:
-                    break;
-                case AIDL_UNREGISTER_FOR_NAV_UPDATES:
-                    break;
-                case AIDL_GET_AVOID_ROADS:
-                    break;
-                case AIDL_ADD_AVOID_ROAD:
-                    break;
-                case AIDL_REMOVE_AVOID_ROAD:
-                    break;
-                case AIDL_ADD_CONTEXT_MENU_BUTTONS:
-                    break;
-                case AIDL_REMOVE_CONTEXT_MENU_BUTTONS:
-                    break;
-                case AIDL_UPDATE_CONTEXT_MENU_BUTTONS:
-                    break;
-                case AIDL_ARE_OSMAND_SETTINGS_CUSTOMIZED:
-                    break;
-                case AIDL_SET_CUSTOMIZATION:
-                    break;
-                case AIDL_SET_UI_MARGINS:
-                    break;
-                case AIDL_REGISTER_FOR_VOICE_ROUTE_MESSAGES:
-                    break;
-                case AIDL_UNREGISTER_FROM_VOICE_ROUTE_MESSAGES:
-                    break;
-                case AIDL_REMOVE_ALL_ACTIVE_MAP_MARKERS:
-                    break;
-                case AIDL_IMPORT_PROFILE:
-                    break;
-                case AIDL_EXPORT_PROFILE:
-                    break;
-                case AIDL_IS_FRAGMENT_OPEN:
-                    break;
-                case AIDL_IS_MENU_OPEN:
-                    break;
-                case AIDL_EXIT_APP:
-                    break;
-                case AIDL_GET_TEXT:
-                    break;
-                case AIDL_GET_PREFERENCE:
-                    break;
-                case AIDL_SET_PREFERENCE:
-                    break;
-                case AIDL_REGISTER_FOR_LISTEN_LOGS:
-                    break;
-                case AIDL_UNREGISTER_FROM_LISTEN_LOGS:
-                    break;
-                case INTENT_ADD_FAVORITE:
-                    break;
-                case INTENT_ADD_MAP_MARKER:
-                    break;
-                case INTENT_SHOW_LOCATION:
-                    break;
-                case INTENT_TAKE_PHOTO:
-                    break;
-                case INTENT_START_VIDEO_REC:
-                    break;
-                case INTENT_START_AUDIO_REC:
-                    break;
-                case INTENT_NAVIGATE:
-                    break;
-                case INTENT_NAVIGATE_SEARCH:
                     break;
                 case INTENT_PAUSE_NAVIGATION : {
                     osmandHelper.pauseNavigation();
@@ -437,27 +241,18 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
-
-        setContentView(R.layout.activity_main);
 
         application = (AlpdroidApplication) getApplication();
+        application.alpineCanFrame = new CanframeBuffer();
+        application.alpdroidData = new VehicleServices();
+
+
         application.startListenerService();
         application.startVehicleServices();
 
-        Log.d("Main", "MainActivity started");
+        setContentView(R.layout.activity_main);
 
-        if (application.isBound()) {
-            alpineServices = application.getAlpdroidService();
-            Log.d("Main", "MainActivity Service Bound");
-        }
-        else
-        {
-            Log.d("Main", "MainActivity not bound");
-
-        }
-
-
+        mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -494,11 +289,6 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
-        mOsmAndHelper.getInfo();
-
-        Log.d("osmHelper : OnActivity result","ok");
-
-
 
     }
 
@@ -522,39 +312,28 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_OSMAND_API) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("ResultCode = <b>").append(resultCodeStr(resultCode)).append("</b>");
             if (data != null) {
                 Bundle extras = data.getExtras();
                 if (extras != null && extras.size() > 0) {
-                    Set<String> bundleKeySet = extras.keySet(); // string key set
-                    for(String key : bundleKeySet){ // traverse and print pairs
-                        Object value = extras.get(key);
-                        if (sb.length()>0) {
-                            sb.append("<br>");
-                        }
-                        sb.append(key).append(" = <b>").append(value).append("</b>");
+                    Log.d("on activity request code :", String.valueOf(requestCode));
+                    Log.d("on activity result code  :", String.valueOf(resultCode));
+                  //  if (alpineServices!=null) alpineServices.fromOsmData(extras);
+
+                    for (String key : extras.keySet()) {
+                        Log.d("key to read : ", String.valueOf(key));
+                        Log.d("value read : ", String.valueOf(extras.get(key)));
                     }
                 }
+
             }
-            showOsmandInfoDialog(sb.toString());
-        }
-        if (resultCode == RESULT_OK)
-
+            //     if (resultCode == RESULT_OK)
             // si cas intermédiaire
-            super.onActivityResult(requestCode, resultCode, data);
-        else
-            super.onActivityResult(requestCode, resultCode, data);
+            //          super.onActivityResult(requestCode, resultCode, data);
+            //     else
+           // super.onActivityResult(requestCode, resultCode, data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
-
-    private void showOsmandInfoDialog(String infoText) {
-        Bundle args = new Bundle();
-        args.putString(OsmAndInfoDialog.INFO_KEY, infoText);
-        OsmAndInfoDialog infoDialog = new OsmAndInfoDialog();
-        infoDialog.setArguments(args);
-        getSupportFragmentManager().beginTransaction().add(infoDialog, null).commitAllowingStateLoss();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -577,16 +356,19 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     public void onResume() {
         super.onResume();
         Log.d("Main", "MainActivity Resume");
-        application.resume();  // Start listening notifications from UsbService
         if (application.isBound()) {
-            alpineServices = application.getAlpdroidService();
+        //    alpineServices = application.getAlpdroidService();
             Log.d("Main", "MainActivity Service Bound after Resume");
         }
         else
         {
             Log.d("Main", "MainActivity not bound after Resume");
+            application.startVehicleServices();
+            if (application.isBound()) {
+                Log.d("Main", "MainActivity Service Bound after Resume");}
 
         }
+
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 //        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
 
@@ -596,16 +378,19 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     public void onPause() {
         super.onPause();
         Log.d("Main", "MainActivity Pause");
-        application.pause();
         if (application.isBound()) {
-            alpineServices = application.getAlpdroidService();
+         //   alpineServices = application.getAlpdroidService();
             Log.d("Main", "MainActivity Service Bound after Pause");
         }
         else
         {
             Log.d("Main", "MainActivity not bound after Pause");
-
+            application.startVehicleServices();
+            if (application.isBound()) {
+              //  alpineServices = application.getAlpdroidService();
+                Log.d("Main", "MainActivity Service Bound after Pause");}
         }
+
     }
 
 
@@ -617,8 +402,15 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     }
 
     @Override
-    public void osmandMissing() {
+    public void onDestroy()
+    {
+        super.onDestroy();
+        application.close();
+    }
 
+    @Override
+    public void osmandMissing() {
+        Log.d("OsmAND missiong : ", "Wrong version detected ?");
     }
 
 
@@ -658,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
                     return getString(R.string.engine_display);
 
                 case 2:
-                   return getString(R.string.comfort_display);
+                   return getString(R.string.confort_display);
 
                 case 3:
                     return getString(R.string.computer_display);

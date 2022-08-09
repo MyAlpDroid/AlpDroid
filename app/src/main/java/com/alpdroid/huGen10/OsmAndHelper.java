@@ -25,7 +25,7 @@ public class OsmAndHelper {
 	private static final String PREFIX = "osmand.api://";
 	private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
 	private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
-	private static final String OSMAND_PACKAGE_NAME = OSMAND_PLUS_PACKAGE_NAME;
+	private static final String OSMAND_PACKAGE_NAME = OSMAND_FREE_PACKAGE_NAME;
 
 	// Result codes
 	// RESULT_OK == -1

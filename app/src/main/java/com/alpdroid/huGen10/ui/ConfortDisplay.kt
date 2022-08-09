@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
-import com.alpdroid.huGen10.ui.MainActivity.alpineServices
+import com.alpdroid.huGen10.ui.MainActivity.application
 import java.util.*
 
 
@@ -24,7 +23,6 @@ import java.util.*
 class ConfortDisplay : UIFragment(250) {
 
     private  var fragmentBlankBinding: ConfortDisplayBinding?=null
-
     lateinit var battstate:ImageView
     lateinit var batttext:TextView
     var battvalue:Float = 0.0f
@@ -50,6 +48,7 @@ class ConfortDisplay : UIFragment(250) {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         val binding = ConfortDisplayBinding.inflate(inflater, container, false)
         fragmentBlankBinding = binding
 
@@ -71,16 +70,18 @@ class ConfortDisplay : UIFragment(250) {
             e.printStackTrace()
         }
 
-
         return binding.root
     }
 
+    override fun onDestroyView() {
+        // Consider not storing the binding instance in a field, if not needed.
+        fragmentBlankBinding = null
+        super.onDestroyView()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        val binding = ConfortDisplayBinding.bind(view)
-        fragmentBlankBinding = binding
 
         externaltemp=fragmentBlankBinding!!.externalTemp
         internaltemp=fragmentBlankBinding!!.internalTemp
@@ -110,6 +111,9 @@ class ConfortDisplay : UIFragment(250) {
 
         timerTask = {
             activity?.runOnUiThread {
+            if (application.isBound) {
+
+                val alpineServices=application.alpdroidData
 
                 externaltemp.text=String.format(
                     " %d °C",
@@ -119,16 +123,16 @@ class ConfortDisplay : UIFragment(250) {
                     " %d °C",
                     alpineServices.get_InternalTemp()-40)
 
-                battvalue= (alpineServices.get_BatteryVoltage().toFloat()/16)
-             //     battvalue = gps?.getLongitude()!!.toFloat()
+                  battvalue= (alpineServices.get_BatteryVoltage().toFloat()/16)
+                  battvalue = alpineServices.lat
                   tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
-             //     tankvalue = gps?.latitude!!.toFloat()
+                  tankvalue = alpineServices.lon
 
                 nextoverhaul.text= String.format(" %d Km", alpineServices.get_MilageMinBeforeOverhaul()*250)
 
                 battstate.setImageResource(R.drawable.batterie_ok)
                 batttext.text=String.format(
-                    "%.4f °",
+                    "%.1f V",
                     battvalue)
 
                 if (battvalue<9.5)
@@ -138,7 +142,7 @@ class ConfortDisplay : UIFragment(250) {
 
                 tanklevel.setImageResource(R.drawable.gastank_levelfull)
                 tanktext.text=String.format(
-                    " %.4f °",
+                    " %.2f l",
                    tankvalue)
 
                 if (tankvalue<5)
@@ -164,7 +168,6 @@ class ConfortDisplay : UIFragment(250) {
                     )
 
                 fanspeedstate.setImageResource(id)
-                Log.d("Engine Fan : ","enginefanspeed_on${alpineServices.get_EngineFanSpeedRequest()}")
 
                 if (alpineServices.get_FrontLeftDoorOpenWarning()>0)
                     opendoorLeft.setImageResource((R.drawable.cardoor_leftopen))
@@ -179,6 +182,7 @@ class ConfortDisplay : UIFragment(250) {
                 else
                     opendoorFront.setImageResource(R.drawable.cardoor_front)
 
+            }
             }
         }
    }

@@ -1,7 +1,10 @@
 package com.alpdroid.huGen10
 
 import android.app.Application
-import android.content.*
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
@@ -10,14 +13,18 @@ import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
 
-
 class AlpdroidApplication : Application() {
 
-    var alpdroidService: VehicleServices?=null
+    lateinit var alpineCanFrame : CanframeBuffer
+
+    lateinit var alpdroidData : VehicleServices
+
+    lateinit var alpdroidServices: CanFrameServices
+
+
     var isBound = false
     var isStarted = false
 
-    var context:Context?=null
 
     private var sharedPreferences: SharedPreferences? = null
     private var intent: Intent? = null
@@ -28,47 +35,26 @@ class AlpdroidApplication : Application() {
                                         service: IBinder
         ) {
 
-            val binder = service as VehicleServices.VehicleServicesBinder
-            alpdroidService = binder.getService()
+            val binder = service as CanFrameServices.MyLocalBinder
+            alpdroidServices = binder.getService()
             isBound = true
+            isStarted = true
 
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
             isBound = false
-
+            isStarted = true
         }
     }
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
         super.onCreate()
-
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         eventBus.register(this)
 
-        context=this.applicationContext
-
-        /**
-        val threadVehicleServices: Thread = object : Thread() {
-            override fun run() {
-                val intent = Intent(applicationContext, VehicleServices::class.java)
-                if (bindService(intent, alpineConnection, BIND_AUTO_CREATE)) {
-                    Log.d("Application", "Thread VehicleServices started")
-                    isStarted = true
-                    isBound = true
-                }
-                else
-                    Log.d("Application", "Thread VehicleServices not binded")
-
-            }
-        }
-
-        threadVehicleServices.start()
-*/
     }
 
 
@@ -77,22 +63,28 @@ class AlpdroidApplication : Application() {
             startService(Intent(this, ListenerService::class.java))
             Log.d("Application", "Listener started")
         }
+        else
+            Log.d("Application", "Listener not started")
+
     }
 
     fun startVehicleServices() {
-        if (ListenerService.isNotificationAccessEnabled(this)) {
-            intent = Intent(applicationContext, VehicleServices::class.java)
-            if (bindService(intent, alpineConnection, BIND_AUTO_CREATE)) {
-                Log.d("Application", "Thread VehicleServices started")
-                isStarted = true
-                isBound = true
-            }
-            else
-                Log.d("Application", "Thread VehicleServices not binded")
+        Log.d("Application", "Trying to start CanFrameListener")
+       if (startService(Intent(this, CanFrameServices::class.java))!=null)
+       {
+
+           bindService(
+               Intent(
+                   this,
+                   CanFrameServices::class.java
+               ), alpineConnection, BIND_AUTO_CREATE
+           )
             isStarted = true
             isBound = true
-            Log.d("Application", "VehicleListener started")
+            Log.d("Application", "CanFrameListener started")
         }
+        else
+           Log.d("Application", "CanFrameListener not started")
     }
 
 
@@ -101,10 +93,13 @@ class AlpdroidApplication : Application() {
     }
 
     fun stopVehicleServices() {
-        stopService(Intent(this, VehicleServices::class.java))
-        isBound=false
+        stopService(Intent(this, CanFrameServices::class.java))
         isStarted=false
         Log.d("Application", "VehicleListener stopped")
+        // Detach the service connection.
+            isBound=false
+            unbindService(alpineConnection)
+
     }
 
 
@@ -114,28 +109,10 @@ class AlpdroidApplication : Application() {
         val editor = preferences!!.edit()
         editor.apply()
         stopListenerService()
-        stopVehicleServices()
+        if (isBound)
+            stopVehicleServices()
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    fun resume() {
-
-   /**    isStarted = false
-        isBound = false
-        startVehicleServices()
-   */
-
-    }
-
-
-    fun pause() {
-   /**
-        isStarted = false
-        isBound = false
-        startVehicleServices()
-*/
-    }
 
 
     fun getSharedPreferences(): SharedPreferences? {
@@ -148,22 +125,22 @@ class AlpdroidApplication : Application() {
         lastEvent = event
 
         if (lastEvent.track().album().isPresent) {
-            this.alpdroidService?.setalbumName(lastEvent.track().album().get().toString())
+            alpdroidData.setalbumName(lastEvent.track().album().get().toString())
 
         }
         else
-            this.alpdroidService?.setalbumName("--")
+            alpdroidData.setalbumName("--")
 
         if (lastEvent.track().artist().isNotEmpty())
-            this.alpdroidService?.setartistName(lastEvent.track().artist().toString())
+            alpdroidData.setartistName(lastEvent.track().artist().toString())
         else
-            this.alpdroidService?.setartistName("--")
+            alpdroidData.setartistName("--")
 
             Log.d(" Artist", lastEvent.track().artist().toString())
         if (lastEvent.track().track().isNotEmpty())
-            this.alpdroidService?.settrackName(lastEvent.track().track().toString())
+            alpdroidData.settrackName(lastEvent.track().track().toString())
         else
-            this.alpdroidService?.settrackName("--")
+            alpdroidData.settrackName("--")
             Log.d("Track", lastEvent.track().track().toString())
 
     }
@@ -182,6 +159,7 @@ class AlpdroidApplication : Application() {
         fun getLastNowPlayingChangeEvent(): NowPlayingChangeEvent? {
             return lastEvent
         }
+
 
     }
 
