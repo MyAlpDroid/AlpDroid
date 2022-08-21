@@ -1,6 +1,8 @@
 package com.alpdroid.huGen10.ui;
 
 
+import static com.alpdroid.huGen10.ui.MainActivity.logger;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
@@ -8,7 +10,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,7 @@ public class MapsDisplay extends UIFragment implements LocationListener
             btCenterMap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("Follow me", "centerMap clicked ");
+                    logger.i("Follow me", "centerMap clicked ");
                     if (currentLocation != null) {
                         GeoPoint myPosition = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
                         mMapView.getController().animateTo(myPosition);
@@ -110,7 +111,7 @@ public class MapsDisplay extends UIFragment implements LocationListener
             btFollowMe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("bouton Follow me", "btFollowMe clicked ");
+                    logger.i("bouton Follow me", "btFollowMe clicked ");
                     if (!mLocationOverlay.isFollowLocationEnabled()) {
                         mLocationOverlay.enableFollowLocation();
                         btFollowMe.setImageResource(R.drawable.osm_ic_follow_me_on);
@@ -195,4 +196,5 @@ public class MapsDisplay extends UIFragment implements LocationListener
             btCenterMap = null;
             btFollowMe = null;
         }
+
 }

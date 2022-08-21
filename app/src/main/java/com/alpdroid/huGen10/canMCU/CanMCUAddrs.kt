@@ -24,4 +24,5 @@ enum class CanMCUAddrs(val idcan: Int) {
 	CLUSTER_CANHS_R_07(0x05CE),
 	MMI_BCM_CANHS_R_01(0x05DE),
 
+
 }

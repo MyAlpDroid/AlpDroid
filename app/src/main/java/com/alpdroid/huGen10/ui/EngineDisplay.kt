@@ -2,7 +2,6 @@ package com.alpdroid.huGen10.ui
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.VehicleServices
 import com.alpdroid.huGen10.databinding.EngineDisplayBinding
 import com.alpdroid.huGen10.ui.MainActivity.application
+import com.alpdroid.huGen10.ui.MainActivity.logger
 import com.github.anastr.speedviewlib.ImageLinearGauge
 import com.github.anastr.speedviewlib.ImageSpeedometer
 import com.github.anastr.speedviewlib.ProgressiveGauge
@@ -54,9 +54,9 @@ class EngineDisplay : UIFragment(250)
     lateinit var textCtl : TextView
 
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = EngineDisplayBinding.inflate(inflater, container, false)
+        logger.d("EngineDispkay:","OnCreateView")
         fragmentBlankBinding = binding
         return binding.root
     }
@@ -69,7 +69,7 @@ class EngineDisplay : UIFragment(250)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        logger.d("EngineDispkay:","OnViewCreated")
         press_FL = fragmentBlankBinding!!.textPressFL
         press_RL = fragmentBlankBinding!!.textPressRL
         press_FR = fragmentBlankBinding!!.textPressFR
@@ -103,13 +103,13 @@ class EngineDisplay : UIFragment(250)
 
         otherJauge3 = fragmentBlankBinding!!.OilPressure
 
-        Log.d("TimerTask :", "Am I Passing Engine")
 
             timerTask = {
                 activity?.runOnUiThread {
                   if (application.isBound)
                     {
 
+                        logger.d("EngineDispkay:","OnUIThread TimerTask")
                         alpineServices = application.alpdroidData
 
                         var flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50

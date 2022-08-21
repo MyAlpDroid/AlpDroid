@@ -22,9 +22,9 @@ class VehicleServices : LocationListener, IOrientationConsumer {
 
     private val TAG = VehicleServices::class.java.name
 
-    var alpine2Cluster: ClusterInfo = ClusterInfo()
+    var alpine2Cluster: ClusterInfo
 
-    val application  = MainActivity.application
+    val application = MainActivity.application
 
     var isConnected : Boolean = false
     var isBad : Boolean = false
@@ -41,7 +41,8 @@ class VehicleServices : LocationListener, IOrientationConsumer {
          var compassOrientation:Int = 0
 
 
-       init {
+
+    init {
 
              val lm: LocationManager = application.getSystemService(LOCATION_SERVICE) as LocationManager
 
@@ -57,11 +58,18 @@ class VehicleServices : LocationListener, IOrientationConsumer {
              if (compass == null) compass = InternalCompassOrientationProvider(application)
              compass!!.startOrientationProvider(this)
 
+             alpine2Cluster = ClusterInfo()
+
+        // TODO : handler to CanFrame Services
+        // sending piushFifoFrame
+        // updating Canframe Buffer with new frame
+        //
+        // Canframe services read frame form Arduino
+        // Canframe services push frame to MapFrame
+        // Canframe services send frame on request
+
 
          }
-
-    // TODO : creating onCanframeBuffer Change / CanframeBuffer Listener
-
 
 
     override fun onLocationChanged(location: Location) {
@@ -184,6 +192,7 @@ class VehicleServices : LocationListener, IOrientationConsumer {
       //TODO
 
     }
+
 
     fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
         val frame:CanFrame
@@ -981,5 +990,18 @@ fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_C
 
     fun get_DistanceTotalizer_MM() : Int = this.getFrameParams(CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
 
+    /**
+     * BCM and StopStart
+     */
+
+    fun get_StopStartSwitch() : Int = this.getFrameParams(CanECUAddrs.BCM_CANHS_R_08.idcan,26, 2)
+
+    fun get_BatteryVoltage_V2() : Int = this.getFrameParams(CanECUAddrs.BCM_CANHS_R_08.idcan,8, 8)
+
+    /** MMI Brake
+     * brake ESP ABS State
+     */
+
+    fun get_ESPDeactivatedByDriverForDisplay() : Boolean = this.getFrameParams(CanECUAddrs.MMI_BRAKE_CANHS_RNr_01.idcan,5, 1)!=0
 
 }

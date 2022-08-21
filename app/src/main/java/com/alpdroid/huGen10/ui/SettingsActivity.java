@@ -16,7 +16,9 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.view.MenuItem;
+
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.alpdroid.huGen10.R;
 
@@ -34,7 +36,7 @@ import java.util.Set;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings API Guide</a> for more
  * information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends AppCompatActivity {
   /**
    * A preference value change listener that updates the preference's summary to reflect its new
    * value.
@@ -75,8 +77,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setupActionBar();
+    getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.parent_container, new AppCompatPreferenceActivity())
+            .commit();
   }
+
 
   /** Set up the {@link android.app.ActionBar}, if the API is available. */
   private void setupActionBar() {
@@ -97,17 +103,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
   }
 
   /** {@inheritDoc} */
-  @Override
+
   public boolean onIsMultiPane() {
     return isXLargeTablet(this);
   }
 
-  /** {@inheritDoc} */
-  @Override
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  public void onBuildHeaders(List<Header> target) {
-    loadHeadersFromResource(R.xml.pref_headers, target);
-  }
 
   /**
    * This method stops fragment injection in malicious applications. Make sure to deny any unknown

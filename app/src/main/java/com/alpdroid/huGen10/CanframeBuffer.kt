@@ -1,24 +1,48 @@
 package com.alpdroid.huGen10
 
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.ConcurrentHashMap
 
 
-class CanframeBuffer () {
+class CanframeBuffer {
 
     private var mapFrame : ConcurrentHashMap<Int, CanFrame> = ConcurrentHashMap<Int, CanFrame>(100)
     private var queueoutFrame : LinkedHashMap<Int, CanFrame> = LinkedHashMap(50)
-
+    private var sendingSwitch : Boolean = false
+    private var mutex_add : Mutex = Mutex()
 
 
     @Synchronized
     fun addFrame(frame: CanFrame) {
 
-        if (this.mapFrame.replace(frame.id,frame)==null)
-            this.mapFrame[frame.id] = frame
-
+        CoroutineScope(Dispatchers.IO).launch {
+            mutex_add.withLock {
+                if (this@CanframeBuffer.mapFrame.replace(frame.id, frame) == null)
+                    this@CanframeBuffer.mapFrame[frame.id] = frame
+            }
+        }
     }
 
+
+    fun setSending()
+    {
+        sendingSwitch=true
+    }
+
+    fun unsetSending()
+    {
+        sendingSwitch=false
+    }
+
+    fun isFrametoSend() : Boolean
+    {
+        return sendingSwitch
+    }
 
     fun getFrame(candID:Int): CanFrame? {
         try {
@@ -58,6 +82,11 @@ class CanframeBuffer () {
 
     fun remove(id: Int) {
         queueoutFrame.remove(id)
+    }
+
+    fun flush()
+    {
+        queueoutFrame.clear()
     }
 
 

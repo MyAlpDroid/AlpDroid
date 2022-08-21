@@ -32,11 +32,9 @@ public class PlayerState {
         boolean isPlaying = state == PlaybackState.STATE_PLAYING;
 
         if (isPlaying) {
-            Log.d(TAG, "Track playing");
             postEvent(playbackItem.getTrack());
             playbackItem.startPlaying();
         } else {
-            Log.d(TAG, String.format("Track paused (state %d)", state));
             postEvent(Track.empty());
             playbackItem.stopPlaying();
             alpdroidEr.submit(playbackItem);
@@ -55,12 +53,9 @@ public class PlayerState {
         }
 
         if (track.isSameTrack(currentTrack)) {
-            Log.d(TAG, String.format("Track metadata updated: %s", track));
-
             // Update track in PlaybackItem, as this new one probably has updated details/more keys.
             playbackItem.setTrack(track);
         } else {
-            Log.d(TAG, String.format("Changed track: %s", track));
 
             if (playbackItem != null) {
                 playbackItem.stopPlaying();

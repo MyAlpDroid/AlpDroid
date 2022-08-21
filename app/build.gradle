@@ -27,7 +27,7 @@ android {
         minSdkVersion 29
         targetSdkVersion 31
         versionCode 2
-        versionName '1.19'
+        versionName '1.21'
         multiDexEnabled true
     }
 
@@ -92,7 +92,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'org.osmdroid:osmdroid-android:6.1.13'
     implementation 'com.github.MKergall:osmbonuspack:6.9.0'
-    implementation "com.github.osmandapp:Osmand:master"
+ //   implementation "com.github.osmandapp:Osmand:master"
+    implementation 'com.github.rh-id:a-logger:0.0.3'
+
 }
 
 

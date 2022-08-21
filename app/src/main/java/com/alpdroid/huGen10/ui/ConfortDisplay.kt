@@ -43,6 +43,10 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var opendoorLeft:ImageView
     lateinit var opendoorRight:ImageView
 
+    lateinit var startstopstate : ImageView
+    lateinit var escstate : ImageView
+    lateinit var absstate:ImageView
+
     private var latitude:Double = 0.0
     private var longitude:Double = 0.0
 
@@ -107,6 +111,11 @@ class ConfortDisplay : UIFragment(250) {
         opendoorLeft=fragmentBlankBinding!!.cardoorLeft
         opendoorRight=fragmentBlankBinding!!.cardoorRight
 
+        startstopstate=fragmentBlankBinding!!.startstopState
+        escstate=fragmentBlankBinding!!.escState
+        absstate=fragmentBlankBinding!!.absState
+
+
         calendar.date = Calendar.getInstance().timeInMillis
 
         timerTask = {
@@ -123,10 +132,10 @@ class ConfortDisplay : UIFragment(250) {
                     " %d °C",
                     alpineServices.get_InternalTemp()-40)
 
-                  battvalue= (alpineServices.get_BatteryVoltage().toFloat()/16)
-                  battvalue = alpineServices.lat
+                  battvalue= ((alpineServices.get_BatteryVoltage())/16).toFloat()
+
                   tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
-                  tankvalue = alpineServices.lon
+
 
                 nextoverhaul.text= String.format(" %d Km", alpineServices.get_MilageMinBeforeOverhaul()*250)
 
@@ -182,7 +191,18 @@ class ConfortDisplay : UIFragment(250) {
                 else
                     opendoorFront.setImageResource(R.drawable.cardoor_front)
 
+                if (alpineServices.get_StopStartSwitch()==1)
+                    startstopstate.setImageResource(R.drawable.sas_off)
+                else
+                    startstopstate.setImageResource(R.drawable.sas_on)
+
+                if (alpineServices.get_ESPDeactivatedByDriverForDisplay())
+                    escstate.setImageResource(R.drawable.esc_off)
+                else
+                    escstate.setImageResource(R.drawable.esc_on)
+
             }
+
             }
         }
    }

@@ -3,20 +3,14 @@ package com.alpdroid.huGen10.ui;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -30,10 +24,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alpdroid.huGen10.AlpdroidApplication;
-import com.alpdroid.huGen10.ApiActionType;
+import com.alpdroid.huGen10.BuildConfig;
 import com.alpdroid.huGen10.CanFrame;
-import com.alpdroid.huGen10.CanframeBuffer;
-import com.alpdroid.huGen10.Location;
 import com.alpdroid.huGen10.OsmAndHelper;
 import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
@@ -43,9 +35,10 @@ import com.google.common.collect.ImmutableList;
 import org.osmdroid.config.Configuration;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
+import m.co.rh.id.alogger.ILogger;
 
 public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOsmandMissingListener {
 
@@ -120,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
     @SuppressLint("StaticFieldLeak")
     public static AlpdroidApplication application;
-//    private VehicleServices alpineServices=application.getAlpdroidService();
 
     public static boolean locationPermissionGranted;
 
@@ -140,119 +132,31 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     private final ScheduledExecutorService executor =
             Executors.newScheduledThreadPool(1);
 
-    public static OsmAndHelper mOsmAndHelper= null;
-
     double lastLatitude =0;
     double lastLongitude =0;
 
     private int delay = 5000;
 
+    public static ILogger logger;
 
-    void execApiAction(ApiActionType apiActionType, Boolean delayed, Location location) {
-        Location mLocation = Optional.ofNullable(location).isPresent() ? Optional.ofNullable(location).get() : null;
-        Boolean isDelayed = Optional.ofNullable(delayed).isPresent() ? Optional.ofNullable(delayed).get() : true;
-
-        if (mLocation != null) {
-             lastLatitude = mLocation.getLat();
-             lastLongitude = mLocation.getLon();
-        }
-
-        if (isDelayed) {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> execApiActionImpl(apiActionType, mLocation), delay);
-        } else {
-            execApiActionImpl(apiActionType,mLocation);
-        }
-    }
-
-    void execApiActionImpl(ApiActionType apiActionType, Location location) {
-   //     private aidlHelper = mAidlHelper;
-        OsmAndHelper osmandHelper = mOsmAndHelper;
-
-        if (osmandHelper != null) {
-            switch (apiActionType) {
-                case UNDEFINED:
-                    break;
-                case INTENT_PAUSE_NAVIGATION : {
-                    osmandHelper.pauseNavigation();
-                }
-                case INTENT_RESUME_NAVIGATION: {
-                    osmandHelper.resumeNavigation();
-                }
-                case INTENT_STOP_NAVIGATION : {
-                    osmandHelper.stopNavigation();
-                }
-                case INTENT_MUTE_NAVIGATION : {
-                    osmandHelper.muteNavigation();
-                }
-                case INTENT_UNMUTE_NAVIGATION : {
-                    osmandHelper.umuteNavigation();
-                }
-                break;
-                default: break;
-            }
-            // location depended types
-            if (location != null) {
-                switch (apiActionType) {
-                    case INTENT_ADD_FAVORITE: {
-                        osmandHelper.addFavorite(location.getLat(), location.getLon(), location.getName(),
-                                location.getName() + " city", "Cities", "red", true);
-                    }
-                    case INTENT_ADD_MAP_MARKER: {
-                        osmandHelper.addMapMarker(location.getLat(), location.getLon(), location.getName());
-                    }
-                    case INTENT_SHOW_LOCATION: {
-                        osmandHelper.showLocation(location.getLat(), location.getLon());
-                    }
-                    case INTENT_TAKE_PHOTO: {
-                        osmandHelper.takePhoto(location.getLat(), location.getLon());
-                    }
-                    case INTENT_START_VIDEO_REC: {
-                        osmandHelper.recordVideo(location.getLat(), location.getLon());
-                    }
-                    case INTENT_START_AUDIO_REC: {
-                        osmandHelper.recordAudio(location.getLat(), location.getLon());
-                    }
-                    case INTENT_NAVIGATE: {
-                        osmandHelper.navigate(location.getName() + " start",
-                                location.getLatStart(), location.getLonStart(),
-                                location.getName() + " finish", location.getLat(), location.getLon(),
-                                "bicycle", true, true);
-                    }
-                    case INTENT_NAVIGATE_SEARCH: {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                        EditText editText = new EditText(this);
-                        alert.setTitle("Enter Search Query");
-                        alert.setView(editText);
-                        alert.setPositiveButton("Navigate",
-                                    null);
-                        alert.setNegativeButton("Cancel", null);
-                        alert.show();
-                    }
-                    break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + apiActionType);
-                }
-            }
-        }
-    }
-
-
+    @SuppressLint("NoLoggedException")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        application = (AlpdroidApplication) getApplication();
+        logger = application.getLogger();
+        logger.d("%s : AlpDroid Ok, OnCreate MainActivity", TAG);
         super.onCreate(savedInstanceState);
 
-        application = (AlpdroidApplication) getApplication();
-        application.alpineCanFrame = new CanframeBuffer();
-        application.alpdroidData = new VehicleServices();
 
+         application.startVehicleServices();
 
-        application.startListenerService();
-        application.startVehicleServices();
+         application.alpdroidData = new VehicleServices();
+
+         application.startListenerService();
 
         setContentView(R.layout.activity_main);
 
-        mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
+     //   application.mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -271,23 +175,26 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
         int initialTab = getIntent().getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE);
         mViewPager.setCurrentItem(initialTab);
 
+
+
         try {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED )
+            {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
                 locationPermissionGranted=true;
-                Log.d("access permission granted","ok");
             }
             locationPermissionGranted=true;
-        } catch (Exception e){
+        } catch (Exception e)
+        {
             locationPermissionGranted=true;
-            e.printStackTrace();
-
+           // e.printStackTrace();
         }
 
-        Context ctx = getApplicationContext();
         //important! set your user agent to prevent getting banned from the osm servers
 
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        //5.6 and newer
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+        logger.d("MainActivity is launching : ", TAG);
 
 
     }
@@ -310,19 +217,14 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
         return "" + resultCode;
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_OSMAND_API) {
             if (data != null) {
                 Bundle extras = data.getExtras();
                 if (extras != null && extras.size() > 0) {
-                    Log.d("on activity request code :", String.valueOf(requestCode));
-                    Log.d("on activity result code  :", String.valueOf(resultCode));
-                  //  if (alpineServices!=null) alpineServices.fromOsmData(extras);
+               //   if (application.isBound()) application.alpdroidServices.fromOsmData(extras);
 
-                    for (String key : extras.keySet()) {
-                        Log.d("key to read : ", String.valueOf(key));
-                        Log.d("value read : ", String.valueOf(extras.get(key)));
-                    }
                 }
 
             }
@@ -355,62 +257,41 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Main", "MainActivity Resume");
-        if (application.isBound()) {
-        //    alpineServices = application.getAlpdroidService();
-            Log.d("Main", "MainActivity Service Bound after Resume");
-        }
-        else
-        {
-            Log.d("Main", "MainActivity not bound after Resume");
-            application.startVehicleServices();
-            if (application.isBound()) {
-                Log.d("Main", "MainActivity Service Bound after Resume");}
 
-        }
+            logger.d(TAG, "Application Service Bound after Resume, need to rebind");
+
+            application.startVehicleServices();
+
 
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-//        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("Main", "MainActivity Pause");
-        if (application.isBound()) {
-         //   alpineServices = application.getAlpdroidService();
-            Log.d("Main", "MainActivity Service Bound after Pause");
-        }
-        else
-        {
-            Log.d("Main", "MainActivity not bound after Pause");
+        logger.d(TAG, "MainActivity Pause");
+
+            logger.d(TAG, "MainActivity need to be bound after Pause");
             application.startVehicleServices();
-            if (application.isBound()) {
-              //  alpineServices = application.getAlpdroidService();
-                Log.d("Main", "MainActivity Service Bound after Pause");}
-        }
+
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+
 
     }
 
 
-    @Override
-    public void onStop() {
-
-        super.onStop();
-        application.close();
-    }
 
     @Override
     public void onDestroy()
     {
-        super.onDestroy();
         application.close();
+        super.onDestroy();
     }
 
     @Override
     public void osmandMissing() {
-        Log.d("OsmAND missiong : ", "Wrong version detected ?");
+        logger.d("OsmAND missiong : ", "Wrong version detected ?");
     }
 
 

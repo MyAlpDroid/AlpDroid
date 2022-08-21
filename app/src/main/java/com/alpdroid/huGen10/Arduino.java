@@ -1,5 +1,7 @@
 package com.alpdroid.huGen10;
 
+import static com.alpdroid.huGen10.ui.MainActivity.logger;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +10,6 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
-import android.util.Log;
 
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
@@ -34,6 +35,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
 
     private int baudRate;
     private boolean isOpened;
+    private boolean islistening;
     private List<Integer> vendorIds;
     private List<Byte> bytesReceived;
     private byte delimiter;
@@ -56,6 +58,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         this.usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         this.baudRate = baudRate;
         this.isOpened = false;
+        this.islistening = false;
         this.vendorIds = new ArrayList<>();
         this.vendorIds.add(9025); //arduino ID rev 3
         this.bytesReceived = new ArrayList<>();
@@ -70,7 +73,10 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         intentFilter.addAction(ACTION_USB_DEVICE_PERMISSION);
 
-        context.registerReceiver(usbReceiver, intentFilter);
+        if (!islistening) {
+            context.registerReceiver(usbReceiver, intentFilter);
+            islistening = true;
+        }
 
         lastArduinoAttached = getAttachedArduino();
         if (lastArduinoAttached != null && listener != null) {
@@ -87,7 +93,10 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_DEVICE_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        context.registerReceiver(usbReceiver, filter);
+        if (!islistening) {
+            context.registerReceiver(usbReceiver, filter);
+            islistening=true;
+        }
         usbManager.requestPermission(device, permissionIntent);
     }
 
@@ -104,7 +113,10 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         }
 
         isOpened = false;
+
         context.unregisterReceiver(usbReceiver);
+        islistening = false;
+
     }
 
     public void send(byte[] bytes) {
@@ -251,7 +263,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     }
 
     private boolean hasId(int id) {
-        Log.i(getClass().getSimpleName(), "Vendor id : "+id);
+        logger.i(getClass().getSimpleName(), "Vendor id : "+id);
         for(int vendorId : vendorIds){
             if(vendorId==id){
                 return true;

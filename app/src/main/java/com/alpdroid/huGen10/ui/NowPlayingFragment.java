@@ -1,10 +1,11 @@
 package com.alpdroid.huGen10.ui;
 
+import static com.alpdroid.huGen10.ui.MainActivity.logger;
+
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class NowPlayingFragment extends Fragment {
                     Drawable icon = getActivity().getPackageManager().getApplicationIcon(event.source());
                     artImageView.setImageDrawable(icon);
                 } catch (PackageManager.NameNotFoundException e) {
-                    Log.d(TAG, "Failed to read application icon for player", e);
+                    logger.d(TAG, "Failed to read application icon for player", e);
                 }
             }
 

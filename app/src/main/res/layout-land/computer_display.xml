@@ -63,25 +63,29 @@
                 android:id="@+id/canFrameView"
                 android:layout_width="1118dp"
                 android:layout_height="104dp"
-                android:layout_marginTop="240dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:background="#050E40"
-                android:gravity="bottom"
-                android:scrollbars="vertical"
-                android:text="0000000"
                 android:textColor="#F3EBED"
-                android:textSize="96sp"
+                android:textSize="64sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.567"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ac_header" />
+                app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-            <TextView
+            <EditText
                 android:id="@+id/idcanframe"
-                android:layout_width="198dp"
-                android:layout_height="26dp"
-                android:text="can id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:digits="0123456789ABCDEF"
+                android:hint="01F6"
+                android:inputType="textCapCharacters"
+                android:maxLength="4"
+                android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView11"
                 app:layout_constraintStart_toEndOf="@+id/textView11"
                 app:layout_constraintTop_toTopOf="@+id/textView11" />
@@ -90,14 +94,16 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginTop="96dp"
                 android:text="Frame ID :"
                 android:textColor="@color/orange"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/canFrameView"
-                app:layout_constraintStart_toStartOf="@+id/canFrameView" />
+                app:layout_constraintStart_toStartOf="@+id/canFrameView"
+                app:layout_constraintTop_toBottomOf="@+id/ac_header" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
