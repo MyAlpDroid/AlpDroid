@@ -10,7 +10,6 @@ import android.os.Bundle
 import com.alpdroid.huGen10.ui.MainActivity
 import org.osmdroid.views.overlay.compass.IOrientationConsumer
 import org.osmdroid.views.overlay.compass.IOrientationProvider
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
@@ -40,23 +39,24 @@ class VehicleServices : LocationListener, IOrientationConsumer {
          var timeOfFix: Long = 0
          var compassOrientation:Int = 0
 
-
+        lateinit var lm: LocationManager
 
     init {
 
-             val lm: LocationManager = application.getSystemService(LOCATION_SERVICE) as LocationManager
 
              try {
+                 lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
                  //on API15 AVDs,network provider fails. no idea why
                  lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f,this)
                  lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, this)
              } catch (ex: java.lang.Exception) {
                  //usually permissions or
                  //java.lang.IllegalArgumentException: provider doesn't exist: network
-                 ex.printStackTrace()
+                // ex.printStackTrace()
              }
-             if (compass == null) compass = InternalCompassOrientationProvider(application)
-             compass!!.startOrientationProvider(this)
+
+          //   if (compass == null) compass = InternalCompassOrientationProvider(application)
+          //   compass!!.startOrientationProvider(this)
 
              alpine2Cluster = ClusterInfo()
 
@@ -71,6 +71,11 @@ class VehicleServices : LocationListener, IOrientationConsumer {
 
          }
 
+    fun onClose()
+    {
+        lm.removeUpdates(this)
+        alpine2Cluster.onDestroy()
+    }
 
     override fun onLocationChanged(location: Location) {
         gpsbearing = location.bearing
@@ -150,7 +155,7 @@ class VehicleServices : LocationListener, IOrientationConsumer {
          fun setalbumName(albumname:String)
          {
              alpine2Cluster.albumName=albumname
-             alpine2Cluster.prevalbumName=albumname.substring(0,minOf(albumname.length, 16))
+                 // .substring(0,minOf(albumname.length, 16))
              alpine2Cluster.startIndexAlbum=0
 
          }
@@ -160,15 +165,19 @@ class VehicleServices : LocationListener, IOrientationConsumer {
          }
          fun settrackName(trackname:String)
          {
+
+             alpine2Cluster.prevtrackName=alpine2Cluster.trackName
              alpine2Cluster.trackName=trackname
-             alpine2Cluster.prevtrackName=trackname.substring(0,minOf(trackname.length, 16))
+
+                 //.substring(0,minOf(trackname.length, 16))
              alpine2Cluster.startIndexTrack=0
          }
 
          fun setartistName(artistname:String)
          {
              alpine2Cluster.artistName=artistname
-             alpine2Cluster.prevartistName=artistname.substring(0,minOf(artistname.length, 16))
+           //  alpine2Cluster.prevartistName=artistname
+                 //.substring(0,minOf(artistname.length, 16))
              alpine2Cluster.startIndexArtist=0
          }
 

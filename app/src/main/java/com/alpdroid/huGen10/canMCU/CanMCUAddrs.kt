@@ -1,7 +1,7 @@
 
 package com.alpdroid.huGen10
 /**
- *   ECU Address data for CAN MCU
+ *   MCU Address data / CAN MCU
  **/
 
 enum class CanMCUAddrs(val idcan: Int) {

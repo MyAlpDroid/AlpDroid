@@ -1,12 +1,12 @@
 package com.alpdroid.huGen10;
 
-import static com.alpdroid.huGen10.ui.MainActivity.logger;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
@@ -22,7 +22,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
                     (NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
 
             if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                logger.d(TAG, "Network connected, scrobbling");
+                Log.d(TAG, "Network connected, scrobbling");
      //           alpdroidEr.alpdroidPending();
             }
         }

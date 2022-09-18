@@ -3,7 +3,7 @@ package com.alpdroid.huGen10;
 
 import android.content.Context;
 import android.location.Location;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import java.text.DateFormat;
 import java.util.Date;

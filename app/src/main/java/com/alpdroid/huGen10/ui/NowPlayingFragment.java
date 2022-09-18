@@ -1,11 +1,11 @@
 package com.alpdroid.huGen10.ui;
 
-import static com.alpdroid.huGen10.ui.MainActivity.logger;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,13 @@ import com.google.common.eventbus.Subscribe;
 
 public class NowPlayingFragment extends Fragment {
 
+
+
+    public NowPlayingFragment() {
+        //do something
+
+    }
+
     private final EventBus eventBus = new EventBus();
     private  final String TAG = NowPlayingFragment.class.getName();
 
@@ -35,7 +42,7 @@ public class NowPlayingFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_now_playing, container, false);
         detailGroup = rootView.findViewById(R.id.now_playing_detail);
         artImageView = rootView.findViewById(R.id.now_playing_art);
@@ -84,7 +91,7 @@ public class NowPlayingFragment extends Fragment {
                     Drawable icon = getActivity().getPackageManager().getApplicationIcon(event.source());
                     artImageView.setImageDrawable(icon);
                 } catch (PackageManager.NameNotFoundException e) {
-                    logger.d(TAG, "Failed to read application icon for player", e);
+                    Log.d(TAG, "Failed to read application icon for player", e);
                 }
             }
 

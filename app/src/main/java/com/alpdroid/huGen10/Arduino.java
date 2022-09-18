@@ -1,6 +1,5 @@
 package com.alpdroid.huGen10;
 
-import static com.alpdroid.huGen10.ui.MainActivity.logger;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -10,6 +9,7 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.util.Log;
 
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
@@ -263,7 +263,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     }
 
     private boolean hasId(int id) {
-        logger.i(getClass().getSimpleName(), "Vendor id : "+id);
+        Log.i(getClass().getSimpleName(), "Vendor id : "+id);
         for(int vendorId : vendorIds){
             if(vendorId==id){
                 return true;

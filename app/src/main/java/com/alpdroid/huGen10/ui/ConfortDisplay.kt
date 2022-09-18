@@ -141,7 +141,7 @@ class ConfortDisplay : UIFragment(250) {
 
                 battstate.setImageResource(R.drawable.batterie_ok)
                 batttext.text=String.format(
-                    "%.1f V",
+                    "%.2f V",
                     battvalue)
 
                 if (battvalue<9.5)

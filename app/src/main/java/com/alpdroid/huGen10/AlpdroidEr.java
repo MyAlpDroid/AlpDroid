@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10;
 
+import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -24,7 +25,7 @@ public class AlpdroidEr {
 
   public void updateNowPlaying(Track track) {
 
-    NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+    @SuppressLint("MissingPermission") NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 
   }
 

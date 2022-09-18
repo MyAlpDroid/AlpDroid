@@ -17,8 +17,8 @@ import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.view.MenuItem;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.alpdroid.huGen10.R;
 
@@ -36,7 +36,7 @@ import java.util.Set;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings API Guide</a> for more
  * information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceFragmentCompat {
   /**
    * A preference value change listener that updates the preference's summary to reflect its new
    * value.
@@ -64,6 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
       };
 
+
   /**
    * Helper method to determine if the device has an extra-large screen. For example, 10" tablets
    * are extra-large.
@@ -75,16 +76,17 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    getSupportFragmentManager()
-            .beginTransaction()
-            .replace(R.id.parent_container, new AppCompatPreferenceActivity())
-            .commit();
+    // setupActionBar();
   }
 
+  @Override
+  public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
 
-  /** Set up the {@link android.app.ActionBar}, if the API is available. */
+  }
+
+  /** Set up the {@link android.app.ActionBar}, if the API is available.
   private void setupActionBar() {
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
@@ -92,22 +94,28 @@ public class SettingsActivity extends AppCompatActivity {
       actionBar.setDisplayHomeAsUpEnabled(true);
     }
   }
+*/
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
-      super.onBackPressed();
+      // super.onbackpressed();
     }
 
     return true;
   }
 
-  /** {@inheritDoc} */
-
+  /** {@inheritDoc}
   public boolean onIsMultiPane() {
     return isXLargeTablet(this);
-  }
+  }*/
 
+  /** {@inheritDoc}
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  public void onBuildHeaders(List<Header> target) {
+    loadHeadersFromResource(R.xml.pref_headers, target);
+  }*/
 
   /**
    * This method stops fragment injection in malicious applications. Make sure to deny any unknown

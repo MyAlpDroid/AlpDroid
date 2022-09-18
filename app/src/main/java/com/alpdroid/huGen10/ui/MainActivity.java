@@ -6,13 +6,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -26,7 +27,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.BuildConfig;
 import com.alpdroid.huGen10.CanFrame;
-import com.alpdroid.huGen10.OsmAndHelper;
 import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
 import com.google.android.material.tabs.TabLayout;
@@ -38,9 +38,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import m.co.rh.id.alogger.ILogger;
 
-public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOsmandMissingListener {
+public class MainActivity extends AppCompatActivity {
+// implements OsmAndHelper.OnOsmandMissingListener
 
         private final String TAG = "MainActivity";
         final int REQUEST_OSMAND_API = 1001;
@@ -137,29 +137,35 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
     private int delay = 5000;
 
-    public static ILogger logger;
 
     @SuppressLint("NoLoggedException")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         application = (AlpdroidApplication) getApplication();
-        logger = application.getLogger();
-        logger.d("%s : AlpDroid Ok, OnCreate MainActivity", TAG);
+
         super.onCreate(savedInstanceState);
 
 
-         application.startVehicleServices();
+        application.startVehicleServices();
 
          application.alpdroidData = new VehicleServices();
 
          application.startListenerService();
 
-        setContentView(R.layout.activity_main);
-
+        StrictMode.ThreadPolicy oldPolicy;
+        oldPolicy= StrictMode.getThreadPolicy();
+        StrictMode.allowThreadDiskReads();
+        try {
+            // Do reads here
+         setContentView(R.layout.activity_main);
+        } finally {
+            StrictMode.setThreadPolicy(oldPolicy);
+        }
      //   application.mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+      //  Toolbar toolbar = findViewById(R.id.toolbar);
+      //  setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -194,8 +200,7 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
         //5.6 and newer
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-        logger.d("MainActivity is launching : ", TAG);
-
+        Log.d("MainActivity is launching : ", TAG);
 
     }
 
@@ -204,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
             case Activity.RESULT_OK : return "OK";
             case Activity.RESULT_CANCELED : return "Canceled";
             case Activity.RESULT_FIRST_USER : return "First user";
-            case OsmAndHelper.RESULT_CODE_ERROR_UNKNOWN : return "Unknown error";
+   /*         case OsmAndHelper.RESULT_CODE_ERROR_UNKNOWN : return "Unknown error";
             case OsmAndHelper.RESULT_CODE_ERROR_NOT_IMPLEMENTED : return "Feature is not implemented";
             case OsmAndHelper.RESULT_CODE_ERROR_GPX_NOT_FOUND : return "GPX not found";
             case OsmAndHelper.RESULT_CODE_ERROR_INVALID_PROFILE : return "Invalid profile";
@@ -212,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
             case OsmAndHelper.RESULT_CODE_ERROR_EMPTY_SEARCH_QUERY : return "Empty search query";
             case OsmAndHelper.RESULT_CODE_ERROR_SEARCH_LOCATION_UNDEFINED : return "Search location undefined";
             case OsmAndHelper.RESULT_CODE_ERROR_QUICK_ACTION_NOT_FOUND : return "Quick action not found";
-
+*/
         }
         return "" + resultCode;
     }
@@ -256,43 +261,59 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
     @Override
     public void onResume() {
+        StrictMode.ThreadPolicy oldPolicy;
+
         super.onResume();
 
-            logger.d(TAG, "Application Service Bound after Resume, need to rebind");
+            Log.d(TAG, "Application Service Bound after Resume, need to rebind");
 
-            application.startVehicleServices();
+        application.startVehicleServices();
 
+        oldPolicy= StrictMode.getThreadPolicy();
+        StrictMode.allowThreadDiskReads();
+        StrictMode.allowThreadDiskWrites();
 
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+        try {
+            // Do reads here
+            Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+
+        } finally {
+            StrictMode.setThreadPolicy(oldPolicy);
+
+        }
 
     }
 
     @Override
     public void onPause() {
+        StrictMode.ThreadPolicy oldPolicy;
         super.onPause();
-        logger.d(TAG, "MainActivity Pause");
+        Log.d(TAG, "MainActivity Pause");
 
-            logger.d(TAG, "MainActivity need to be bound after Pause");
-            application.startVehicleServices();
+            Log.d(TAG, "MainActivity need to be bound after Pause");
+        application.startVehicleServices();
+        oldPolicy= StrictMode.allowThreadDiskReads();
+        try {
+            // Do reads here
+            Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-
+        } finally {
+            StrictMode.setThreadPolicy(oldPolicy);
+        }
 
     }
-
-
 
     @Override
     public void onDestroy()
     {
-        application.close();
         super.onDestroy();
+        application.close();
     }
 
-    @Override
-    public void osmandMissing() {
-        logger.d("OsmAND missiong : ", "Wrong version detected ?");
-    }
+    //@Override
+    /**public void osmandMissing() {
+        Log.d("OsmAND missiong : ", "Wrong version detected ?");
+    }*/
 
 
     /**
@@ -302,7 +323,8 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         List<Fragment> fragments =
-                ImmutableList.of(new NowPlayingFragment(), new EngineDisplay(), new ConfortDisplay(), new ComputerDisplay(), new MapsDisplay(500));
+                ImmutableList.of(new NowPlayingFragment(), new EngineDisplay(), new ConfortDisplay(), new ComputerDisplay(), //new MapsDisplay(500),
+                         new SettingsActivity());
 
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -335,8 +357,10 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
                 case 3:
                     return getString(R.string.computer_display);
-                case 4 :
-                    return getString(R.string.maps_display);
+        //        case 4 :
+          //          return getString(R.string.maps_display);
+                case 4:
+                    return getString(R.string.settings);
             }
             return null;
         }

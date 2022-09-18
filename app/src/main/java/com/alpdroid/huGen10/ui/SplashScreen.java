@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.StrictMode;
 import android.provider.Settings;
+
+import androidx.preference.PreferenceManager;
 
 import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.ListenerService;
@@ -19,12 +21,23 @@ public class SplashScreen extends Activity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
+   StrictMode.ThreadPolicy oldPolicy;
     super.onCreate(savedInstanceState);
+
     setContentView(R.layout.activity_splash_screen);
-      PreferenceManager.setDefaultValues(this, R.xml.pref_notification, false);
-      PreferenceManager.setDefaultValues(this, R.xml.pref_players, false);
+   oldPolicy = StrictMode.getThreadPolicy();
+  StrictMode.allowThreadDiskReads();
+      try {
+          // Do reads here
+          PreferenceManager.setDefaultValues(this, R.xml.pref_notification, false);
+          PreferenceManager.setDefaultValues(this, R.xml.pref_players, false);
+      } finally {
+          StrictMode.setThreadPolicy(oldPolicy);
+      }
+
     application = (AlpdroidApplication) getApplication();
-    enableNotificationAccess();
+     enableNotificationAccess();
   }
 
   @Override
@@ -34,6 +47,8 @@ public class SplashScreen extends Activity {
   }
 
   private void enableNotificationAccess() {
+
+      StrictMode.ThreadPolicy oldPolicy;
 
       if (alertDialog != null) {
           alertDialog.dismiss();
@@ -62,7 +77,16 @@ public class SplashScreen extends Activity {
 
       Intent intent = new Intent(this, MainActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      startActivity(intent);
+      oldPolicy= StrictMode.getThreadPolicy();
+      StrictMode.allowThreadDiskReads();
+      try {
+          // Do reads here
+          startActivity(intent);
+
+      } finally {
+         StrictMode.setThreadPolicy(oldPolicy);
+      }
+
       finish();
   }
 }
