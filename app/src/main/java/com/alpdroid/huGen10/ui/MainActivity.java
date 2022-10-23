@@ -20,23 +20,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alpdroid.huGen10.AlpdroidApplication;
-import com.alpdroid.huGen10.BuildConfig;
 import com.alpdroid.huGen10.CanFrame;
 import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.collect.ImmutableList;
 
-import org.osmdroid.config.Configuration;
-
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -129,9 +123,6 @@ public class MainActivity extends AppCompatActivity {
     /** The {@link ViewPager} that will host the section contents. */
     private ViewPager mViewPager;
 
-    private final ScheduledExecutorService executor =
-            Executors.newScheduledThreadPool(1);
-
     double lastLatitude =0;
     double lastLongitude =0;
 
@@ -145,12 +136,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-
         application.startVehicleServices();
 
-         application.alpdroidData = new VehicleServices();
+        application.alpdroidData = new VehicleServices();
 
-         application.startListenerService();
+        application.startListenerService();
 
         StrictMode.ThreadPolicy oldPolicy;
         oldPolicy= StrictMode.getThreadPolicy();
@@ -182,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(initialTab);
 
 
-
         try {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED )
             {
@@ -199,10 +188,12 @@ public class MainActivity extends AppCompatActivity {
         //important! set your user agent to prevent getting banned from the osm servers
 
         //5.6 and newer
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+//        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         Log.d("MainActivity is launching : ", TAG);
 
     }
+
+
 
     String resultCodeStr(int resultCode) {
         switch (resultCode) {
@@ -221,6 +212,22 @@ public class MainActivity extends AppCompatActivity {
         }
         return "" + resultCode;
     }
+
+ /*   @Override
+    public void onRestart() {
+        application = (AlpdroidApplication) getApplication();
+
+        application.startVehicleServices();
+
+        application.alpdroidData = new VehicleServices();
+
+        application.startListenerService();
+
+        super.onRestart();
+
+
+
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -265,9 +272,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
 
-            Log.d(TAG, "Application Service Bound after Resume, need to rebind");
+     /*   application.startVehicleServices();
 
-        application.startVehicleServices();
+        application.alpdroidData = new VehicleServices();
+
+        application.startListenerService();
+        */
 
         oldPolicy= StrictMode.getThreadPolicy();
         StrictMode.allowThreadDiskReads();
@@ -275,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             // Do reads here
-            Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+            //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 
         } finally {
             StrictMode.setThreadPolicy(oldPolicy);
@@ -288,14 +298,14 @@ public class MainActivity extends AppCompatActivity {
     public void onPause() {
         StrictMode.ThreadPolicy oldPolicy;
         super.onPause();
-        Log.d(TAG, "MainActivity Pause");
 
-            Log.d(TAG, "MainActivity need to be bound after Pause");
-        application.startVehicleServices();
+      //  application.startVehicleServices();
+      //  application.alpdroidData = new VehicleServices();
+
         oldPolicy= StrictMode.allowThreadDiskReads();
         try {
             // Do reads here
-            Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+            //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 
         } finally {
             StrictMode.setThreadPolicy(oldPolicy);
@@ -307,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy()
     {
         super.onDestroy();
-        application.close();
+        //application.close();
     }
 
     //@Override

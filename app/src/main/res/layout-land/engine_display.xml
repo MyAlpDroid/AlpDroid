@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -202,13 +203,13 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/OIL_jauge"
-                android:layout_width="232dp"
-                android:layout_height="216dp"
+                android:layout_width="239dp"
+                android:layout_height="260dp"
                 android:layout_marginStart="112dp"
                 app:layout_constraintStart_toEndOf="@+id/dessinCar"
                 app:sv_image="@drawable/alpine_jauge_rpm"
                 app:sv_indicator="NeedleIndicator"
-                app:sv_indicatorColor="#DDECF3"
+                app:sv_indicatorColor="#157CB3"
                 app:sv_markColor="#0434E4"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
@@ -230,12 +231,12 @@
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_withIndicatorLight="true"
                 app:sv_withTremble="false"
-                tools:layout_editor_absoluteY="60dp" />
+                tools:layout_editor_absoluteY="16dp" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Intake_jauge"
-                android:layout_width="232dp"
-                android:layout_height="216dp"
+                android:layout_width="237dp"
+                android:layout_height="235dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintBottom_toBottomOf="@+id/Oil_Pressure"
                 app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
@@ -266,21 +267,21 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Oil_Pressure"
-                android:layout_width="232dp"
-                android:layout_height="216dp"
+                android:layout_width="238dp"
+                android:layout_height="259dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
                 app:layout_constraintTop_toBottomOf="@+id/Gear_jauge"
                 app:sv_image="@drawable/alpine_jauge_pression"
                 app:sv_indicator="NeedleIndicator"
-                app:sv_indicatorColor="#DDECF3"
+                app:sv_indicatorColor="#EA0A0A"
                 app:sv_markColor="#0434E4"
                 app:sv_markHeight="12dp"
                 app:sv_markStyle="ROUND"
                 app:sv_markWidth="3dp"
-                app:sv_marksNumber="5"
+                app:sv_marksNumber="6"
                 app:sv_marksPadding="26dp"
-                app:sv_maxSpeed="90"
+                app:sv_maxSpeed="45"
                 app:sv_minSpeed="0"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
@@ -288,18 +289,18 @@
                 app:sv_speedTextPosition="BOTTOM_CENTER"
                 app:sv_speedTextSize="22dp"
                 app:sv_textColor="#FFFFFF"
-                app:sv_tickNumber="7"
+                app:sv_tickNumber="8"
                 app:sv_tickPadding="40dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="Bar"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="22dp"/>
+                app:sv_unitTextSize="22dp" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/CooL_jauge"
-                android:layout_width="232dp"
-                android:layout_height="216dp"
+                android:layout_width="243dp"
+                android:layout_height="239dp"
                 android:layout_marginStart="64dp"
                 app:layout_constraintBottom_toBottomOf="@+id/OIL_jauge"
                 app:layout_constraintStart_toEndOf="@+id/OIL_jauge"
@@ -332,8 +333,8 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Gear_jauge"
-                android:layout_width="232dp"
-                android:layout_height="216dp"
+                android:layout_width="233dp"
+                android:layout_height="274dp"
                 android:layout_marginStart="64dp"
                 app:layout_constraintBottom_toBottomOf="@+id/CooL_jauge"
                 app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
@@ -341,7 +342,7 @@
                 app:layout_constraintVertical_bias="0.0"
                 app:sv_image="@drawable/alpine_jauge_rpm"
                 app:sv_indicator="NeedleIndicator"
-                app:sv_indicatorColor="#DDECF3"
+                app:sv_indicatorColor="#EA0A0A"
                 app:sv_markColor="#0434E4"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
@@ -452,8 +453,8 @@
 
             <ImageView
                 android:id="@+id/angularWheel"
-                android:layout_width="161dp"
-                android:layout_height="181dp"
+                android:layout_width="142dp"
+                android:layout_height="156dp"
                 android:layout_marginTop="48dp"
                 android:rotation="0"
                 android:src="@drawable/volant"
@@ -465,9 +466,9 @@
                 android:id="@+id/rpmgauge"
                 android:layout_width="51dp"
                 android:layout_height="457dp"
-                android:layout_marginStart="32dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                app:layout_constraintStart_toEndOf="@+id/Gear_jauge"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toStartOf="@+id/OIL_jauge"
+                app:layout_constraintStart_toEndOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/OIL_jauge"
                 app:sv_image="@drawable/lineargauge"
                 app:sv_indicator="LineIndicator"
@@ -516,13 +517,14 @@
                 android:id="@+id/textView5"
                 android:layout_width="78dp"
                 android:layout_height="36dp"
+                android:layout_marginTop="4dp"
                 android:text="Cool"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="#157CB3"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/CooL_jauge"
-                app:layout_constraintHorizontal_bias="0.487"
+                app:layout_constraintHorizontal_bias="0.329"
                 app:layout_constraintStart_toStartOf="@+id/CooL_jauge"
                 app:layout_constraintTop_toBottomOf="@+id/CooL_jauge" />
 
@@ -572,17 +574,18 @@
                 android:layout_marginTop="16dp"
                 android:background="?attr/selectableItemBackground"
                 android:fontFamily="sans-serif-medium"
+                android:gravity="center"
                 android:justificationMode="none"
                 android:singleLine="true"
                 android:text="0 Km/h"
-                android:textAlignment="textEnd"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 android:textColor="#FFFFFF"
                 android:textSize="42sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/brake_Press"
                 app:layout_constraintStart_toStartOf="@+id/throttle_Press"
-                app:layout_constraintTop_toBottomOf="@+id/throttle_Press" />
+                app:layout_constraintTop_toBottomOf="@+id/throttle_Press"
+                app:textAllCaps="false" />
 
             <ImageView
                 android:id="@+id/imageView"

@@ -44,16 +44,16 @@ fun getServiceState(context: Context): ServiceState {
 }
 
 private fun getPreferences(context: Context): SharedPreferences {
-    val oldPolicy: ThreadPolicy
-    var sharepref: SharedPreferences
+    var sharpreferences: SharedPreferences
 
-    oldPolicy = StrictMode.getThreadPolicy()
+    val oldPolicy: ThreadPolicy = StrictMode.getThreadPolicy()
+
     StrictMode.allowThreadDiskReads()
     try {
         // Do reads here
-        sharepref = context.getSharedPreferences(name, 0)
+        context.getSharedPreferences(name, 0).also { sharpreferences = it }
     } finally {
         StrictMode.setThreadPolicy(oldPolicy)
     }
-    return sharepref
+    return sharpreferences
 }

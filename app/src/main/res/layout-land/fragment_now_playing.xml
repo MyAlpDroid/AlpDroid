@@ -2,9 +2,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp">
+    android:layout_margin="16dp"
+    tools:ignore="MissingDefaultResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragmentblock"
@@ -12,11 +14,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/background"
         android:outlineSpotShadowColor="#03A9F4">
+
     <RelativeLayout
         android:id="@+id/now_playing_detail"
         android:layout_marginTop="48dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/now_playing_art_card"
@@ -28,21 +32,22 @@
                 android:id="@+id/now_playing_art"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
+                android:scaleType="center"
                 android:src="@mipmap/ic_launcher"
                 android:visibility="visible" />
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/now_playing_title"
-            style="@android:style/TextAppearance.Medium"
+            style="@style/Widget.AppCompat.TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/now_playing_art_card"
             android:layout_marginTop="16dp"
             android:text="Track"
             android:textAlignment="center"
-            android:textColor="#FFE500" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="#F4F4EE" />
 
         <TextView
             android:id="@+id/now_playing_artist"
@@ -50,104 +55,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/now_playing_title"
-            android:text="Artist — Album"
+            android:text="Artist-Album"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textAlignment="center"
-            android:textColor="#FFEB3B" />
-
-        <RelativeLayout
-            android:id="@+id/now_playing_button"
-            android:layout_width="439dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/now_playing_art_card"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="32dp">
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="70dp"
-                android:layout_toEndOf="@+id/imageButton3"
-                android:visibility="visible"
-                app:srcCompat="@android:drawable/ic_media_ff" />
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="70dp"
-                android:layout_toEndOf="@+id/imageButton5"
-                android:visibility="visible"
-                app:srcCompat="@android:drawable/ic_media_rew" />
-
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="70dp"
-                android:layout_toEndOf="@+id/imageButton4"
-                android:visibility="visible"
-                app:srcCompat="@android:drawable/ic_media_play" />
-
-            <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="70dp"
-                android:layout_toEndOf="@+id/imageButton2"
-                android:visibility="visible"
-                app:srcCompat="@android:drawable/ic_media_pause" />
-
-            <ImageButton
-                android:id="@+id/imageButton5"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="70dp"
-                android:visibility="visible"
-                app:srcCompat="@android:drawable/ic_media_previous" />
-
-            <ImageButton
-                android:id="@+id/imageButton6"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="70dp"
-                android:layout_toEndOf="@+id/imageButton"
-                android:visibility="visible"
-                app:srcCompat="@android:drawable/ic_media_next" />
-        </RelativeLayout>
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="37dp"
-            android:layout_marginEnd="338dp"
-            android:text="RadioButton" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="-1dp"
-            android:text="RadioButton" />
+            android:textColor="#F4F4EE" />
 
     </RelativeLayout>
 

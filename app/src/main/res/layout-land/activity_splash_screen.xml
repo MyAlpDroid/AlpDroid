@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="com.alpdroid.huGen10.ui.SplashScreen">
+    android:background="@color/material_dynamic_neutral0"
+    tools:context="com.alpdroid.huGen10.ui.SplashScreen"
+    tools:ignore="MissingDefaultResource">
 
     <ImageView
         android:layout_width="50dip"

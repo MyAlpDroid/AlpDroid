@@ -15,6 +15,8 @@ class CanframeBuffer {
     private var queueoutFrame : LinkedHashMap<Int, CanFrame> = LinkedHashMap(50)
     private var sendingSwitch : Boolean = false
     private var mutex_add : Mutex = Mutex()
+    private var mutex_push : Mutex = Mutex()
+
 
 
     @Synchronized
@@ -53,14 +55,16 @@ class CanframeBuffer {
         }
     }
 
-
+    @Synchronized
     fun pushFifoFrame(candID: Int)
     {
-        // Push frame to send into FiFO queue
-        getFrame(candID).also { if (it!=null)
-            this.queueoutFrame.put(candID,it)
+        CoroutineScope(Dispatchers.IO).launch {
+            mutex_push.withLock {  // Push frame to send into FiFO queue
+            getFrame(candID).also {
+            if (it!=null)  this@CanframeBuffer.queueoutFrame.put(candID,it)
+            }
+          }
         }
-
     }
 
     fun getKeys(): Set<Int> {
@@ -77,16 +81,26 @@ class CanframeBuffer {
     }
 
     fun get(next: Int): CanFrame? {
-        return queueoutFrame.get(next)
+        try {
+            return queueoutFrame.get(next)
+        }
+        catch (e:Exception) {
+            return null
+        }
     }
 
     fun remove(id: Int) {
         queueoutFrame.remove(id)
     }
 
+    @Synchronized
     fun flush()
     {
-        queueoutFrame.clear()
+        CoroutineScope(Dispatchers.IO).launch {
+            mutex_push.withLock {
+                queueoutFrame.clear()
+            }
+        }
     }
 
 

@@ -11,48 +11,26 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
+        android:fitsSystemWindows="false">
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="top"
-            android:background="@color/colorPrimaryDark"
-            android:keepScreenOn="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="0dp">
+            android:layout_height="wrap_content"
+            android:background="@color/material_dynamic_neutral0">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="103dp"
+                android:layout_height="104dp"
                 android:layout_gravity="top"
                 app:tabIndicatorColor="@color/colorAccent"
                 app:tabIndicatorGravity="top"
                 app:tabSelectedTextColor="@color/design_default_color_primary"
                 app:tabTextColor="@color/colorPrimary" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         </androidx.viewpager.widget.ViewPager>
-<!--
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/colorPrimaryDark"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextColor="#F8F5F5">
-
-        </androidx.appcompat.widget.Toolbar> -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

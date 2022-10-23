@@ -2,35 +2,35 @@ package com.alpdroid.huGen10
 
 import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
-import android.hardware.GeomagneticField
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import com.alpdroid.huGen10.ui.MainActivity
+/*
 import org.osmdroid.views.overlay.compass.IOrientationConsumer
 import org.osmdroid.views.overlay.compass.IOrientationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-
+*/
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
 
 @SuppressLint("MissingPermission")
-class VehicleServices : LocationListener, IOrientationConsumer {
+class VehicleServices : LocationListener {
+    //, IOrientationConsumer {
 
     private val TAG = VehicleServices::class.java.name
 
-    var alpine2Cluster: ClusterInfo
 
-    val application = MainActivity.application
+    var application : AlpdroidApplication = MainActivity.application
 
     var isConnected : Boolean = false
     var isBad : Boolean = false
 
          var deviceOrientation = 0
-         var overlay: MyLocationNewOverlay? = null
-         var compass: IOrientationProvider? = null
+    //     var overlay: MyLocationNewOverlay? = null
+    //     var compass: IOrientationProvider? = null
          var gpsspeed = 0f
          var gpsbearing = 0f
          var lat = 0f
@@ -55,10 +55,10 @@ class VehicleServices : LocationListener, IOrientationConsumer {
                 // ex.printStackTrace()
              }
 
-          //   if (compass == null) compass = InternalCompassOrientationProvider(application)
-          //   compass!!.startOrientationProvider(this)
+        //     if (compass == null) compass = InternalCompassOrientationProvider(application)
+        //     compass!!.startOrientationProvider(this)
 
-             alpine2Cluster = ClusterInfo()
+
 
         // TODO : handler to CanFrame Services
         // sending piushFifoFrame
@@ -71,10 +71,11 @@ class VehicleServices : LocationListener, IOrientationConsumer {
 
          }
 
+
     fun onClose()
     {
         lm.removeUpdates(this)
-        alpine2Cluster.onDestroy()
+      //  application.alpdroidServices.onDestroy()
     }
 
     override fun onLocationChanged(location: Location) {
@@ -114,7 +115,7 @@ class VehicleServices : LocationListener, IOrientationConsumer {
 
     var trueNorth = 0f
 
-    override fun onOrientationChanged(
+  /*  override fun onOrientationChanged(
         orientationToMagneticNorth: Float,
         source: IOrientationProvider?
     ) {
@@ -150,49 +151,18 @@ class VehicleServices : LocationListener, IOrientationConsumer {
                 compassOrientation = t.toInt()
             }
         }
-    }
+    }*/
 
-         fun setalbumName(albumname:String)
-         {
-             alpine2Cluster.albumName=albumname
-                 // .substring(0,minOf(albumname.length, 16))
-             alpine2Cluster.startIndexAlbum=0
 
-         }
-
-         fun getalbumName(): String? {
-             return alpine2Cluster.albumName
-         }
-         fun settrackName(trackname:String)
-         {
-
-             alpine2Cluster.prevtrackName=alpine2Cluster.trackName
-             alpine2Cluster.trackName=trackname
-
-                 //.substring(0,minOf(trackname.length, 16))
-             alpine2Cluster.startIndexTrack=0
-         }
-
-         fun setartistName(artistname:String)
-         {
-             alpine2Cluster.artistName=artistname
-           //  alpine2Cluster.prevartistName=artistname
-                 //.substring(0,minOf(artistname.length, 16))
-             alpine2Cluster.startIndexArtist=0
-         }
-
-         fun settrackId(trackid:Int)
-         {
-             alpine2Cluster.trackId=trackid
-         }
-         fun settrackLengthInSec(tracklengthinsec:Int)
-         {
-             alpine2Cluster.trackLengthInSec=tracklengthinsec
-         }
 
     // Update Regular Services
 
-    fun get_CompassOrientation() : Int = compassOrientation
+    fun get_CompassOrientation() : Int {
+
+        compassOrientation +=1
+        if (compassOrientation>360) compassOrientation-=360
+        return compassOrientation
+    }
 
     // Calculate Functions for Cluster
 
@@ -203,6 +173,7 @@ class VehicleServices : LocationListener, IOrientationConsumer {
     }
 
 
+    //TODO : ajouter la gestion du bus
     fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
         val frame:CanFrame
 

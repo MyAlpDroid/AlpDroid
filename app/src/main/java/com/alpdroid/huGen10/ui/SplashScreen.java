@@ -22,10 +22,15 @@ public class SplashScreen extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 
-   StrictMode.ThreadPolicy oldPolicy;
-    super.onCreate(savedInstanceState);
+   application = (AlpdroidApplication) getApplication();
 
-    setContentView(R.layout.activity_splash_screen);
+   StrictMode.ThreadPolicy oldPolicy;
+
+   super.onCreate(savedInstanceState);
+
+
+   setContentView(R.layout.activity_splash_screen);
+
    oldPolicy = StrictMode.getThreadPolicy();
   StrictMode.allowThreadDiskReads();
       try {
@@ -36,14 +41,15 @@ public class SplashScreen extends Activity {
           StrictMode.setThreadPolicy(oldPolicy);
       }
 
-    application = (AlpdroidApplication) getApplication();
+
      enableNotificationAccess();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    enableNotificationAccess();
+      application = (AlpdroidApplication) getApplication();
+      enableNotificationAccess();
   }
 
   private void enableNotificationAccess() {

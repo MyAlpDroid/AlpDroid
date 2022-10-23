@@ -11,7 +11,6 @@ import android.media.session.MediaSessionManager;
 import android.media.session.PlaybackState;
 import android.net.ConnectivityManager;
 import android.service.notification.NotificationListenerService;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationManagerCompat;
@@ -38,27 +37,22 @@ public class ListenerService extends NotificationListenerService
     private final Map<MediaController, MediaController.Callback> controllerCallbacks = new WeakHashMap<>();
     private PlaybackTracker playbackTracker;
     private SharedPreferences sharedPreferences;
-    private AlpdroidApplication application;
     private AlpdroidEr alpdroidEr;
     private NetworkStateReceiver networkStateReceiver;
 
     @Override
     public void onCreate() {
-        application = (AlpdroidApplication) getApplication();
-        Log.d(TAG, "NotificationListenerService GetSharedPreferences");
+        AlpdroidApplication application = (AlpdroidApplication) getApplication();
+
         sharedPreferences = application.getSharedPreferences();
-        Log.d(TAG, "NotificationListenerService  OK SP");
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        Log.d(TAG, "NotificationListenerService  OK CM");
 
         alpdroidEr =
                 new AlpdroidEr(connectivityManager);
-        Log.d(TAG, "NotificationListenerService  OK AlpDroidER");
 
         playbackTracker = new PlaybackTracker( alpdroidEr );
 
-        Log.d(TAG, "NotificationListenerService started");
 
         MediaSessionManager mediaSessionManager =
                 (MediaSessionManager)
@@ -95,7 +89,6 @@ public class ListenerService extends NotificationListenerService
         try{
             if(networkStateReceiver!=null) {
                 unregisterReceiver(networkStateReceiver);
-                Log.d(TAG, "Network unregister receiver");
             }
         }catch(Exception e){}
 
@@ -105,11 +98,9 @@ public class ListenerService extends NotificationListenerService
     @Override
     public void onDestroy()
     {
-        Log.d(TAG, "ListenerService Destroy");
         try{
             if(networkStateReceiver!=null) {
                 unregisterReceiver(networkStateReceiver);
-                Log.d(TAG, "Network unregister receiver");
             }
         }catch(Exception e){}
         alpdroidEr=null;
@@ -122,7 +113,6 @@ public class ListenerService extends NotificationListenerService
 
     @Override
     public void onActiveSessionsChanged(List<MediaController> activeMediaControllers) {
-        Log.d(TAG, "Active MediaSessions changed");
 
         Set<MediaController> existingControllers;
         existingControllers = ImmutableSet.copyOf(Iterables.filter(mediaControllers, controllerCallbacks::containsKey));
@@ -141,9 +131,6 @@ public class ListenerService extends NotificationListenerService
             String packageName = controller.getPackageName();
             String prefKey = "player." + packageName;
 
-            Log.d("sharedPreferences = ",sharedPreferences.toString());
-            Log.d("prefKey = ",prefKey);
-
             if (!sharedPreferences.contains(prefKey)) {
                 //TODO : change scrobble
                 boolean defaultVal = sharedPreferences.getBoolean("scrobble_new_players", true);
@@ -154,11 +141,8 @@ public class ListenerService extends NotificationListenerService
             }
 
             if (!sharedPreferences.getBoolean(prefKey, true)) {
-                Log.d(TAG, String.format("Ignoring player %s", packageName));
                 continue;
             }
-
-            Log.d(TAG, String.format("Listening for events from %s", packageName));
 
             MediaController.Callback callback =
                     new MediaController.Callback() {
@@ -191,11 +175,9 @@ public class ListenerService extends NotificationListenerService
             final String packageName = key.substring(7);
 
             if (sharedPreferences.getBoolean(key, true)) {
-                Log.d(TAG, "Player enabled, re-registering callbacks");
                 onActiveSessionsChanged(mediaControllers);
             } else {
-                Log.d(TAG, "Player disabled, stopping any current tracking");
-                final Optional<MediaController> optionalController =
+               final Optional<MediaController> optionalController =
                         Iterables.tryFind(
                                 mediaControllers, input -> input.getPackageName().equals(packageName));
 

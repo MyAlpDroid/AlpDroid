@@ -20,6 +20,11 @@ class ComputerDisplay : UIFragment(250) {
     lateinit var canid: EditText
     lateinit var arduinostate : TextView
     lateinit var transmitstate : TextView
+    lateinit var appState : TextView
+    lateinit var trackShow:TextView
+    lateinit var trackPrev:TextView
+    lateinit var countCluster:TextView
+
     var framestring1 : String=""
     var framestring2 : String=""
 
@@ -45,22 +50,29 @@ class ComputerDisplay : UIFragment(250) {
         ac_header = fragmentBlankBinding!!.acHeader
         arduinostate = fragmentBlankBinding!!.arduinoState
         transmitstate = fragmentBlankBinding!!.transmitState
-
+        appState = fragmentBlankBinding!!.appstate
+        trackShow = fragmentBlankBinding!!.showtrack
+        trackPrev = fragmentBlankBinding!!.showprev
+        countCluster = fragmentBlankBinding!!.countcluster
 
         timerTask = {
                 activity?.runOnUiThread {
                     if (application.isBound) {
-                        if (application.alpdroidData.alpine2Cluster.clusterStarted)
-                            ac_header.text = "Cluster Is Working"
-                        else ac_header.text = "Cluster Disconnected"
+                        if (application.alpdroidServices.isServiceStarted)
+                            ac_header.text = "Service Is Working"
+                        else ac_header.text = "Service Stopping for some weird reason"
 
-/**                        if (application.alpdroidServices.isCanFrameEnabled())
+                        trackShow.text= application.alpdroidServices.alpine2Cluster.trackName
+                        trackPrev.text= application.alpdroidServices.alpine2Cluster.prevtrackName
+                        countCluster.text= application.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
+
+                     if (application.alpdroidServices.isArduinoWorking())
                             arduinostate.text = "Arduino Is Working"
                         else arduinostate.text = "Arduino Disconnected"
 
-                        if (application.alpdroidServices.isBad == false)
-                            transmitstate.text = ".....Ok"
-                        else transmitstate.text = "......Bad"*/
+                        if (application.alpineCanFrame.isFrametoSend() == true)
+                            transmitstate.text = ".....Ok sending"
+                        else transmitstate.text = "......No Frame to send"
 
                         framestring1= canid.text.toString()
                         if (framestring1.isNotEmpty()) {
@@ -69,26 +81,10 @@ class ComputerDisplay : UIFragment(250) {
 
                             canframeText.text =framestring2
                         }
-            /**            GlobalScope.launch(Dispatchers.Default) {
-                            val keyItem: MutableSet<Int> = application.alpineCanFrame.getMapKeys()
-                            for (key in keyItem) {
-                                if (application.alpineCanFrame.getFrame(key)?.bus != 1) {
-                                    framestring1 += application.alpineCanFrame.getFrame(key)
-                                        .toString()
-
-                                    framestring1 += System.getProperty("line.separator")
-                                } else {
-                                    framestring2 +=
-                                        application.alpineCanFrame.getFrame(key).toString()
-
-                                    framestring2 += System.getProperty("line.separator")
-                                }
-                            }
-                       }
-                        canframeText.append(framestring1) */
-
 
                     }
+                    else
+                        appState.text="Application is not bound"
                 }
             }
     }

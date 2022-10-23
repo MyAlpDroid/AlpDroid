@@ -1,6 +1,7 @@
 package com.alpdroid.huGen10
 
 import android.app.*
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -26,9 +27,11 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var application: AlpdroidApplication
 
+    lateinit var alpine2Cluster: ClusterInfo
+
     var isConnected : Boolean = false
     var isBad : Boolean = false
-    private var isServiceStarted = false
+    var isServiceStarted = false
 
     private val mutex_read = Mutex()
     private val mutex_write = Mutex()
@@ -36,35 +39,23 @@ class CanFrameServices : Service(), ArduinoListener {
     private val myBinder = MyLocalBinder()
     private var wakeLock: PowerManager.WakeLock? = null
 
-    private var countdown : Int =20;
-
+    private lateinit var globalScopeReporter : Job
 
     /* TODO : Implement ECU & MCU class or list enum */
     /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
 
     override fun onCreate() {
-        Log.i(TAG, "Service onCreate")
         application= getApplication() as AlpdroidApplication
+
         super.onCreate()
 
-        // init Control Frame
+            isConnected=true
+            arduino=Arduino(this, 115200)
+            arduino.setArduinoListener(this)
 
-        // Adding reset pool Frame Block
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                3,
-                0xFFD,
-                byteArrayOf(
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte()
-                )
-            ))
+            alpine2Cluster=ClusterInfo(application)
+
+        // init Control Frame
 
         // Adding Start Block
         application.alpineCanFrame.addFrame(
@@ -100,17 +91,7 @@ class CanFrameServices : Service(), ArduinoListener {
                 )
             ))
 
-        application.alpineCanFrame.pushFifoFrame(0xFFD)
 
-        Log.i(TAG, "Launching globalscope coroutines OnCreate")
-
-        val notification = createNotification()
-
-        Log.i(TAG, "OnCreate ForeGround Services Notif Ok Trying to start foreground")
-
-        this.startForeground(1603, notification)
-
-        Log.i(TAG, "OnCreate ForeGround Services start foreground OK")
     }
 
     private fun createNotification(): Notification {
@@ -154,54 +135,49 @@ class CanFrameServices : Service(), ArduinoListener {
             .build()
     }
 
-    @OptIn(InternalCoroutinesApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        
-        Log.i(TAG, "Service onStartCommand " + startId)
+
 
        application= getApplication() as AlpdroidApplication
 
-        if (!isConnected)
+        try {
+            if (arduino.isOpened)
+                isConnected=true
+        }
+        catch (e:Exception)
         {
-            Log.i(TAG, "Arduino Service need to reconnect")
             isConnected=true
             arduino=Arduino(this, 115200)
             arduino.setArduinoListener(this)
         }
 
+        if (isServiceStarted) return START_STICKY
+
+        val notification = createNotification()
+
+        this.startForeground(1603, notification)
+
         if (intent != null) {
-            val action = intent.action
-            Log.i(TAG,"using an intent with action $action")
-            when (action) {
-                Actions.START.name -> startService()
-                Actions.STOP.name -> stopService()
+            when (intent.action) {
+                Actions.START.name -> startService(intent)
+                Actions.STOP.name -> stopService(intent)
                 else -> Log.i(TAG,"This should never happen. No action in the received intent")
             }
         } else {
             Log.i(TAG,
                 "with a null intent. It has been probably restarted by the system."
             )
+            return START_REDELIVER_INTENT
         }
-        Log.i(TAG, " : return Start Sticky")
+        Log.i(TAG,"CanFrame Service is started")
+
         return START_STICKY
     }
 
 
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val serviceChannel = NotificationChannel(CHANNEL_ID, "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            val manager = getSystemService(NotificationManager::class.java)
-            manager!!.createNotificationChannel(serviceChannel)
-        }
-    }
-
     override fun onBind(intent: Intent): IBinder? {
-        Log.i(TAG, "CanFrameServices onBind return MyBinder")
-        Log.d(TAG, myBinder.toString())
         return myBinder // or null ?
     }
-
 
 
     inner class MyLocalBinder : Binder() {
@@ -211,79 +187,8 @@ class CanFrameServices : Service(), ArduinoListener {
     }
 
     override fun stopService(name: Intent?): Boolean {
-        Log.i(TAG, "CanFrameServices StopService")
-        stopForeground(STOP_FOREGROUND_REMOVE)
-        stopSelf(1603)
-        return super.stopService(name)
-    }
-
-    // A client has unbound from the service
-    override fun onUnbind(intent: Intent?): Boolean {
-        Log.i(TAG, "CanFrameServices onUnBind")
-        return super.onUnbind(intent)
-    }
-
-    private fun startService() {
-
-        if (!isConnected)
-        {
-            Log.i(TAG, "Arduino Service start or need to reconnect")
-            isConnected=true
-            arduino=Arduino(this, 115200)
-            arduino.setArduinoListener(this)
-        }
-
-        if (isServiceStarted) return
-        Log.d(TAG,"Starting the foreground service task")
-     //   Toast.makeText(this, "Service starting its task", Toast.LENGTH_SHORT).show()
-        isServiceStarted = true
-        setServiceState(this, ServiceState.STARTED)
-
-        // we need this lock so our service gets not affected by Doze Mode
-        wakeLock =
-            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "EndlessService::lock").apply {
-                    acquire()
-                }
-            }
-
-        // we're starting a loop in a coroutine
-        GlobalScope.launch(Dispatchers.IO) {
-            while (isServiceStarted) {
-                launch(Dispatchers.IO) {
-
-                    mutex_write.withLock {
-                        countdown--;
-                        if (countdown == 0)
-                            application.alpineCanFrame.pushFifoFrame(0xFFD)
-                        if (isConnected) {
-                            try {
-                                if (application.alpineCanFrame.isFrametoSend())
-                                {
-
-                                    Log.i(TAG, "Something to Send")
-                                    application.alpineCanFrame.unsetSending()
-                                    // Adding Stop Frame
-                                    application.alpineCanFrame.pushFifoFrame(0xFFF)
-                                    sendFifoFrame()
-                                    // Adding Init for Next Block Queue
-                                    application.alpineCanFrame.pushFifoFrame(0xFFE)
-
-                                }
-                            } catch (e: Exception) {
-                                // No Frame , No Arduino or Bad Frame
-                                Log.i(TAG, " : No Frame, no Arduino or Bad Frame")
-                            }
-
-                        }
-                    }
-                }
-            }
-            Log.d(TAG,"End of the loop for the service")
-        }
-    }
-
-    private fun stopService() {
+        isServiceStarted = false
+        setServiceState(this, ServiceState.STOPPED)
         Log.d(TAG, "Stopping CanFrameServices's foreground service")
         Toast.makeText(this, "Service MyAlpdroid stopping", Toast.LENGTH_SHORT).show()
         try {
@@ -292,28 +197,103 @@ class CanFrameServices : Service(), ArduinoListener {
                     it.release()
                 }
             }
-            stopForeground(true)
+            stopForeground(STOP_FOREGROUND_REMOVE)
             stopSelf()
         } catch (e: Exception) {
             Log.d(TAG,"Service stopped without being started: ${e.message}")
         }
-        isServiceStarted = false
-        setServiceState(this, ServiceState.STOPPED)
+
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf(1603)
+
+        return super.stopService(name)
     }
 
+    // A client has unbound from the service
+    override fun onUnbind(intent: Intent?): Boolean {
+        return super.onUnbind(intent)
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun startService(name: Intent?): ComponentName? {
+
+        try {
+            if (arduino.isOpened)
+                isConnected=true
+            if (globalScopeReporter.isActive)
+                isServiceStarted=true
+        }
+        catch (e:Exception)
+        {
+            isConnected=true
+            isServiceStarted=false
+            arduino=Arduino(this, 115200)
+            arduino.setArduinoListener(this)
+        }
+
+
+        if (isServiceStarted) return startForegroundService(name)
+
+        isServiceStarted = true
+        setServiceState(this, ServiceState.STARTED)
+
+        // we need this lock so our service gets not affected by Doze Mode
+        wakeLock =
+            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "EndlessService::lock").apply {
+                    acquire(10*60*1000L /*10 minutes*/)
+                }
+            }
+
+        // we're starting a loop in a coroutine
+        globalScopeReporter = CoroutineScope(Dispatchers.Default).launch {
+            while (isServiceStarted) {
+                launch(Dispatchers.Default) {
+                        if (isConnected)
+                            if (application.alpineCanFrame.isFrametoSend()) {
+                               try {
+                                mutex_write.withLock {
+                                    application.alpineCanFrame.unsetSending()
+                                    // Adding Stop Frame
+                                    Log.i(TAG, " : Sending Frame")
+                                    application.alpineCanFrame.pushFifoFrame(0xFFF)
+                                    sendFifoFrame()
+                                    // Adding Init for Next Block Queue
+                                    application.alpineCanFrame.pushFifoFrame(0xFFE)
+                                }
+                            } catch (e: Exception) {
+                                // No Frame , No Arduino or Bad Frame
+                                Log.i(TAG, " : No Frame, no Arduino or Bad Frame")
+                            }
+                        }
+
+                }
+            }
+
+        }
+
+        return startForegroundService(name)
+    }
+
+
     override fun onDestroy() {
-        arduino.unsetArduinoListener()
-        arduino.close()
+        if (isConnected) {
+            arduino.unsetArduinoListener()
+            arduino.close()
+        }
         isConnected=false
+        isServiceStarted = false
         super.onDestroy()
-        Log.i(TAG, "CanFrameServices quit onDestroy")
     }
 
 
     fun isCanFrameEnabled(): Boolean {
-        return arduino.isOpened
+        return (isConnected && isServiceStarted)
     }
 
+    fun isArduinoWorking():Boolean {
+        return arduino.isOpened
+    }
 
     override fun onArduinoAttached(device: UsbDevice?) {
         arduino.open(device)
@@ -334,7 +314,7 @@ class CanFrameServices : Service(), ArduinoListener {
         //Unqueue frame : first in first out
         while (iterator.hasNext()) {
             key2fifo = application.alpineCanFrame.get(iterator.next())!!
-            sendFrame(key2fifo.id)
+            sendFrame(key2fifo)
         }
 
         application.alpineCanFrame.flush()
@@ -376,14 +356,11 @@ class CanFrameServices : Service(), ArduinoListener {
 
 
     @Synchronized
-    fun sendFrame(candID: Int) {
-        application.alpineCanFrame.getFrame(candID).also {
-         //send frame as byte to serial port
-            if (it != null) {
-                arduino.send(it.toByteArray())
+    fun sendFrame(frame: CanFrame) {
 
+            if (frame != null) {
+                arduino.send(frame.toByteArray())
             }
-        }
     }
 
     fun checkFrame(ecuAddrs:Int):Boolean {
@@ -395,6 +372,42 @@ class CanFrameServices : Service(), ArduinoListener {
         return false
     }
 
+    fun setalbumName(albumname:String)
+    {
+        alpine2Cluster.albumName=albumname
+        // .substring(0,minOf(albumname.length, 16))
+        alpine2Cluster.startIndexAlbum=0
+
+    }
+
+    fun getalbumName(): String? {
+        return alpine2Cluster.albumName
+    }
+    fun settrackName(trackname:String)
+    {
+
+        alpine2Cluster.trackName=trackname
+
+        //.substring(0,minOf(trackname.length, 16))
+        alpine2Cluster.startIndexTrack=0
+    }
+
+    fun setartistName(artistname:String)
+    {
+        alpine2Cluster.artistName=artistname
+        //  alpine2Cluster.prevartistName=artistname
+        //.substring(0,minOf(artistname.length, 16))
+        alpine2Cluster.startIndexArtist=0
+    }
+
+    fun settrackId(trackid:Int)
+    {
+        alpine2Cluster.trackId=trackid
+    }
+    fun settrackLengthInSec(tracklengthinsec:Int)
+    {
+        alpine2Cluster.trackLengthInSec=tracklengthinsec
+    }
     // Receive Data from OsmAnd not here
 
     fun fromOsmData(extras:Bundle)

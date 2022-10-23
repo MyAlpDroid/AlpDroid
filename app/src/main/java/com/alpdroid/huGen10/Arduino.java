@@ -82,6 +82,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         if (lastArduinoAttached != null && listener != null) {
             listener.onArduinoAttached(lastArduinoAttached);
         }
+
     }
 
     public void unsetArduinoListener() {
@@ -229,9 +230,10 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     }
 
     @Override
+   // @Synchronized
     public void onReceivedData(byte[] bytes) {
-        if (isOpened) {
-            synchronized (this) {
+        //if (isOpened) {
+       //     synchronized (this) {
                 if (bytes.length != 0) {
                     List<Integer> idx = indexOf(bytes, delimiter);
                     if (idx.isEmpty()) {
@@ -254,8 +256,8 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
                         }
                     }
                 }
-            }
-        }
+        //    }
+       // }
     }
 
     public boolean isOpened() {

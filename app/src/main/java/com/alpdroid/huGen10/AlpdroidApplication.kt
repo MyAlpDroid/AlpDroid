@@ -24,9 +24,8 @@ class AlpdroidApplication : Application() {
 
     var alpineCanFrame : CanframeBuffer = CanframeBuffer()
 
-    lateinit var alpdroidServices : CanFrameServices
+    var alpdroidServices : CanFrameServices = CanFrameServices()
 
-  //  lateinit var mOsmAndHelper: OsmAndHelper
 
     var isBound = false
     var isStarted = false
@@ -87,32 +86,6 @@ class AlpdroidApplication : Application() {
      //   initLog.
     }
 
-/**  fun  getLog.() : ILog.? {
-        return Log.
-    }
-*/
-    /**
-    private fun initLog.{
-
-        var Log.List : ArrayList<ILog.> = ArrayList<ILog.>()
-        var defaultLog.:ILog.  =  AndroidLog.(ILog.ROR)
-        Log.List.add(defaultLog.)
-        try {
-     //       val file:File = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "aLog./app.Log.
-       //     Log."files dir :", file.toString())
-      //      val fileLog. =  FileLog.(ILog.BUG, file)
-        //    Log.List.add(fileLog.)
-        } catch (e: IOException) {
-            defaultLog."Application", "Error instantiating file Log.", e)
-        }
-        // might want to show ERROR only on toast
-      //  var toastLog.:ToastLog. = ToastLog.(ILog.ROR, this)
-      //  Log.List.add(toastLog.)
-        Log. CompositeLog.(Log.List)
-
-    }
-
-*/
   
 
     fun startListenerService() {
@@ -127,6 +100,7 @@ class AlpdroidApplication : Application() {
 
    fun startVehicleServices() {
        Log.d("CanFrameServices start phase : ", TAG)
+
        actionOnService(Actions.START)
 
        try {
@@ -144,6 +118,7 @@ class AlpdroidApplication : Application() {
            {
                Log.d("Echec binding CanframeServices : ",e.toString())
            }
+
             isStarted = true
             isBound = true
             Log.d("%s : CanFrameServices started", TAG)
@@ -151,20 +126,16 @@ class AlpdroidApplication : Application() {
 
 
     private fun actionOnService(action: Actions) {
+
         if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP) return
+
         Intent(this, CanFrameServices::class.java).also {
             it.action = action.name
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d("Main","Starting the service in >=26 Mode")
-                startForegroundService(it)
-                return
-            }
-            Log.d("Main","Starting the service in < 26 Mode")
-            startService(it)
+            startForegroundService(it)
         }
     }
 
-    fun stopListenerService()
+    private fun stopListenerService()
     {
         stopService(Intent(this, ListenerService::class.java))
         Log.d("ListenerServices stopped : ", TAG)
@@ -174,25 +145,23 @@ class AlpdroidApplication : Application() {
         Log.d("CanFrameServices stop phase: ", TAG)
         isBound=false
         // Detach the service connection.
-     //   actionOnService(Actions.STOP)
+        actionOnService(Actions.STOP)
         isStarted=false
+        alpdroidServices.isServiceStarted=false
         Log.d("CanFrameServices stopped : ", TAG)
-
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     fun close() {
-        Log.d("Application stop Phase initiate : ", TAG)
-        val preferences = getSharedPreferences()
+       val preferences = getSharedPreferences()
         val editor = preferences!!.edit()
         editor.apply()
-        alpdroidData.onClose()
+        /*
         stopListenerService()
         stopVehicleServices()
-        Log.d("Application stop : ", TAG)
+        alpdroidData.onClose()*/
     }
-
 
 
     fun getSharedPreferences(): SharedPreferences? {
@@ -204,23 +173,23 @@ class AlpdroidApplication : Application() {
 
         lastEvent = event
 
-        if (this::alpdroidData.isInitialized) {
+        if (alpdroidServices.isServiceStarted) {
 
             if (lastEvent.track().album().isPresent) {
-                alpdroidData.setalbumName(lastEvent.track().album().get().toString())
+                alpdroidServices.setalbumName(lastEvent.track().album().get().toString())
 
             } else
-                alpdroidData.setalbumName("--")
+                alpdroidServices.setalbumName("--")
 
             if (lastEvent.track().artist().isNotEmpty())
-                alpdroidData.setartistName(lastEvent.track().artist().toString())
+                alpdroidServices.setartistName(lastEvent.track().artist().toString())
             else
-                alpdroidData.setartistName("--")
+                alpdroidServices.setartistName("--")
 
             if (lastEvent.track().track().isNotEmpty())
-                alpdroidData.settrackName(lastEvent.track().track().toString())
+                alpdroidServices.settrackName(lastEvent.track().track().toString())
             else
-                alpdroidData.settrackName("--")
+                alpdroidServices.settrackName("--")
         }
     }
 
