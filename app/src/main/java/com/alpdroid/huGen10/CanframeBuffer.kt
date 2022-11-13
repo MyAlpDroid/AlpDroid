@@ -61,7 +61,7 @@ class CanframeBuffer {
         CoroutineScope(Dispatchers.IO).launch {
             mutex_push.withLock {  // Push frame to send into FiFO queue
             getFrame(candID).also {
-            if (it!=null)  this@CanframeBuffer.queueoutFrame.put(candID,it)
+            if (it!=null) this@CanframeBuffer.queueoutFrame[candID] = it
             }
           }
         }
@@ -93,14 +93,14 @@ class CanframeBuffer {
         queueoutFrame.remove(id)
     }
 
-    @Synchronized
+
     fun flush()
     {
         CoroutineScope(Dispatchers.IO).launch {
             mutex_push.withLock {
                 queueoutFrame.clear()
             }
-        }
+       }
     }
 
 

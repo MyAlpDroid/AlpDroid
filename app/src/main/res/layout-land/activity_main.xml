@@ -18,7 +18,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#000000">
+            android:background="#011927">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"

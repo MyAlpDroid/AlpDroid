@@ -25,9 +25,6 @@ class VehicleServices : LocationListener {
 
     var application : AlpdroidApplication = MainActivity.application
 
-    var isConnected : Boolean = false
-    var isBad : Boolean = false
-
          var deviceOrientation = 0
     //     var overlay: MyLocationNewOverlay? = null
     //     var compass: IOrientationProvider? = null
@@ -168,7 +165,8 @@ class VehicleServices : LocationListener {
 
     fun set_Directions()
     {
-      //TODO
+
+        //TODO
 
     }
 
@@ -471,6 +469,19 @@ class VehicleServices : LocationListener {
 
     /** Get Code RearRightBrakeTemperature **/
     fun get_RearRightBrakeTemperature() : Int = this.getFrameParams(CanECUAddrs.MMI_BRAKE_CANHS_Rst_01.idcan, 24, 8)
+
+
+    /** Get code FrontLeftWheelTemperature **/
+    fun get_FrontLeftWheelTemperature() : Int = this.getFrameParams(CanECUAddrs.TPMS_Rst1.idcan, 0, 8)
+
+    /** Get Code FrontRightWheelTemperature **/
+    fun get_FrontRightWheelTemperature() : Int = this.getFrameParams(CanECUAddrs.TPMS_Rst1.idcan, 8, 8)
+
+    /** Get code RearLeftWheelTemperature **/
+    fun get_RearLeftWheelTemperature() : Int = this.getFrameParams(CanECUAddrs.TPMS_Rst1.idcan, 16, 8)
+
+    /** Get Code RearRightWheelTemperature **/
+    fun get_RearRightWheelTemperature() : Int = this.getFrameParams(CanECUAddrs.TPMS_Rst1.idcan, 24, 8)
 
     /** Get Code LeftDrivenWheelSlip **/
     fun get_LeftDrivenWheelSlip() : Int = this.getFrameParams(CanECUAddrs.MMI_BRAKE_CANHS_Rst_01.idcan, 32, 6)

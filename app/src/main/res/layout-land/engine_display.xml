@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#000000"
         android:orientation="vertical">
 
 
@@ -46,6 +47,19 @@
                 app:layout_constraintTop_toTopOf="@+id/dessinCar" />
 
             <TextView
+                android:id="@+id/text_temp_FL2"
+                android:layout_width="64dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="24dp"
+                android:background="#070E32"
+                android:text="temp iFL"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintStart_toStartOf="@+id/dessinCar"
+                app:layout_constraintTop_toTopOf="@+id/dessinCar" />
+
+            <TextView
                 android:id="@+id/text_temp_FL"
                 android:layout_width="64dp"
                 android:layout_height="26dp"
@@ -71,7 +85,20 @@
                 android:textSize="12sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
-                app:layout_constraintStart_toStartOf="@+id/text_press_RL" />
+                app:layout_constraintStart_toStartOf="@+id/text_temp_RL2" />
+
+            <TextView
+                android:id="@+id/text_temp_RL2"
+                android:layout_width="64dp"
+                android:layout_height="26dp"
+                android:layout_marginBottom="32dp"
+                android:background="#070E32"
+                android:text="Temp RL"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_temp_RL"
+                app:layout_constraintStart_toStartOf="@+id/text_press_FL" />
 
             <TextView
                 android:id="@+id/text_press_RL"
@@ -93,6 +120,19 @@
                 android:layout_marginTop="52dp"
                 android:background="#070E32"
                 android:text="Psi FR"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintTop_toTopOf="@+id/dessinCar" />
+
+            <TextView
+                android:id="@+id/text_temp_FR2"
+                android:layout_width="64dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="24dp"
+                android:background="#070E32"
+                android:text="Temp FR"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="normal|bold"
@@ -123,7 +163,20 @@
                 android:textSize="12sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
-                app:layout_constraintStart_toStartOf="@+id/text_press_RR" />
+                app:layout_constraintStart_toStartOf="@+id/text_temp_RR2" />
+
+            <TextView
+                android:id="@+id/text_temp_RR2"
+                android:layout_width="64dp"
+                android:layout_height="26dp"
+                android:layout_marginBottom="32dp"
+                android:background="#070E32"
+                android:text="Temp RR"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_temp_RR"
+                app:layout_constraintEnd_toEndOf="@+id/dessinCar" />
 
             <TextView
                 android:id="@+id/text_press_RR"
@@ -173,7 +226,7 @@
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="42dp"
                 app:sv_speedTextPosition="BOTTOM_RIGHT"
-                app:sv_speedometerBackColor="@color/black_overlay"
+                app:sv_speedometerBackColor="@color/cardview_shadow_end_color"
                 app:sv_speedometerColor="#3AE641"
                 app:sv_textColor="#FFFFFF"
                 app:sv_unit="%"
@@ -194,7 +247,7 @@
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="4dp"
                 app:sv_speedTextPosition="TOP_LEFT"
-                app:sv_speedometerBackColor="@color/black_overlay"
+                app:sv_speedometerBackColor="@color/cardview_shadow_start_color"
                 app:sv_speedometerColor="#F42828"
                 app:sv_textColor="#FFFFFF"
                 app:sv_unit="%"
@@ -279,9 +332,9 @@
                 app:sv_markHeight="12dp"
                 app:sv_markStyle="ROUND"
                 app:sv_markWidth="3dp"
-                app:sv_marksNumber="6"
+                app:sv_marksNumber="5"
                 app:sv_marksPadding="26dp"
-                app:sv_maxSpeed="45"
+                app:sv_maxSpeed="6"
                 app:sv_minSpeed="0"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
@@ -289,7 +342,7 @@
                 app:sv_speedTextPosition="BOTTOM_CENTER"
                 app:sv_speedTextSize="22dp"
                 app:sv_textColor="#FFFFFF"
-                app:sv_tickNumber="8"
+                app:sv_tickNumber="7"
                 app:sv_tickPadding="40dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"

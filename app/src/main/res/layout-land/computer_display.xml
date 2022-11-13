@@ -107,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:text="Appli State"
+                android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/arduino_state"
                 app:layout_constraintStart_toEndOf="@+id/arduino_state"
                 app:layout_constraintTop_toTopOf="@+id/arduino_state" />

@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.hardware.usb.UsbDevice
 import android.os.*
 import android.util.Log
-import android.widget.Toast
 import com.alpdroid.huGen10.ui.MainActivity
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.*
@@ -31,6 +30,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     var isConnected : Boolean = false
     var isBad : Boolean = false
+
     var isServiceStarted = false
 
     private val mutex_read = Mutex()
@@ -41,6 +41,8 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
+    var tx:Int = 0
+
     /* TODO : Implement ECU & MCU class or list enum */
     /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
 
@@ -49,47 +51,11 @@ class CanFrameServices : Service(), ArduinoListener {
 
         super.onCreate()
 
-            isConnected=true
-            arduino=Arduino(this, 115200)
-            arduino.setArduinoListener(this)
+        isConnected=true
+        arduino=Arduino(this, 115200)
+        arduino.setArduinoListener(this)
 
-            alpine2Cluster=ClusterInfo(application)
-
-        // init Control Frame
-
-        // Adding Start Block
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                2,
-                0xFFE,
-                byteArrayOf(
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte()
-                )
-            ))
-
-        // Adding Stop Block
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                2,
-                0xFFF,
-                byteArrayOf(
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte()
-                )
-            ))
+        alpine2Cluster=ClusterInfo(application)
 
 
     }
@@ -141,8 +107,16 @@ class CanFrameServices : Service(), ArduinoListener {
        application= getApplication() as AlpdroidApplication
 
         try {
-            if (arduino.isOpened)
+            if (arduino.isOpened) {
+                arduino.reopen()
+                isConnected = true
+            }
+            else
+            {
+                arduino=Arduino(this, 115200)
+                arduino.setArduinoListener(this)
                 isConnected=true
+            }
         }
         catch (e:Exception)
         {
@@ -190,7 +164,6 @@ class CanFrameServices : Service(), ArduinoListener {
         isServiceStarted = false
         setServiceState(this, ServiceState.STOPPED)
         Log.d(TAG, "Stopping CanFrameServices's foreground service")
-        Toast.makeText(this, "Service MyAlpdroid stopping", Toast.LENGTH_SHORT).show()
         try {
             wakeLock?.let {
                 if (it.isHeld) {
@@ -220,15 +193,22 @@ class CanFrameServices : Service(), ArduinoListener {
         try {
             if (arduino.isOpened)
                 isConnected=true
+            else
+            {
+                arduino=Arduino(this, 115200)
+                arduino.setArduinoListener(this)
+                isConnected=true
+                isServiceStarted=false
+            }
             if (globalScopeReporter.isActive)
                 isServiceStarted=true
         }
         catch (e:Exception)
         {
-            isConnected=true
-            isServiceStarted=false
             arduino=Arduino(this, 115200)
             arduino.setArduinoListener(this)
+            isConnected=true
+            isServiceStarted=false
         }
 
 
@@ -248,26 +228,26 @@ class CanFrameServices : Service(), ArduinoListener {
         // we're starting a loop in a coroutine
         globalScopeReporter = CoroutineScope(Dispatchers.Default).launch {
             while (isServiceStarted) {
-                launch(Dispatchers.Default) {
-                        if (isConnected)
-                            if (application.alpineCanFrame.isFrametoSend()) {
-                               try {
-                                mutex_write.withLock {
-                                    application.alpineCanFrame.unsetSending()
-                                    // Adding Stop Frame
-                                    Log.i(TAG, " : Sending Frame")
-                                    application.alpineCanFrame.pushFifoFrame(0xFFF)
-                                    sendFifoFrame()
-                                    // Adding Init for Next Block Queue
-                                    application.alpineCanFrame.pushFifoFrame(0xFFE)
-                                }
+          //      launch(Dispatchers.Default) {
+                    mutex_write.withLock {
+                        if (isConnected) {
+                            try {
+                                    if (application.alpineCanFrame.isFrametoSend())
+                                    {
+                                        application.alpineCanFrame.unsetSending()
+                                        // Adding Stop Frame
+                                        Log.i(TAG, " : Sending Frame")
+                                        sendFifoFrame()
+                                    }
+
                             } catch (e: Exception) {
                                 // No Frame , No Arduino or Bad Frame
                                 Log.i(TAG, " : No Frame, no Arduino or Bad Frame")
                             }
                         }
+                    }
 
-                }
+           //     }
             }
 
         }
@@ -292,7 +272,7 @@ class CanFrameServices : Service(), ArduinoListener {
     }
 
     fun isArduinoWorking():Boolean {
-        return arduino.isOpened
+        return arduino.txWarning
     }
 
     override fun onArduinoAttached(device: UsbDevice?) {
@@ -355,11 +335,11 @@ class CanFrameServices : Service(), ArduinoListener {
     }
 
 
-    @Synchronized
-    fun sendFrame(frame: CanFrame) {
+    private fun sendFrame(frame: CanFrame) {
 
             if (frame != null) {
-                arduino.send(frame.toByteArray())
+                arduino.send("@@".toByteArray()+frame.toByteArray())
+                tx+=frame.dlc
             }
     }
 

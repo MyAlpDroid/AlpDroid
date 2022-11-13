@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,16 +26,19 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.CanFrame;
+import com.alpdroid.huGen10.OsmAndAidlHelper;
+import com.alpdroid.huGen10.OsmAndHelper;
 import com.alpdroid.huGen10.R;
 import com.alpdroid.huGen10.VehicleServices;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.collect.ImmutableList;
 
+import net.osmand.aidlapi.navigation.ADirectionInfo;
+
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
-// implements OsmAndHelper.OnOsmandMissingListener
+public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOsmandMissingListener {
 
         private final String TAG = "MainActivity";
         final int REQUEST_OSMAND_API = 1001;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         final int REQUEST_GET_GPX_BITMAP_URI_AIDL = 1010;
         final int REQUEST_COPY_FILE = 1011;
         final int REQUEST_IMPORT_FILE = 1012;
-        final String AUTHORITY = "net.osmand.osmandapidemo.fileprovider";
+        final String AUTHORITY = "net.osmand.plus.fileprovider";
         final String GPX_FILE_NAME = "test.gpx";
         final String SQLDB_FILE_NAME = "test.sqlitedb";
 
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         private final String METRIC_CONST_MILES_AND_YARDS = "MILES_AND_YARDS";
         private final String METRIC_CONST_NAUTICAL_MILES = "NAUTICAL_MILES";
 
-        private final String OSMAND_SHARED_PREFERENCES_NAME = "osmand-api-demo";
+        private final String OSMAND_SHARED_PREFERENCES_NAME = "AlpDroid osmData";
 /**
         private val appModesAll = null
         private val appModesNone = emptyList<String>()
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         private val appModesExceptAirBoatDefault = listOf(APP_MODE_CAR, APP_MODE_BICYCLE, APP_MODE_PEDESTRIAN)
  */
 
+    private OsmAndAidlHelper mAidlHelper=null;
 
     private TextView textView;
     private final int number=0;
@@ -111,6 +116,13 @@ public class MainActivity extends AppCompatActivity {
     public static boolean locationPermissionGranted;
 
     private final byte[] message="{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".getBytes();
+
+
+    public void osmandMissing() {
+        // something to do is missing
+        Toast.makeText(this,"osmAND is missing, no navigation info available", Toast.LENGTH_SHORT);
+    }
+
 
     /**
      * The {@link PagerAdapter} that will provide fragments for each of the
@@ -129,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
     private int delay = 5000;
 
 
+
     @SuppressLint("NoLoggedException")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +154,16 @@ public class MainActivity extends AppCompatActivity {
         application.alpdroidData = new VehicleServices();
 
         application.startListenerService();
+
+        mAidlHelper = new OsmAndAidlHelper(application,this);
+
+        if (mAidlHelper!=null) {
+            mAidlHelper.setNavigationInfoUpdateListener(new OsmAndAidlHelper.NavigationInfoUpdateListener {
+
+            }
+
+                    );
+        }
 
         StrictMode.ThreadPolicy oldPolicy;
         oldPolicy= StrictMode.getThreadPolicy();
@@ -189,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
         //5.6 and newer
 //        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-        Log.d("MainActivity is launching : ", TAG);
+        Log.d("MainActivity : OnCreate ", TAG);
 
     }
 
@@ -213,9 +236,12 @@ public class MainActivity extends AppCompatActivity {
         return "" + resultCode;
     }
 
- /*   @Override
+   @Override
     public void onRestart() {
-        application = (AlpdroidApplication) getApplication();
+
+     /*  application = (AlpdroidApplication) getApplication();
+
+        super.onRestart();
 
         application.startVehicleServices();
 
@@ -223,11 +249,62 @@ public class MainActivity extends AppCompatActivity {
 
         application.startListenerService();
 
-        super.onRestart();
+       StrictMode.ThreadPolicy oldPolicy;
+       oldPolicy= StrictMode.getThreadPolicy();
+       StrictMode.allowThreadDiskReads();
+       try {
+           // Do reads here
+           setContentView(R.layout.activity_main);
+       } finally {
+           StrictMode.setThreadPolicy(oldPolicy);
+       }
+       //   application.mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
+
+       //  Toolbar toolbar = findViewById(R.id.toolbar);
+       //  setSupportActionBar(toolbar);
+
+       // Create the adapter that will return a fragment for each of the three
+       // primary sections of the activity.
+       mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+       // Set up the ViewPager with the sections adapter.
+       mViewPager = findViewById(R.id.container);
+       mViewPager.setAdapter(mSectionsPagerAdapter);
+
+       TabLayout tabLayout = findViewById(R.id.tabs);
+       tabLayout.setupWithViewPager(mViewPager);
+
+       // Initial tab may have been specified in the intent.
+       int initialTab = getIntent().getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE);
+       mViewPager.setCurrentItem(initialTab);
 
 
+       try {
+           if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED )
+           {
+               ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+               locationPermissionGranted=true;
+           }
+           locationPermissionGranted=true;
+       } catch (Exception e)
+       {
+           locationPermissionGranted=true;
+           // e.printStackTrace();
+       }
 
-    }*/
+       //important! set your user agent to prevent getting banned from the osm servers
+
+       //5.6 and newer
+//        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+       Log.d("MainActivity is launching : ", TAG);
+
+
+    }
+    */
+       super.onRestart();
+       Log.d("MainActivity : OnRestart ", TAG);
+       Toast.makeText(this,"on Restart", Toast.LENGTH_SHORT);
+   }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -320,10 +397,13 @@ public class MainActivity extends AppCompatActivity {
         //application.close();
     }
 
-    //@Override
-    /**public void osmandMissing() {
-        Log.d("OsmAND missiong : ", "Wrong version detected ?");
-    }*/
+
+    public void onNavigationInfoUpdate(ADirectionInfo directionInfo) {
+
+        application.getAlpdroidServices().alpine2Cluster.setDistanceToturn(directionInfo.getDistanceTo());
+        application.getAlpdroidServices().alpine2Cluster.setNextTurnTypee(directionInfo.getTurnType());
+
+    }
 
 
     /**

@@ -36,6 +36,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     private int baudRate;
     private boolean isOpened;
     private boolean islistening;
+    boolean txWarning;
     private List<Integer> vendorIds;
     private List<Byte> bytesReceived;
     private byte delimiter;
@@ -94,6 +95,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_DEVICE_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         if (!islistening) {
             context.registerReceiver(usbReceiver, filter);
             islistening=true;
@@ -121,9 +123,12 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     }
 
     public void send(byte[] bytes) {
+        txWarning = true;
         if (serialPort != null) {
             serialPort.write(bytes);
+            txWarning = false;
         }
+
     }
 
     public void setDelimiter(byte delimiter){
@@ -175,9 +180,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
                                         serialPort.setParity(UsbSerialInterface.PARITY_NONE);
                                         serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
                                         serialPort.read(Arduino.this);
-
                                         isOpened = true;
-
                                         if (listener != null) {
                                             listener.onArduinoOpened();
                                         }

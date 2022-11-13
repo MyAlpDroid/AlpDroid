@@ -36,6 +36,10 @@ class EngineDisplay : UIFragment(250)
     lateinit var temp_FR: TextView
     lateinit var temp_RL: TextView
     lateinit var temp_RR: TextView
+    lateinit var temp_FL2: TextView
+    lateinit var temp_FR2: TextView
+    lateinit var temp_RL2: TextView
+    lateinit var temp_RR2: TextView
     lateinit var oddo_Rate: TextView
     lateinit var fuel_inst: TextView
     lateinit var fuel_level: TextView
@@ -80,6 +84,10 @@ class EngineDisplay : UIFragment(250)
         temp_RL = fragmentBlankBinding!!.textTempRL
         temp_RR = fragmentBlankBinding!!.textTempRR
 
+        temp_FL2 = fragmentBlankBinding!!.textTempFL2
+        temp_FR2 = fragmentBlankBinding!!.textTempFR2
+        temp_RL2 = fragmentBlankBinding!!.textTempRL2
+        temp_RR2 = fragmentBlankBinding!!.textTempRR2
 
         angle_steering = fragmentBlankBinding!!.angularWheel
 
@@ -120,6 +128,11 @@ class EngineDisplay : UIFragment(250)
                         var frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
                         var rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
                         var rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
+
+                        temp_FL2.text= String.format(" %d °C",(alpineServices.get_FrontLeftWheelTemperature() - 30))
+                        temp_FR2.text= String.format(" %d °C",(alpineServices.get_FrontRightWheelTemperature() - 30))
+                        temp_RL2.text= String.format(" %d °C",(alpineServices.get_RearLeftWheelTemperature() - 30) )
+                        temp_RR2.text= String.format(" %d °C",(alpineServices.get_RearRightWheelTemperature() - 30))
 
 
                         press_FL.text = String.format(
@@ -236,14 +249,14 @@ class EngineDisplay : UIFragment(250)
 
                         speed.text = String.format(" %d KM/H", (alpineServices.get_Disp_Speed_MM()/100))
 
-                        otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat())
+                        otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat()/10)
 
                         oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
                         fuel_level.text =
                             String.format(" %2d l", (alpineServices.get_FuelLevelDisplayed()))
                         fuel_inst.text = String.format(
                             " %.2f l/s",
-                            (alpineServices.get_TripConsumption().toFloat()/10)
+                            (alpineServices.get_TripConsumption().toFloat()/100)
                         )
 
                         brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)
@@ -252,7 +265,7 @@ class EngineDisplay : UIFragment(250)
 
                         val id =
                             resources.getIdentifier(
-                                "shift_${alpineServices.get_CurrentGear()}",
+                                "shift_${(alpineServices.get_CurrentGear()+1)}",
                                 "drawable",
                                 context?.packageName
                             )
@@ -260,7 +273,7 @@ class EngineDisplay : UIFragment(250)
 
                         val id1 =
                             resources.getIdentifier(
-                                "shift_${alpineServices.get_RST_ATPreSelectedRange()}",
+                                "shift_${(alpineServices.get_RST_ATPreSelectedRange()+1)}",
                                 "drawable",
                                 context?.packageName
                             )

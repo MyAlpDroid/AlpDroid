@@ -26,7 +26,6 @@ class AlpdroidApplication : Application() {
 
     var alpdroidServices : CanFrameServices = CanFrameServices()
 
-
     var isBound = false
     var isStarted = false
 
@@ -57,6 +56,7 @@ class AlpdroidApplication : Application() {
             Log.d(TAG,"On Null Binding Trying to restart")
         }
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
@@ -112,7 +112,7 @@ class AlpdroidApplication : Application() {
                ), alpineConnection, BIND_AUTO_CREATE
            )
 
-               Log.d("CanFrameServices binding phase : ", alpineConnection.toString())
+           Log.d("CanFrameServices binding phase : ", alpineConnection.toString())
            }
            catch (e : Exception)
            {

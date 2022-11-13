@@ -64,15 +64,16 @@ class ComputerDisplay : UIFragment(250) {
 
                         trackShow.text= application.alpdroidServices.alpine2Cluster.trackName
                         trackPrev.text= application.alpdroidServices.alpine2Cluster.prevtrackName
-                        countCluster.text= application.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
+                        countCluster.text= application.alpdroidServices.tx.toString()
+                        appState.text=application.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
 
                      if (application.alpdroidServices.isArduinoWorking())
-                            arduinostate.text = "Arduino Is Working"
-                        else arduinostate.text = "Arduino Disconnected"
+                            arduinostate.text = "Arduino Serial Port Null"
+                        else arduinostate.text = "Arduino transmitting"
 
                         if (application.alpineCanFrame.isFrametoSend() == true)
-                            transmitstate.text = ".....Ok sending"
-                        else transmitstate.text = "......No Frame to send"
+                            transmitstate.text = ".....ok send Frame"
+                        else transmitstate.text = "......No Frame"
 
                         framestring1= canid.text.toString()
                         if (framestring1.isNotEmpty()) {

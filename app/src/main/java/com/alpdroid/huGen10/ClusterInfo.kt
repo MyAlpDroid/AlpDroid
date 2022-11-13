@@ -5,6 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.*
 
 class ClusterInfo (application : AlpdroidApplication)
@@ -25,16 +27,23 @@ class ClusterInfo (application : AlpdroidApplication)
     var startIndexTrack:Int=0
     var startIndexArtist:Int=0
 
+    var nextTurnTypee:Int=0
+    var distanceToturn:Int=0
+
+
 
     var prevtrackName:String = "prev"
 
     var updateMusic:Boolean = true
 
 
+    var index:Int =0
+
     var rightNow = Calendar.getInstance()
 
     var clusterStarted:Boolean
 
+    private val mutex_push = Mutex()
 
     init {
 
@@ -127,7 +136,7 @@ class ClusterInfo (application : AlpdroidApplication)
                     )
                ))
 
-        // Adding Start Block
+        /* Adding Start Block
         application.alpineCanFrame.addFrame(
             CanFrame(
                 2,
@@ -159,52 +168,59 @@ class ClusterInfo (application : AlpdroidApplication)
                     0x00.toByte(),
                     0x00.toByte()
                 )
-            ))
+            ))*/
 
         // Init Queueframe for Block
         // Adding Init for Next Block Queue
         application.alpineCanFrame.unsetSending()
-        application.alpineCanFrame.pushFifoFrame(0xFFE)
+    //    application.alpineCanFrame.pushFifoFrame(0xFFE)
 
         // 180 ms 3 frames
 
         Log.d(TAG,"trying to start coroutines")
 
+   //     Toast.makeText(application.applicationContext, "Entering Cluster Coroutines", Toast.LENGTH_SHORT).show()
+
         CoroutineScope(Dispatchers.IO).launch {
             while (true) {
                 if (application.alpdroidServices.isServiceStarted) {
                     clusterStarted = false
-                    try {
-                        clusterInfoUpdate()
-                        Log.d(TAG, "Cluster Info is Working")
-                        application.alpineCanFrame.unsetSending()
-                        // Block Frame
-                        application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan + 0)
-                        application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan + 0)
-                        application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Compass_Info.idcan + 0)
-                        if (updateMusic) {
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan + 0)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 0)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 1)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 2)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 3)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 4)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 5)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 6)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 7)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
-                        }
-                        application.alpineCanFrame.pushFifoFrame(0xFFE)
-                        application.alpineCanFrame.setSending()
-                        clusterStarted = true
-                        delay(3500)
-                        //    application.mOsmAndHelper.getInfo()
+                    mutex_push.withLock {
+                        try {
+                            // Block Frame
+                            clusterInfoUpdate()
+                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan + 0)
+                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan + 0)
+                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Compass_Info.idcan + 0)
+                            if (updateMusic) {
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan + 0)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 0)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 1)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 2)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 3)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 4)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 5)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 6)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 7)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
+                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
+                                updateMusic=false
+                            }
+                            clusterStarted = true
+                            application.alpineCanFrame.setSending()
+                        //   TODO: application.mOsmAndHelper.getInfo()
 
                     } catch (e: Exception) {
-                        clusterStarted = false
+                            clusterStarted = true
+                            updateMusic = false
+                            prevtrackName = "-- something wrong --"
+                            trackName = "-- oups --"
                     }
+                        finally {
+                            delay(3500)
+                        }
                 }
+             }
             }
         }
     }
@@ -217,9 +233,9 @@ class ClusterInfo (application : AlpdroidApplication)
     }
 
 
-    fun String.rotate(index:Int):String
+    fun String.rotate():String
     {
-        var endIndex:Int=index+20
+        var endIndex:Int=17+index
         var padding:Int
         var finalResult:String
 
@@ -228,7 +244,7 @@ class ClusterInfo (application : AlpdroidApplication)
             endIndex = this.length
 
             if (index>0)
-                finalResult=this.substring(index, endIndex)+"-"+this.substring(0,index)
+                finalResult=this.substring(index, endIndex)+"..."+this.substring(0,index)
             else
                 finalResult=this.substring(0, endIndex)
         } else {
@@ -240,38 +256,69 @@ class ClusterInfo (application : AlpdroidApplication)
         if (padding>0)
             finalResult=finalResult.padEnd(padding)
 
+        index++
+
+        if (index>this.length) index=0
+
         return finalResult
 
     }
 
     private fun clusterInfoUpdate()
     {
-        updateMusic=(prevtrackName==trackName)
 
-        if (!updateMusic)
-        {
-            updateMusic=true
-            prevtrackName = trackName
-            for (i in 0..9) {
+            updateMusic = (prevtrackName != trackName)
+
+            if (updateMusic)
+                prevtrackName=trackName
+
+            for (i in 0..4) {
                 application.alpineCanFrame.addFrame(
                     CanFrame(
                         0,
                         CanMCUAddrs.Audio_Display.idcan + i,
-                        getStringLine("$artistName - $trackName", i + 1)
+                        getStringLine(artistName, i + 1)
                     )
                 )
 
+                application.alpineCanFrame.addFrame(
+                    CanFrame(
+                        0,
+                        CanMCUAddrs.Audio_Display.idcan + i + 5,
+                        getStringLine(trackName, i + 1)
+                    )
+                )
             }
-        }
+
+
 
         frameFlowTurn+=1
 
+        // Setting audio Info to Internet Source
+        application.alpineCanFrame.addFrame(
+            CanFrame(
+                0,
+                CanMCUAddrs.Audio_Info.idcan,
+                byteArrayOf(
+                    0xFC.toByte(),
+                    0x70.toByte(),
+                    0x80.toByte(),
+                    0x09.toByte(),
+                    0x00.toByte(),
+                    0x7F.toByte(),
+                    0x7F.toByte(),
+                    0x7F.toByte()
+                )
+            )
+        )
 
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
 
 // Navigation / Direction
-        application.alpdroidData.set_Directions()
+        application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,0,12,distanceToturn)
+        application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,12,4,0)
+        application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,16,4,nextTurnTypee)
 
 // Heure
         rightNow = Calendar.getInstance()
