@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10
 
+import android.os.Bundle
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -136,50 +137,10 @@ class ClusterInfo (application : AlpdroidApplication)
                     )
                ))
 
-        /* Adding Start Block
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                2,
-                0xFFE,
-                byteArrayOf(
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte()
-                )
-            ))
 
-        // Adding Stop Block
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                2,
-                0xFFF,
-                byteArrayOf(
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte()
-                )
-            ))*/
-
-        // Init Queueframe for Block
-        // Adding Init for Next Block Queue
         application.alpineCanFrame.unsetSending()
-    //    application.alpineCanFrame.pushFifoFrame(0xFFE)
-
-        // 180 ms 3 frames
 
         Log.d(TAG,"trying to start coroutines")
-
-   //     Toast.makeText(application.applicationContext, "Entering Cluster Coroutines", Toast.LENGTH_SHORT).show()
 
         CoroutineScope(Dispatchers.IO).launch {
             while (true) {
@@ -312,10 +273,13 @@ class ClusterInfo (application : AlpdroidApplication)
             )
         )
 
+
+
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
 
 // Navigation / Direction
+
         application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,0,12,distanceToturn)
         application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,12,4,0)
         application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,16,4,nextTurnTypee)
@@ -346,6 +310,22 @@ class ClusterInfo (application : AlpdroidApplication)
 
     }
 
+    fun fromOsmData(extras: Bundle)
+    {
+        if (extras != null && extras.size() > 0) {
+            nextTurnTypee = extras.getBundle("no_speak_next_turn_type").toString().toInt()
+            //  alpine2Cluster.nextTurnTypee  = extras.getBundle("turn_type").toString().toInt()
+            distanceToturn  = extras.getBundle("next_turn_distance").toString().toInt()
+            Log.d("next_turn",nextTurnTypee.toString())
+            Log.d("turn_type",extras.getBundle("turn_type").toString())
+            Log.d("distance_2_turn",distanceToturn.toString())
+            for (key in extras.keySet()) {
 
+                Log.d("key to read : ", key)
+                Log.d("value read : ", extras[key].toString())
+            }
+
+        }
+    }
 
 }

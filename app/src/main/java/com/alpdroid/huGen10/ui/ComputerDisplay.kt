@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
-import com.alpdroid.huGen10.ui.MainActivity.application
 
 
 @ExperimentalUnsignedTypes
@@ -27,7 +27,6 @@ class ComputerDisplay : UIFragment(250) {
 
     var framestring1 : String=""
     var framestring2 : String=""
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -57,27 +56,28 @@ class ComputerDisplay : UIFragment(250) {
 
         timerTask = {
                 activity?.runOnUiThread {
-                    if (application.isBound) {
-                        if (application.alpdroidServices.isServiceStarted)
+                    if (AlpdroidApplication.app.isBound) {
+                        if (AlpdroidApplication.app.alpdroidServices.isServiceStarted)
                             ac_header.text = "Service Is Working"
                         else ac_header.text = "Service Stopping for some weird reason"
 
-                        trackShow.text= application.alpdroidServices.alpine2Cluster.trackName
-                        trackPrev.text= application.alpdroidServices.alpine2Cluster.prevtrackName
-                        countCluster.text= application.alpdroidServices.tx.toString()
-                        appState.text=application.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
+                        trackShow.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.trackName
+                        trackPrev.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.prevtrackName
+                        countCluster.text= AlpdroidApplication.app.alpdroidServices.alpine2Cluster.nextTurnTypee.toString()
+                                //AlpdroidApplication.app.alpdroidServices.tx.toString()
+                        appState.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
 
-                     if (application.alpdroidServices.isArduinoWorking())
+                     if (AlpdroidApplication.app.alpdroidServices.isArduinoWorking())
                             arduinostate.text = "Arduino Serial Port Null"
                         else arduinostate.text = "Arduino transmitting"
 
-                        if (application.alpineCanFrame.isFrametoSend() == true)
+                        if (AlpdroidApplication.app.alpineCanFrame.isFrametoSend() == true)
                             transmitstate.text = ".....ok send Frame"
-                        else transmitstate.text = "......No Frame"
+                        else transmitstate.text = AlpdroidApplication.app.alpdroidServices.alpine2Cluster.distanceToturn.toString()//"......No Frame"
 
                         framestring1= canid.text.toString()
                         if (framestring1.isNotEmpty()) {
-                            framestring2=application.alpineCanFrame.getFrame(framestring1.toInt(16))
+                            framestring2=AlpdroidApplication.app.alpineCanFrame.getFrame(framestring1.toInt(16))
                                 .toString()
 
                             canframeText.text =framestring2

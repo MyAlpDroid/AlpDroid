@@ -6,7 +6,6 @@ import java.util.*
 
 abstract class UIFragment(private val uiRefreshTime: Long) : Fragment() {
 
-
     open fun onKeyDown(code: Int, keyEvent: KeyEvent): Boolean = true
 
     protected var timerTask: (() -> Unit?)? = null

@@ -38,7 +38,7 @@ import net.osmand.aidlapi.navigation.ADirectionInfo;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOsmandMissingListener {
+public class Other_MainActivity extends AppCompatActivity implements OsmAndHelper.OnOsmandMissingListener {
 
         private final String TAG = "MainActivity";
         final int REQUEST_OSMAND_API = 1001;
@@ -157,12 +157,16 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
 
         mAidlHelper = new OsmAndAidlHelper(application,this);
 
+
+
         if (mAidlHelper!=null) {
-            mAidlHelper.setNavigationInfoUpdateListener(new OsmAndAidlHelper.NavigationInfoUpdateListener {
-
-            }
-
-                    );
+            mAidlHelper.setNavigationInfoUpdateListener(new OsmAndAidlHelper.NavigationInfoUpdateListener() {
+                @Override
+                public void onNavigationInfoUpdate(ADirectionInfo directionInfo) {
+                    onNavInfoUpdate(directionInfo);
+                }
+            });
+            mAidlHelper.registerForNavigationUpdates(true, 1001);
         }
 
         StrictMode.ThreadPolicy oldPolicy;
@@ -398,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements OsmAndHelper.OnOs
     }
 
 
-    public void onNavigationInfoUpdate(ADirectionInfo directionInfo) {
+    public void onNavInfoUpdate(ADirectionInfo directionInfo) {
 
         application.getAlpdroidServices().alpine2Cluster.setDistanceToturn(directionInfo.getDistanceTo());
         application.getAlpdroidServices().alpine2Cluster.setNextTurnTypee(directionInfo.getTurnType());

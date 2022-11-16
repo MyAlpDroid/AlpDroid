@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.VehicleServices
 import com.alpdroid.huGen10.databinding.EngineDisplayBinding
-import com.alpdroid.huGen10.ui.MainActivity.application
 import com.github.anastr.speedviewlib.ImageLinearGauge
 import com.github.anastr.speedviewlib.ImageSpeedometer
 import com.github.anastr.speedviewlib.ProgressiveGauge
@@ -114,11 +114,11 @@ class EngineDisplay : UIFragment(250)
 
             timerTask = {
                 activity?.runOnUiThread {
-                  if (application.isBound)
+                  if (AlpdroidApplication.app.isBound)
                     {
 
                         Log.d("EngineDispkay:","OnUIThread TimerTask")
-                        alpineServices = application.alpdroidData
+                        alpineServices = AlpdroidApplication.app.alpdroidData
 
                         var flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
                         var frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50

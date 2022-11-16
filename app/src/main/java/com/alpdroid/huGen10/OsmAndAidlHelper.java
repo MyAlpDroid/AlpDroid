@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -123,9 +124,11 @@ import java.util.Map;
 
 public class OsmAndAidlHelper {
 
-    private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand.plus";
+    private static String TAG = "OsmAndAidlHelper";
+
+    private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
     private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
-    private static final String OSMAND_PACKAGE_NAME = OSMAND_PLUS_PACKAGE_NAME;
+    private static final String OSMAND_PACKAGE_NAME = OSMAND_FREE_PACKAGE_NAME;
 
     private static final int MAX_RETRY_COUNT = 10;
     private static final long BUFFER_SIZE = COPY_FILE_PART_SIZE_LIMIT;
@@ -284,12 +287,14 @@ public class OsmAndAidlHelper {
             // representation of that from the raw service object.
             mIOsmAndAidlInterface = IOsmAndAidlInterface.Stub.asInterface(service);
             Toast.makeText(app, "OsmAnd service connected", Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"OsmAnd service connected");
         }
         public void onServiceDisconnected(ComponentName className) {
             // This is called when the connection with the service has been
             // unexpectedly disconnected -- that is, its process crashed.
             mIOsmAndAidlInterface = null;
             Toast.makeText(app, "OsmAnd service disconnected", Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"OsmAnd service disconnected");
         }
     };
 

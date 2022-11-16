@@ -12,9 +12,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
-import com.alpdroid.huGen10.ui.MainActivity.application
 import java.util.*
 
 
@@ -120,9 +120,9 @@ class ConfortDisplay : UIFragment(250) {
 
         timerTask = {
             activity?.runOnUiThread {
-            if (application.isBound) {
+            if (AlpdroidApplication.app.isBound) {
 
-                val alpineServices=application.alpdroidData
+                val alpineServices=AlpdroidApplication.app.alpdroidData
 
                 externaltemp.text=String.format(
                     " %d °C",

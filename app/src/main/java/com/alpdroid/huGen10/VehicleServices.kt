@@ -6,7 +6,8 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import com.alpdroid.huGen10.ui.MainActivity
+
+
 /*
 import org.osmdroid.views.overlay.compass.IOrientationConsumer
 import org.osmdroid.views.overlay.compass.IOrientationProvider
@@ -23,8 +24,6 @@ class VehicleServices : LocationListener {
     private val TAG = VehicleServices::class.java.name
 
 
-    var application : AlpdroidApplication = MainActivity.application
-
          var deviceOrientation = 0
     //     var overlay: MyLocationNewOverlay? = null
     //     var compass: IOrientationProvider? = null
@@ -40,9 +39,8 @@ class VehicleServices : LocationListener {
 
     init {
 
-
              try {
-                 lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
+                 lm = AlpdroidApplication().getSystemService(LOCATION_SERVICE) as LocationManager
                  //on API15 AVDs,network provider fails. no idea why
                  lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f,this)
                  lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, this)
@@ -176,7 +174,7 @@ class VehicleServices : LocationListener {
         val frame:CanFrame
 
         try {
-            frame= application.alpineCanFrame.getFrame(canID)!!
+            frame= AlpdroidApplication().alpineCanFrame.getFrame(canID)!!
         }
         catch (e: Exception)
         {
@@ -192,7 +190,7 @@ class VehicleServices : LocationListener {
 
         var frame: CanFrame
 
-        application.alpineCanFrame.getFrame(candID).also {
+        AlpdroidApplication().alpineCanFrame.getFrame(candID).also {
             if (it != null) {
 
                 frame=it
@@ -201,7 +199,7 @@ class VehicleServices : LocationListener {
 
                 frame.setBitRange(bytesNum,len,param)
 
-                application.alpineCanFrame.addFrame(frame)
+                AlpdroidApplication().alpineCanFrame.addFrame(frame)
             }
         }
 
@@ -209,7 +207,7 @@ class VehicleServices : LocationListener {
 
     fun getFrameBool(candID:Int, bytesNum:Int): Boolean {
 
-        application.alpineCanFrame.getFrame(candID).also {
+        AlpdroidApplication().alpineCanFrame.getFrame(candID).also {
             if (it != null) {
                 return it.getBit(bytesNum)
             }

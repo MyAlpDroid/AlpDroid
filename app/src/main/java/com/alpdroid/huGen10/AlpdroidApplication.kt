@@ -10,13 +10,15 @@ import android.os.IBinder
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
+import net.osmand.aidlapi.navigation.ADirectionInfo
 
 
-class AlpdroidApplication : Application() {
+class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
 
     private val TAG = AlpdroidApplication::class.java.name
     
@@ -30,6 +32,9 @@ class AlpdroidApplication : Application() {
     var isStarted = false
 
     private var sharedPreferences: SharedPreferences? = null
+
+    private var mAidlHelper: OsmAndAidlHelper? = null
+    private var  callbackKeys:Long=0
 
     private val alpineConnection = object : ServiceConnection {
 
@@ -82,11 +87,34 @@ class AlpdroidApplication : Application() {
             StrictMode.setThreadPolicy(oldPolicy)
         }
 
+        mAidlHelper = OsmAndAidlHelper(this, this)
+
+        if (mAidlHelper!=null) {
+            setAidHelper(mAidlHelper!!)
+
+            mAidlHelper!!.setNavigationInfoUpdateListener (object : OsmAndAidlHelper.NavigationInfoUpdateListener {
+                override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
+
+                    alpdroidServices.alpine2Cluster.nextTurnTypee=10;
+                    alpdroidServices.alpine2Cluster.distanceToturn=20;
+                    Log.d(TAG,"ok AID Helper Listener")
+                }
+            })
+            mAidlHelper!!.registerForUpdates(7000)
+            callbackKeys = mAidlHelper!!.registerForNavigationUpdates(true, 120)
+        }
+
+
         eventBus.register(this)
      //   initLog.
     }
 
-  
+    override fun osmandMissing() {
+        // something to do is missing
+        Toast.makeText(this, "osmAND is missing, no navigation info available", Toast.LENGTH_SHORT)
+    }
+
+
 
     fun startListenerService() {
         if (ListenerService.isNotificationAccessEnabled(this)) {
@@ -198,6 +226,11 @@ class AlpdroidApplication : Application() {
         return eventBus
     }
 
+    fun getAidHelper() : OsmAndAidlHelper
+    {
+        return aidlHelper
+    }
+
     companion object {
 
         // Media streaming Event
@@ -206,6 +239,20 @@ class AlpdroidApplication : Application() {
 
         fun getLastNowPlayingChangeEvent(): NowPlayingChangeEvent? {
             return lastEvent
+        }
+
+        lateinit var aidlHelper: OsmAndAidlHelper
+
+        fun setAidHelper(setAid:OsmAndAidlHelper)
+        {
+            aidlHelper=setAid
+        }
+
+
+        lateinit var app : AlpdroidApplication
+
+        fun setContext(con: AlpdroidApplication) {
+            app=con
         }
 
 

@@ -104,7 +104,7 @@ class CanFrameServices : Service(), ArduinoListener {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 
-       application= getApplication() as AlpdroidApplication
+       application = getApplication() as AlpdroidApplication
 
         try {
             if (arduino.isOpened) {
@@ -388,43 +388,8 @@ class CanFrameServices : Service(), ArduinoListener {
     {
         alpine2Cluster.trackLengthInSec=tracklengthinsec
     }
-    // Receive Data from OsmAnd not here
 
-    fun fromOsmData(extras:Bundle)
-    {
-      if (extras != null && extras.size() > 0) {
-            var next_turn = extras.getBundle("next_turn")
-            var turn_type = extras.getBundle("turn_type")
-            var distance_2_turn = extras.getBundle("turn_distance")
-            Log.d("next_turn",next_turn.toString())
-            Log.d("turn_type",turn_type.toString())
-            Log.d("distance_2_turn",distance_2_turn.toString())
-           for (key in extras.keySet()) {
 
-               Log.d("key to read : ", key)
-               Log.d("value read : ", extras[key].toString())
-           }
-
-      }
-    }
-
-        fun updateOsmData(extras:Bundle)
-        {
-            if (extras != null && extras.size() > 0) {
-                var next_turn = extras.getBundle("next_turn")
-                var turn_type = extras.getBundle("turn_type")
-                var distance_2_turn = extras.getBundle("turn_distance")
-                Log.d("next_turn",next_turn.toString())
-                Log.d("turn_type",turn_type.toString())
-                Log.d("distance_2_turn",distance_2_turn.toString())
-                for (key in extras.keySet()) {
-
-                    Log.d("key to read : ", key)
-                    Log.d("value read : ", extras[key].toString())
-                }
-
-            }
-        }
 
 
 }
