@@ -36,6 +36,12 @@ Enfin le programme exploite d'autres PINS pour traiter les besoins autour de la 
 // SO = 12  
 // Pin to drive CD4051  
 // 4 5 6 = S0 to S2 coding  
+Si on utilise la nouvelle carte pcb développée par Dav42 il faut remplacer la ligne
+const uint8_t table_output_pins[] = {4, 5, 6};
+par 
+const uint8_t table_output_pins[] = {4, 2, 6};
+
+
 #define Enable_CD 7  
 
 Les trames MMU sont peu nombreuses, les trames ECU sont très nombreuses et peuvent surcharger la connexion USB.
@@ -43,7 +49,7 @@ Comme les postes sont majoritairement en USB 2.0, la communication n'est pas bid
 
 Il faut donc prévoir une latence sur les trames ECU pour laisser "le temps" à l'interface USB de dialoguer :  
 
-  if (delayTime+50<millis())
+  if (delayTime+random(10)<millis())
               {
                 delayTime=millis();                                  
 
@@ -51,14 +57,18 @@ Il faut donc prévoir une latence sur les trames ECU pour laisser "le temps" à 
                  // wait a little between to ECU frame - due to heavy flow form ECU
                  writeFrame(1, &io_can_frame_read);
               }
+  Pour les mêmes de raisons , on a fait de même sur l'écriture vers le MMU.            
               
+  Par ailleurs, si le temps "delayTime" est trop important, ou si l'Arduino perd 'le fil' des trames , on perd trop de trame voir on perd toutes les trames faute de synchronisation. Et si le temps est trop faible, on perd trop de trame de l'Android vers l'Alpine. Il a donc été ajouté aux trames depuis l'Android un controle sur 2 caractères '@@' permettant de minorer le temps de latence en émission (entre 0 et 10 millisecondes au lieu de 50) tout en gardant un contrôle de la qualité des trames en réception.            
+
+Si le poste dispose d'USB 3.0, il est possible de tester la communication bidirectionnelle en supprimant le délai de 10 millisecondes ci-dessus.
+
 Par défaut l'écriture sur le bus CAN ECU est interdit. A changer si on veut envoyer des trames vers ECU.
 
       case 1: // do not write to CAN ECU, if you are not sure of what you do
              // canECU->sendMessage(&io_can_frame);
            break;
 
-Si le poste dispose d'USB 3.0, il est possible de tester la communication bidirectionnelle en supprimant le délai de 50 millisecondes ci-dessus.
 
 
 ## Comment installer le programme sur l'Arduino :  
