@@ -47,6 +47,7 @@ const uint8_t table_output_pins[] = {4, 2, 6};
 // with new card @Dav42 using 2-Channel CanShield :
 // const uint8_t table_output_pins[] = {4, 5, 6};
 
+char writeBuf[53]={0x00};
 
 uint8_t button_prev_scroll=0;
 
@@ -191,8 +192,6 @@ void loop() {
 // If blocked
 wdt_reset();
 
-readbuff_length=0;
-firstfind=false;
 
 delaytTime=millis();
 
@@ -401,7 +400,7 @@ Serial.readBytes((char *)&io_frame, FRAME_SIZE);
   
         // Android to CAN MMU or ECU
 
-        switch (canbusid)
+        switch (io_frame.can_bus_id)
           {
            case 0:
               canMMU->sendMessage(&io_can_frame);
