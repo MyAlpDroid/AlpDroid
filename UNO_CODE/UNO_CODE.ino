@@ -160,8 +160,8 @@ void setup() {
    // Serial.setTimeout(1200);
 
     // Init the CAN modules
-    canMMU = new MCP2515(CANMMU_CS, 16000000); // forcing speed for UNO but difference is minor
-    canECU = new MCP2515(CANECU_CS, 16000000);
+    canMMU = new MCP2515(CANMMU_CS); // forcing speed for UNO but difference is minor
+    canECU = new MCP2515(CANECU_CS);
     canMMU->reset();
     canECU->reset();
     canMMU->setBitrate(CAN_500KBPS);
