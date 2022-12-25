@@ -83,8 +83,13 @@ android {
             excludes += ['META-INF/DEPENDENCIES', 'META-INF/NOTICE', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/NOTICE.txt']
         }
     }
+    namespace 'com.alpdroid.huGen10'
+
+    
 
 }
+
+
 
 dependencies {
  //   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -102,7 +107,7 @@ dependencies {
     implementation("org.greenrobot:eventbus:3.3.1")
     implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.2.4'
     implementation 'com.github.Raizlabs.DBFlow:dbflow:4.2.4'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 //    implementation 'com.google.android.gms:play-services-location:20.0.0'
     testImplementation 'junit:junit:4.13.2'
@@ -111,15 +116,18 @@ dependencies {
     implementation 'com.github.mik3y:usb-serial-for-android:v3.4.0'
     implementation 'com.github.anastr:speedviewlib:1.6.0'
     implementation "com.google.guava:guava:31.1-jre"
-    implementation "com.google.auto.value:auto-value-annotations:1.7.4"
+    implementation "com.google.auto.value:auto-value-annotations:1.8.1"
     annotationProcessor "com.google.auto.value:auto-value:1.6"
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
-  //  implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation "androidx.car.app:app:1.2.0"
+    implementation 'in.rmkrishna:mlog:0.0.3'
+
+    //  implementation 'com.google.android.gms:play-services-maps:18.1.0'
   //  implementation 'org.osmdroid:osmdroid-android:6.1.13'
  //   implementation 'com.github.MKergall:osmbonuspack:6.9.0'
    // implementation "com.github.osmandapp:Osmand:master"
-  //  implementation "com.android.support:appcompat-v7:27.1.1"
+  //  implementation "com.androidx.support:appcompat-v7:28.0.0"
   //  implementation "com.android.support:design:27.1.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])

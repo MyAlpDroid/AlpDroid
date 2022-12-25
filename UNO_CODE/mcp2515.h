@@ -72,9 +72,13 @@
 /*
  * force 8Mhz for 500K speed : change here by original value if using 16Mhz canbus
  */
+//#define MCP_16MHz_500kBPS_CFG1 (0x00)
+//#define MCP_16MHz_500kBPS_CFG2 (0x90)
+//#define MCP_16MHz_500kBPS_CFG3 (0x82)
+
 #define MCP_16MHz_500kBPS_CFG1 (0x00)
-#define MCP_16MHz_500kBPS_CFG2 (0x90)
-#define MCP_16MHz_500kBPS_CFG3 (0x82)
+#define MCP_16MHz_500kBPS_CFG2 (0xF0)
+#define MCP_16MHz_500kBPS_CFG3 (0x86)
 
 #define MCP_16MHz_250kBPS_CFG1 (0x41)
 #define MCP_16MHz_250kBPS_CFG2 (0xF1)

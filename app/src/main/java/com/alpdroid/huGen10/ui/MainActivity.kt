@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10.ui
 
+import `in`.rmkrishna.mlog.MLog
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,19 +9,18 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -31,7 +31,7 @@ import net.osmand.aidlapi.navigation.ADirectionInfo
 import kotlin.time.Duration
 
 
-class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
+class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private val TAG = "MainActivity"
     val REQUEST_OSMAND_API = 1001
@@ -109,21 +109,18 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     }
 
 
-    /**
-     * The [PagerAdapter] that will provide fragments for each of the
-     * sections. We use a [FragmentPagerAdapter] derivative, which will keep every loaded
-     * fragment in memory. If this becomes too memory intensive, it may be best to switch to a [ ].
-     */
-    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+    private lateinit var mSectionsPagerAdapter: SectionsPagerAdapter
 
     /** The [ViewPager] that will host the section contents.  */
-    private var mViewPager: ViewPager? = null
+    private lateinit var mViewPager: ViewPager2
     var lastLatitude = 0.0
     var lastLongitude = 0.0
     private val delay = 5000
 
     @SuppressLint("NoLoggedException")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        MLog.d(TAG, "Activity OnCreate")
 
         super.onCreate(savedInstanceState)
 
@@ -135,39 +132,34 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         application.alpdroidData = VehicleServices()
         application.startListenerService()
 
-     /*   mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
-
-        if (mOsmAndHelper!=null)
-        {
-            scheduleCoroutineAtFixedRate(CoroutineScope(Dispatchers.Default),3.seconds) {mOsmAndHelper!!.getInfo()}
-        }*/
 
         val oldPolicy: ThreadPolicy
         oldPolicy = StrictMode.getThreadPolicy()
         StrictMode.allowThreadDiskReads()
         try {
             // Do reads here
-            setContentView(R.layout.activity_main)
+           setContentView(R.layout.activity_main)
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
 
-        //  Toolbar toolbar = findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        mSectionsPagerAdapter = SectionsPagerAdapter(this)
 
-        // Set up the ViewPager with the sections adapter.
+        // Set up the ViewPager2 with the sections adapter.
         mViewPager = findViewById(R.id.container)
-        mViewPager!!.setAdapter(mSectionsPagerAdapter)
+        mViewPager!!.adapter=mSectionsPagerAdapter
+
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
-        tabLayout.setupWithViewPager(mViewPager)
+        TabLayoutMediator(tabLayout, mViewPager!!) { tab, position ->
+            tab.text = mSectionsPagerAdapter!!.getPageTitle(position+1)
+        }.attach()
 
         // Initial tab may have been specified in the intent.
         val initialTab = intent.getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE)
         mViewPager!!.setCurrentItem(initialTab)
+
         try {
             if (ContextCompat.checkSelfPermission(
                     applicationContext,
@@ -195,6 +187,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         //5.6 and newer
 //        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         Log.d("MainActivity : OnCreate ", TAG)
+        MLog.d(TAG, "Activity OnCreate : fin")
     }
 
     fun resultCodeStr(resultCode: Int): String {
@@ -237,79 +230,30 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     public override fun onRestart() {
 
-        /*  application = (AlpdroidApplication) getApplication();
+        MLog.d(TAG, "Activity onRestart : Begin")
+        application=getApplication() as AlpdroidApplication
 
-        super.onRestart();
+        AlpdroidApplication.setContext(application)
 
-        application.startVehicleServices();
+        application.startVehicleServices()
+        application.alpdroidData = VehicleServices()
+        application.startListenerService()
 
-        application.alpdroidData = new VehicleServices();
-
-        application.startListenerService();
-
-       StrictMode.ThreadPolicy oldPolicy;
-       oldPolicy= StrictMode.getThreadPolicy();
-       StrictMode.allowThreadDiskReads();
-       try {
-           // Do reads here
-           setContentView(R.layout.activity_main);
-       } finally {
-           StrictMode.setThreadPolicy(oldPolicy);
-       }
-       //   application.mOsmAndHelper = new OsmAndHelper(this, REQUEST_OSMAND_API, this);
-
-       //  Toolbar toolbar = findViewById(R.id.toolbar);
-       //  setSupportActionBar(toolbar);
-
-       // Create the adapter that will return a fragment for each of the three
-       // primary sections of the activity.
-       mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-       // Set up the ViewPager with the sections adapter.
-       mViewPager = findViewById(R.id.container);
-       mViewPager.setAdapter(mSectionsPagerAdapter);
-
-       TabLayout tabLayout = findViewById(R.id.tabs);
-       tabLayout.setupWithViewPager(mViewPager);
-
-       // Initial tab may have been specified in the intent.
-       int initialTab = getIntent().getIntExtra(EXTRA_INITIAL_TAB, TAB_ENGINE);
-       mViewPager.setCurrentItem(initialTab);
-
-
-       try {
-           if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED )
-           {
-               ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-               locationPermissionGranted=true;
-           }
-           locationPermissionGranted=true;
-       } catch (Exception e)
-       {
-           locationPermissionGranted=true;
-           // e.printStackTrace();
-       }
-
-       //important! set your user agent to prevent getting banned from the osm servers
-
-       //5.6 and newer
-//        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-       Log.d("MainActivity is launching : ", TAG);
-
-
-    }
-    */
         super.onRestart()
         Log.d("MainActivity : OnRestart ", TAG)
         Toast.makeText(this, "on Restart", Toast.LENGTH_SHORT)
+        MLog.d(TAG, "Activity onRestart : End")
+
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_OSMAND_API) {
 
+        }
+
         if (resultCode == RESULT_OK)
         {
-            if (requestCode==120)
+            if (requestCode==0)
             {
                 Log.d("TAG", "callback for onnavigation update")
             if (data != null) {
@@ -319,36 +263,21 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
             }
             }
-        }
+
         }
 
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.settings_item) {
-            val intent = Intent(baseContext, SettingsActivity::class.java)
-            startActivityForResult(intent, 1)
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     public override fun onResume() {
         val oldPolicy: ThreadPolicy
+        MLog.d(TAG, "Activity onResume : Begin")
         super.onResume()
 
-        /*   application.startVehicleServices();
 
-        application.alpdroidData = new VehicleServices();
-
-        application.startListenerService();
-        */oldPolicy = StrictMode.getThreadPolicy()
+        oldPolicy = StrictMode.getThreadPolicy()
         StrictMode.allowThreadDiskReads()
         StrictMode.allowThreadDiskWrites()
         try {
@@ -357,10 +286,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
+        MLog.d(TAG, "Activity onResume : End")
     }
 
     public override fun onPause() {
         val oldPolicy: ThreadPolicy
+        MLog.d(TAG, "Activity onPause : Begin")
         super.onPause()
 
         //  application.startVehicleServices();
@@ -372,11 +303,14 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
+        MLog.d(TAG, "Activity onPause : End")
     }
 
     public override fun onDestroy() {
+        MLog.d(TAG, "Activity onDestroy : Begin")
         super.onDestroy()
         //application.close();
+        MLog.d(TAG, "Activity onRestart : End")
     }
 
     fun onNavInfoUpdate(directionInfo: ADirectionInfo) {
@@ -391,28 +325,28 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
      * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the
      * sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager?) :
-        FragmentStatePagerAdapter(fm!!, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-        @OptIn(ExperimentalStdlibApi::class)
+    inner class SectionsPagerAdapter(fm: FragmentActivity?) :
+        FragmentStateAdapter(fm!!) {
+        @OptIn(ExperimentalStdlibApi::class, ExperimentalUnsignedTypes::class)
         var fragments: List<Fragment> = ImmutableList.of(
             NowPlayingFragment(),
             EngineDisplay(),
             ConfortDisplay(),
-            ComputerDisplay(),  //new MapsDisplay(500),
-            SettingsActivity()
+            ComputerDisplay(),
+            SettingsDisplay()
         )
 
-        override fun getItem(position: Int): Fragment {
+        override fun createFragment(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return fragments[position]
         }
 
-        override fun getCount(): Int {
+        override fun getItemCount(): Int {
             return fragments.size
         }
 
-        override fun getPageTitle(position: Int): CharSequence? {
+        fun getPageTitle(position: Int): CharSequence? {
             when (position) {
                 0 -> return getString(R.string.tab_now_playing)
                 1 -> return getString(R.string.engine_display)

@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,10 +37,11 @@ class ComputerDisplay : UIFragment(250) {
     }
     override fun onDestroyView() {
         // Consider not storing the binding instance in a field, if not needed.
-        fragmentBlankBinding = null
+    //    fragmentBlankBinding = null
         super.onDestroyView()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
@@ -71,9 +73,10 @@ class ComputerDisplay : UIFragment(250) {
                             arduinostate.text = "Arduino Serial Port Null"
                         else arduinostate.text = "Arduino transmitting"
 
-                        if (AlpdroidApplication.app.alpineCanFrame.isFrametoSend() == true)
+                       /* if (AlpdroidApplication.app.alpineCanFrame.isFrametoSend())
                             transmitstate.text = ".....ok send Frame"
-                        else transmitstate.text = AlpdroidApplication.app.alpdroidServices.alpine2Cluster.distanceToturn.toString()//"......No Frame"
+                        else */
+                            transmitstate.text = AlpdroidApplication.app.alpdroidServices.alpine2Cluster.distanceToturn.toString()  //"......No Frame"
 
                         framestring1= canid.text.toString()
                         if (framestring1.isNotEmpty()) {

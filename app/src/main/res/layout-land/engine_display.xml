@@ -7,7 +7,7 @@
     android:background="#000000"
     tools:ignore="MissingDefaultResource">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000"
@@ -337,7 +337,7 @@
                 app:sv_maxSpeed="6"
                 app:sv_minSpeed="0"
                 app:sv_speedTextColor="#FFFFFF"
-                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextFormat="FLOAT"
                 app:sv_speedTextPadding="52dp"
                 app:sv_speedTextPosition="BOTTOM_CENTER"
                 app:sv_speedTextSize="22dp"
@@ -345,8 +345,8 @@
                 app:sv_tickNumber="7"
                 app:sv_tickPadding="40dp"
                 app:sv_tickRotation="false"
-                app:sv_tickTextFormat="INTEGER"
-                app:sv_unit="Bar"
+                app:sv_tickTextFormat="FLOAT"
+                app:sv_unit=" Bar"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="22dp" />
 
@@ -654,5 +654,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

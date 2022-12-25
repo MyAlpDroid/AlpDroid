@@ -32,7 +32,6 @@ class ClusterInfo (application : AlpdroidApplication)
     var distanceToturn:Int=0
 
 
-
     var prevtrackName:String = "prev"
 
     var updateMusic:Boolean = true
@@ -49,6 +48,7 @@ class ClusterInfo (application : AlpdroidApplication)
     init {
 
         clusterStarted=true
+
 
         // Setting audio Info to Internet Source
         application.alpineCanFrame.addFrame(
@@ -227,33 +227,38 @@ class ClusterInfo (application : AlpdroidApplication)
 
     private fun clusterInfoUpdate()
     {
+            frameFlowTurn+=1
 
             updateMusic = (prevtrackName != trackName)
 
-            if (updateMusic)
-                prevtrackName=trackName
+            prevtrackName=trackName
 
-            for (i in 0..4) {
-                application.alpineCanFrame.addFrame(
-                    CanFrame(
-                        0,
-                        CanMCUAddrs.Audio_Display.idcan + i,
-                        getStringLine(artistName, i + 1)
-                    )
-                )
-
-                application.alpineCanFrame.addFrame(
-                    CanFrame(
-                        0,
-                        CanMCUAddrs.Audio_Display.idcan + i + 5,
-                        getStringLine(trackName, i + 1)
-                    )
-                )
+            if (!updateMusic && frameFlowTurn>4)
+            {
+                    updateMusic=true
+                    frameFlowTurn=0
             }
 
+            if (updateMusic) {
+                for (i in 0..4) {
+                    application.alpineCanFrame.addFrame(
+                        CanFrame(
+                            0,
+                            CanMCUAddrs.Audio_Display.idcan + i,
+                            getStringLine(artistName, i + 1)
+                        )
+                    )
 
+                    application.alpineCanFrame.addFrame(
+                        CanFrame(
+                            0,
+                            CanMCUAddrs.Audio_Display.idcan + i + 5,
+                            getStringLine(trackName, i + 1)
+                        )
+                    )
+                }
+            }
 
-        frameFlowTurn+=1
 
         // Setting audio Info to Internet Source
         application.alpineCanFrame.addFrame(
@@ -312,7 +317,7 @@ class ClusterInfo (application : AlpdroidApplication)
 
     fun fromOsmData(extras: Bundle)
     {
-        if (extras != null && extras.size() > 0) {
+        if (extras.size() > 0) {
             nextTurnTypee = extras.getBundle("no_speak_next_turn_type").toString().toInt()
             //  alpine2Cluster.nextTurnTypee  = extras.getBundle("turn_type").toString().toInt()
             distanceToturn  = extras.getBundle("next_turn_distance").toString().toInt()

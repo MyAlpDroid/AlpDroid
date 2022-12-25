@@ -67,9 +67,10 @@ class EngineDisplay : UIFragment(250)
 
     override fun onDestroyView() {
         // Consider not storing the binding instance in a field, if not needed.
-        fragmentBlankBinding = null
+        //fragmentBlankBinding = null
         super.onDestroyView()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

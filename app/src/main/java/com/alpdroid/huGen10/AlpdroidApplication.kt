@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10
 
+import `in`.rmkrishna.mlog.MLog
 import android.app.Application
 import android.content.ComponentName
 import android.content.Intent
@@ -10,7 +11,6 @@ import android.os.IBinder
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
@@ -36,8 +36,8 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
     private var mAidlHelper: OsmAndAidlHelper? = null
     private var  callbackKeys:Long=0
 
-    private val alpineConnection = object : ServiceConnection {
 
+    private val alpineConnection = object : ServiceConnection {
 
         override fun onServiceConnected(
             className: ComponentName,
@@ -66,6 +66,9 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
 
+        MLog.init(this,true,true)
+        MLog.d(TAG, "OnCreate")
+
         super.onCreate()
         if(BuildConfig.DEBUG)
             StrictMode.enableDefaults();
@@ -90,29 +93,31 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
         mAidlHelper = OsmAndAidlHelper(this, this)
 
         if (mAidlHelper!=null) {
-            setAidHelper(mAidlHelper!!)
+            Log.d(TAG,"ok AID Helper Installed")
 
-            mAidlHelper!!.setNavigationInfoUpdateListener (object : OsmAndAidlHelper.NavigationInfoUpdateListener {
+            mAidlHelper!!.setNavigationInfoUpdateListener (object: OsmAndAidlHelper.NavigationInfoUpdateListener {
                 override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
-
-                    alpdroidServices.alpine2Cluster.nextTurnTypee=10;
-                    alpdroidServices.alpine2Cluster.distanceToturn=20;
                     Log.d(TAG,"ok AID Helper Listener")
                 }
             })
-            mAidlHelper!!.registerForUpdates(7000)
-            callbackKeys = mAidlHelper!!.registerForNavigationUpdates(true, 120)
-        }
 
+            callbackKeys = mAidlHelper!!.registerForNavigationUpdates(true, 0)
+            Log.d(TAG,"ok AID Helper Callback ready")
+            mAidlHelper!!.setUpdateListener (object : OsmAndAidlHelper.UpdateListener {
+                override fun onUpdatePing() {
+                    Log.d(TAG,"ok AID Update Listener")
+                }
+            })
+            mAidlHelper!!.registerForUpdates (1200)
+            Log.d(TAG,"ok AID Helper periodic callback ready")
+            MLog.i(TAG,"ok AID Helper periodic callback ready")
+        }
 
         eventBus.register(this)
      //   initLog.
+        MLog.i(TAG,"OnCreate Fin")
     }
 
-    override fun osmandMissing() {
-        // something to do is missing
-        Toast.makeText(this, "osmAND is missing, no navigation info available", Toast.LENGTH_SHORT)
-    }
 
 
 
@@ -226,10 +231,11 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
         return eventBus
     }
 
-    fun getAidHelper() : OsmAndAidlHelper
-    {
-        return aidlHelper
+    override fun osmandMissing() {
+        // something to do is missing
+        Log.d(TAG, "osmAND is missing, no navigation info available")
     }
+
 
     companion object {
 
@@ -241,12 +247,6 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
             return lastEvent
         }
 
-        lateinit var aidlHelper: OsmAndAidlHelper
-
-        fun setAidHelper(setAid:OsmAndAidlHelper)
-        {
-            aidlHelper=setAid
-        }
 
 
         lateinit var app : AlpdroidApplication

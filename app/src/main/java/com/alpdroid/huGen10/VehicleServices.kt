@@ -7,7 +7,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 
-
 /*
 import org.osmdroid.views.overlay.compass.IOrientationConsumer
 import org.osmdroid.views.overlay.compass.IOrientationProvider
@@ -19,14 +18,15 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 @SuppressLint("MissingPermission")
 class VehicleServices : LocationListener {
-    //, IOrientationConsumer {
+                                         //, IOrientationConsumer {
 
     private val TAG = VehicleServices::class.java.name
 
+    private val application:AlpdroidApplication= AlpdroidApplication.app
 
          var deviceOrientation = 0
-    //     var overlay: MyLocationNewOverlay? = null
-    //     var compass: IOrientationProvider? = null
+   //      var overlay: MyLocationNewOverlay? = null
+   //      var compass: IOrientationProvider? = null
          var gpsspeed = 0f
          var gpsbearing = 0f
          var lat = 0f
@@ -37,10 +37,10 @@ class VehicleServices : LocationListener {
 
         lateinit var lm: LocationManager
 
-    init {
 
+    init {
              try {
-                 lm = AlpdroidApplication().getSystemService(LOCATION_SERVICE) as LocationManager
+                 lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
                  //on API15 AVDs,network provider fails. no idea why
                  lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f,this)
                  lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, this)
@@ -52,16 +52,6 @@ class VehicleServices : LocationListener {
 
         //     if (compass == null) compass = InternalCompassOrientationProvider(application)
         //     compass!!.startOrientationProvider(this)
-
-
-
-        // TODO : handler to CanFrame Services
-        // sending piushFifoFrame
-        // updating Canframe Buffer with new frame
-        //
-        // Canframe services read frame form Arduino
-        // Canframe services push frame to MapFrame
-        // Canframe services send frame on request
 
 
          }
@@ -174,7 +164,7 @@ class VehicleServices : LocationListener {
         val frame:CanFrame
 
         try {
-            frame= AlpdroidApplication().alpineCanFrame.getFrame(canID)!!
+            frame= application.alpineCanFrame.getFrame(canID)!!
         }
         catch (e: Exception)
         {
@@ -190,7 +180,7 @@ class VehicleServices : LocationListener {
 
         var frame: CanFrame
 
-        AlpdroidApplication().alpineCanFrame.getFrame(candID).also {
+        application.alpineCanFrame.getFrame(candID).also {
             if (it != null) {
 
                 frame=it
@@ -199,7 +189,7 @@ class VehicleServices : LocationListener {
 
                 frame.setBitRange(bytesNum,len,param)
 
-                AlpdroidApplication().alpineCanFrame.addFrame(frame)
+                application.alpineCanFrame.addFrame(frame)
             }
         }
 
@@ -207,13 +197,17 @@ class VehicleServices : LocationListener {
 
     fun getFrameBool(candID:Int, bytesNum:Int): Boolean {
 
-        AlpdroidApplication().alpineCanFrame.getFrame(candID).also {
+        application.alpineCanFrame.getFrame(candID).also {
             if (it != null) {
                 return it.getBit(bytesNum)
             }
         }
         return false
     }
+
+    override fun onProviderEnabled(provider: String) {}
+
+    override fun onProviderDisabled(provider: String) {}
 
 
     // ECU Params Functions
@@ -282,7 +276,8 @@ class VehicleServices : LocationListener {
     fun get_AC_SailingIdleForbidden() : Int = this.getFrameParams(CanECUAddrs.CLIM_CANHS_R_03.idcan, 37, 2)
 
     /** Get Code InternalTemp **/
-    fun get_InternalTemp() : Int = this.getFrameParams(CanECUAddrs.CLIM_CANHS_R_03.idcan, 40, 16)
+    // TORQUE_ECM_CANHS_RNr_01
+    fun get_InternalTemp() : Int = this.getFrameParams(CanECUAddrs.TORQUE_ECM_CANHS_RNr_01.idcan, 40, 16)
 
     /**
      *  Oil, Batt, Washer Level, Fuel
@@ -986,6 +981,8 @@ fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_C
     fun get_StopStartSwitch() : Int = this.getFrameParams(CanECUAddrs.BCM_CANHS_R_08.idcan,26, 2)
 
     fun get_BatteryVoltage_V2() : Int = this.getFrameParams(CanECUAddrs.BCM_CANHS_R_08.idcan,8, 8)
+
+    fun get_BCM_StopAutoForbidden() : Int = this.getFrameParams(CanECUAddrs.BCM_CANHS_R_08.idcan, 16,2)
 
     /** MMI Brake
      * brake ESP ABS State

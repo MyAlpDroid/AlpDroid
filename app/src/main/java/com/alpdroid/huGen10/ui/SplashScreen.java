@@ -14,6 +14,8 @@ import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.ListenerService;
 import com.alpdroid.huGen10.R;
 
+import in.rmkrishna.mlog.MLog;
+
 public class SplashScreen extends Activity {
 
   private AlertDialog alertDialog;
@@ -21,6 +23,9 @@ public class SplashScreen extends Activity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
+      Throwable throwable = new Throwable("OK Begin");
+      MLog.Companion.d("Splashcreen::",throwable);
 
    application = (AlpdroidApplication) getApplication();
 
@@ -35,7 +40,7 @@ public class SplashScreen extends Activity {
   StrictMode.allowThreadDiskReads();
       try {
           // Do reads here
-          PreferenceManager.setDefaultValues(this, R.xml.pref_notification, false);
+       //   PreferenceManager.setDefaultValues(this, R.xml.pref_notification, false);
           PreferenceManager.setDefaultValues(this, R.xml.pref_players, false);
       } finally {
           StrictMode.setThreadPolicy(oldPolicy);
@@ -43,6 +48,8 @@ public class SplashScreen extends Activity {
 
 
      enableNotificationAccess();
+
+      MLog.Companion.d("Splashcreen::",(new Throwable("OK end")));
   }
 
   @Override

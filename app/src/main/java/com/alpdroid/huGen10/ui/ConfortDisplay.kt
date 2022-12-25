@@ -53,7 +53,7 @@ class ConfortDisplay : UIFragment(250) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        val binding = ConfortDisplayBinding.inflate(inflater, container, false)
+        val binding: ConfortDisplayBinding = ConfortDisplayBinding.inflate(inflater, container, false)
         fragmentBlankBinding = binding
 
         try {
@@ -113,7 +113,7 @@ class ConfortDisplay : UIFragment(250) {
 
         startstopstate=fragmentBlankBinding!!.startstopState
         escstate=fragmentBlankBinding!!.escState
-        absstate=fragmentBlankBinding!!.absState
+        absstate=fragmentBlankBinding!!.absstate
 
 
         calendar.date = Calendar.getInstance().timeInMillis

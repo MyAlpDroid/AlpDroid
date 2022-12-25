@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:textColor="#FFFFFF"
     tools:context="com.alpdroid.huGen10.ui.MainActivity"
     tools:ignore="MissingDefaultResource" >
 
@@ -11,26 +12,35 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/background"
         android:fitsSystemWindows="false">
 
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/container"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#011927">
+            android:layout_gravity="top"
+            android:contentDescription="@string/app_name"
+            android:visibility="visible"
+            android:textColor="#FFFFFF"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorGravity="top"
+            app:tabSelectedTextColor="@color/design_default_color_primary"
+            app:tabTextColor="@color/colorPrimary"
+            tools:visibility="visible" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="104dp"
-                android:layout_gravity="top"
-                app:tabIndicatorColor="@color/colorAccent"
-                app:tabIndicatorGravity="top"
-                app:tabSelectedTextColor="@color/design_default_color_primary"
-                app:tabTextColor="@color/colorPrimary" />
-
-        </androidx.viewpager.widget.ViewPager>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="@id/tabs"
+            app:layout_constraintEnd_toEndOf="@id/tabs"
+            app:layout_constraintStart_toStartOf="@id/tabs"
+            app:layout_constraintTop_toBottomOf="@id/tabs" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

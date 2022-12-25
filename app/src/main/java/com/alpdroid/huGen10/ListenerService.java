@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+
 public class ListenerService extends NotificationListenerService
         implements MediaSessionManager.OnActiveSessionsChangedListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -40,6 +41,7 @@ public class ListenerService extends NotificationListenerService
     private AlpdroidEr alpdroidEr;
     private NetworkStateReceiver networkStateReceiver;
 
+
     @Override
     public void onCreate() {
         AlpdroidApplication application = (AlpdroidApplication) getApplication();
@@ -47,6 +49,7 @@ public class ListenerService extends NotificationListenerService
         sharedPreferences = application.getSharedPreferences();
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
 
         alpdroidEr =
                 new AlpdroidEr(connectivityManager);

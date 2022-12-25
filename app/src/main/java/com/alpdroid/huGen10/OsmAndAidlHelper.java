@@ -21,7 +21,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.alpdroid.huGen10.OsmAndHelper.OnOsmandMissingListener;
 import com.alpdroid.huGen10.util.Utils;
@@ -210,8 +209,10 @@ public class OsmAndAidlHelper {
 
         @Override
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
+            Log.d("AID","AID looking for update");
             if (navigationInfoUpdateListener != null) {
                 navigationInfoUpdateListener.onNavigationInfoUpdate(directionInfo);
+                Log.d("AID","AID trying to update");
             }
         }
 
@@ -259,6 +260,7 @@ public class OsmAndAidlHelper {
     }
 
     public void setNavigationInfoUpdateListener(NavigationInfoUpdateListener navigationInfoUpdateListener) {
+        Log.d(TAG,"ok AID Helper Callback Set");
         this.navigationInfoUpdateListener = navigationInfoUpdateListener;
     }
 
@@ -286,14 +288,14 @@ public class OsmAndAidlHelper {
             // service through an IDL interface, so get a client-side
             // representation of that from the raw service object.
             mIOsmAndAidlInterface = IOsmAndAidlInterface.Stub.asInterface(service);
-            Toast.makeText(app, "OsmAnd service connected", Toast.LENGTH_SHORT).show();
+      //      Toast.makeText(app, "OsmAnd service connected", Toast.LENGTH_SHORT).show();
             Log.d(TAG,"OsmAnd service connected");
         }
         public void onServiceDisconnected(ComponentName className) {
             // This is called when the connection with the service has been
             // unexpectedly disconnected -- that is, its process crashed.
             mIOsmAndAidlInterface = null;
-            Toast.makeText(app, "OsmAnd service disconnected", Toast.LENGTH_SHORT).show();
+    //        Toast.makeText(app, "OsmAnd service disconnected", Toast.LENGTH_SHORT).show();
             Log.d(TAG,"OsmAnd service disconnected");
         }
     };
@@ -302,6 +304,7 @@ public class OsmAndAidlHelper {
         this.app = application;
         this.mOsmandMissingListener = listener;
         bindService();
+        Log.d(TAG,"OsmAnd AidHelper init");
     }
 
     private boolean bindService() {
@@ -310,10 +313,11 @@ public class OsmAndAidlHelper {
             intent.setPackage(OSMAND_PACKAGE_NAME);
             boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             if (res) {
-                Toast.makeText(app, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
+         //       Toast.makeText(app, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"OsmAnd service bind");
                 return true;
             } else {
-                Toast.makeText(app, "OsmAnd service NOT bind", Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(app, "OsmAnd service NOT bind", Toast.LENGTH_SHORT).show();
                 mOsmandMissingListener.osmandMissing();
                 return false;
             }

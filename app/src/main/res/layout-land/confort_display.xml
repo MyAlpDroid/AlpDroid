@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/normalMode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background">
+            android:background="@drawable/background" >
 
-            <ToggleButton
-                android:id="@+id/toggle"
-                android:layout_width="69dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="24dp"
-                android:background="@drawable/check"
-                android:textColor="@color/black_overlay"
-                android:textOff=" "
-                android:textOn=" "
-                app:layout_constraintBottom_toBottomOf="@+id/startstopState"
-                app:layout_constraintStart_toEndOf="@+id/startstopState"
-                app:layout_constraintTop_toBottomOf="@+id/escState"
-                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/internalTemp"
@@ -118,15 +109,16 @@
 
             <CalendarView
                 android:id="@+id/calendarView"
-                style="@android:style/Widget.CalendarView"
+                style="@android:style/Widget.Material.CalendarView"
                 android:layout_width="308dp"
                 android:layout_height="226dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
-                android:dateTextAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:background="#8EA4E4"
+                android:dateTextAppearance="@style/TextAppearance.AppCompat.Small"
                 android:selectedWeekBackgroundColor="#03A9F4"
-                android:unfocusedMonthDateColor="#888183"
-                android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:unfocusedMonthDateColor="#BF6C84"
+                android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:weekNumberColor="#00BCD4"
                 android:weekSeparatorLineColor="#3F51B5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -200,11 +192,11 @@
                 android:id="@+id/cardoor"
                 android:layout_width="155dp"
                 android:layout_height="160dp"
-                app:layout_constraintEnd_toStartOf="@+id/externalTemp"
+                app:layout_constraintEnd_toStartOf="@+id/calendarView"
                 app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toEndOf="@+id/nextOverhaulKM"
+                app:layout_constraintStart_toEndOf="@+id/tank_value"
                 app:layout_constraintTop_toBottomOf="@+id/cardoorFront"
-                app:srcCompat="@drawable/cardoor_corps" />
+                android:src="@drawable/cardoor_corps"  />
 
             <ImageView
                 android:id="@+id/cardoorFront"
@@ -224,7 +216,7 @@
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="@+id/cardoor"
                 app:layout_constraintTop_toBottomOf="@+id/cardoor"
-                app:srcCompat="@drawable/cardoor_rear" />
+                android:src="@drawable/cardoor_rear" />
 
             <ImageView
                 android:id="@+id/cardoorLeft"
@@ -233,7 +225,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/cardoor"
                 app:layout_constraintEnd_toStartOf="@+id/cardoor"
                 app:layout_constraintTop_toTopOf="@+id/cardoor"
-                app:srcCompat="@drawable/cardoor_left" />
+                android:src="@drawable/cardoor_left" />
 
             <ImageView
                 android:id="@+id/cardoorRight"
@@ -242,22 +234,22 @@
                 app:layout_constraintBottom_toBottomOf="@+id/cardoor"
                 app:layout_constraintStart_toEndOf="@+id/cardoor"
                 app:layout_constraintTop_toTopOf="@+id/cardoor"
-                app:srcCompat="@drawable/cardoor_right" />
+                android:src="@drawable/cardoor_right" />
 
             <ImageView
-                android:id="@+id/absState"
+                android:id="@+id/absstate"
                 android:layout_width="56dp"
                 android:layout_height="48dp"
                 app:layout_constraintStart_toStartOf="@+id/washer_level"
                 app:layout_constraintTop_toBottomOf="@+id/washer_level"
-                app:srcCompat="@drawable/abs" />
+                android:src="@drawable/abs" />
 
             <ImageView
                 android:id="@+id/escState"
                 android:layout_width="56dp"
                 android:layout_height="48dp"
-                app:layout_constraintStart_toStartOf="@+id/absState"
-                app:layout_constraintTop_toBottomOf="@+id/absState"
+                app:layout_constraintStart_toStartOf="@+id/absstate"
+                app:layout_constraintTop_toBottomOf="@+id/absstate"
                 app:srcCompat="@drawable/esc_on" />
 
             <ImageView
@@ -268,7 +260,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/escState"
                 app:srcCompat="@drawable/sas_on" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
