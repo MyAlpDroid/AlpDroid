@@ -2,53 +2,86 @@ package com.alpdroid.huGen10
 
 import android.os.Bundle
 import android.util.Log
+import com.alpdroid.huGen10.OsmAndHelper.OnOsmandMissingListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import net.osmand.aidlapi.navigation.ADirectionInfo
 import java.util.*
 
-class ClusterInfo (application : AlpdroidApplication)
+
+class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 {
+
+
     private val TAG = ClusterInfo::class.java.name
 
-    var application:AlpdroidApplication=application
+    var application: AlpdroidApplication = application
 
-    var frameFlowTurn : Int = 0
+    var frameFlowTurn: Int = 0
 
-    var albumName : String = "Phil"
-    var trackName : String = "Alpdroid"
+    var albumName: String = "Phil"
+    var trackName: String = "Alpdroid"
     var artistName: String = "2022(c)"
     var trackId: Int = 0
     var trackLengthInSec: Int = 0
 
-    var startIndexAlbum:Int=0
-    var startIndexTrack:Int=0
-    var startIndexArtist:Int=0
+    var startIndexAlbum: Int = 0
+    var startIndexTrack: Int = 0
+    var startIndexArtist: Int = 0
 
-    var nextTurnTypee:Int=0
-    var distanceToturn:Int=0
-
-
-    var prevtrackName:String = "prev"
-
-    var updateMusic:Boolean = true
+    var nextTurnTypee: Int = 0
+    var distanceToturn: Int = 0
 
 
-    var index:Int =0
+    var prevtrackName: String = "prev"
+
+    var updateMusic: Boolean = true
+
+
+    var index: Int = 0
 
     var rightNow = Calendar.getInstance()
 
-    var clusterStarted:Boolean
+    var clusterStarted: Boolean
+
 
     private val mutex_push = Mutex()
 
+    private var mAidlHelper:OsmAndAidlHelper
+    private var callbackKeys:Long =-1
+    private var callbackKeysUpdate:Long=-1
+
+    private var notinit=true
+
     init {
 
-        clusterStarted=true
+        mAidlHelper = OsmAndAidlHelper(this.application, this)
 
+        mAidlHelper.setNavigationInfoUpdateListener (object: OsmAndAidlHelper.NavigationInfoUpdateListener {
+            override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
+
+                nextTurnTypee = directionInfo.turnType
+                distanceToturn = directionInfo.distanceTo
+            }
+        })
+
+        callbackKeys = mAidlHelper.registerForNavigationUpdates(true, 0)
+        mAidlHelper.setUpdateListener (object: OsmAndAidlHelper.UpdateListener {
+            override fun onUpdatePing() {
+                Log.d(TAG,mAidlHelper.getText("distanceTo",Locale.FRANCE))
+                Log.d(TAG,mAidlHelper.getText("distance_2_turn",Locale.FRANCE))
+                Log.d(TAG,mAidlHelper.getText("turn_type",Locale.FRANCE))
+
+            }
+        })
+        callbackKeys = mAidlHelper.registerForUpdates(5000)
+
+
+        clusterStarted = true
 
         // Setting audio Info to Internet Source
         application.alpineCanFrame.addFrame(
@@ -89,7 +122,7 @@ class ClusterInfo (application : AlpdroidApplication)
             CanFrame(
                 0,
                 CanMCUAddrs.RoadNavigation.idcan,
-            byteArrayOf(
+                byteArrayOf(
                     0x00.toByte(),
                     0x00.toByte(),
                     0xFF.toByte(),
@@ -99,7 +132,8 @@ class ClusterInfo (application : AlpdroidApplication)
                     0x3F.toByte(),
                     0xFF.toByte()
                 )
-            ))
+            )
+        )
 
         // Creating first Compass Frame
         application.alpineCanFrame.addFrame(
@@ -116,33 +150,37 @@ class ClusterInfo (application : AlpdroidApplication)
                     0xFF.toByte(),
                     0xFF.toByte()
                 )
-            ))
+            )
+        )
 
 
-       // Init Source Album & trackname info
+        // Init Source Album & trackname info
         for (i in 0..9)
             application.alpineCanFrame.addFrame(
-              CanFrame(
-                0,
-                CanMCUAddrs.Audio_Display.idcan+i,
-                byteArrayOf(
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte(),
-                    0x00.toByte()
+                CanFrame(
+                    0,
+                    CanMCUAddrs.Audio_Display.idcan + i,
+                    byteArrayOf(
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0x00.toByte()
                     )
-               ))
+                )
+            )
+
 
 
         application.alpineCanFrame.unsetSending()
 
-        Log.d(TAG,"trying to start coroutines")
+        Log.d(TAG, "trying to start coroutines")
 
         CoroutineScope(Dispatchers.IO).launch {
+
             while (true) {
                 if (application.alpdroidServices.isServiceStarted) {
                     clusterStarted = false
@@ -165,23 +203,21 @@ class ClusterInfo (application : AlpdroidApplication)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 7)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
-                                updateMusic=false
+                                updateMusic = false
                             }
                             clusterStarted = true
                             application.alpineCanFrame.setSending()
-                        //   TODO: application.mOsmAndHelper.getInfo()
 
-                    } catch (e: Exception) {
+                        } catch (e: Exception) {
                             clusterStarted = true
                             updateMusic = false
                             prevtrackName = "-- something wrong --"
                             trackName = "-- oups --"
-                    }
-                        finally {
+                        } finally {
                             delay(3500)
                         }
+                    }
                 }
-             }
             }
         }
     }
@@ -227,7 +263,40 @@ class ClusterInfo (application : AlpdroidApplication)
 
     private fun clusterInfoUpdate()
     {
-            frameFlowTurn+=1
+
+
+            mAidlHelper = OsmAndAidlHelper(this.application, this)
+
+
+        if (callbackKeys<=-1) {
+
+        mAidlHelper.setNavigationInfoUpdateListener(object :
+            OsmAndAidlHelper.NavigationInfoUpdateListener {
+            override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
+                nextTurnTypee = directionInfo.turnType
+                distanceToturn = directionInfo.distanceTo
+            }
+        })
+
+        callbackKeys = mAidlHelper.registerForNavigationUpdates(true,0)
+
+    }
+
+        if (callbackKeysUpdate<=-1) {
+            mAidlHelper.setUpdateListener(object : OsmAndAidlHelper.UpdateListener {
+                override fun onUpdatePing() {
+                    Log.d(TAG,mAidlHelper.getText("distanceTo",Locale.FRANCE))
+                    Log.d(TAG,mAidlHelper.getText("distance_2_turn",Locale.FRANCE))
+                    Log.d(TAG,mAidlHelper.getText("turn_type",Locale.FRANCE))
+
+                }
+            })
+            callbackKeysUpdate = mAidlHelper.registerForUpdates(5000)
+        }
+
+
+
+        frameFlowTurn+=1
 
             updateMusic = (prevtrackName != trackName)
 
@@ -285,6 +354,9 @@ class ClusterInfo (application : AlpdroidApplication)
 
 // Navigation / Direction
 
+        Log.d(TAG, distanceToturn.toString())
+        Log.d(TAG,nextTurnTypee.toString())
+
         application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,0,12,distanceToturn)
         application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,12,4,0)
         application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,16,4,nextTurnTypee)
@@ -318,12 +390,12 @@ class ClusterInfo (application : AlpdroidApplication)
     fun fromOsmData(extras: Bundle)
     {
         if (extras.size() > 0) {
-            nextTurnTypee = extras.getBundle("no_speak_next_turn_type").toString().toInt()
+         /*   nextTurnTypee = extras.getBundle("no_speak_next_turn_type").toString().toInt()
             //  alpine2Cluster.nextTurnTypee  = extras.getBundle("turn_type").toString().toInt()
             distanceToturn  = extras.getBundle("next_turn_distance").toString().toInt()
             Log.d("next_turn",nextTurnTypee.toString())
             Log.d("turn_type",extras.getBundle("turn_type").toString())
-            Log.d("distance_2_turn",distanceToturn.toString())
+            Log.d("distance_2_turn",distanceToturn.toString())*/
             for (key in extras.keySet()) {
 
                 Log.d("key to read : ", key)
@@ -332,5 +404,10 @@ class ClusterInfo (application : AlpdroidApplication)
 
         }
     }
+
+    override fun osmandMissing() {
+        TODO("Not yet implemented")
+    }
+
 
 }

@@ -118,7 +118,6 @@ class EngineDisplay : UIFragment(250)
                   if (AlpdroidApplication.app.isBound)
                     {
 
-                        Log.d("EngineDispkay:","OnUIThread TimerTask")
                         alpineServices = AlpdroidApplication.app.alpdroidData
 
                         var flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50

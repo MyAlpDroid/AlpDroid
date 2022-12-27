@@ -41,6 +41,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
+
     var tx:Int = 0
 
     /* TODO : Implement ECU & MCU class or list enum */
@@ -56,7 +57,6 @@ class CanFrameServices : Service(), ArduinoListener {
         arduino.setArduinoListener(this)
 
         alpine2Cluster=ClusterInfo(application)
-
 
     }
 
@@ -144,6 +144,7 @@ class CanFrameServices : Service(), ArduinoListener {
             return START_REDELIVER_INTENT
         }
         Log.i(TAG,"CanFrame Service is started")
+
 
         return START_STICKY
     }
@@ -236,7 +237,6 @@ class CanFrameServices : Service(), ArduinoListener {
                                     {
                                         application.alpineCanFrame.unsetSending()
                                         // Adding Stop Frame
-                                        Log.i(TAG, " : Sending Frame")
                                         sendFifoFrame()
                                     }
 
@@ -388,7 +388,6 @@ class CanFrameServices : Service(), ArduinoListener {
     {
         alpine2Cluster.trackLengthInSec=tracklengthinsec
     }
-
 
 
 

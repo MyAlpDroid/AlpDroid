@@ -29,9 +29,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import net.osmand.aidlapi.navigation.ADirectionInfo
 import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
 
-class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
+@OptIn(ExperimentalTime::class)
+class MainActivity : FragmentActivity() {
 
     private val TAG = "MainActivity"
     val REQUEST_OSMAND_API = 1001
@@ -95,8 +97,8 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     lateinit var application:AlpdroidApplication
 
-   // var mOsmAndHelper:OsmAndHelper?=null
-
+    private var mAidlHelper: OsmAndAidlHelper? = null
+    private var  callbackKeys:Long=0
 
     companion object {
 
@@ -132,7 +134,6 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
         application.alpdroidData = VehicleServices()
         application.startListenerService()
 
-
         val oldPolicy: ThreadPolicy
         oldPolicy = StrictMode.getThreadPolicy()
         StrictMode.allowThreadDiskReads()
@@ -142,6 +143,7 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -186,6 +188,15 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         //5.6 and newer
 //        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+
+  /*      mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
+
+        scheduleCoroutineAtFixedRate(GlobalScope,10.seconds, Duration.ZERO)
+        {
+            mOsmAndHelper.getInfo()
+            Log.d(TAG, "MainActivity : getInfo() ")
+        }
+*/
         Log.d("MainActivity : OnCreate ", TAG)
         MLog.d(TAG, "Activity OnCreate : fin")
     }
@@ -199,10 +210,6 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
         return "" + resultCode
     }
 
-    override fun osmandMissing() {
-        // something to do is missing
-        Toast.makeText(this, "osmAND is missing, no navigation info available", Toast.LENGTH_SHORT)
-    }
 
     /**
      * Schedules [action] to be executed on [scope] every [period] with a [initialDelay]
@@ -239,6 +246,7 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
         application.alpdroidData = VehicleServices()
         application.startListenerService()
 
+
         super.onRestart()
         Log.d("MainActivity : OnRestart ", TAG)
         Toast.makeText(this, "on Restart", Toast.LENGTH_SHORT)
@@ -247,25 +255,32 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_OSMAND_API) {
 
+        if (requestCode == REQUEST_OSMAND_API) {
+           Log.d("OSMAND Helper", "callback for onnavigation update")
+            if (data != null) {
+                val extras = data.extras
+                if (extras != null && extras.size() > 0) {
+                 //   if (application.isBound) application.alpdroidServices.alpine2Cluster.fromOsmData(extras)
+                    for (key in extras.keySet()) {
+
+                        Log.d("key to read : ", key)
+                        Log.d("value read : ", extras[key].toString())
+                    }
+                }
+            }
         }
 
         if (resultCode == RESULT_OK)
         {
             if (requestCode==0)
             {
-                Log.d("TAG", "callback for onnavigation update")
-            if (data != null) {
-                val extras = data.extras
-                if (extras != null && extras.size() > 0) {
-                      if (application.isBound) application.alpdroidServices.alpine2Cluster.fromOsmData(extras)
-                }
-            }
+                Log.d("OSMAND Helper", "callback for other case update")
             }
 
         }
 
+        Log.d("OSMAND Helper", "passage par callback mais ni resultcode ni requestcode")
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -309,8 +324,7 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
     public override fun onDestroy() {
         MLog.d(TAG, "Activity onDestroy : Begin")
         super.onDestroy()
-        //application.close();
-        MLog.d(TAG, "Activity onRestart : End")
+
     }
 
     fun onNavInfoUpdate(directionInfo: ADirectionInfo) {
@@ -357,6 +371,8 @@ class MainActivity : FragmentActivity(), OsmAndHelper.OnOsmandMissingListener {
             return null
         }
     }
+
+
 
 
 }

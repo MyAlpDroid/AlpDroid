@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import com.alpdroid.huGen10.R;
 
 import in.rmkrishna.mlog.MLog;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends Activity {
 
   private AlertDialog alertDialog;
@@ -102,4 +104,5 @@ public class SplashScreen extends Activity {
 
       finish();
   }
+
 }

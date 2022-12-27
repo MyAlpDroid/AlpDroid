@@ -15,10 +15,9 @@ import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
-import net.osmand.aidlapi.navigation.ADirectionInfo
 
 
-class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
+class AlpdroidApplication : Application() {
 
     private val TAG = AlpdroidApplication::class.java.name
     
@@ -33,8 +32,7 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
 
     private var sharedPreferences: SharedPreferences? = null
 
-    private var mAidlHelper: OsmAndAidlHelper? = null
-    private var  callbackKeys:Long=0
+
 
 
     private val alpineConnection = object : ServiceConnection {
@@ -90,35 +88,11 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
             StrictMode.setThreadPolicy(oldPolicy)
         }
 
-        mAidlHelper = OsmAndAidlHelper(this, this)
-
-        if (mAidlHelper!=null) {
-            Log.d(TAG,"ok AID Helper Installed")
-
-            mAidlHelper!!.setNavigationInfoUpdateListener (object: OsmAndAidlHelper.NavigationInfoUpdateListener {
-                override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
-                    Log.d(TAG,"ok AID Helper Listener")
-                }
-            })
-
-            callbackKeys = mAidlHelper!!.registerForNavigationUpdates(true, 0)
-            Log.d(TAG,"ok AID Helper Callback ready")
-            mAidlHelper!!.setUpdateListener (object : OsmAndAidlHelper.UpdateListener {
-                override fun onUpdatePing() {
-                    Log.d(TAG,"ok AID Update Listener")
-                }
-            })
-            mAidlHelper!!.registerForUpdates (1200)
-            Log.d(TAG,"ok AID Helper periodic callback ready")
-            MLog.i(TAG,"ok AID Helper periodic callback ready")
-        }
 
         eventBus.register(this)
      //   initLog.
         MLog.i(TAG,"OnCreate Fin")
     }
-
-
 
 
     fun startListenerService() {
@@ -231,11 +205,11 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
         return eventBus
     }
 
-    override fun osmandMissing() {
+ /*   override fun osmandMissing() {
         // something to do is missing
         Log.d(TAG, "osmAND is missing, no navigation info available")
     }
-
+*/
 
     companion object {
 
@@ -257,5 +231,6 @@ class AlpdroidApplication : Application(),OsmAndHelper.OnOsmandMissingListener {
 
 
     }
+
 
 }

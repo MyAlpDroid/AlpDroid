@@ -149,14 +149,6 @@ class VehicleServices : LocationListener {
         return compassOrientation
     }
 
-    // Calculate Functions for Cluster
-
-    fun set_Directions()
-    {
-
-        //TODO
-
-    }
 
 
     //TODO : ajouter la gestion du bus

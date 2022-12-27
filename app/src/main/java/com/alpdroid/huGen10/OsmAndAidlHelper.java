@@ -150,7 +150,7 @@ public class OsmAndAidlHelper {
         void onSearchComplete(List<SearchResult> resultSet);
     }
 
-    interface UpdateListener {
+    public interface UpdateListener {
         void onUpdatePing();
     }
 
@@ -209,10 +209,10 @@ public class OsmAndAidlHelper {
 
         @Override
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
-            Log.d("AID","AID looking for update");
+            Log.d(TAG,"Info Update requiring");
             if (navigationInfoUpdateListener != null) {
+                Log.d(TAG,"Info Update calling listener");
                 navigationInfoUpdateListener.onNavigationInfoUpdate(directionInfo);
-                Log.d("AID","AID trying to update");
             }
         }
 
@@ -260,7 +260,6 @@ public class OsmAndAidlHelper {
     }
 
     public void setNavigationInfoUpdateListener(NavigationInfoUpdateListener navigationInfoUpdateListener) {
-        Log.d(TAG,"ok AID Helper Callback Set");
         this.navigationInfoUpdateListener = navigationInfoUpdateListener;
     }
 
@@ -303,14 +302,16 @@ public class OsmAndAidlHelper {
     public OsmAndAidlHelper(Application application, OsmAndHelper.OnOsmandMissingListener listener) {
         this.app = application;
         this.mOsmandMissingListener = listener;
-        bindService();
-        Log.d(TAG,"OsmAnd AidHelper init");
+        if (aidbindService())
+                 Log.d(TAG,"OsmAnd AidHelper init");
+        else Log.d(TAG,"OsmAnd not Bind");
     }
 
-    private boolean bindService() {
+    private boolean aidbindService() {
         if (mIOsmAndAidlInterface == null) {
             Intent intent = new Intent("net.osmand.aidl.OsmandAidlServiceV2");
             intent.setPackage(OSMAND_PACKAGE_NAME);
+
             boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             if (res) {
          //       Toast.makeText(app, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
@@ -322,7 +323,9 @@ public class OsmAndAidlHelper {
                 return false;
             }
         } else {
+            Log.d(TAG,"OsmAnd service already bind");
             return true;
+
         }
     }
 
@@ -1232,7 +1235,6 @@ public class OsmAndAidlHelper {
      * Method to register for periodical callbacks from OsmAnd
      *
      * @param updateTimeMS (long)- period of time in millisecond after which callback is triggered
-     * @param callback (IOsmAndCallback)- create and provide instance of {@link IOsmAndAidlCallback} interface
      * @return id (long) - id of callback in OsmAnd. Needed to unsubscribe from updates.
      */
     public long registerForUpdates(long updateTimeMS) {
@@ -1381,6 +1383,7 @@ public class OsmAndAidlHelper {
         }
         return false;
     }
+
 
     /**
      * Add custom parameters for OsmAnd settings to associate with client app.
@@ -1540,7 +1543,6 @@ public class OsmAndAidlHelper {
 
     /**
      * Method to register for callback on OsmAnd initialization
-     * @param callback (IOsmAndAidlCallback) - create and provide instance of {@link IOsmAndAidlCallback} interface
      */
     public boolean registerForOsmandInitListener() {
         if (mIOsmAndAidlInterface != null) {
@@ -1564,7 +1566,6 @@ public class OsmAndAidlHelper {
      * @param widthPixels (int) - width of bitmap
      * @param heightPixels (int) - height of bitmap
      * @param color (int) - color in ARGB format
-     * @param callback (IOsmAndAidlCallback) - instance of callback from OsmAnd.
      */
     public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, int heightPixels, int color) {
         if (mIOsmAndAidlInterface != null) {
@@ -1694,13 +1695,12 @@ public class OsmAndAidlHelper {
      *
      * @param subscribeToUpdates (boolean) - subscribe or unsubscribe from updates
      * @param callbackId (long) - id of callback, needed to unsubscribe from updates
-     * @param callback (IOsmAndAidlCallback) - callback to notify user on navigation data change
-     *
      * @return callbackId (long)
      */
     public long registerForNavigationUpdates(boolean subscribeToUpdates, long callbackId) {
         if (mIOsmAndAidlInterface != null) {
             try {
+                Log.d(TAG,"trying to register for update");
                 ANavigationUpdateParams params = new ANavigationUpdateParams();
                 params.setCallbackId(callbackId);
                 params.setSubscribeToUpdates(subscribeToUpdates);
@@ -1770,7 +1770,6 @@ public class OsmAndAidlHelper {
      * @param layerId (String) - id of Osmand's map layer
      * @param callbackId (long) - {@link IOsmAndAidlCallback} id
      * @param pointsIds (List<String>) - list of point Ids to which this rules applies to.
-     * @param callback (IOsmAndAidlCallback) - AIDL callback;
      * @return long - callback's Id;
      */
     public boolean addContextMenuButtons(
@@ -1966,7 +1965,6 @@ public class OsmAndAidlHelper {
      *
      * @param subscribeToUpdates (boolean) - boolean flag to subscribe or unsubscribe from messages
      * @param callbackId         (long) - id of callback, needed to unsubscribe from messages
-     * @param callback           (IOsmAndAidlCallback) - callback to notify user on voice message
      */
     public long registerForVoiceRouterMessages(boolean subscribeToUpdates, long callbackId) {
         ANavigationVoiceRouterMessageParams params = new ANavigationVoiceRouterMessageParams();
@@ -2169,7 +2167,6 @@ public class OsmAndAidlHelper {
      * - "I" (info)
      * - "W" (warn)
      * - "E" (error)
-     * @param callback (IOsmAndAidlCallback) - callback to notify user on new OsmAnd logs
      */
     long registerForLogcatMessages(boolean subscribeToUpdates, long callbackId, String filterLevel) {
         ALogcatListenerParams params = new ALogcatListenerParams();
