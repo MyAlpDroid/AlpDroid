@@ -9,6 +9,22 @@ DATA : les données de la trame sur 8 Octects.
 
 Exemple : {bus:0,id:0x07E8,data:{0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7}}  
 
+-----------------------------------------------------------------------
+*** ATTENTION *** : les cartes CANBUS shield utilisent soit un quartz à 8Mhz soit un quartz à 16Mhz. Pour des raisons inconnues, la bilbiothèque MCP2515 semble pouvoir gérer le type de quartz et il suffirait d'indiquer la vitesse retenue pour que tout fonctionne ... mais ce n'est pas le cas. Du coup, la vitesse est forcée à 500K et 16Mhz pour l'utilisation de la crte dual shield et il faut remplacer les valeurs avec celle  de 8Mhz pour les can shield de base.
+-----------------------------------------------------------------------
+
+Le cas échéant, on ira modifier les lignes suivantes du fichiers mcp2515.h:
+Si on a un quartz à 8Mhz, on prend les valeurs 00,90,82 et sinon pour 16Mhz on garde 00,F0,86
+*
+ * force 8Mhz for 500K speed : change here by original value if using 16Mhz canbus
+ */
+//#define MCP_16MHz_500kBPS_CFG1 (0x00)
+//#define MCP_16MHz_500kBPS_CFG2 (0x90)
+//#define MCP_16MHz_500kBPS_CFG3 (0x82)
+
+#define MCP_16MHz_500kBPS_CFG1 (0x00)
+#define MCP_16MHz_500kBPS_CFG2 (0xF0)
+#define MCP_16MHz_500kBPS_CFG3 (0x86)
 
 Concernant le programme : 
 
