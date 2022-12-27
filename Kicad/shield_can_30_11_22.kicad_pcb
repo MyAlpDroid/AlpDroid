@@ -1167,7 +1167,7 @@
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp bac4a81a-b103-4c8e-924f-3edef99188ba)
     )
-    (fp_text value "470" (at 3.81 0.1) (layer "F.SilkS") hide
+    (fp_text value "220" (at 3.81 0.1) (layer "F.SilkS") hide
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 0e560ea5-ec6d-460f-a83f-7f90ff95c190)
     )
@@ -1572,7 +1572,7 @@
   (gr_text "10k" (at 109.4 90.8) (layer "F.SilkS") (tstamp 5be1eb53-b16a-424d-8d9e-0a4f77e04d90)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (gr_text "470" (at 109.4 96) (layer "F.SilkS") (tstamp 61f86487-6884-438f-a072-76aa30dcf6d2)
+  (gr_text "220" (at 109.4 96) (layer "F.SilkS") (tstamp 61f86487-6884-438f-a072-76aa30dcf6d2)
     (effects (font (size 1 1) (thickness 0.15)))
   )
   (gr_text "Mic+" (at 139.7 111.2) (layer "F.SilkS") (tstamp 634ac249-1de5-4fcf-9890-ed8f61a38abc)
