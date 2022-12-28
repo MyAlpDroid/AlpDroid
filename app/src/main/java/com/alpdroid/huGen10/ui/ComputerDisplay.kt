@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
+import com.alpdroid.huGen10.CanMCUAddrs
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
+import kotlinx.coroutines.sync.Mutex
 
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
-class ComputerDisplay : UIFragment(250) {
+class ComputerDisplay : UIFragment(1000) {
 
     private  var fragmentBlankBinding: ComputerDisplayBinding?=null
     lateinit var ac_header : TextView
@@ -25,9 +28,14 @@ class ComputerDisplay : UIFragment(250) {
     lateinit var trackShow:TextView
     lateinit var trackPrev:TextView
     lateinit var countCluster:TextView
+    lateinit var testIcon:Switch
 
+    var nextTurnToTest : Int = 0
+    var distancetoTest : Int = 0
     var framestring1 : String=""
     var framestring2 : String=""
+
+    lateinit var mutex_push:Mutex
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -55,6 +63,7 @@ class ComputerDisplay : UIFragment(250) {
         trackShow = fragmentBlankBinding!!.showtrack
         trackPrev = fragmentBlankBinding!!.showprev
         countCluster = fragmentBlankBinding!!.countcluster
+        testIcon = fragmentBlankBinding!!.testicons
 
         timerTask = {
                 activity?.runOnUiThread {
@@ -69,16 +78,62 @@ class ComputerDisplay : UIFragment(250) {
                                 //AlpdroidApplication.app.alpdroidServices.tx.toString()
                         appState.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
 
+
+                     if (testIcon.isChecked)
+                     {
+                         AlpdroidApplication.app.alpdroidData.setFrameParams(
+                             CanMCUAddrs.RoadNavigation.idcan + 0,
+                             0,
+                             12,
+                             distancetoTest
+                         )
+                        distancetoTest+=1
+
+                         AlpdroidApplication.app.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
+                         AlpdroidApplication.app.alpdroidData.setFrameParams(
+                            CanMCUAddrs.RoadNavigation.idcan + 0,
+                            16,
+                            8,
+                            nextTurnToTest
+                        )
+                         AlpdroidApplication.app.alpdroidData.setFrameParams(
+                            CanMCUAddrs.RoadNavigation.idcan + 0,
+                            24,
+                            8,
+                            nextTurnToTest+1
+                        )
+                         AlpdroidApplication.app.alpdroidData.setFrameParams(
+                            CanMCUAddrs.RoadNavigation.idcan + 0,
+                            32,
+                            8,
+                            nextTurnToTest+2
+                        )
+                         AlpdroidApplication.app.alpdroidData.setFrameParams(
+                            CanMCUAddrs.RoadNavigation.idcan + 0,
+                            40,
+                            8,
+                            nextTurnToTest+3
+                        )
+                        nextTurnToTest+=1
+                        if (nextTurnToTest>60)
+                            nextTurnToTest=0
+
+                         try {
+                         AlpdroidApplication.app.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan+0)
+                         AlpdroidApplication.app.alpineCanFrame.setSending()
+
+                             } catch (e: Exception) {
+
+                             }
+                     }
+
                      if (AlpdroidApplication.app.alpdroidServices.isArduinoWorking())
                             arduinostate.text = "Arduino Serial Port Null"
                         else arduinostate.text = "Arduino transmitting"
 
-                       /* if (AlpdroidApplication.app.alpineCanFrame.isFrametoSend())
-                            transmitstate.text = ".....ok send Frame"
-                        else */
-                            transmitstate.text = AlpdroidApplication.app.alpdroidServices.alpine2Cluster.distanceToturn.toString()  //"......No Frame"
 
                         framestring1= canid.text.toString()
+
                         if (framestring1.isNotEmpty()) {
                             framestring2=AlpdroidApplication.app.alpineCanFrame.getFrame(framestring1.toInt(16))
                                 .toString()

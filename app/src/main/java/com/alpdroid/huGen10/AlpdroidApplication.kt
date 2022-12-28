@@ -205,11 +205,6 @@ class AlpdroidApplication : Application() {
         return eventBus
     }
 
- /*   override fun osmandMissing() {
-        // something to do is missing
-        Log.d(TAG, "osmAND is missing, no navigation info available")
-    }
-*/
 
     companion object {
 

@@ -157,6 +157,25 @@
                 app:layout_constraintStart_toEndOf="@+id/showprev"
                 app:layout_constraintTop_toTopOf="@+id/showprev" />
 
+            <Switch
+                android:id="@+id/testicons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="On"
+                android:textColor="@color/white_text"
+                app:layout_constraintStart_toStartOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Test Icons Type"
+                android:textColor="@color/white_text"
+                app:layout_constraintStart_toStartOf="@+id/canFrameView"
+                app:layout_constraintTop_toBottomOf="@+id/canFrameView" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>

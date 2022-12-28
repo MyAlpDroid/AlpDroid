@@ -209,9 +209,9 @@ public class OsmAndAidlHelper {
 
         @Override
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
-            Log.d(TAG,"Info Update requiring");
+
             if (navigationInfoUpdateListener != null) {
-                Log.d(TAG,"Info Update calling listener");
+
                 navigationInfoUpdateListener.onNavigationInfoUpdate(directionInfo);
             }
         }

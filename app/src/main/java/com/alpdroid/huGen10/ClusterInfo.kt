@@ -36,6 +36,9 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     var nextTurnTypee: Int = 0
     var distanceToturn: Int = 0
 
+    var iconTest:Boolean = false
+    var distancetoTest:Int =0
+    var nextTurnToTest:Int =0
 
     var prevtrackName: String = "prev"
 
@@ -63,23 +66,13 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
         mAidlHelper.setNavigationInfoUpdateListener (object: OsmAndAidlHelper.NavigationInfoUpdateListener {
             override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
-
+                Log.d(TAG,"callbakc nav init")
                 nextTurnTypee = directionInfo.turnType
                 distanceToturn = directionInfo.distanceTo
             }
         })
 
         callbackKeys = mAidlHelper.registerForNavigationUpdates(true, 0)
-        mAidlHelper.setUpdateListener (object: OsmAndAidlHelper.UpdateListener {
-            override fun onUpdatePing() {
-                Log.d(TAG,mAidlHelper.getText("distanceTo",Locale.FRANCE))
-                Log.d(TAG,mAidlHelper.getText("distance_2_turn",Locale.FRANCE))
-                Log.d(TAG,mAidlHelper.getText("turn_type",Locale.FRANCE))
-
-            }
-        })
-        callbackKeys = mAidlHelper.registerForUpdates(5000)
-
 
         clusterStarted = true
 
@@ -264,51 +257,57 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     private fun clusterInfoUpdate()
     {
 
+    /*
+        const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
+        const val TL = 2 // turn left //$NON-NLS-1$
+        const val TSLL = 3 // turn slightly left //$NON-NLS-1$
+        const val TSHL = 4 // turn sharply left //$NON-NLS-1$
+        const val TR = 5 // turn right //$NON-NLS-1$
+        const val TSLR = 6 // turn slightly right //$NON-NLS-1$
+        const val TSHR = 7 // turn sharply right //$NON-NLS-1$
+        const val KL = 8 // keep left //$NON-NLS-1$
+        const val KR = 9 // keep right//$NON-NLS-1$
+        const val TU = 10 // U-turn //$NON-NLS-1$
+        const val TRU = 11 // Right U-turn //$NON-NLS-1$
+        const val OFFR = 12 // Off route //$NON-NLS-1$
+        const val RNDB = 13 // Roundabout
+        const val RNLB = 14 // Roundabout left
+*/
 
-            mAidlHelper = OsmAndAidlHelper(this.application, this)
-
-
-        if (callbackKeys<=-1) {
+        mAidlHelper = OsmAndAidlHelper(this.application, this)
 
         mAidlHelper.setNavigationInfoUpdateListener(object :
             OsmAndAidlHelper.NavigationInfoUpdateListener {
             override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
-                nextTurnTypee = directionInfo.turnType
+                when (directionInfo.turnType)
+                {
+                    1 -> nextTurnTypee=0
+                    2 -> nextTurnTypee=1
+                    5 -> nextTurnTypee=2
+                }
                 distanceToturn = directionInfo.distanceTo
             }
         })
 
         callbackKeys = mAidlHelper.registerForNavigationUpdates(true,0)
 
-    }
-
-        if (callbackKeysUpdate<=-1) {
-            mAidlHelper.setUpdateListener(object : OsmAndAidlHelper.UpdateListener {
-                override fun onUpdatePing() {
-                    Log.d(TAG,mAidlHelper.getText("distanceTo",Locale.FRANCE))
-                    Log.d(TAG,mAidlHelper.getText("distance_2_turn",Locale.FRANCE))
-                    Log.d(TAG,mAidlHelper.getText("turn_type",Locale.FRANCE))
-
-                }
-            })
-            callbackKeysUpdate = mAidlHelper.registerForUpdates(5000)
-        }
-
-
 
         frameFlowTurn+=1
 
-            updateMusic = (prevtrackName != trackName)
+        updateMusic = (prevtrackName != trackName)
 
-            prevtrackName=trackName
-
-            if (!updateMusic && frameFlowTurn>4)
+        if (!updateMusic && frameFlowTurn>6)
             {
-                    updateMusic=true
+                    prevtrackName=trackName
                     frameFlowTurn=0
+                    updateMusic=true
+                // trying to update name in case of missing frame
+                    albumName= application.alpdroidServices.getalbumName().toString()
+                    artistName= application.alpdroidServices.getartistName().toString()
+                    trackName= application.alpdroidServices.gettrackName().toString()
             }
 
-            if (updateMusic) {
+        if (updateMusic) {
                 for (i in 0..4) {
                     application.alpineCanFrame.addFrame(
                         CanFrame(
@@ -348,18 +347,32 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
         )
 
 
-
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
 
+        Log.d(TAG, "compass:"+application.alpdroidData.get_CompassOrientation().toString())
+
 // Navigation / Direction
 
-        Log.d(TAG, distanceToturn.toString())
-        Log.d(TAG,nextTurnTypee.toString())
-
-        application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,0,12,distanceToturn)
-        application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,12,4,0)
-        application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan+0,16,4,nextTurnTypee)
+        if (iconTest)
+        {
+           // do nothing
+        }
+        else {
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.RoadNavigation.idcan + 0,
+                0,
+                12,
+                distanceToturn
+            )
+            application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.RoadNavigation.idcan + 0,
+                16,
+                8,
+                nextTurnTypee
+            )
+        }
 
 // Heure
         rightNow = Calendar.getInstance()
@@ -405,8 +418,11 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
         }
     }
 
+
     override fun osmandMissing() {
-        TODO("Not yet implemented")
+
+        Log.d(TAG,"OsmAND not ready")
+
     }
 
 

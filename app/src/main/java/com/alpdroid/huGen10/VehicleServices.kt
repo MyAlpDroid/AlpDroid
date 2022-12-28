@@ -5,28 +5,19 @@ import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Bundle
 
-/*
-import org.osmdroid.views.overlay.compass.IOrientationConsumer
-import org.osmdroid.views.overlay.compass.IOrientationProvider
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-*/
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
 
 @SuppressLint("MissingPermission")
 class VehicleServices : LocationListener {
-                                         //, IOrientationConsumer {
 
     private val TAG = VehicleServices::class.java.name
 
     private val application:AlpdroidApplication= AlpdroidApplication.app
 
          var deviceOrientation = 0
-   //      var overlay: MyLocationNewOverlay? = null
-   //      var compass: IOrientationProvider? = null
          var gpsspeed = 0f
          var gpsbearing = 0f
          var lat = 0f
@@ -42,8 +33,8 @@ class VehicleServices : LocationListener {
              try {
                  lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
                  //on API15 AVDs,network provider fails. no idea why
-                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f,this)
-                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, this)
+                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0f,this)
+                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0f, this)
              } catch (ex: java.lang.Exception) {
                  //usually permissions or
                  //java.lang.IllegalArgumentException: provider doesn't exist: network
@@ -88,64 +79,15 @@ class VehicleServices : LocationListener {
         t = t * 5
 
         if (gpsspeed >= 0.01) {
-
             compassOrientation = t.toInt()
-
         }
-     //   updateDisplay(location.bearing, true)
+
     }
-
-
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-    var trueNorth = 0f
-
-  /*  override fun onOrientationChanged(
-        orientationToMagneticNorth: Float,
-        source: IOrientationProvider?
-    ) {
-        //note, on devices without a compass this never fires...
-
-
-        //only use the compass bit if we aren't moving, since gps is more accurate when we are moving
-        if (gpsspeed < 0.01) {
-            var gf: GeomagneticField? = GeomagneticField(lat, lon, alt, timeOfFix)
-            trueNorth = orientationToMagneticNorth + gf!!.declination
-            gf = null
-            synchronized(trueNorth) {
-                if (trueNorth > 360.0f) {
-                    trueNorth = trueNorth - 360.0f
-                }
-                var actualHeading = 0f
-
-                //this part adjusts the desired map rotation based on device orientation and compass heading
-                var t = 360 - trueNorth - deviceOrientation
-                if (t < 0) {
-                    t += 360f
-                }
-                if (t > 360) {
-                    t -= 360f
-                }
-                actualHeading = t
-                //help smooth everything out
-                t = t.toInt().toFloat()
-                t = t / 5
-                t = t.toInt().toFloat()
-                t = t * 5
-
-                compassOrientation = t.toInt()
-            }
-        }
-    }*/
-
 
 
     // Update Regular Services
 
     fun get_CompassOrientation() : Int {
-
-        compassOrientation +=1
-        if (compassOrientation>360) compassOrientation-=360
         return compassOrientation
     }
 

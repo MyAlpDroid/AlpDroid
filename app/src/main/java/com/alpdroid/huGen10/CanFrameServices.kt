@@ -28,6 +28,11 @@ class CanFrameServices : Service(), ArduinoListener {
 
     lateinit var alpine2Cluster: ClusterInfo
 
+    var backalbumName:String = "--"
+    var bcktrackName:String = "--"
+    var backartistName:String = "--"
+
+
     var isConnected : Boolean = false
     var isBad : Boolean = false
 
@@ -352,38 +357,53 @@ class CanFrameServices : Service(), ArduinoListener {
         return false
     }
 
+    @Synchronized
     fun setalbumName(albumname:String)
     {
         alpine2Cluster.albumName=albumname
-        // .substring(0,minOf(albumname.length, 16))
+        backalbumName=albumname
         alpine2Cluster.startIndexAlbum=0
 
     }
 
     fun getalbumName(): String? {
-        return alpine2Cluster.albumName
+        return backalbumName
     }
+
+    fun getartistName(): String? {
+        return backartistName
+    }
+
+    fun gettrackName(): String? {
+        return bcktrackName
+    }
+
+
+    @Synchronized
     fun settrackName(trackname:String)
     {
 
         alpine2Cluster.trackName=trackname
+        bcktrackName=trackname
 
-        //.substring(0,minOf(trackname.length, 16))
         alpine2Cluster.startIndexTrack=0
     }
 
+    @Synchronized
     fun setartistName(artistname:String)
     {
         alpine2Cluster.artistName=artistname
-        //  alpine2Cluster.prevartistName=artistname
-        //.substring(0,minOf(artistname.length, 16))
+        backartistName=artistname
         alpine2Cluster.startIndexArtist=0
     }
 
+    @Synchronized
     fun settrackId(trackid:Int)
     {
         alpine2Cluster.trackId=trackid
     }
+
+    @Synchronized
     fun settrackLengthInSec(tracklengthinsec:Int)
     {
         alpine2Cluster.trackLengthInSec=tracklengthinsec
