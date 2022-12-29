@@ -322,6 +322,9 @@ class VehicleServices : LocationListener {
     /** Get Code ACCompMaximumPower **/
     fun get_ACCompMaximumPower() : Int = this.getFrameParams(CanECUAddrs.ECM_CANHS_RNr_01.idcan, 56, 8)
 
+    /** CoolingFanSpeedStatus **/
+
+    fun get_CoolingFanSpeedStatus() : Int = this.getFrameParams(CanECUAddrs.ECM_CANHS_R_03.idcan, 48, 2)
     /**
      *  Lights, Ambient, Batt
      **/

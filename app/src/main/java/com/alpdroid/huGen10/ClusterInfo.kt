@@ -11,6 +11,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import net.osmand.aidlapi.navigation.ADirectionInfo
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
@@ -35,6 +36,7 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
     var nextTurnTypee: Int = 0
     var distanceToturn: Int = 0
+    var unitToKilometer:Boolean=false
 
     var iconTest:Boolean = false
     var distancetoTest:Int =0
@@ -257,7 +259,7 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     private fun clusterInfoUpdate()
     {
 
-    /*
+    /* OSMAND Values
         const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
         const val TL = 2 // turn left //$NON-NLS-1$
         const val TSLL = 3 // turn slightly left //$NON-NLS-1$
@@ -273,6 +275,79 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
         const val RNDB = 13 // Roundabout
         const val RNLB = 14 // Roundabout left
 */
+        /* Alpine Cluster Values
+        1 - turn right
+        2 - turn sharply right
+        3 - turn sharply left
+        4 - turn  left
+        5 - turn slightly left
+        6 - continue (go straight)
+        7 - Right U-turn
+        8 - cross lane to right
+        9 - change lane to right
+        10 - exit right
+        11 - cross road right (tri lanes)
+        12 - cross road right (two lanes)
+        13 - Roundabout exit 81° right
+        14 - Rounabout exit 69° right
+        15 - Rounabout exit 57° right
+        16 - Rounabout exit 45° right
+        17 - Rounabout exit 36° right
+        18 - Rounabout exit 24° right
+        19 - Roundabout exit 12° right
+        20 - Roundabout U - turn right (180°)
+        21 - Roundabout exit 168° right to left
+        22 - Roundabout exit 156° right to left
+        23 - Roundabout exit 144° right to left
+        24 - Roundabout exit 135° right to left
+        25 - Roundabout exit 123° right to left
+        26 - Roundabout exit 111° right to left
+        27 - Roundabout exit 99° right to left
+        28 - Roundabout exit 90° front
+        29 - Turn right then left
+        30 - Leave lane to right
+        31 - Leave lane to right right
+        32 - 48 - Compass Info
+        49 - continue (go straight)
+        50 - Left U Turn
+        51 - cross lane to left
+        52 - change lane to left
+        53 - exit left
+        54 - cross road left (tri lanes)
+        55 - cross road left (two lanes)
+        56 - Roundabout exit 81° left
+        57 - Rounabout exit 69° left
+        58 - Rounabout exit 57° left
+        59 - Rounabout exit 45° left
+        60 - Rounabout exit 36° left
+        61 - Rounabout exit 24° left
+        62 - Roundabout exit 12° left
+        63 - Roundabout U - turn right (180°)
+        64 - Roundabout exit 168° right to left
+        65 - Roundabout exit 156° right to left
+        66 - Roundabout exit 144° right to left
+        67 - Roundabout exit 135° right to left
+        68 - Roundabout exit 123° right to left
+        69 - Roundabout exit 111° right to left
+        70 - Roundabout exit 99° right to left
+        71 - Roundabout exit 90° front
+        72 - Turn left then right
+        73 - Leave lane to left
+        74 - Leave lane to left left
+        75 - cross road straight (tri lanes)
+        76 - go straight
+        77 - roundabout 1st Exit right
+        78 - roundabout 1st Exit left
+        79 - go left
+        80 - Destination
+        81 - Arrived grey
+        82 - Start
+        83 - Arrived Yellow
+        84 - Left lane (two lanes)
+        85 - Arrived Yellow
+        86 - 255 - same as 8
+
+         */
 
         mAidlHelper = OsmAndAidlHelper(this.application, this)
 
@@ -281,11 +356,27 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
             override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
                 when (directionInfo.turnType)
                 {
-                    1 -> nextTurnTypee=0
-                    2 -> nextTurnTypee=1
-                    5 -> nextTurnTypee=2
+                    1 -> nextTurnTypee=6
+                    2 -> nextTurnTypee=4
+                    3 -> nextTurnTypee=5
+                    4 -> nextTurnTypee=3
+                    5 -> nextTurnTypee=1
+                    6 -> nextTurnTypee=79
+                    7 -> nextTurnTypee=2
+                    8 -> nextTurnTypee=53
+                    9 -> nextTurnTypee=10
+                    10 -> nextTurnTypee=50
+                    11 -> nextTurnTypee=7
+                    12 -> nextTurnTypee=81
+                    13 -> nextTurnTypee=13
+                    14 -> nextTurnTypee=56
                 }
                 distanceToturn = directionInfo.distanceTo
+                unitToKilometer = false
+                if (distanceToturn>1999) {
+                    distanceToturn = (distanceToturn / 1000).toDouble().roundToInt()
+                    unitToKilometer = true
+                }
             }
         })
 
@@ -350,8 +441,6 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
 
-        Log.d(TAG, "compass:"+application.alpdroidData.get_CompassOrientation().toString())
-
 // Navigation / Direction
 
         if (iconTest)
@@ -365,7 +454,11 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
                 12,
                 distanceToturn
             )
-            application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
+            if (unitToKilometer)
+                application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 1)
+            else
+                application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
+            
             application.alpdroidData.setFrameParams(
                 CanMCUAddrs.RoadNavigation.idcan + 0,
                 16,

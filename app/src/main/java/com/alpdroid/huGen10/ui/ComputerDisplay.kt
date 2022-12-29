@@ -2,6 +2,7 @@ package com.alpdroid.huGen10.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import kotlinx.coroutines.sync.Mutex
 
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
-class ComputerDisplay : UIFragment(1000) {
+class ComputerDisplay : UIFragment(500) {
 
     private  var fragmentBlankBinding: ComputerDisplayBinding?=null
     lateinit var ac_header : TextView
@@ -29,6 +30,7 @@ class ComputerDisplay : UIFragment(1000) {
     lateinit var trackPrev:TextView
     lateinit var countCluster:TextView
     lateinit var testIcon:Switch
+    lateinit var icontoTest:EditText
 
     var nextTurnToTest : Int = 0
     var distancetoTest : Int = 0
@@ -64,6 +66,7 @@ class ComputerDisplay : UIFragment(1000) {
         trackPrev = fragmentBlankBinding!!.showprev
         countCluster = fragmentBlankBinding!!.countcluster
         testIcon = fragmentBlankBinding!!.testicons
+        icontoTest = fragmentBlankBinding!!.idicons
 
         timerTask = {
                 activity?.runOnUiThread {
@@ -79,44 +82,51 @@ class ComputerDisplay : UIFragment(1000) {
                         appState.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
 
 
+                        try {
+                            nextTurnToTest = icontoTest.text.toString().toInt()
+                        }
+                        catch (e:Exception)
+                        {
+                            nextTurnToTest=0
+                        }
+
+                        Log.d("ComputerDisplay","val :"+nextTurnToTest.toString()+" et idcon:"+icontoTest.text.toString())
+
                      if (testIcon.isChecked)
                      {
                          AlpdroidApplication.app.alpdroidData.setFrameParams(
                              CanMCUAddrs.RoadNavigation.idcan + 0,
                              0,
                              12,
-                             distancetoTest
+                             nextTurnToTest
                          )
-                        distancetoTest+=1
+
 
                          AlpdroidApplication.app.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
                          AlpdroidApplication.app.alpdroidData.setFrameParams(
                             CanMCUAddrs.RoadNavigation.idcan + 0,
                             16,
                             8,
-                            nextTurnToTest
+                             nextTurnToTest
                         )
                          AlpdroidApplication.app.alpdroidData.setFrameParams(
                             CanMCUAddrs.RoadNavigation.idcan + 0,
                             24,
                             8,
-                            nextTurnToTest+1
+                             nextTurnToTest+1
                         )
                          AlpdroidApplication.app.alpdroidData.setFrameParams(
                             CanMCUAddrs.RoadNavigation.idcan + 0,
                             32,
                             8,
-                            nextTurnToTest+2
+                             nextTurnToTest+2
                         )
                          AlpdroidApplication.app.alpdroidData.setFrameParams(
                             CanMCUAddrs.RoadNavigation.idcan + 0,
                             40,
                             8,
-                            nextTurnToTest+3
+                             nextTurnToTest+3
                         )
-                        nextTurnToTest+=1
-                        if (nextTurnToTest>60)
-                            nextTurnToTest=0
 
                          try {
                          AlpdroidApplication.app.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan+0)

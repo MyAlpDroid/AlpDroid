@@ -171,7 +171,7 @@ class ConfortDisplay : UIFragment(250) {
 
                 val id =
                     resources.getIdentifier(
-                        "enginefanspeed_on${alpineServices.get_EngineFanSpeedRequest()}",
+                        "enginefanspeed_on${alpineServices.get_CoolingFanSpeedStatus()}",
                         "drawable",
                         context?.packageName
                     )

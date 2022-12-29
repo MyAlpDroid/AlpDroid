@@ -318,9 +318,17 @@ public class OsmAndAidlHelper {
                 Log.d(TAG,"OsmAnd service bind");
                 return true;
             } else {
-           //     Toast.makeText(app, "OsmAnd service NOT bind", Toast.LENGTH_SHORT).show();
-                mOsmandMissingListener.osmandMissing();
-                return false;
+                intent.setPackage(OSMAND_PLUS_PACKAGE_NAME);
+
+                res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+                if (res) {
+                    Log.d(TAG,"OsmAnd service bind");
+                    return true;
+                }
+                else {
+                    mOsmandMissingListener.osmandMissing();
+                    return false;
+                }
             }
         } else {
             Log.d(TAG,"OsmAnd service already bind");
