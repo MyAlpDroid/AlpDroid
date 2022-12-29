@@ -3,7 +3,7 @@
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
 
 
-[Français](https://github.com/MyAlpDroid/AlpDroid/README.md)    [English](https://github.com/MyAlpDroid/AlpDroid/README.en.md)
+[Français](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.md)    [English](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.en.md)
 
 <H1> Alpine : Remplacer le poste multimédia  par un poste Android </H1>
 
