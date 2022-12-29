@@ -84,4 +84,26 @@ By default, writing to the ECU CAN bus is prohibited. To be changed if you want 
        case 1: // do not write to CAN ECU, if you are not sure of what you do
               // canECU->sendMessage(&io_can_frame);
             break;
+            
+            
+## How to install the program on the Arduino:
+Install the Arduino IDE environment on a PC or Mac: https://www.arduino.cc/en/Guide
+Load the Arduino UNO project
+* Upload via GitHub the files from the UNO CODE folder to a directory.
+* Open Arduino IDE, File , Open, Choose directory and open
+Compile and Upload the program:
+You need a type B USB cable (printer type on the Arduino side) and type C or another PC side.
+Once the Arduino program has been loaded into the IDE, and the cable connected to the Arduino, all you have to do is upload the program to the Arduino.
+https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploading-a-sketch
+* In the IDE, choose the Arduino UNO card connected to the PC / Mac
+* then Tools / Port / "name of your USB/Card port"
+* then Sketch / Upload
 
+If you have selected the wrong USB port, you will see a message appear repeatedly (10 times) indicating that it cannot find the card.
+
+Once the program is loaded, it launches automatically as soon as the card is powered and loops indefinitely.
+
+You can test that the program works by plugging the board with its CANSHIELD into one of the Alpine's CAN buses via the OBD socket and plugging the Arduino board, via USB, into an Android tablet or phone and using the excellent "USB SERIAL TERMINAL" application:
+https://play.google.com/store/apps/details?id=de.kai_morich.serial_usb_terminal&hl=fr&gl=US
+
+Set the application to a rate of 115,200 Bauds, connect to the Arduino once detected and you will see the GSON messages representing the CAN frames appear.
