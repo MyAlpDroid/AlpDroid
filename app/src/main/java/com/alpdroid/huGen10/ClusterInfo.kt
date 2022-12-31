@@ -1,6 +1,5 @@
 package com.alpdroid.huGen10
 
-import android.os.Bundle
 import android.util.Log
 import com.alpdroid.huGen10.OsmAndHelper.OnOsmandMissingListener
 import kotlinx.coroutines.CoroutineScope
@@ -39,8 +38,6 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     var unitToKilometer:Boolean=false
 
     var iconTest:Boolean = false
-    var distancetoTest:Int =0
-    var nextTurnToTest:Int =0
 
     var prevtrackName: String = "prev"
 
@@ -356,6 +353,7 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
             override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
                 when (directionInfo.turnType)
                 {
+                    0 -> nextTurnTypee=0
                     1 -> nextTurnTypee=6
                     2 -> nextTurnTypee=4
                     3 -> nextTurnTypee=5
@@ -389,13 +387,13 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
         if (!updateMusic && frameFlowTurn>6)
             {
-                    prevtrackName=trackName
                     frameFlowTurn=0
                     updateMusic=true
                 // trying to update name in case of missing frame
                     albumName= application.alpdroidServices.getalbumName().toString()
                     artistName= application.alpdroidServices.getartistName().toString()
                     trackName= application.alpdroidServices.gettrackName().toString()
+                    prevtrackName=trackName
             }
 
         if (updateMusic) {
@@ -443,9 +441,25 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
 // Navigation / Direction
 
-        if (iconTest)
+        if (nextTurnTypee==0)
         {
-           // do nothing
+            // Reset Navigation Frame
+            application.alpineCanFrame.addFrame(
+                CanFrame(
+                    0,
+                    CanMCUAddrs.RoadNavigation.idcan,
+                    byteArrayOf(
+                        0x00.toByte(),
+                        0x00.toByte(),
+                        0xFF.toByte(),
+                        0xFF.toByte(),
+                        0xFF.toByte(),
+                        0xFF.toByte(),
+                        0x3F.toByte(),
+                        0xFF.toByte()
+                    )
+                )
+            )
         }
         else {
             application.alpdroidData.setFrameParams(
@@ -491,24 +505,6 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
         return tableau
 
-    }
-
-    fun fromOsmData(extras: Bundle)
-    {
-        if (extras.size() > 0) {
-         /*   nextTurnTypee = extras.getBundle("no_speak_next_turn_type").toString().toInt()
-            //  alpine2Cluster.nextTurnTypee  = extras.getBundle("turn_type").toString().toInt()
-            distanceToturn  = extras.getBundle("next_turn_distance").toString().toInt()
-            Log.d("next_turn",nextTurnTypee.toString())
-            Log.d("turn_type",extras.getBundle("turn_type").toString())
-            Log.d("distance_2_turn",distanceToturn.toString())*/
-            for (key in extras.keySet()) {
-
-                Log.d("key to read : ", key)
-                Log.d("value read : ", extras[key].toString())
-            }
-
-        }
     }
 
 

@@ -811,7 +811,14 @@ fun get_EcoModeStatusDisplay() : Int = this.getFrameParams(CanMCUAddrs.MMI_BCM_C
    /** Get EngineOilPressure **/
    fun get_EngineOilPressure() : Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data1.idcan, 57, 7)
 
-   /**
+
+    /**
+     * Start & Stop request
+     */
+
+    fun get_StartAutoAuthorization() : Int = this.getFrameParams(CanECUAddrs.SSCU_CANHS_R_02.idcan,2,2)
+
+    /**
     *  Throttle, Brake Pressure, Gear
     **/
   

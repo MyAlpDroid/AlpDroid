@@ -2,7 +2,6 @@ package com.alpdroid.huGen10.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +28,14 @@ class ComputerDisplay : UIFragment(500) {
     lateinit var trackShow:TextView
     lateinit var trackPrev:TextView
     lateinit var countCluster:TextView
-    lateinit var testIcon:Switch
-    lateinit var icontoTest:EditText
+    lateinit var testFrame:Switch
+    lateinit var frametoTest:EditText
+    lateinit var framedata:EditText
 
     var nextTurnToTest : Int = 0
     var distancetoTest : Int = 0
+    var frametotestString1 : String=""
+    var framedataString1 : String = ""
     var framestring1 : String=""
     var framestring2 : String=""
 
@@ -65,8 +67,9 @@ class ComputerDisplay : UIFragment(500) {
         trackShow = fragmentBlankBinding!!.showtrack
         trackPrev = fragmentBlankBinding!!.showprev
         countCluster = fragmentBlankBinding!!.countcluster
-        testIcon = fragmentBlankBinding!!.testicons
-        icontoTest = fragmentBlankBinding!!.idicons
+        testFrame = fragmentBlankBinding!!.testicons
+        frametoTest = fragmentBlankBinding!!.idframe
+        framedata = fragmentBlankBinding!!.idframe2
 
         timerTask = {
                 activity?.runOnUiThread {
@@ -82,20 +85,15 @@ class ComputerDisplay : UIFragment(500) {
                         appState.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
 
 
-                        try {
-                            nextTurnToTest = icontoTest.text.toString().toInt()
-                        }
-                        catch (e:Exception)
-                        {
-                            nextTurnToTest=0
-                        }
 
-                        Log.d("ComputerDisplay","val :"+nextTurnToTest.toString()+" et idcon:"+icontoTest.text.toString())
-
-                     if (testIcon.isChecked)
+                     if (testFrame.isChecked)
                      {
+
+                         frametotestString1= frametoTest.text.toString()
+                         framedataString1=framedata.text.toString()
+
                          AlpdroidApplication.app.alpdroidData.setFrameParams(
-                             CanMCUAddrs.RoadNavigation.idcan + 0,
+                             framestring1.toInt(),
                              0,
                              12,
                              nextTurnToTest

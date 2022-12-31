@@ -284,7 +284,8 @@
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_withIndicatorLight="true"
                 app:sv_withTremble="false"
-                tools:layout_editor_absoluteY="16dp" />
+                tools:layout_editor_absoluteY="16dp"
+                tools:ignore="MissingConstraints" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Intake_jauge"
@@ -556,6 +557,7 @@
                 android:layout_width="49dp"
                 android:layout_height="22dp"
                 android:text="Oil"
+                android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
@@ -571,13 +573,15 @@
                 android:layout_width="78dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="4dp"
+                android:gravity="center_horizontal"
                 android:text="Cool"
                 android:textAlignment="center"
-                android:textColor="#157CB3"
+                android:textAppearance="@style/AppTheme"
+                android:textColor="@color/white_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/CooL_jauge"
-                app:layout_constraintHorizontal_bias="0.329"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="@+id/CooL_jauge"
                 app:layout_constraintTop_toBottomOf="@+id/CooL_jauge" />
 
@@ -586,6 +590,7 @@
                 android:layout_width="123dp"
                 android:layout_height="40dp"
                 android:text="Gear °C"
+                android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="#F1F6F6"
                 android:textSize="16sp"
@@ -599,6 +604,7 @@
                 android:layout_width="82dp"
                 android:layout_height="37dp"
                 android:text="Intake"
+                android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -612,6 +618,7 @@
                 android:layout_width="129dp"
                 android:layout_height="38dp"
                 android:text="Oil Pressure"
+                android:gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"

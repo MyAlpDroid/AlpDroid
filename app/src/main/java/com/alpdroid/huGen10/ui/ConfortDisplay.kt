@@ -187,14 +187,18 @@ class ConfortDisplay : UIFragment(250) {
                 else
                     opendoorRight.setImageResource(R.drawable.cardoor_right)
                 if (alpineServices.get_BootOpenWarning()>0)
-                    opendoorFront.setImageResource(R.drawable.cardoor_frontopen)
+                    opendoorRear.setImageResource(R.drawable.cardoor_rearopen)
                 else
-                    opendoorFront.setImageResource(R.drawable.cardoor_front)
+                    opendoorRear.setImageResource(R.drawable.cardoor_rear)
 
-                if (alpineServices.get_StopStartSwitch()==1)
-                    startstopstate.setImageResource(R.drawable.sas_off)
-                else
-                    startstopstate.setImageResource(R.drawable.sas_on)
+                opendoorFront.setImageResource((R.drawable.cardoor_front))
+
+                when (alpineServices.get_StartAutoAuthorization()) {
+                    0 -> startstopstate.setImageResource(R.drawable.sas_available)
+                    1 -> startstopstate.setImageResource(R.drawable.sas_on)
+                    2 -> startstopstate.setImageResource(R.drawable.sas_off)
+                    3 -> startstopstate.setImageResource(R.drawable.sas_off)
+                }
 
                 if (alpineServices.get_ESPDeactivatedByDriverForDisplay())
                     escstate.setImageResource(R.drawable.esc_off)
