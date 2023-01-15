@@ -290,7 +290,7 @@ while (Serial.available()<(FRAME_SIZE+2))
              {
                 delaytTime=millis();                                  
                  // CAN ECU(1) to Android 
-                 // wait a little between to ECU frame - due to heavy flow from ECU
+                 // wait a little between two ECU frames - due to heavy flow from ECU
                  writeFrame(1, &io_can_frame_read);
              }
 

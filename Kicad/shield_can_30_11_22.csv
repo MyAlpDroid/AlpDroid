@@ -14,7 +14,7 @@
 13;"R9";"R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal";1;"4.7k";;;
 14;"J4";"PinSocket_1x06_P2.54mm_Vertical";1;"Analog";;;
 15;"R4";"R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal";1;"47k";;;
-16;"R6";"R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal";1;"470";;;
+16;"R6";"R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal";1;"2,2k";;;
 17;"J6";"PinSocket_1x08_P2.54mm_Vertical";1;"Digital/PWM";;;
 18;"J2";"PinHeader_1x02_P2.54mm_Vertical";1;"Micro Android";;;
 19;"Mic1";"PinHeader_1x03_P2.54mm_Vertical";1;"Micro Alpine";;;
