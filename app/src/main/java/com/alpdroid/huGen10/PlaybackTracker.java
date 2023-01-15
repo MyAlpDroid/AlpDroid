@@ -12,11 +12,13 @@ public class PlaybackTracker {
     private final AlpdroidEr alpdroidEr;
     private final MetadataTransformers metadataTransformers = new MetadataTransformers();
     private final Map<String, PlayerState> playerStates = new HashMap<>();
+    public static int playerType=0;
 
     public PlaybackTracker(
      AlpdroidEr alpdroidEr) {
         this.alpdroidEr = alpdroidEr;
     }
+
 
     public void handlePlaybackStateChange(String player, PlaybackState playbackState) {
         if (playbackState == null) {
@@ -26,6 +28,7 @@ public class PlaybackTracker {
         PlayerState playerState = getOrCreatePlayerState(player);
         playerState.setPlaybackState(playbackState);
     }
+
 
     public void handleMetadataChange(String player, MediaMetadata metadata) {
         if (metadata == null) {

@@ -23,6 +23,7 @@ public class AlpdroidEr {
     eventBus.register(this);
   }
 
+
   public void updateNowPlaying(Track track) {
 
     @SuppressLint("MissingPermission") NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();

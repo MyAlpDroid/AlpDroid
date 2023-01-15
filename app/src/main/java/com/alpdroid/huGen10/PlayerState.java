@@ -1,7 +1,6 @@
 package com.alpdroid.huGen10;
 
 import android.media.session.PlaybackState;
-import android.util.Log;
 
 import com.google.common.eventbus.EventBus;
 
@@ -21,6 +20,7 @@ public class PlayerState {
         eventBus.register(this);
     }
 
+
     public void setPlaybackState(PlaybackState playbackState) {
         if (playbackItem == null) {
             return;
@@ -31,6 +31,7 @@ public class PlayerState {
         int state = playbackState.getState();
         boolean isPlaying = state == PlaybackState.STATE_PLAYING;
 
+
         if (isPlaying) {
             postEvent(playbackItem.getTrack());
             playbackItem.startPlaying();
@@ -40,6 +41,7 @@ public class PlayerState {
             alpdroidEr.submit(playbackItem);
         }
     }
+
 
     public void setTrack(Track track) {
        Track currentTrack = null;

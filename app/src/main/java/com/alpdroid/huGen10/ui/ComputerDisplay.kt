@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
-import com.alpdroid.huGen10.CanMCUAddrs
+import com.alpdroid.huGen10.CanFrame
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
 import kotlinx.coroutines.sync.Mutex
 
@@ -32,8 +32,9 @@ class ComputerDisplay : UIFragment(500) {
     lateinit var frametoTest:EditText
     lateinit var framedata:EditText
 
-    var nextTurnToTest : Int = 0
-    var distancetoTest : Int = 0
+
+    var rtxTimer:Long=0
+
     var frametotestString1 : String=""
     var framedataString1 : String = ""
     var framestring1 : String=""
@@ -71,6 +72,8 @@ class ComputerDisplay : UIFragment(500) {
         frametoTest = fragmentBlankBinding!!.idframe
         framedata = fragmentBlankBinding!!.idframe2
 
+        rtxTimer= System.currentTimeMillis()
+
         timerTask = {
                 activity?.runOnUiThread {
                     if (AlpdroidApplication.app.isBound) {
@@ -78,56 +81,63 @@ class ComputerDisplay : UIFragment(500) {
                             ac_header.text = "Service Is Working"
                         else ac_header.text = "Service Stopping for some weird reason"
 
-                        trackShow.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.trackName
-                        trackPrev.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.prevtrackName
-                        countCluster.text= AlpdroidApplication.app.alpdroidServices.alpine2Cluster.nextTurnTypee.toString()
-                                //AlpdroidApplication.app.alpdroidServices.tx.toString()
-                        appState.text=AlpdroidApplication.app.alpdroidServices.alpine2Cluster.frameFlowTurn.toString()
+                        countCluster.text= String.format(
+                            "RX: %.1f Kb/s",
+                            (AlpdroidApplication.app.alpdroidServices.tx/(System.currentTimeMillis()-rtxTimer)).toFloat())
 
-
+                        appState.text= String.format(
+                            "TX: %.1f Kb/s",(AlpdroidApplication.app.alpdroidServices.rx/(System.currentTimeMillis()-rtxTimer)).toFloat())
 
                      if (testFrame.isChecked)
                      {
+     /*                    A few comments:
 
-                         frametotestString1= frametoTest.text.toString()
+                         Each CAN transmit frame is delayed by 30 ms to avoid overlap in the message queries
+                         The frequency is set to 500 ms to avoid excessive requests vs. the data resolution (which is low for OBD2)
+                         The "id" field is 7DF, which for OBD2 reflects a "request" message (while e.g. 7E8 reflects a "response" message)
+                         The "data" field shows the OBD2 request frame structure, including in particular the HEX PID being requested in the 3rd byte
+
+                         Example: If you wish to query Engine RPM data in an OBD2 context, you'll need to set the "data" field to 02 01 0C 55 55 55 55 55.
+
+                         Here, the first byte is 02 and corresponds to the number of additional bytes (in this case 2)
+                         The second byte is 01 and corresponds to the OBD2 "mode", cf. Wikipedia for details
+                         The third byte is 0C, which under Mode 01 reflects the parameter ID of RPM
+                         Finally, the remaining bytes of the data field are set to 55 ('dummy loads') and ignored
+
+                         7DF, length, 22 80 11 FF
+                         7E8, length, 62 80 11 00
+
+                         */
+
+                   /*      frametotestString1= frametoTest.text.toString()
                          framedataString1=framedata.text.toString()
 
-                         AlpdroidApplication.app.alpdroidData.setFrameParams(
-                             framestring1.toInt(),
-                             0,
-                             12,
-                             nextTurnToTest
-                         )
-
-
-                         AlpdroidApplication.app.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
-                         AlpdroidApplication.app.alpdroidData.setFrameParams(
-                            CanMCUAddrs.RoadNavigation.idcan + 0,
-                            16,
-                            8,
-                             nextTurnToTest
-                        )
-                         AlpdroidApplication.app.alpdroidData.setFrameParams(
-                            CanMCUAddrs.RoadNavigation.idcan + 0,
-                            24,
-                            8,
-                             nextTurnToTest+1
-                        )
-                         AlpdroidApplication.app.alpdroidData.setFrameParams(
-                            CanMCUAddrs.RoadNavigation.idcan + 0,
-                            32,
-                            8,
-                             nextTurnToTest+2
-                        )
-                         AlpdroidApplication.app.alpdroidData.setFrameParams(
-                            CanMCUAddrs.RoadNavigation.idcan + 0,
-                            40,
-                            8,
-                             nextTurnToTest+3
-                        )
+                         for (i in framedataString1.indices) {
+                             AlpdroidApplication.app.alpdroidData.setFrameParams(
+                                 framestring1.toInt(16),
+                                 0+(i*8),
+                                 4,
+                                 framedataString1[i].digitToInt(16)
+                             )
+                         }
+*/
+                         AlpdroidApplication.app.alpineCanFrame.addFrame(
+                             CanFrame(
+                             1,
+                             0x07DF,
+                             byteArrayOf(
+                                 0x22.toByte(),
+                                 0x80.toByte(),
+                                 0x11.toByte(),
+                                 0xFF.toByte(),
+                                 0xFF.toByte(),
+                                 0xFF.toByte(),
+                                 0xFF.toByte(),
+                                 0xFF.toByte()
+                             )))
 
                          try {
-                         AlpdroidApplication.app.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan+0)
+                         AlpdroidApplication.app.alpineCanFrame.pushFifoFrame(0x07DF)
                          AlpdroidApplication.app.alpineCanFrame.setSending()
 
                              } catch (e: Exception) {

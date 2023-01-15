@@ -57,6 +57,12 @@ class EngineDisplay : UIFragment(250)
     lateinit var brakethrottle : ProgressiveGauge
     lateinit var textCtl : TextView
 
+    var fuel_instant:Float = 0.0f
+    var speed_100:Int = 0
+    var fuelgauge:Int =0
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = EngineDisplayBinding.inflate(inflater, container, false)
@@ -129,7 +135,9 @@ class EngineDisplay : UIFragment(250)
                         var rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
                         var rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
 
-                        temp_FL2.text= String.format(" %d °C",(alpineServices.get_FrontLeftWheelTemperature() - 30))
+                        // temp
+                        temp_FL2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature() - 30))
+
                         temp_FR2.text= String.format(" %d °C",(alpineServices.get_FrontRightWheelTemperature() - 30))
                         temp_RL2.text= String.format(" %d °C",(alpineServices.get_RearLeftWheelTemperature() - 30) )
                         temp_RR2.text= String.format(" %d °C",(alpineServices.get_RearRightWheelTemperature() - 30))
@@ -247,19 +255,34 @@ class EngineDisplay : UIFragment(250)
                         intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
                         gear_temp.speedTo((alpineServices.get_RST_ATClutchTemperature() + 60).toFloat())
 
-                        speed.text = String.format(" %d KM/H", (alpineServices.get_Disp_Speed_MM()/100))
+                        speed_100=(alpineServices.get_Disp_Speed_MM()/100)
+                        speed.text = String.format(" %d Km/h", speed_100)
 
                         otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat()/10)
 
                         oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
+
+
+                        fuelgauge=(alpineServices.get_FuelLevelDisplayed())
                         fuel_level.text =
-                            String.format(" %2d l", (alpineServices.get_FuelLevelDisplayed()))
+                            String.format(" %2d l", fuelgauge)
+
+
+                        if (fuelgauge>18)
+                            fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                        else if (fuelgauge>9)
+                            fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                        else
+                            fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                        fuel_instant = alpineServices.get_FuelConsumption().toFloat()*80*3600*100/(speed_100*1000000)
+
                         fuel_inst.text = String.format(
-                            " %.2f l/s",
-                            (alpineServices.get_FuelConsumption().toFloat()/80)
+                            " %.2f l/100",
+                            fuel_instant
                         )
 
-                        brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()*2)
+                        brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()/2)
                         speedthrottle.speedTo(alpineServices.get_RawSensor().toFloat()/8)
 
 
@@ -273,7 +296,7 @@ class EngineDisplay : UIFragment(250)
 
                         val id1 =
                             resources.getIdentifier(
-                                "shift_${(alpineServices.get_RST_ATPreSelectedRange()+1)}",
+                                "shift_${(alpineServices.get_RST_ATPreSelectedRange())}",
                                 "drawable",
                                 context?.packageName
                             )

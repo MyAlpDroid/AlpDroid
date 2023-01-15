@@ -58,6 +58,7 @@ import net.osmand.aidlapi.gpx.RemoveGpxParams;
 import net.osmand.aidlapi.gpx.ShowGpxParams;
 import net.osmand.aidlapi.gpx.StartGpxRecordingParams;
 import net.osmand.aidlapi.gpx.StopGpxRecordingParams;
+import net.osmand.aidlapi.info.AppInfoParams;
 import net.osmand.aidlapi.info.GetTextParams;
 import net.osmand.aidlapi.logcat.ALogcatListenerParams;
 import net.osmand.aidlapi.logcat.OnLogcatMessageParams;
@@ -123,7 +124,7 @@ import java.util.Map;
 
 public class OsmAndAidlHelper {
 
-    private static String TAG = "OsmAndAidlHelper";
+    private static final String TAG = "OsmAndAidlHelper";
 
     private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
     private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
@@ -134,6 +135,7 @@ public class OsmAndAidlHelper {
 
     private final Application app;
     private final OnOsmandMissingListener mOsmandMissingListener;
+    private final boolean isBind;
     private IOsmAndAidlInterface mIOsmAndAidlInterface;
 
     private SearchCompleteListener mSearchCompleteListener;
@@ -302,24 +304,27 @@ public class OsmAndAidlHelper {
     public OsmAndAidlHelper(Application application, OsmAndHelper.OnOsmandMissingListener listener) {
         this.app = application;
         this.mOsmandMissingListener = listener;
-        if (aidbindService())
+        this.isBind=aidbindService();
+        if (isBind)
                  Log.d(TAG,"OsmAnd AidHelper init");
         else Log.d(TAG,"OsmAnd not Bind");
     }
 
-    private boolean aidbindService() {
+    public boolean isBind() {
+        return isBind;
+    }
+
+    public boolean aidbindService() {
         if (mIOsmAndAidlInterface == null) {
             Intent intent = new Intent("net.osmand.aidl.OsmandAidlServiceV2");
             intent.setPackage(OSMAND_PACKAGE_NAME);
 
             boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             if (res) {
-         //       Toast.makeText(app, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
                 Log.d(TAG,"OsmAnd service bind");
                 return true;
             } else {
                 intent.setPackage(OSMAND_PLUS_PACKAGE_NAME);
-
                 res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
                 if (res) {
                     Log.d(TAG,"OsmAnd service bind");
@@ -1730,6 +1735,18 @@ public class OsmAndAidlHelper {
             }
         }
         return false;
+    }
+
+    public AppInfoParams getAppInfo()
+    {
+        if (mIOsmAndAidlInterface != null) {
+            try {
+                return mIOsmAndAidlInterface.getAppInfo();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public boolean addRoadBlock(ABlockedRoad blockedRoad) {

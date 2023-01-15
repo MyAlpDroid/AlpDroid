@@ -31,6 +31,7 @@ class CanFrameServices : Service(), ArduinoListener {
     var backalbumName:String = "--"
     var bcktrackName:String = "--"
     var backartistName:String = "--"
+    var audioSource:Int=0
 
 
     var isConnected : Boolean = false
@@ -46,8 +47,10 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
+    private val DEFAULT_BAUD_RATE = 230400
 
     var tx:Int = 0
+    var rx:Int = 0
 
     /* TODO : Implement ECU & MCU class or list enum */
     /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
@@ -58,7 +61,7 @@ class CanFrameServices : Service(), ArduinoListener {
         super.onCreate()
 
         isConnected=true
-        arduino=Arduino(this, 115200)
+        arduino=Arduino(this)
         arduino.setArduinoListener(this)
 
         alpine2Cluster=ClusterInfo(application)
@@ -118,7 +121,7 @@ class CanFrameServices : Service(), ArduinoListener {
             }
             else
             {
-                arduino=Arduino(this, 115200)
+                arduino=Arduino(this, DEFAULT_BAUD_RATE)
                 arduino.setArduinoListener(this)
                 isConnected=true
             }
@@ -126,7 +129,7 @@ class CanFrameServices : Service(), ArduinoListener {
         catch (e:Exception)
         {
             isConnected=true
-            arduino=Arduino(this, 115200)
+            arduino=Arduino(this, DEFAULT_BAUD_RATE)
             arduino.setArduinoListener(this)
         }
 
@@ -201,7 +204,7 @@ class CanFrameServices : Service(), ArduinoListener {
                 isConnected=true
             else
             {
-                arduino=Arduino(this, 115200)
+                arduino=Arduino(this, DEFAULT_BAUD_RATE)
                 arduino.setArduinoListener(this)
                 isConnected=true
                 isServiceStarted=false
@@ -211,7 +214,7 @@ class CanFrameServices : Service(), ArduinoListener {
         }
         catch (e:Exception)
         {
-            arduino=Arduino(this, 115200)
+            arduino=Arduino(this, DEFAULT_BAUD_RATE)
             arduino.setArduinoListener(this)
             isConnected=true
             isServiceStarted=false
@@ -322,6 +325,7 @@ class CanFrameServices : Service(), ArduinoListener {
                     if (frame != null) {
                         application.alpineCanFrame.addFrame(frame)
                         isBad = false
+                        rx+=frame.dlc
                     }
                 } catch (e: Exception) {
                     //checking bad message
@@ -341,11 +345,8 @@ class CanFrameServices : Service(), ArduinoListener {
 
 
     private fun sendFrame(frame: CanFrame) {
-
-            if (frame != null) {
-                arduino.send("@@".toByteArray()+frame.toByteArray())
-                tx+=frame.dlc
-            }
+        arduino.send("@@".toByteArray()+frame.toByteArray())
+        tx+=frame.dlc
     }
 
     fun checkFrame(ecuAddrs:Int):Boolean {
@@ -409,6 +410,11 @@ class CanFrameServices : Service(), ArduinoListener {
         alpine2Cluster.trackLengthInSec=tracklengthinsec
     }
 
+    fun setaudioSource(audioSource: Int) {
+        this.audioSource =audioSource
+        alpine2Cluster.audioSource=audioSource
+
+    }
 
 
 }

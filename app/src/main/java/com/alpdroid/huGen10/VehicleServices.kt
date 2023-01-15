@@ -22,6 +22,8 @@ class VehicleServices : LocationListener {
          var gpsbearing = 0f
          var lat = 0f
          var lon = 0f
+         var prevlat = 0f
+         var prevlon = 0f
          var alt = 0f
          var timeOfFix: Long = 0
          var compassOrientation:Int = 0
@@ -63,6 +65,18 @@ class VehicleServices : LocationListener {
         timeOfFix = location.time
 
 
+        if (lon-prevlon>0)
+            deviceOrientation=-90
+        else
+            deviceOrientation=90
+
+        if (lat-prevlat>0)
+            deviceOrientation+=-45
+        else
+            deviceOrientation+=45
+
+
+
         //use gps bearing instead of the compass
         var t = 360 - gpsbearing - deviceOrientation
         if (t < 0) {
@@ -78,10 +92,12 @@ class VehicleServices : LocationListener {
         t = t.toInt().toFloat()
         t = t * 5
 
-        if (gpsspeed >= 0.01) {
             compassOrientation = t.toInt()
-        }
 
+
+        prevlat=lat
+        prevlon=lon
+   //     Log.d(TAG,"compass:"+compassOrientation.toString())
     }
 
 
@@ -152,6 +168,9 @@ class VehicleServices : LocationListener {
      **/
 
     /** Get code GearboxOilTemperature **/
+    fun get_TyreTemperature() : Int = this.getFrameParams(0x7E8, 48, 8)
+
+    /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 0, 8)
 
     /** Get Code DifferentialTorqueCalculated **/
@@ -211,10 +230,10 @@ class VehicleServices : LocationListener {
 
     /** Get Code InternalTemp **/
     // TORQUE_ECM_CANHS_RNr_01
-    fun get_InternalTemp() : Int = this.getFrameParams(CanECUAddrs.TORQUE_ECM_CANHS_RNr_01.idcan, 40, 16)
+    fun get_InternalTemp() : Int = this.getFrameParams(CanECUAddrs.CLIM_CANHS_R_03.idcan, 40, 16)
 
     /**
-     *  Oil, Batt, Washer Level, Fuel
+     *  Oil, Batt, Washer Level, FuelCooling
      **/
 
     /** Get code MILDisplayState **/

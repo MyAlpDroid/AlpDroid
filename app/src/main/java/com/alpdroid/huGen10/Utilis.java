@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class Utilis {
 
-    static final String KEY_REQUESTING_LOCATION_UPDATES = "requesting_locaction_updates";
+    static final String KEY_REQUESTING_LOCATION_UPDATES = "requesting_location_updates";
 
     /**
      * Returns true if requesting location updates, otherwise returns false.

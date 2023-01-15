@@ -8,18 +8,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import net.osmand.aidlapi.navigation.ADirectionInfo
+import net.osmand.aidlapi.info.AppInfoParams
 import java.util.*
 import kotlin.math.roundToInt
 
 
-class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
+class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 {
 
 
     private val TAG = ClusterInfo::class.java.name
-
-    var application: AlpdroidApplication = application
 
     var frameFlowTurn: Int = 0
 
@@ -28,16 +26,25 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     var artistName: String = "2022(c)"
     var trackId: Int = 0
     var trackLengthInSec: Int = 0
+    var audioSource:Int =0
 
     var startIndexAlbum: Int = 0
     var startIndexTrack: Int = 0
     var startIndexArtist: Int = 0
 
     var nextTurnTypee: Int = 0
+    var secondnextTurnTypee: Int = 0
     var distanceToturn: Int = 0
     var unitToKilometer:Boolean=false
+    var isNavigated:Boolean=false
+    var isRoundAbout: Boolean = false
+    var isRoundAboutsecondary: Boolean = false
+    var turnAngle:Float= 0.0F
+    var turnAnglescondary:Float= 0.0F
+    var isleftSide: Boolean=false
 
-    var iconTest:Boolean = false
+    var noNav_app: Boolean = false
+
 
     var prevtrackName: String = "prev"
 
@@ -53,25 +60,13 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
     private val mutex_push = Mutex()
 
-    private var mAidlHelper:OsmAndAidlHelper
-    private var callbackKeys:Long =-1
-    private var callbackKeysUpdate:Long=-1
+    private lateinit var mAidlHelper:OsmAndAidlHelper
 
-    private var notinit=true
+    private var app:AlpdroidApplication=this.application
+
 
     init {
 
-        mAidlHelper = OsmAndAidlHelper(this.application, this)
-
-        mAidlHelper.setNavigationInfoUpdateListener (object: OsmAndAidlHelper.NavigationInfoUpdateListener {
-            override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
-                Log.d(TAG,"callbakc nav init")
-                nextTurnTypee = directionInfo.turnType
-                distanceToturn = directionInfo.distanceTo
-            }
-        })
-
-        callbackKeys = mAidlHelper.registerForNavigationUpdates(true, 0)
 
         clusterStarted = true
 
@@ -169,22 +164,32 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
         application.alpineCanFrame.unsetSending()
 
-        Log.d(TAG, "trying to start coroutines")
+
 
         CoroutineScope(Dispatchers.IO).launch {
 
+            mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
+
             while (true) {
+
+
+
                 if (application.alpdroidServices.isServiceStarted) {
                     clusterStarted = false
                     mutex_push.withLock {
+                        if (!mAidlHelper.isBind) {
+                            mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
+                        }
                         try {
-                            // Block Frame
+                            // Cluster's Frame
                             clusterInfoUpdate()
+                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan + 0)
                             application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan + 0)
                             application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan + 0)
                             application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Compass_Info.idcan + 0)
+
                             if (updateMusic) {
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan + 0)
+                                // settings audio info
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 0)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 1)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 2)
@@ -197,10 +202,13 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
                                 updateMusic = false
                             }
+
                             clusterStarted = true
+
                             application.alpineCanFrame.setSending()
 
                         } catch (e: Exception) {
+                            Log.d(TAG,"exception cluster")
                             clusterStarted = true
                             updateMusic = false
                             prevtrackName = "-- something wrong --"
@@ -225,7 +233,7 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     fun String.rotate():String
     {
         var endIndex:Int=17+index
-        var padding:Int
+        val padding:Int
         var finalResult:String
 
 
@@ -255,6 +263,7 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
     private fun clusterInfoUpdate()
     {
+        var infoParams:AppInfoParams
 
     /* OSMAND Values
         const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
@@ -271,6 +280,7 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
         const val OFFR = 12 // Off route //$NON-NLS-1$
         const val RNDB = 13 // Roundabout
         const val RNLB = 14 // Roundabout left
+        RNDB / RNLB + exitout
 */
         /* Alpine Cluster Values
         1 - turn right
@@ -346,54 +356,157 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
          */
 
-        mAidlHelper = OsmAndAidlHelper(this.application, this)
+       if (mAidlHelper.isBind)
+       {
+         try {
 
-        mAidlHelper.setNavigationInfoUpdateListener(object :
-            OsmAndAidlHelper.NavigationInfoUpdateListener {
-            override fun onNavigationInfoUpdate(directionInfo: ADirectionInfo) {
-                when (directionInfo.turnType)
-                {
-                    0 -> nextTurnTypee=0
-                    1 -> nextTurnTypee=6
-                    2 -> nextTurnTypee=4
-                    3 -> nextTurnTypee=5
-                    4 -> nextTurnTypee=3
-                    5 -> nextTurnTypee=1
-                    6 -> nextTurnTypee=79
-                    7 -> nextTurnTypee=2
-                    8 -> nextTurnTypee=53
-                    9 -> nextTurnTypee=10
-                    10 -> nextTurnTypee=50
-                    11 -> nextTurnTypee=7
-                    12 -> nextTurnTypee=81
-                    13 -> nextTurnTypee=13
-                    14 -> nextTurnTypee=56
+             Log.d(TAG,"ok isBind Nav AidHelpder")
+            infoParams=mAidlHelper.appInfo
+
+            isNavigated=(mAidlHelper.appInfo.arrivalTime>0)
+
+            distanceToturn=infoParams.turnInfo.getInt("next_turn_distance",0)
+
+            isleftSide=infoParams.turnInfo.getBoolean("next_turn_possibly_left", false)
+
+            unitToKilometer = false
+            if (distanceToturn>2999) {
+                distanceToturn = (distanceToturn / 1000).toDouble().roundToInt()
+                unitToKilometer = true
+            }
+
+            var checkstring=infoParams.turnInfo.getString("next_turn_type", "no type")
+
+            when (checkstring)
+            {
+                "no type" -> nextTurnTypee=0
+                "C" -> nextTurnTypee=6
+                "TL" -> nextTurnTypee=4
+                "TSLL" -> nextTurnTypee=5
+                "TSHL" -> nextTurnTypee=3
+                "TR" -> nextTurnTypee=1
+                "TSLR" -> nextTurnTypee=79
+                "TSHR" -> nextTurnTypee=2
+                "KL" -> nextTurnTypee=53
+                "KR" -> nextTurnTypee=10
+                "TU" -> nextTurnTypee=50
+                "TRU" -> nextTurnTypee=7
+                "OFFR" -> nextTurnTypee=81
+                else -> {
+                    if (checkstring.matches(Regex("RN.B.")))
+                        isRoundAbout=true
                 }
-                distanceToturn = directionInfo.distanceTo
-                unitToKilometer = false
-                if (distanceToturn>1999) {
-                    distanceToturn = (distanceToturn / 1000).toDouble().roundToInt()
-                    unitToKilometer = true
+
+            }
+
+
+            if (isRoundAbout)
+            {
+                turnAngle=infoParams.turnInfo.getFloat("next_turn_angle", 0.0F)
+                isRoundAbout=false
+                when
+                {
+                    turnAngle< -86 -> nextTurnTypee=26
+                    turnAngle< -78 -> nextTurnTypee=25
+                    turnAngle< -67 -> nextTurnTypee=24
+                    turnAngle< -45 -> nextTurnTypee=23
+                    turnAngle< -33 -> nextTurnTypee=22
+                    turnAngle< -22 -> nextTurnTypee=21
+                    turnAngle< -10 -> nextTurnTypee=20
+                    turnAngle< 0 -> nextTurnTypee=27
+                    turnAngle>=90f-> nextTurnTypee=28
+                    turnAngle>81 -> nextTurnTypee=19
+                    turnAngle>69 -> nextTurnTypee=18
+                    turnAngle>57 -> nextTurnTypee=17
+                    turnAngle>45 -> nextTurnTypee=16
+                    turnAngle>36 -> nextTurnTypee=15
+                    turnAngle>24 -> nextTurnTypee=14
+                    turnAngle>12 -> nextTurnTypee=13
+                    turnAngle>0 -> nextTurnTypee=28
+                    turnAngle==0f-> nextTurnTypee=20
+                }
+
+            }
+
+
+            if (isleftSide)
+                nextTurnTypee+=43
+
+            var checkstring2=infoParams.turnInfo.getString("no_speak_next_turn_type", "no type")
+
+            when (checkstring2)
+            {
+                "no type" -> secondnextTurnTypee=0
+                "C" -> secondnextTurnTypee=6
+                "TL" -> secondnextTurnTypee=4
+                "TSLL" -> secondnextTurnTypee=5
+                "TSHL" -> secondnextTurnTypee=3
+                "TR" -> secondnextTurnTypee=1
+                "TSLR" -> secondnextTurnTypee=79
+                "TSHR" -> secondnextTurnTypee=2
+                "KL" -> secondnextTurnTypee=53
+                "KR" -> secondnextTurnTypee=10
+                "TU" -> secondnextTurnTypee=50
+                "TRU" -> secondnextTurnTypee=7
+                "OFFR" -> secondnextTurnTypee=81
+                else -> {
+                    if (checkstring2.matches(Regex("RN.B.")))
+                        isRoundAboutsecondary = true
                 }
             }
-        })
 
-        callbackKeys = mAidlHelper.registerForNavigationUpdates(true,0)
+                if (isRoundAboutsecondary)
+                 {
+                    turnAnglescondary=infoParams.turnInfo.getFloat("no_speak_next_turn_angle", 0.0F)
+                    isRoundAboutsecondary=false
+                    when
+                    {
+                        turnAnglescondary< -86 -> secondnextTurnTypee=26
+                        turnAnglescondary< -78 -> secondnextTurnTypee=25
+                        turnAnglescondary< -67 -> secondnextTurnTypee=24
+                        turnAnglescondary< -45 -> secondnextTurnTypee=23
+                        turnAnglescondary< -33 -> secondnextTurnTypee=22
+                        turnAnglescondary< -22 -> secondnextTurnTypee=21
+                        turnAnglescondary< -10 -> secondnextTurnTypee=20
+                        turnAnglescondary< 0 -> secondnextTurnTypee=27
+                        turnAnglescondary>=90f-> secondnextTurnTypee=28
+                        turnAnglescondary>81 -> secondnextTurnTypee=19
+                        turnAnglescondary>69 -> secondnextTurnTypee=18
+                        turnAnglescondary>57 -> secondnextTurnTypee=17
+                        turnAnglescondary>45 -> secondnextTurnTypee=16
+                        turnAnglescondary>36 -> secondnextTurnTypee=15
+                        turnAnglescondary>24 -> secondnextTurnTypee=14
+                        turnAnglescondary>12 -> secondnextTurnTypee=13
+                        turnAnglescondary>0 -> secondnextTurnTypee=28
+                        turnAnglescondary==0f-> secondnextTurnTypee=20
+                    }
 
+                }
+
+                    if (isleftSide)
+                        secondnextTurnTypee+=43
+
+        }
+        catch (e:Exception)
+        {
+            nextTurnTypee=0
+        }
+       }
 
         frameFlowTurn+=1
 
         updateMusic = (prevtrackName != trackName)
 
-        if (!updateMusic && frameFlowTurn>6)
+        if (!updateMusic && frameFlowTurn>10)
             {
                     frameFlowTurn=0
                     updateMusic=true
-                // trying to update name in case of missing frame
+
+                /* trying to update name in case of missing frame
                     albumName= application.alpdroidServices.getalbumName().toString()
                     artistName= application.alpdroidServices.getartistName().toString()
                     trackName= application.alpdroidServices.gettrackName().toString()
-                    prevtrackName=trackName
+                    prevtrackName=trackName*/
             }
 
         if (updateMusic) {
@@ -418,32 +531,20 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
 
 
         // Setting audio Info to Internet Source
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                0,
-                CanMCUAddrs.Audio_Info.idcan,
-                byteArrayOf(
-                    0xFC.toByte(),
-                    0x70.toByte(),
-                    0x80.toByte(),
-                    0x09.toByte(),
-                    0x00.toByte(),
-                    0x7F.toByte(),
-                    0x7F.toByte(),
-                    0x7F.toByte()
-                )
-            )
-        )
+
+        application.alpdroidData.setFrameParams(CanMCUAddrs.Audio_Info.idcan+0,0,3,audioSource)
 
 
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
 
 // Navigation / Direction
+// TODO : mise à jour plus rapide des directions
 
-        if (nextTurnTypee==0)
+        if (!isNavigated)
         {
             // Reset Navigation Frame
+
             application.alpineCanFrame.addFrame(
                 CanFrame(
                     0,
@@ -462,6 +563,8 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
             )
         }
         else {
+
+
             application.alpdroidData.setFrameParams(
                 CanMCUAddrs.RoadNavigation.idcan + 0,
                 0,
@@ -479,6 +582,27 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
                 8,
                 nextTurnTypee
             )
+
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.RoadNavigation.idcan + 0,
+                24,
+                8,
+                0
+            )
+
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.RoadNavigation.idcan + 0,
+                40,
+                8,
+                0
+            )
+
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.RoadNavigation.idcan + 0,
+                32,
+                8,
+                secondnextTurnTypee
+            )
         }
 
 // Heure
@@ -486,12 +610,13 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
         application.alpdroidData.set_VehicleClock_Hour(rightNow.get(Calendar.HOUR_OF_DAY))
         application.alpdroidData.set_VehicleClock_Minute(rightNow.get(Calendar.MINUTE))
         application.alpdroidData.set_VehicleClock_Second(rightNow.get(Calendar.SECOND))
+  //      Log.d(TAG, "Info ClusterInfo -- Exit cluster")
 
     }
 
     fun getStringLine (line : String, longueur : Int ) : ByteArray
     {
-        var tableau:ByteArray=byteArrayOf(0x00.toByte(),0x20.toByte(),0x00.toByte(),0x20.toByte(),0x00.toByte(),0x20.toByte(),0x00.toByte(),0x20.toByte())
+        val tableau:ByteArray=byteArrayOf(0x00.toByte(),0x20.toByte(),0x00.toByte(),0x20.toByte(),0x00.toByte(),0x20.toByte(),0x00.toByte(),0x20.toByte())
         var pas = 4*(longueur-1)
 
         if (line.length>pas) {
@@ -511,8 +636,11 @@ class ClusterInfo (application : AlpdroidApplication):OnOsmandMissingListener
     override fun osmandMissing() {
 
         Log.d(TAG,"OsmAND not ready")
+        noNav_app=true
 
     }
 
 
 }
+
+

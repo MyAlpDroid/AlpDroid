@@ -12,6 +12,7 @@ import java.io.Serializable;
 @AutoValue
 public abstract class Track implements Serializable {
 
+
     public abstract String track();
 
     public abstract String artist();
@@ -32,6 +33,7 @@ public abstract class Track implements Serializable {
         return !track().equals("") && !artist().equals("");
     }
 
+
     public static Track fromMediaMetadata(MediaMetadata metadata) {
         String title = metadata.getString(MediaMetadata.METADATA_KEY_TITLE);
         String artist = metadata.getString(MediaMetadata.METADATA_KEY_ARTIST);
@@ -40,6 +42,7 @@ public abstract class Track implements Serializable {
         String albumArtist = metadata.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST);
         Bitmap art = metadata.getBitmap(MediaMetadata.METADATA_KEY_ART);
         long duration = metadata.getLong(MediaMetadata.METADATA_KEY_DURATION);
+
 
         if (title == null) {
             title = metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
@@ -54,6 +57,7 @@ public abstract class Track implements Serializable {
         }
 
         Track.Builder builder = Track.builder().track(title);
+
 
         if (duration < 1000) {
             // Apple Music incorrectly reports durations in seconds instead of ms (when it reports
@@ -84,6 +88,7 @@ public abstract class Track implements Serializable {
         if (composer != null) {
             builder.composer(composer);
         }
+
         return builder.build();
     }
 
@@ -117,5 +122,7 @@ public abstract class Track implements Serializable {
         public abstract Builder art(Bitmap art);
 
         public abstract Track build();
+
+
     }
 }

@@ -136,7 +136,7 @@ public class ListenerService extends NotificationListenerService
 
             if (!sharedPreferences.contains(prefKey)) {
                 //TODO : change scrobble
-                boolean defaultVal = sharedPreferences.getBoolean("scrobble_new_players", true);
+                boolean defaultVal = sharedPreferences.getBoolean("list_new_players", true);
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(prefKey, defaultVal);

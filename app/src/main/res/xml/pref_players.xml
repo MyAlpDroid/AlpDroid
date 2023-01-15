@@ -1,8 +1,39 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--below line is to create preference category-->
+    <PreferenceCategory android:title="General">
+
+
+    <!--in below line we are creating a list preference
+        and we are adding default selected value in list for 3 rd index-->
+    <!--dialog title is to set title for our dialog box
+        entries is used to add list of data which we
+        are adding from our strings file
+        entry values is to add values to our entries.
+        key is use to add key to our list preferences
+        summary is use to add description to our option
+        title is use to add title to our list preferences.-->
+    <!--this list preference is for remind me option-->
+
+    <ListPreference
+        android:defaultValue="3"
+        android:dialogTitle="@string/params1"
+        android:entries="@array/pref_params1"
+        android:entryValues="@array/pref_subparams1"
+        android:key="@string/key_subparams1"
+        android:summary="@string/params1_summary"
+        android:title="@string/params1_title" />
+
+    <!--on below line we are creating a switch preference
+        default value is use to set switch on or off
+        key is use to set key
+        title is use to add title to our switch-->
+    <!--this switch preference option is to remind for a bed time-->
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="scrobble_new_players"
-        android:summary="@string/pref_title_new_players"
-        android:textColor="#2196F3" />
+        android:defaultValue="false"
+        android:key="@string/key_params2"
+        android:title="@string/params2_title" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
 

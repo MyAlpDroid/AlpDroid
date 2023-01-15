@@ -55,4 +55,32 @@
 
     <string name="location_updated">Location Updated: %1$s</string>
 
+    <!-- Strings related to settings -->
+    <string name="params1">parametre 1 settings</string>
+    <string name="params1_summary">résumé params 1</string>
+    <string name="params1_title">parametre 1 titre</string>
+    <string name="key_subparams1">key params 1</string>
+
+    <string-array name="pref_params1">
+        <item>360p</item>
+        <item>480p</item>
+        <item>720p</item>
+        <item>1080p</item>
+        <item>Original</item>
+    </string-array>
+
+    <string-array name="pref_subparams1">
+        <item>360p</item>
+        <item>480p</item>
+        <item>720p</item>
+        <item>1080p</item>
+        <item>Original</item>
+    </string-array>
+
+
+    <string name="params2">parametre 2 settings</string>
+    <string name="key_params2">key parametre 2 settings</string>
+    <string name="params2_title">parametre 2 title</string>
+
+
 </resources>

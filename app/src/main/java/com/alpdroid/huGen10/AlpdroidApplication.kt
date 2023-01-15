@@ -175,6 +175,14 @@ class AlpdroidApplication : Application() {
         return sharedPreferences
     }
 
+    fun getplayerType(player: String):Int {
+        var playerType:Int = 4
+        if ((player.contains("radio", true) or player.contains("tuner",true))) playerType =
+            1 else if (player.contains("com.syu.bt", true)) playerType =
+            7
+        return playerType
+    }
+
     @Subscribe
     fun onNowPlayingChange(event: NowPlayingChangeEvent) {
 
@@ -184,14 +192,17 @@ class AlpdroidApplication : Application() {
 
             if (lastEvent.track().album().isPresent) {
                 alpdroidServices.setalbumName(lastEvent.track().album().get().toString())
-
             } else
                 alpdroidServices.setalbumName("--")
 
-            if (lastEvent.track().artist().isNotEmpty())
+            if (lastEvent.track().artist().isNotEmpty()) {
                 alpdroidServices.setartistName(lastEvent.track().artist().toString())
-            else
+                alpdroidServices.setaudioSource(getplayerType(lastEvent.source()))
+            }
+            else {
                 alpdroidServices.setartistName("--")
+                alpdroidServices.setaudioSource(0)
+            }
 
             if (lastEvent.track().track().isNotEmpty())
                 alpdroidServices.settrackName(lastEvent.track().track().toString())
@@ -215,8 +226,6 @@ class AlpdroidApplication : Application() {
         fun getLastNowPlayingChangeEvent(): NowPlayingChangeEvent? {
             return lastEvent
         }
-
-
 
         lateinit var app : AlpdroidApplication
 
