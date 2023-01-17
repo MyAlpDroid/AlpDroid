@@ -47,7 +47,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
-    private val DEFAULT_BAUD_RATE = 230400
+    private val DEFAULT_BAUD_RATE = 115200
 
     var tx:Int = 0
     var rx:Int = 0
@@ -345,7 +345,12 @@ class CanFrameServices : Service(), ArduinoListener {
 
 
     private fun sendFrame(frame: CanFrame) {
+
+       // var crcframe:CRC32= CRC32()
+
+     //   crcframe.update(frame.data,0,8)
         arduino.send("@@".toByteArray()+frame.toByteArray())
+        // +crcframe.value.toString().toByteArray()
         tx+=frame.dlc
     }
 
@@ -365,6 +370,12 @@ class CanFrameServices : Service(), ArduinoListener {
         backalbumName=albumname
         alpine2Cluster.startIndexAlbum=0
 
+    }
+
+    @Synchronized
+    fun setalbumArtist(albumartist:String)
+    {
+        alpine2Cluster.albumArtist=albumartist
     }
 
     fun getalbumName(): String? {
@@ -410,6 +421,7 @@ class CanFrameServices : Service(), ArduinoListener {
         alpine2Cluster.trackLengthInSec=tracklengthinsec
     }
 
+    @Synchronized
     fun setaudioSource(audioSource: Int) {
         this.audioSource =audioSource
         alpine2Cluster.audioSource=audioSource

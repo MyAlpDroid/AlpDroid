@@ -1,5 +1,5 @@
 package com.alpdroid.huGen10;
-
+/*
 public class AlpdroidStatus {
 
   private int errorCode = 0;
@@ -72,3 +72,4 @@ public class AlpdroidStatus {
     return String.format("Status(%s)", value);
   }
 }
+*/

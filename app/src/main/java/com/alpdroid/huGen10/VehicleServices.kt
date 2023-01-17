@@ -168,7 +168,8 @@ class VehicleServices : LocationListener {
      **/
 
     /** Get code GearboxOilTemperature **/
-    fun get_TyreTemperature() : Int = this.getFrameParams(0x7E8, 48, 8)
+    fun get_TyreTemperature() : Int = 0
+        //this.getFrameParams(0x7E8, 48, 8)
 
     /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 0, 8)

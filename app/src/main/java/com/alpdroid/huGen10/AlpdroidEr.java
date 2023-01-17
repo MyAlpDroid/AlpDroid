@@ -64,7 +64,7 @@ public class AlpdroidEr {
     }
      int itemTimestamp = (int) ((timestamp + duration) / 1000);
 
-    Alpdroid alpdroid = Alpdroid.builder().track(track).timestamp(itemTimestamp).build();
+    //Alpdroid alpdroid = Alpdroid.builder().track(track).timestamp(itemTimestamp).build();
 
 
   }

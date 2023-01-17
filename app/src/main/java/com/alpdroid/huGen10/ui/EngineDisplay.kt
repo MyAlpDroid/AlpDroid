@@ -2,7 +2,6 @@ package com.alpdroid.huGen10.ui
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +65,6 @@ class EngineDisplay : UIFragment(250)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = EngineDisplayBinding.inflate(inflater, container, false)
-        Log.d("EngineDispkay:","OnCreateView")
         fragmentBlankBinding = binding
         return binding.root
     }
@@ -80,7 +78,7 @@ class EngineDisplay : UIFragment(250)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("EngineDispkay:","OnViewCreated")
+
         press_FL = fragmentBlankBinding!!.textPressFL
         press_RL = fragmentBlankBinding!!.textPressRL
         press_FR = fragmentBlankBinding!!.textPressFR
@@ -126,14 +124,14 @@ class EngineDisplay : UIFragment(250)
 
                         alpineServices = AlpdroidApplication.app.alpdroidData
 
-                        var flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
-                        var frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
-                        var rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
-                        var rrbrake_temp:Int = (alpineServices.get_RearRightBrakeTemperature() * 5) - 50
-                        var flbrake_press:Int = alpineServices.get_FrontLeftWheelPressure_V2() * 30
-                        var frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
-                        var rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
-                        var rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
+                        val flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
+                        val frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
+                        val rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
+                        val rrbrake_temp:Int = (alpineServices.get_RearRightBrakeTemperature() * 5) - 50
+                        val flbrake_press:Int = alpineServices.get_FrontLeftWheelPressure_V2() * 30
+                        val frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
+                        val rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
+                        val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
 
                         // temp
                         temp_FL2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature() - 30))
@@ -275,7 +273,7 @@ class EngineDisplay : UIFragment(250)
                         else
                             fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        fuel_instant = alpineServices.get_FuelConsumption().toFloat()*80*3600*100/(speed_100*1000000)
+                        fuel_instant = alpineServices.get_FuelConsumption().toFloat()*3600*100/(speed_100*1000000)
 
                         fuel_inst.text = String.format(
                             " %.2f l/100",

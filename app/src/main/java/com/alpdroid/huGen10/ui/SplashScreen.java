@@ -15,8 +15,6 @@ import com.alpdroid.huGen10.AlpdroidApplication;
 import com.alpdroid.huGen10.ListenerService;
 import com.alpdroid.huGen10.R;
 
-import in.rmkrishna.mlog.MLog;
-
 @SuppressLint("CustomSplashScreen")
 public class SplashScreen extends Activity {
 
@@ -26,8 +24,6 @@ public class SplashScreen extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 
-      Throwable throwable = new Throwable("OK Begin");
-      MLog.Companion.d("Splashcreen::",throwable);
 
    application = (AlpdroidApplication) getApplication();
 
@@ -51,7 +47,6 @@ public class SplashScreen extends Activity {
 
      enableNotificationAccess();
 
-      MLog.Companion.d("Splashcreen::",(new Throwable("OK end")));
   }
 
   @Override

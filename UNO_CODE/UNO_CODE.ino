@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "mcp2515.h"
 #include <avr/wdt.h>
+// #include <Arduino_CRC32.h>
+
 
 // Change these 2 defines if your CS pins are different
 // They CANNOT be the same
@@ -30,6 +32,9 @@ struct tablet_frame {
     uint8_t dlc;
     uint8_t data[8];
 };
+
+ /*   uint32_t crc;
+ Arduino_CRC32 crc32;*/
 
 tablet_frame io_frame = {0x00}; // Reserve in memory
 can_frame io_can_frame = {0x00}; // Reserve this in memory as well
@@ -154,9 +159,8 @@ void setup() {
 
     delay(WDTO_2S);
   
- 
-    // Init serial to 460800 Bauds 
-    Serial.begin(230400);
+    // Init serial up to 460800 Bauds 
+    Serial.begin(115200);
    // Serial.setTimeout(1200);
 
     // Init the CAN modules
@@ -180,7 +184,7 @@ void setup() {
     // A watchdog might be a good idea. Imagine the program hanging while 
     // "volume up" output is active...
     wdt_enable(WDTO_250MS);    
-    delaytTime=0;
+
     randomSeed(analogRead(0));
 
 }
@@ -191,7 +195,6 @@ void loop() {
   
 // If blocked
 wdt_reset();
-
 
 delaytTime=millis();
 
@@ -298,7 +301,7 @@ while (Serial.available()<(FRAME_SIZE+2))
 
 wdt_reset();
 
- // if control is find the frame is ok
+ // if control is find the frame is beginning at this point
 if (Serial.find(&charCr[0], 2))
 {
   while (Serial.available()<FRAME_SIZE)
@@ -386,16 +389,20 @@ if (Serial.find(&charCr[0], 2))
   }
   
 
-inactive_CD4051();  
+  inactive_CD4051();  
  
-//We have a good frame
-Serial.readBytes((char *)&io_frame, FRAME_SIZE); 
+  //We have an entire frame
+  Serial.readBytes((char *)&io_frame, FRAME_SIZE); 
 
-   io_can_frame.can_id = io_frame.id;
-   io_can_frame.can_dlc = io_frame.dlc;
+ //  uint32_t const crc32_res = crc32.calc((char *)io_frame.data, 8);
 
-  if (io_frame.dlc>0 && io_frame.dlc<=8)
-   {
+ // if (crc32_res==io_frame.crc) // we have a good frame
+//  {
+    io_can_frame.can_id = io_frame.id;
+    io_can_frame.can_dlc = io_frame.dlc;
+
+   if (io_frame.dlc>0 && io_frame.dlc<=8)
+    {
        memcpy(io_can_frame.data, io_frame.data, io_frame.dlc); 
   
         // Android to CAN MMU or ECU
@@ -414,7 +421,8 @@ Serial.readBytes((char *)&io_frame, FRAME_SIZE);
             // bad frame
            break;
           }
-    }
+     }
+//  }
 }
 
 

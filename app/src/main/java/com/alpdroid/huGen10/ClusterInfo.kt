@@ -17,6 +17,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 {
 
 
+
     private val TAG = ClusterInfo::class.java.name
 
     var frameFlowTurn: Int = 0
@@ -24,6 +25,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
     var albumName: String = "Phil"
     var trackName: String = "Alpdroid"
     var artistName: String = "2022(c)"
+    var albumArtist: String = "MyAlpDroid"
     var trackId: Int = 0
     var trackLengthInSec: Int = 0
     var audioSource:Int =0
@@ -172,14 +174,13 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
             while (true) {
 
-
-
                 if (application.alpdroidServices.isServiceStarted) {
                     clusterStarted = false
+                    if (!mAidlHelper.isBind) {
+                        mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
+                    }
                     mutex_push.withLock {
-                        if (!mAidlHelper.isBind) {
-                            mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
-                        }
+
                         try {
                             // Cluster's Frame
                             clusterInfoUpdate()
@@ -360,7 +361,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
        {
          try {
 
-             Log.d(TAG,"ok isBind Nav AidHelpder")
             infoParams=mAidlHelper.appInfo
 
             isNavigated=(mAidlHelper.appInfo.arrivalTime>0)
@@ -509,13 +509,18 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     prevtrackName=trackName*/
             }
 
+        var radioartistname:String = artistName
+
+        if (trackName==artistName)
+            radioartistname=albumArtist
+
         if (updateMusic) {
                 for (i in 0..4) {
                     application.alpineCanFrame.addFrame(
                         CanFrame(
                             0,
                             CanMCUAddrs.Audio_Display.idcan + i,
-                            getStringLine(artistName, i + 1)
+                            getStringLine(radioartistname, i + 1)
                         )
                     )
 
@@ -534,9 +539,40 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
         application.alpdroidData.setFrameParams(CanMCUAddrs.Audio_Info.idcan+0,0,3,audioSource)
 
+        if (audioSource==1) {
+            when {
+                albumName.contains("FM") -> application.alpdroidData.setFrameParams(
+                    CanMCUAddrs.Audio_Info.idcan + 0,
+                    3,
+                    2,
+                    0
+                )
+                albumName.contains("AM") -> application.alpdroidData.setFrameParams(
+                    CanMCUAddrs.Audio_Info.idcan + 0,
+                    3,
+                    2,
+                    1
+                )
+            }
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.Audio_Info.idcan + 0,
+                5,
+                2,
+                1
+            )
+            application.alpdroidData.setFrameParams(
+                CanMCUAddrs.Audio_Info.idcan + 0,
+                7,
+                4,
+                0
+            )
+
+        }
+
 
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
+
 
 // Navigation / Direction
 // TODO : mise à jour plus rapide des directions
