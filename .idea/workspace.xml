@@ -37,21 +37,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;update 'radio and internet source to cluster'">
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kicad/fp-info-cache" beforeDir="false" afterPath="$PROJECT_DIR$/Kicad/fp-info-cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UNO_CODE/UNO_CODE.ino" beforeDir="false" afterPath="$PROJECT_DIR$/UNO_CODE/UNO_CODE.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Alpdroid.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Alpdroid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidEr.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidEr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Arduino.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Arduino.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SplashScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SplashScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +107,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="a3dbb5d0716fc7d272c1d66505237d1fe1970e0c" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -299,13 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00004" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
-      <created>1657899579975</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1657899579975</updated>
     </task>
     <task id="LOCAL-00005" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1657905785738</created>
@@ -643,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673811616671</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'">
+      <created>1673931344186</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1673931344186</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -712,9 +699,9 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;modifying service management / using coroutines / upgrade" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'no tabs view'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'new pcb card'" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'radio and internet source to cluster'" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;update 'radio and internet source to cluster'" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
