@@ -49,8 +49,6 @@ long delaytTime=0;
 // Using Arduino pins 4-7 for CD4051 ctrl
 const uint8_t table_output_pins[] = {4, 5, 6};
 
-// with new card @Dav42 using 2-Channel CanShield :
-// const uint8_t table_output_pins[] = {4, 2, 6};
 
 char writeBuf[53]={0x00};
 

@@ -52,10 +52,6 @@ Enfin le programme exploite d'autres PINS pour traiter les besoins autour de la 
 // SO = 12  
 // Pin to drive CD4051  
 // 4 5 6 = S0 to S2 coding  
-Si on utilise la nouvelle carte pcb développée par Dav42 il faut remplacer la ligne
-const uint8_t table_output_pins[] = {4, 5, 6};
-par 
-const uint8_t table_output_pins[] = {4, 2, 6};
 
 
 #define Enable_CD 7  
@@ -65,7 +61,7 @@ Comme les postes sont majoritairement en USB 2.0, la communication n'est pas bid
 
 Il faut donc prévoir une latence sur les trames ECU pour laisser "le temps" à l'interface USB de dialoguer :  
 
-  if (delayTime+random(10)<millis())
+  if (delayTime+10+random(20)<millis())
               {
                 delayTime=millis();                                  
 

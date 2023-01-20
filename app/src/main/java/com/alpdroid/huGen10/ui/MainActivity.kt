@@ -1,11 +1,13 @@
 package com.alpdroid.huGen10.ui
 
+// import `in`.rmkrishna.mlog.MLog
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
+import net.osmand.aidlapi.navigation.ADirectionInfo
 import kotlin.time.ExperimentalTime
 
 
@@ -54,6 +57,7 @@ class MainActivity : FragmentActivity() {
     @SuppressLint("NoLoggedException")
     override fun onCreate(savedInstanceState: Bundle?) {
 
+     //   MLog.d(TAG, "Activity OnCreate")
 
         super.onCreate(savedInstanceState)
 
@@ -65,7 +69,8 @@ class MainActivity : FragmentActivity() {
         application.alpdroidData = VehicleServices()
         application.startListenerService()
 
-        val oldPolicy: ThreadPolicy = StrictMode.getThreadPolicy()
+        val oldPolicy: ThreadPolicy
+        oldPolicy = StrictMode.getThreadPolicy()
         StrictMode.allowThreadDiskReads()
         try {
             // Do reads here
@@ -119,11 +124,15 @@ class MainActivity : FragmentActivity() {
         //5.6 and newer
         //  Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
+
+        Log.d("MainActivity : OnCreate ", TAG)
+      //  MLog.d(TAG, "Activity OnCreate : fin")
     }
 
 
     public override fun onRestart() {
 
+   //     MLog.d(TAG, "Activity onRestart : Begin")
         application=getApplication() as AlpdroidApplication
 
         AlpdroidApplication.setContext(application)
@@ -135,13 +144,14 @@ class MainActivity : FragmentActivity() {
 
         super.onRestart()
 
+        //MLog.d(TAG, "Activity onRestart : End")
 
     }
 
 
     public override fun onResume() {
         val oldPolicy: ThreadPolicy
-
+      //  MLog.d(TAG, "Activity onResume : Begin")
         super.onResume()
 
 
@@ -154,12 +164,12 @@ class MainActivity : FragmentActivity() {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
-
+        //MLog.d(TAG, "Activity onResume : End")
     }
 
     public override fun onPause() {
         val oldPolicy: ThreadPolicy
-
+     //   MLog.d(TAG, "Activity onPause : Begin")
         super.onPause()
 
         //  application.startVehicleServices();
@@ -171,13 +181,21 @@ class MainActivity : FragmentActivity() {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
-
+     //   MLog.d(TAG, "Activity onPause : End")
     }
 
     public override fun onDestroy() {
-
+        //MLog.d(TAG, "Activity onDestroy : Begin")
         super.onDestroy()
 
+    }
+
+    fun onNavInfoUpdate(directionInfo: ADirectionInfo) {
+        Log.d(TAG,"ça passe ici")
+        application.alpdroidServices.alpine2Cluster.distanceToturn =
+            directionInfo.distanceTo
+        application.alpdroidServices.alpine2Cluster.nextTurnTypee =
+            directionInfo.turnType
     }
 
     /**

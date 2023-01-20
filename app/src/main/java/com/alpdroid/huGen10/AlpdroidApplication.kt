@@ -1,6 +1,6 @@
 package com.alpdroid.huGen10
 
-import `in`.rmkrishna.mlog.MLog
+// import `in`.rmkrishna.mlog.MLog
 import android.app.Application
 import android.content.ComponentName
 import android.content.Intent
@@ -54,15 +54,18 @@ class AlpdroidApplication : Application() {
 
 
         override fun onNullBinding(name: ComponentName) {
-
+            Log.d(TAG,"On Null Binding Invoke")
             super.onNullBinding(name)
-
+            Log.d(TAG,"On Null Binding Trying to restart")
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
+
+      //  MLog.init(this,true,true)
+      //  MLog.d(TAG, "OnCreate")
 
         super.onCreate()
         if(BuildConfig.DEBUG)
@@ -88,14 +91,14 @@ class AlpdroidApplication : Application() {
 
         eventBus.register(this)
      //   initLog.
-        MLog.i(TAG,"OnCreate ")
+      //  MLog.i(TAG,"OnCreate Fin")
     }
 
 
     fun startListenerService() {
         if (ListenerService.isNotificationAccessEnabled(this)) {
             startService(Intent(this, ListenerService::class.java))
-
+            Log.d("%s : Listener started", TAG)
         }
         else
             Log.d("%s : Listener not started", TAG)
@@ -103,12 +106,12 @@ class AlpdroidApplication : Application() {
     }
 
    fun startVehicleServices() {
-
+       Log.d("CanFrameServices start phase : ", TAG)
 
        actionOnService(Actions.START)
 
        try {
-
+               Log.d("CanFrameServices binding phase : ", TAG)
                bindService(
                Intent(
                    this,
@@ -116,7 +119,7 @@ class AlpdroidApplication : Application() {
                ), alpineConnection, BIND_AUTO_CREATE
            )
 
-
+           Log.d("CanFrameServices binding phase : ", alpineConnection.toString())
            }
            catch (e : Exception)
            {
@@ -125,7 +128,7 @@ class AlpdroidApplication : Application() {
 
             isStarted = true
             isBound = true
-
+            Log.d("%s : CanFrameServices started", TAG)
    }
 
 
@@ -146,13 +149,13 @@ class AlpdroidApplication : Application() {
     }
 
     fun stopVehicleServices() {
-
+        Log.d("CanFrameServices stop phase: ", TAG)
         isBound=false
         // Detach the service connection.
         actionOnService(Actions.STOP)
         isStarted=false
         alpdroidServices.isServiceStarted=false
-
+        Log.d("CanFrameServices stopped : ", TAG)
     }
 
 
@@ -172,11 +175,10 @@ class AlpdroidApplication : Application() {
         return sharedPreferences
     }
 
-    private fun getplayerType(player: String):Int {
-
+    fun getplayerType(player: String):Int {
         var playerType:Int = 4
         if ((player.contains("radio", true) or player.contains("tuner",true))) playerType =
-            1 else if ((player.contains("com.syu.bt", true)) or player.contains("bluetooth", true)) playerType =
+            1 else if (player.contains("com.syu.bt", true)) playerType =
             7
         return playerType
     }
@@ -193,11 +195,6 @@ class AlpdroidApplication : Application() {
             } else
                 alpdroidServices.setalbumName("--")
 
-            if (lastEvent.track().albumArtist().isPresent) {
-                alpdroidServices.setalbumArtist(lastEvent.track().albumArtist().get().toString())
-            } else
-                alpdroidServices.setalbumArtist("--")
-
             if (lastEvent.track().artist().isNotEmpty()) {
                 alpdroidServices.setartistName(lastEvent.track().artist().toString())
                 alpdroidServices.setaudioSource(getplayerType(lastEvent.source()))
@@ -211,7 +208,6 @@ class AlpdroidApplication : Application() {
                 alpdroidServices.settrackName(lastEvent.track().track().toString())
             else
                 alpdroidServices.settrackName("--")
-
         }
     }
 
@@ -236,6 +232,7 @@ class AlpdroidApplication : Application() {
         fun setContext(con: AlpdroidApplication) {
             app=con
         }
+
 
     }
 

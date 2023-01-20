@@ -18,10 +18,13 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <device id="_device_class_tablet" />
-        <device id="automotive_1024p_landscape" />
-        <device id="_device_class_phone" />
         <device id="_device_class_foldable" />
+        <device id="_device_class_tablet" />
+        <device id="_device_class_desktop" />
+        <device id="desktop_medium" />
+        <device id="pixel_c" />
+        <device id="_device_class_phone" />
+        <device id="automotive_1024p_landscape" />
         <device id="Nexus 10" />
         <option name="nonWearDeviceLastStateName" value="landscape" />
         <target>android-29</target>
@@ -38,7 +41,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'">
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-01-18_063318.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/activity_splash_screen.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/computer_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/confort_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/fragment_now_playing.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/settings_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/status_bar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/activity_splash_screen.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/confort_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/fragment_now_playing.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/settings_display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/status_bar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kicad/_autosave-shield_can_30_11_22.kicad_pcb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kicad/fp-info-cache" beforeDir="false" afterPath="$PROJECT_DIR$/Kicad/fp-info-cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kicad/shield_can_30_11_22.kicad_pcb" beforeDir="false" afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22.kicad_pcb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SplashScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SplashScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_splash_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/activity_splash_screen.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/computer_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/confort_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_now_playing.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/fragment_now_playing.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/settings_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/settings_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/status_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/status_bar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +86,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/10.1_WXGA_Tablet_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/New_Device_1_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -107,7 +145,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="a3dbb5d0716fc7d272c1d66505237d1fe1970e0c" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -129,8 +167,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app/build.gradle" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KotlinCodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -139,7 +177,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="25007u13dfgl9iZRGQsEIDSyYmS" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -149,41 +187,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="ApkExportedModule" value="MyAlpineDroid.app" />
-    <property name="DEBUGGABLE_DEVICE" value="samsung-sm_t830-ce031823d5e2df17037e" />
-    <property name="DEBUGGABLE_PROCESS" value="com.alpdroid.huGen10" />
-    <property name="DEBUGGER_ID" value="Auto" />
-    <property name="ResourceManagerPrefKey.ResourceType" value="DRAWABLE" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED" value="true" />
-    <property name="android-custom-view/Users/philippetangre/Documents/MyAlpDroid/app/src/main/java/com/alpdroid/HUGen10/BeatSaberGLView.kt_BeatSaberGLView_DIMENSIONS" value="1080&#10;1920" />
-    <property name="android-custom-view/Users/philippetangre/Documents/MyAlpDroid/app/src/main/java/com/alpdroid/HUGen10/BeatSaberGLView.kt_SELECTED" value="BeatSaberGLView" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable" value="ALL" />
-    <property name="last.edited.regexp" value="RNDB12" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout-land" />
-    <property name="memory.settings.postsync.last.time.stamp" value="1668891017618" />
-    <property name="project.structure.last.edited" value="Suggestions" />
-    <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="experimental" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true"
+  }
+}]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res" />
       <recent name="$PROJECT_DIR$/app/src/main/res/layout-land" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/alpdroid/HUGen10" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/values" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/aidl" />
@@ -266,7 +285,6 @@
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
         <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
-        <option name="PROFILING_MODE" value="NOT_SET" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -286,6 +304,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
+    </task>
+    <task id="LOCAL-00003" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
+      <created>1657898789807</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1657898789807</updated>
+    </task>
+    <task id="LOCAL-00004" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
+      <created>1657899579975</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1657899579975</updated>
     </task>
     <task id="LOCAL-00005" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1657905785738</created>
@@ -609,28 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672484861726</updated>
     </task>
-    <task id="LOCAL-00051" summary="Merge remote-tracking branch 'remote/main'&#10;update 'radio and internet source to cluster'">
-      <created>1673811573043</created>
+    <task id="LOCAL-00051" summary="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'">
+      <created>1673993505076</created>
       <option name="number" value="00051" />
       <option name="presentableId" value="LOCAL-00051" />
       <option name="project" value="LOCAL" />
-      <updated>1673811573043</updated>
+      <updated>1673993505076</updated>
     </task>
-    <task id="LOCAL-00052" summary="Merge remote-tracking branch 'remote/main'&#10;update 'radio and internet source to cluster'">
-      <created>1673811616671</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1673811616671</updated>
-    </task>
-    <task id="LOCAL-00053" summary="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'">
-      <created>1673931344186</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1673931344186</updated>
-    </task>
-    <option name="localTasksCounter" value="54" />
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -672,7 +690,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="developp" />
                       </list>
                     </value>
                   </entry>
@@ -699,7 +717,6 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;modifying service management / using coroutines / upgrade" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'no tabs view'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'new pcb card'" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'radio and internet source to cluster'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
     <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
   </component>
@@ -718,7 +735,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt</url>
-          <line>162</line>
+          <line>165</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
@@ -728,12 +745,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt</url>
-          <line>210</line>
+          <line>228</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt</url>
-          <line>519</line>
+          <line>514</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="java-line">
@@ -748,7 +765,7 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SplashScreen.java</url>
-          <line>36</line>
+          <line>40</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
