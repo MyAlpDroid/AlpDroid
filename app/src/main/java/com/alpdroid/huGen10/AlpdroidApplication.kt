@@ -1,6 +1,6 @@
 package com.alpdroid.huGen10
 
-import `in`.rmkrishna.mlog.MLog
+// import `in`.rmkrishna.mlog.MLog
 import android.app.Application
 import android.content.ComponentName
 import android.content.Intent
@@ -64,8 +64,8 @@ class AlpdroidApplication : Application() {
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
 
-        MLog.init(this,true,true)
-        MLog.d(TAG, "OnCreate")
+      //  MLog.init(this,true,true)
+      //  MLog.d(TAG, "OnCreate")
 
         super.onCreate()
         if(BuildConfig.DEBUG)
@@ -91,7 +91,7 @@ class AlpdroidApplication : Application() {
 
         eventBus.register(this)
      //   initLog.
-        MLog.i(TAG,"OnCreate Fin")
+      //  MLog.i(TAG,"OnCreate Fin")
     }
 
 

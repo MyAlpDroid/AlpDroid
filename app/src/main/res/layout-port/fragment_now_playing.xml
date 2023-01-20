@@ -18,21 +18,21 @@
         <RelativeLayout
             android:id="@+id/now_playing_detail"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="-5dp"
             tools:layout_editor_absoluteY="14dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/now_playing_art_card"
-                android:layout_width="280dp"
-                android:layout_height="280dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">
 
                 <ImageView
                     android:id="@+id/now_playing_art"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:scaleType="center"
                     android:src="@mipmap/ic_launcher"
                     android:visibility="visible" />
@@ -41,9 +41,9 @@
             <TextView
                 android:id="@+id/now_playing_title"
                 android:layout_width="match_parent"
-                android:layout_height="132dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/now_playing_art_card"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="109dp"
                 android:gravity="center"
                 android:text="Track"
                 android:textColor="#F4F4EE"
@@ -53,8 +53,9 @@
             <TextView
                 android:id="@+id/now_playing_artist"
                 android:layout_width="match_parent"
-                android:layout_height="133dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/now_playing_title"
+                android:layout_marginTop="53dp"
                 android:gravity="center"
                 android:text="Artist-Album"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3"

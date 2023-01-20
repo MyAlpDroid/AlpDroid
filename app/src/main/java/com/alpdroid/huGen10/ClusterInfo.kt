@@ -406,14 +406,14 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                 isRoundAbout=false
                 when
                 {
-                    turnAngle< -86 -> nextTurnTypee=26
-                    turnAngle< -78 -> nextTurnTypee=25
-                    turnAngle< -67 -> nextTurnTypee=24
-                    turnAngle< -45 -> nextTurnTypee=23
-                    turnAngle< -33 -> nextTurnTypee=22
-                    turnAngle< -22 -> nextTurnTypee=21
-                    turnAngle< -10 -> nextTurnTypee=20
-                    turnAngle< 0 -> nextTurnTypee=27
+                    turnAngle< -86 -> nextTurnTypee=21
+                    turnAngle< -78 -> nextTurnTypee=22
+                    turnAngle< -67 -> nextTurnTypee=23
+                    turnAngle< -45 -> nextTurnTypee=24
+                    turnAngle< -33 -> nextTurnTypee=25
+                    turnAngle< -22 -> nextTurnTypee=26
+                    turnAngle< -10 -> nextTurnTypee=27
+                    turnAngle< 0 -> nextTurnTypee=20
                     turnAngle>=90f-> nextTurnTypee=28
                     turnAngle>81 -> nextTurnTypee=19
                     turnAngle>69 -> nextTurnTypee=18
@@ -461,14 +461,14 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     isRoundAboutsecondary=false
                     when
                     {
-                        turnAnglescondary< -86 -> secondnextTurnTypee=26
-                        turnAnglescondary< -78 -> secondnextTurnTypee=25
-                        turnAnglescondary< -67 -> secondnextTurnTypee=24
-                        turnAnglescondary< -45 -> secondnextTurnTypee=23
-                        turnAnglescondary< -33 -> secondnextTurnTypee=22
-                        turnAnglescondary< -22 -> secondnextTurnTypee=21
-                        turnAnglescondary< -10 -> secondnextTurnTypee=20
-                        turnAnglescondary< 0 -> secondnextTurnTypee=27
+                        turnAnglescondary< -86 -> secondnextTurnTypee=21
+                        turnAnglescondary< -78 -> secondnextTurnTypee=22
+                        turnAnglescondary< -67 -> secondnextTurnTypee=23
+                        turnAnglescondary< -45 -> secondnextTurnTypee=24
+                        turnAnglescondary< -33 -> secondnextTurnTypee=25
+                        turnAnglescondary< -22 -> secondnextTurnTypee=26
+                        turnAnglescondary< -10 -> secondnextTurnTypee=27
+                        turnAnglescondary< 0 -> secondnextTurnTypee=20
                         turnAnglescondary>=90f-> secondnextTurnTypee=28
                         turnAnglescondary>81 -> secondnextTurnTypee=19
                         turnAnglescondary>69 -> secondnextTurnTypee=18

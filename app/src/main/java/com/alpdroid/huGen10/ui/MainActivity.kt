@@ -1,6 +1,6 @@
 package com.alpdroid.huGen10.ui
 
-import `in`.rmkrishna.mlog.MLog
+// import `in`.rmkrishna.mlog.MLog
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
@@ -57,7 +57,7 @@ class MainActivity : FragmentActivity() {
     @SuppressLint("NoLoggedException")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        MLog.d(TAG, "Activity OnCreate")
+     //   MLog.d(TAG, "Activity OnCreate")
 
         super.onCreate(savedInstanceState)
 
@@ -126,13 +126,13 @@ class MainActivity : FragmentActivity() {
 
 
         Log.d("MainActivity : OnCreate ", TAG)
-        MLog.d(TAG, "Activity OnCreate : fin")
+      //  MLog.d(TAG, "Activity OnCreate : fin")
     }
 
 
     public override fun onRestart() {
 
-        MLog.d(TAG, "Activity onRestart : Begin")
+   //     MLog.d(TAG, "Activity onRestart : Begin")
         application=getApplication() as AlpdroidApplication
 
         AlpdroidApplication.setContext(application)
@@ -144,14 +144,14 @@ class MainActivity : FragmentActivity() {
 
         super.onRestart()
 
-        MLog.d(TAG, "Activity onRestart : End")
+        //MLog.d(TAG, "Activity onRestart : End")
 
     }
 
 
     public override fun onResume() {
         val oldPolicy: ThreadPolicy
-        MLog.d(TAG, "Activity onResume : Begin")
+      //  MLog.d(TAG, "Activity onResume : Begin")
         super.onResume()
 
 
@@ -164,12 +164,12 @@ class MainActivity : FragmentActivity() {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
-        MLog.d(TAG, "Activity onResume : End")
+        //MLog.d(TAG, "Activity onResume : End")
     }
 
     public override fun onPause() {
         val oldPolicy: ThreadPolicy
-        MLog.d(TAG, "Activity onPause : Begin")
+     //   MLog.d(TAG, "Activity onPause : Begin")
         super.onPause()
 
         //  application.startVehicleServices();
@@ -181,11 +181,11 @@ class MainActivity : FragmentActivity() {
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }
-        MLog.d(TAG, "Activity onPause : End")
+     //   MLog.d(TAG, "Activity onPause : End")
     }
 
     public override fun onDestroy() {
-        MLog.d(TAG, "Activity onDestroy : Begin")
+        //MLog.d(TAG, "Activity onDestroy : Begin")
         super.onDestroy()
 
     }
