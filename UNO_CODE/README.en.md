@@ -52,10 +52,6 @@ Finally the program exploits other PINS to process the needs around the communic
 // SO = 12
 // Pin to drive CD4051
 // 4 5 6 = S0 to S2 coding
-If the new pcb board developed by Dav42 is used, the line must be replaced
-const uint8_t table_output_pins[] = {4, 5, 6};
-by
-const uint8_t table_output_pins[] = {4, 2, 6};
 
 
 #define Enable_CD 7
@@ -106,4 +102,4 @@ Once the program is loaded, it launches automatically as soon as the card is pow
 You can test that the program works by plugging the board with its CANSHIELD into one of the Alpine's CAN buses via the OBD socket and plugging the Arduino board, via USB, into an Android tablet or phone and using the excellent "USB SERIAL TERMINAL" application:
 https://play.google.com/store/apps/details?id=de.kai_morich.serial_usb_terminal&hl=fr&gl=US
 
-Set the application to a rate of 115,200 Bauds, connect to the Arduino once detected and you will see the GSON messages representing the CAN frames appear.
+Set the application to a rate of 230,400 Bauds, connect to the Arduino once detected and you will see the GSON messages representing the CAN frames appear.
