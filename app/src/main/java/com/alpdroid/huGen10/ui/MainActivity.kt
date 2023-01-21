@@ -209,8 +209,8 @@ class MainActivity : FragmentActivity() {
             NowPlayingFragment(),
             EngineDisplay(),
             ConfortDisplay(),
-    //        ComputerDisplay()
-    //        SettingsDisplay()
+    //       ComputerDisplay()
+            SettingsDisplay()
         )
 
         override fun createFragment(position: Int): Fragment {
@@ -229,7 +229,7 @@ class MainActivity : FragmentActivity() {
                 1 -> return getString(R.string.engine_display)
                 2 -> return getString(R.string.confort_display)
     //            3 -> return getString(R.string.computer_display)
-  //              4 -> return getString(R.string.settings)
+                3 -> return getString(R.string.settings)
             }
             return null
         }

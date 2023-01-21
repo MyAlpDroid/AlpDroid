@@ -16,11 +16,11 @@
 
     <ListPreference
         android:defaultValue="3"
-        android:dialogTitle="@string/params1"
+        android:dialogTitle="@string/background"
         android:entries="@array/pref_params1"
-        android:entryValues="@array/pref_subparams1"
+        android:entryValues="@array/key_subparams1"
         android:key="@string/key_subparams1"
-        android:summary="@string/params1_summary"
+        android:summary="@string/background_summary"
         android:title="@string/params1_title" />
 
     <!--on below line we are creating a switch preference
@@ -29,9 +29,18 @@
         title is use to add title to our switch-->
     <!--this switch preference option is to remind for a bed time-->
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/key_params2"
-        android:title="@string/params2_title" />
+        android:defaultValue="true"
+        android:key="@string/key_metric"
+        android:title="@string/metric_title" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:dialogTitle="@string/baudrate"
+            android:entries="@array/pref_baudrate"
+            android:entryValues="@array/key_subbaudrate"
+            android:key="@string/key_subbaudrate"
+            android:title="@string/baudrate_title"
+            />
 
     </PreferenceCategory>
 

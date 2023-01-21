@@ -56,31 +56,50 @@
     <string name="location_updated">Location Updated: %1$s</string>
 
     <!-- Strings related to settings -->
-    <string name="params1">parametre 1 settings</string>
-    <string name="params1_summary">résumé params 1</string>
-    <string name="params1_title">parametre 1 titre</string>
-    <string name="key_subparams1">key params 1</string>
+    <string name="background">parametre 1 settings</string>
+    <string name="background_summary">Papier peint</string>
+    <string name="params1_title">Choisir le fond d\'écran</string>
+    <string name="key_subparams1">Choix</string>
 
     <string-array name="pref_params1">
-        <item>360p</item>
-        <item>480p</item>
-        <item>720p</item>
-        <item>1080p</item>
+        <item>Papier 1</item>
+        <item>Papier 2</item>
+        <item>Papier 3</item>
+        <item>Papier 4</item>
         <item>Original</item>
     </string-array>
 
-    <string-array name="pref_subparams1">
-        <item>360p</item>
-        <item>480p</item>
-        <item>720p</item>
-        <item>1080p</item>
-        <item>Original</item>
+    <string-array name="key_subparams1">
+        <item>background1</item>
+        <item>background2</item>
+        <item>background3</item>
+        <item>background4</item>
+        <item>background5</item>
     </string-array>
 
+    <string name="metric_params">metric_params</string>
+    <string name="key_metric">ismetric</string>
+    <string name="metric_title">Système métrique</string>
 
-    <string name="params2">parametre 2 settings</string>
-    <string name="key_params2">key parametre 2 settings</string>
-    <string name="params2_title">parametre 2 title</string>
+    <string name="baudrate">baudrate_params</string>
+    <string name="key_baudrate">baudrate</string>
+    <string name="baudrate_title">Vitesse Arduino</string>
+    <string name="key_subbaudrate">Choix</string>
 
+    <string-array name="pref_baudrate">
+        <item>57600</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>345600</item>
+        <item>460800</item>
+    </string-array>
+
+    <string-array name="key_subbaudrate">
+        <item>57600</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>345600</item>
+        <item>460800</item>
+    </string-array>
 
 </resources>
