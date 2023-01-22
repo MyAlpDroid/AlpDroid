@@ -2,7 +2,6 @@
     <!--below line is to create preference category-->
     <PreferenceCategory android:title="General">
 
-
     <!--in below line we are creating a list preference
         and we are adding default selected value in list for 3 rd index-->
     <!--dialog title is to set title for our dialog box
@@ -38,9 +37,8 @@
             android:dialogTitle="@string/baudrate"
             android:entries="@array/pref_baudrate"
             android:entryValues="@array/key_subbaudrate"
-            android:key="@string/key_subbaudrate"
-            android:title="@string/baudrate_title"
-            />
+            android:key="@string/baudrate_summary"
+            android:title="@string/baudrate_title" />
 
     </PreferenceCategory>
 

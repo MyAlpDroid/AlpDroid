@@ -56,7 +56,7 @@
     <string name="location_updated">Location Updated: %1$s</string>
 
     <!-- Strings related to settings -->
-    <string name="background">parametre 1 settings</string>
+    <string name="background">Choix du papier peint</string>
     <string name="background_summary">Papier peint</string>
     <string name="params1_title">Choisir le fond d\'écran</string>
     <string name="key_subparams1">Choix</string>
@@ -82,6 +82,7 @@
     <string name="metric_title">Système métrique</string>
 
     <string name="baudrate">baudrate_params</string>
+    <string name="baudrate_summary">Vitesse Arudino</string>
     <string name="key_baudrate">baudrate</string>
     <string name="baudrate_title">Vitesse Arduino</string>
     <string name="key_subbaudrate">Choix</string>

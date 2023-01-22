@@ -40,15 +40,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'">
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;update 'prepare settings tab'">
+      <change afterPath="$PROJECT_DIR$/Pictures/fiche jack in-min.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boitier-3D/case_inf.stl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boitier-3D/case_sup.stl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pictures/Resultat poste.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Pictures/Resultat poste.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UNO_CODE/UNO_CODE.ino" beforeDir="false" afterPath="$PROJECT_DIR$/UNO_CODE/UNO_CODE.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Alpdroid.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Arduino.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Arduino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SettingsDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SettingsDisplay.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/pref_players.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/pref_players.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +64,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/New_Device_1_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/Nexus_10_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -276,13 +282,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00003" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
-      <created>1657898789807</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1657898789807</updated>
     </task>
     <task id="LOCAL-00004" summary="First upload&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1657899579975</created>
@@ -620,7 +619,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673993505076</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Merge remote-tracking branch 'remote/main'&#10;update 'prepare settings tab'">
+      <created>1674319736226</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1674319736226</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -690,7 +696,8 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'no tabs view'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'new pcb card'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'prepare settings tab'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;update 'prepare settings tab'" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -94,7 +94,7 @@ android {
 dependencies {
  //   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -103,13 +103,10 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.10'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.21'
     implementation("org.greenrobot:eventbus:3.3.1")
-  //  implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.2.4'
-  //  implementation 'com.github.Raizlabs.DBFlow:dbflow:4.2.4'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
-//    implementation 'com.google.android.gms:play-services-location:20.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -121,14 +118,7 @@ dependencies {
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "androidx.car.app:app:1.2.0"
-  //  implementation 'in.rmkrishna:mlog:0.0.3'
-
-    //  implementation 'com.google.android.gms:play-services-maps:18.1.0'
-  //  implementation 'org.osmdroid:osmdroid-android:6.1.13'
- //   implementation 'com.github.MKergall:osmbonuspack:6.9.0'
-   // implementation "com.github.osmandapp:Osmand:master"
-  //  implementation "com.androidx.support:appcompat-v7:28.0.0"
-  //  implementation "com.android.support:design:27.1.1"
+    implementation "androidx.activity:activity:1.7.0-alpha03"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "net.osmand:android-aidl-lib:master-snapshot@aar"

@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.preference.*
@@ -27,15 +29,21 @@ class SettingsDisplay : PreferenceFragmentCompat(), Preference.OnPreferenceChang
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Hide the divider
-        setDivider(ColorDrawable(Color.TRANSPARENT))
+        // Display the divider
+        setDivider(ColorDrawable(Color.WHITE))
         setDividerHeight(0)
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.pref_players)
+
+        val oldPolicy = StrictMode.getThreadPolicy()
+        StrictMode.allowThreadDiskReads()
+        try {        addPreferencesFromResource(R.xml.pref_players)
+        } finally {
+            StrictMode.setThreadPolicy(oldPolicy);
+        }
 
         val sharedPreferences = this.preferenceManager.sharedPreferences
         val prefKeys: Set<String> = sharedPreferences!!.all.keys
@@ -57,9 +65,11 @@ class SettingsDisplay : PreferenceFragmentCompat(), Preference.OnPreferenceChang
             val packageName = key.substring(7)
             var applicationInfo: ApplicationInfo
 
+            Log.d("Settings","key : "+packageName)
 
             try {
                     applicationInfo= packageManager?.getApplicationInfo(packageName,PackageManager.ApplicationInfoFlags.of(0))!!
+                Log.d("Settings","appliInfo : "+packageManager.getApplicationLabel(applicationInfo))
             } catch (e: PackageManager.NameNotFoundException) {
                 val editor = sharedPreferences.edit()
                 editor.remove(key)

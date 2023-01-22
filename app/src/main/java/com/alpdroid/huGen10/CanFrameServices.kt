@@ -47,7 +47,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
-    private val DEFAULT_BAUD_RATE = 115200
+    private val DEFAULT_BAUD_RATE = 230400
 
     var tx:Int = 0
     var rx:Int = 0
@@ -105,7 +105,7 @@ class CanFrameServices : Service(), ArduinoListener {
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setTicker("Ticker text")
-            .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
+  //          .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
             .build()
     }
 
@@ -151,7 +151,6 @@ class CanFrameServices : Service(), ArduinoListener {
             )
             return START_REDELIVER_INTENT
         }
-        Log.i(TAG,"CanFrame Service is started")
 
 
         return START_STICKY
@@ -329,7 +328,6 @@ class CanFrameServices : Service(), ArduinoListener {
                     }
                 } catch (e: Exception) {
                     //checking bad message
-                    Log.d(TAG, "CanFrameServices Bad Frame")
                     isBad = true
                 }
             }

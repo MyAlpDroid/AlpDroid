@@ -158,7 +158,7 @@ void setup() {
     delay(WDTO_2S);
   
     // Init serial up to 460800 Bauds 
-    Serial.begin(115200);
+    Serial.begin(230400);
    // Serial.setTimeout(1200);
 
     // Init the CAN modules
@@ -278,7 +278,7 @@ while (Serial.available()<(FRAME_SIZE+2))
           }
        else          
         // because USB 2.0 is not bidirectionnal we need to let space for receiving USB
-          if (delaytTime+10+random(20)<millis())
+          if (delaytTime+random(20)<millis())
              {
                 delaytTime=millis();             
                 writeFrame(0, &io_can_frame_read);         
@@ -287,7 +287,7 @@ while (Serial.available()<(FRAME_SIZE+2))
 
     // Poll for any new CAN frames on Bus ECU
    if (canECU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK)     
-          if (delaytTime+10+random(20)<millis())
+          if (delaytTime+random(50)<millis())
              {
                 delaytTime=millis();                                  
                  // CAN ECU(1) to Android 
