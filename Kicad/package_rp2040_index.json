@@ -9,7 +9,7 @@
       },
       "platforms": [{
           "category": "Raspberry Pi Pico",
-          "name": "Longan RP2040 Boards",
+          "name": "Longan RP2040 Boards 1",
           "url": "https://github.com/Longan-Labs/Longan-RP2040/raw/main/LONGAN_RP2040_1.0.2.zip",
           "version": "1.0.2",
           "architecture": "longan-rp2040",
@@ -71,7 +71,7 @@
         },
         {
           "category": "Raspberry Pi Pico",
-          "name": "Longan RP2040 Boards",
+          "name": "Longan RP2040 Boards 2",
           "url": "https://github.com/Longan-Labs/Longan-RP2040/raw/main/LONGAN_RP2040_1.0.1.zip",
           "version": "1.0.1",
           "architecture": "longan-rp2040",
@@ -133,7 +133,7 @@
         },
         {
           "category": "Raspberry Pi Pico",
-          "name": "Longan RP2040 Boards",
+          "name": "Longan RP2040 Boards 0",
           "url": "https://github.com/Longan-Labs/Longan-RP2040/raw/main/LONGAN_RP2040_1.0.0.zip",
           "version": "1.0.0",
           "architecture": "longan-rp2040",
