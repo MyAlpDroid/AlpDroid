@@ -215,7 +215,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             prevtrackName = "-- something wrong --"
                             trackName = "-- oups --"
                         } finally {
-                            delay(3500)
+                            delay(1000)
                         }
                     }
                 }
@@ -233,7 +233,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
     fun String.rotate():String
     {
-        var endIndex:Int=17+index
+        var endIndex:Int=20+index
         val padding:Int
         var finalResult:String
 
@@ -242,7 +242,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             endIndex = this.length
 
             if (index>0)
-                finalResult=this.substring(index, endIndex)+"..."+this.substring(0,index)
+                finalResult=this.substring(index, endIndex)+this.substring(0,index)
             else
                 finalResult=this.substring(0, endIndex)
         } else {
@@ -265,6 +265,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
     private fun clusterInfoUpdate()
     {
         var infoParams:AppInfoParams
+        var trackrotate:String
 
     /* OSMAND Values
         const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
@@ -370,6 +371,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             isleftSide=infoParams.turnInfo.getBoolean("next_turn_possibly_left", false)
 
             unitToKilometer = false
+
             if (distanceToturn>2999) {
                 distanceToturn = (distanceToturn / 1000).toDouble().roundToInt()
                 unitToKilometer = true
@@ -403,27 +405,27 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             if (isRoundAbout)
             {
                 turnAngle=infoParams.turnInfo.getFloat("next_turn_angle", 0.0F)
+
                 isRoundAbout=false
                 when
                 {
-                    turnAngle< -86 -> nextTurnTypee=21
-                    turnAngle< -78 -> nextTurnTypee=22
-                    turnAngle< -67 -> nextTurnTypee=23
-                    turnAngle< -45 -> nextTurnTypee=24
-                    turnAngle< -33 -> nextTurnTypee=25
-                    turnAngle< -22 -> nextTurnTypee=26
-                    turnAngle< -10 -> nextTurnTypee=27
-                    turnAngle< 0 -> nextTurnTypee=20
-                    turnAngle>=90f-> nextTurnTypee=28
-                    turnAngle>81 -> nextTurnTypee=19
-                    turnAngle>69 -> nextTurnTypee=18
-                    turnAngle>57 -> nextTurnTypee=17
-                    turnAngle>45 -> nextTurnTypee=16
-                    turnAngle>36 -> nextTurnTypee=15
-                    turnAngle>24 -> nextTurnTypee=14
-                    turnAngle>12 -> nextTurnTypee=13
-                    turnAngle>0 -> nextTurnTypee=28
-                    turnAngle==0f-> nextTurnTypee=20
+                    turnAngle< -158 -> nextTurnTypee=21
+                    turnAngle< -135 -> nextTurnTypee=22
+                    turnAngle< -112 -> nextTurnTypee=23
+                    turnAngle< -90 -> nextTurnTypee=24
+                    turnAngle< -67 -> nextTurnTypee=25
+                    turnAngle< -45 -> nextTurnTypee=26
+                    turnAngle< -22 -> nextTurnTypee=27
+                    turnAngle< 0 -> nextTurnTypee=28
+                    turnAngle>158-> nextTurnTypee=20
+                    turnAngle>135 -> nextTurnTypee=19
+                    turnAngle>112 -> nextTurnTypee=18
+                    turnAngle>90 -> nextTurnTypee=17
+                    turnAngle>67 -> nextTurnTypee=16
+                    turnAngle>45 -> nextTurnTypee=15
+                    turnAngle>22 -> nextTurnTypee=14
+                    turnAngle>=0f -> nextTurnTypee=13
+
                 }
 
             }
@@ -461,24 +463,24 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     isRoundAboutsecondary=false
                     when
                     {
-                        turnAnglescondary< -86 -> secondnextTurnTypee=21
-                        turnAnglescondary< -78 -> secondnextTurnTypee=22
-                        turnAnglescondary< -67 -> secondnextTurnTypee=23
-                        turnAnglescondary< -45 -> secondnextTurnTypee=24
-                        turnAnglescondary< -33 -> secondnextTurnTypee=25
-                        turnAnglescondary< -22 -> secondnextTurnTypee=26
-                        turnAnglescondary< -10 -> secondnextTurnTypee=27
-                        turnAnglescondary< 0 -> secondnextTurnTypee=20
-                        turnAnglescondary>=90f-> secondnextTurnTypee=28
-                        turnAnglescondary>81 -> secondnextTurnTypee=19
-                        turnAnglescondary>69 -> secondnextTurnTypee=18
-                        turnAnglescondary>57 -> secondnextTurnTypee=17
-                        turnAnglescondary>45 -> secondnextTurnTypee=16
-                        turnAnglescondary>36 -> secondnextTurnTypee=15
-                        turnAnglescondary>24 -> secondnextTurnTypee=14
-                        turnAnglescondary>12 -> secondnextTurnTypee=13
-                        turnAnglescondary>0 -> secondnextTurnTypee=28
-                        turnAnglescondary==0f-> secondnextTurnTypee=20
+                        turnAnglescondary< -158 -> secondnextTurnTypee=21
+                        turnAnglescondary< -135 -> secondnextTurnTypee=22
+                        turnAnglescondary< -112 -> secondnextTurnTypee=23
+                        turnAnglescondary< -90 -> secondnextTurnTypee=24
+                        turnAnglescondary< -67 -> secondnextTurnTypee=25
+                        turnAnglescondary< -45 -> secondnextTurnTypee=26
+                        turnAnglescondary< -22 -> secondnextTurnTypee=27
+                        turnAnglescondary< 0 -> secondnextTurnTypee=28
+                        turnAnglescondary>158-> secondnextTurnTypee=20
+                        turnAnglescondary>135 -> secondnextTurnTypee=19
+                        turnAnglescondary>112 -> secondnextTurnTypee=18
+                        turnAnglescondary>90 -> secondnextTurnTypee=17
+                        turnAnglescondary>67 -> secondnextTurnTypee=16
+                        turnAnglescondary>45 -> secondnextTurnTypee=15
+                        turnAnglescondary>22 -> secondnextTurnTypee=14
+                        turnAnglescondary>=0f -> secondnextTurnTypee=13
+
+
                     }
 
                 }
@@ -497,7 +499,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
         updateMusic = (prevtrackName != trackName)
 
-        if (!updateMusic && frameFlowTurn>10)
+        if (!updateMusic && frameFlowTurn>2)
             {
                     frameFlowTurn=0
                     updateMusic=true
@@ -515,6 +517,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             radioartistname=albumArtist
 
         if (updateMusic) {
+                trackrotate = "    $trackName    ".rotate()
                 for (i in 0..4) {
                     application.alpineCanFrame.addFrame(
                         CanFrame(
@@ -524,11 +527,12 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                         )
                     )
 
+
                     application.alpineCanFrame.addFrame(
                         CanFrame(
                             0,
                             CanMCUAddrs.Audio_Display.idcan + i + 5,
-                            getStringLine(trackName, i + 1)
+                            getStringLine(trackrotate, i + 1)
                         )
                     )
                 }

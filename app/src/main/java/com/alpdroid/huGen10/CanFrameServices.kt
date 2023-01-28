@@ -9,6 +9,7 @@ import android.hardware.usb.UsbDevice
 import android.os.*
 import android.util.Log
 import com.alpdroid.huGen10.ui.MainActivity
+import com.alpdroid.huGen10.util.IntegerUtil
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -47,7 +48,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
-    private val DEFAULT_BAUD_RATE = 230400
+    private val DEFAULT_BAUD_RATE = 460800
 
     var tx:Int = 0
     var rx:Int = 0
@@ -344,10 +345,14 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private fun sendFrame(frame: CanFrame) {
 
-       // var crcframe:CRC32= CRC32()
+        val crcValue= IntegerUtil.GenerateChecksumCRC16(frame.toByteArray())
 
-     //   crcframe.update(frame.data,0,8)
-        arduino.send("@@".toByteArray()+frame.toByteArray())
+        val crcByte:ByteArray = ByteArray(2)
+
+        crcByte[0]=crcValue.toByte()
+        crcByte[1]=(crcValue/256).toByte()
+
+        arduino.send("@@".toByteArray()+frame.toByteArray()+crcByte)
         // +crcframe.value.toString().toByteArray()
         tx+=frame.dlc
     }

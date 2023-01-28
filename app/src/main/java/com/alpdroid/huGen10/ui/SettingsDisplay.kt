@@ -117,7 +117,7 @@ class SettingsDisplay : PreferenceFragmentCompat(), Preference.OnPreferenceChang
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         return when (preference.key) {
-            getString(R.string.pref_title_new_players) -> {
+            getString(R.string.list_new_players) -> {
                 true
             }
             getString(R.string.pref_title_notification_light) -> {

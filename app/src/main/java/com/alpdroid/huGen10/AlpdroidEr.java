@@ -36,7 +36,6 @@ public class AlpdroidEr {
     // Set final value for amount played, in case it was playing up until now.
     playbackItem.updateAmountPlayed();
 
-    // Generate one scrobble per played period.
     Track track = playbackItem.getTrack();
 
 

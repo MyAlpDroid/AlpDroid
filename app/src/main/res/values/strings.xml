@@ -3,8 +3,8 @@
     <string name="app_name" translatable="false">MyAlpDroid</string>
 
     <!-- Enabled players settings -->
-    <string name="pref_header_players">Recherche des medias players</string>
-    <string name="pref_title_new_players">AlpDroid automatic discovery</string>
+    <string name="media_title">Recherche des medias players</string>
+    <string name="list_new_players">AlpDroid automatic discovery</string>
 
     <!-- Settings menu item -->
     <string name="title_activity_settings">Settings</string>

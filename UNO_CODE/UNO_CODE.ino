@@ -1,7 +1,8 @@
+
 #include <Arduino.h>
 #include "mcp2515.h"
 #include <avr/wdt.h>
-// #include <Arduino_CRC32.h>
+#include <AceCRC.h>
 
 
 // Change these 2 defines if your CS pins are different
@@ -31,10 +32,10 @@ struct tablet_frame {
     uint16_t id; 
     uint8_t dlc;
     uint8_t data[8];
+    uint16_t crc;
 };
 
- /*   uint32_t crc;
- Arduino_CRC32 crc32;*/
+using namespace ace_crc::crc16ccitt_nibble;
 
 tablet_frame io_frame = {0x00}; // Reserve in memory
 can_frame io_can_frame = {0x00}; // Reserve this in memory as well
@@ -150,12 +151,12 @@ void setup() {
     // If not up and running within 8s then there is probably some
     // CAN init problem, a restart is our last hope.
     
-    wdt_enable(WDTO_8S);
+    //wdt_enable(WDTO_8S);
     
     // Wait a little while before starting to configure e.g. CAN controller
     // so that all hw will be ready
 
-    delay(WDTO_2S);
+   // delay(WDTO_2S);
   
     // Init serial up to 460800 Bauds 
     Serial.begin(230400);
@@ -181,7 +182,7 @@ void setup() {
 
     // A watchdog might be a good idea. Imagine the program hanging while 
     // "volume up" output is active...
-    wdt_enable(WDTO_250MS);    
+   // wdt_enable(WDTO_250MS);    
 
     randomSeed(analogRead(0));
 
@@ -192,7 +193,7 @@ void setup() {
 void loop() {
   
 // If blocked
-wdt_reset();
+//wdt_reset();
 
 delaytTime=millis();
 
@@ -200,7 +201,7 @@ while (Serial.available()<(FRAME_SIZE+2))
 { 
   
    // nothing to do wait for end of incoming frame from USB but no blocking
-   wdt_reset();
+  // wdt_reset();
 
    // Poll for any new CAN frames on Bus MMU(0)
    if (canMMU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK) 
@@ -297,14 +298,14 @@ while (Serial.available()<(FRAME_SIZE+2))
 
 }
 
-wdt_reset();
+//wdt_reset();
 
  // if control is find the frame is beginning at this point
 if (Serial.find(&charCr[0], 2))
 {
   while (Serial.available()<FRAME_SIZE)
   {
-     wdt_reset();
+    // wdt_reset();
   // Meanwhile we poll for any new CAN frames on Bus MMU(0)
   
    if (canMMU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK) 
@@ -392,14 +393,14 @@ if (Serial.find(&charCr[0], 2))
   //We have an entire frame
   Serial.readBytes((char *)&io_frame, FRAME_SIZE); 
 
- //  uint32_t const crc32_res = crc32.calc((char *)io_frame.data, 8);
+    crc_t crc = crc_init();
+    crc = crc_update(crc, &io_frame, FRAME_SIZE-2); 
+    crc = crc_finalize(crc);
 
- // if (crc32_res==io_frame.crc) // we have a good frame
-//  {
     io_can_frame.can_id = io_frame.id;
     io_can_frame.can_dlc = io_frame.dlc;
 
-   if (io_frame.dlc>0 && io_frame.dlc<=8)
+   if (crc==io_frame.crc && io_frame.dlc>0 && io_frame.dlc<=8)
     {
        memcpy(io_can_frame.data, io_frame.data, io_frame.dlc); 
   

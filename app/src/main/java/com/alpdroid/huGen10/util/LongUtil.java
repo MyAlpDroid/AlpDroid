@@ -4,6 +4,7 @@ package com.alpdroid.huGen10.util;
   private LongUtil() {
   }
 
+
   private static void checkSliceIndexes(int startIndex, int stopIndex) {
     if (startIndex < 0 || startIndex >= Long.SIZE) {
       throw new IllegalArgumentException(
