@@ -215,7 +215,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             prevtrackName = "-- something wrong --"
                             trackName = "-- oups --"
                         } finally {
-                            delay(1000)
+                            delay(1250)
                         }
                     }
                 }
@@ -265,7 +265,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
     private fun clusterInfoUpdate()
     {
         var infoParams:AppInfoParams
-        var trackrotate:String
 
     /* OSMAND Values
         const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
@@ -499,7 +498,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
         updateMusic = (prevtrackName != trackName)
 
-        if (!updateMusic && frameFlowTurn>2)
+        if (!updateMusic && frameFlowTurn>3)
             {
                     frameFlowTurn=0
                     updateMusic=true
@@ -517,7 +516,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             radioartistname=albumArtist
 
         if (updateMusic) {
-                trackrotate = "    $trackName    ".rotate()
                 for (i in 0..4) {
                     application.alpineCanFrame.addFrame(
                         CanFrame(
@@ -532,7 +530,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                         CanFrame(
                             0,
                             CanMCUAddrs.Audio_Display.idcan + i + 5,
-                            getStringLine(trackrotate, i + 1)
+                            getStringLine(trackName, i + 1)
                         )
                     )
                 }

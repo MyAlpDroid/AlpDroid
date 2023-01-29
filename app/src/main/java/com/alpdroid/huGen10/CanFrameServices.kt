@@ -48,7 +48,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var globalScopeReporter : Job
 
-    private val DEFAULT_BAUD_RATE = 460800
+    private val DEFAULT_BAUD_RATE = Constants.BAUDRATE
 
     var tx:Int = 0
     var rx:Int = 0

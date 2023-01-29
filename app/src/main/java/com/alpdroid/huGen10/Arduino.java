@@ -42,7 +42,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     private byte delimiter;
 
     private static final String ACTION_USB_DEVICE_PERMISSION = "com.alpdroid.huGen10.USB_PERMISSION";
-    private static final int DEFAULT_BAUD_RATE = 460800;
+    private static final int DEFAULT_BAUD_RATE = Constants.BAUDRATE;
     private static final byte DEFAULT_DELIMITER = '\n';
 
     public Arduino(Context context, int baudRate) {
