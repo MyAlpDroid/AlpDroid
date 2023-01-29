@@ -151,16 +151,17 @@ void setup() {
     // If not up and running within 8s then there is probably some
     // CAN init problem, a restart is our last hope.
     
-    //wdt_enable(WDTO_8S);
+    wdt_enable(WDTO_8S);
     
     // Wait a little while before starting to configure e.g. CAN controller
     // so that all hw will be ready
 
-   // delay(WDTO_2S);
+    delay(WDTO_2S);
   
     // Init serial up to 460800 Bauds 
-    Serial.begin(230400);
-   // Serial.setTimeout(1200);
+    Serial.begin(460800);
+    Serial.setTimeout(250);
+ 
 
     // Init the CAN modules
     canMMU = new MCP2515(CANMMU_CS); // forcing speed for UNO but difference is minor
@@ -174,15 +175,15 @@ void setup() {
     // But write to ECU at your own risk
    // canMMU->setListenOnlyMode();
    // canECU->setListenOnlyMode();
-  canMMU->setNormalMode();
-  canECU->setNormalMode();
+    canMMU->setNormalMode();
+    canECU->setNormalMode();
     
     // Init Output PINS
     init_output_pins(table_output_pins);
 
     // A watchdog might be a good idea. Imagine the program hanging while 
     // "volume up" output is active...
-   // wdt_enable(WDTO_250MS);    
+    wdt_enable(WDTO_500MS);    
 
     randomSeed(analogRead(0));
 
@@ -192,16 +193,16 @@ void setup() {
  
 void loop() {
   
-// If blocked
-//wdt_reset();
+ // If blocked
+ wdt_reset();
 
-delaytTime=millis();
+ delaytTime=millis();
 
-while (Serial.available()<(FRAME_SIZE+2))
-{ 
+ while (Serial.available()<(FRAME_SIZE+2))
+  {  
   
    // nothing to do wait for end of incoming frame from USB but no blocking
-  // wdt_reset();
+   wdt_reset();
 
    // Poll for any new CAN frames on Bus MMU(0)
    if (canMMU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK) 
@@ -279,37 +280,36 @@ while (Serial.available()<(FRAME_SIZE+2))
           }
        else          
         // because USB 2.0 is not bidirectionnal we need to let space for receiving USB
-          if (delaytTime+random(20)<millis())
+          if (delaytTime+random(10)<millis())
              {
                 delaytTime=millis();             
                 writeFrame(0, &io_can_frame_read);         
-             }
+            }
     }
 
     // Poll for any new CAN frames on Bus ECU
    if (canECU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK)     
-          if (delaytTime+random(50)<millis())
+          if (delaytTime+random(10)<millis())
              {
                 delaytTime=millis();                                  
                  // CAN ECU(1) to Android 
                  // wait a little between two ECU frames - due to heavy flow from ECU
                  writeFrame(1, &io_can_frame_read);
-             }
+            }
 
-}
+  }
 
-//wdt_reset();
+ wdt_reset();
 
  // if control is find the frame is beginning at this point
-if (Serial.find(&charCr[0], 2))
-{
-  while (Serial.available()<FRAME_SIZE)
-  {
-    // wdt_reset();
-  // Meanwhile we poll for any new CAN frames on Bus MMU(0)
+ if (Serial.find(&charCr[0], 2))
+ {
+   while (Serial.available()<FRAME_SIZE)
+    {
+      // Meanwhile we poll for any new CAN frames on Bus MMU(0)
   
-   if (canMMU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK) 
-    {       
+      if (canMMU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK) 
+       {       
       
         if (io_can_frame_read.can_id==0x02D0)
           {        
@@ -380,33 +380,36 @@ if (Serial.find(&charCr[0], 2))
                    break;
               }
             
-          }
-         
+          }      
            
+      }
+       wdt_reset();
     }
-
-  }
   
 
-  inactive_CD4051();  
+     inactive_CD4051();  
  
-  //We have an entire frame
-  Serial.readBytes((char *)&io_frame, FRAME_SIZE); 
+    //We have an entire frame or timeout 250ms
+    if (Serial.readBytes((char *)&io_frame, FRAME_SIZE)>0) 
+     {
+      // If readBytes was a bit long
+      wdt_reset(); 
 
-    crc_t crc = crc_init();
-    crc = crc_update(crc, &io_frame, FRAME_SIZE-2); 
-    crc = crc_finalize(crc);
+       // We check CRC : if CRC is good then frame is good (same as crc_calculate)
+      crc_t crc = crc_init();
+      crc = crc_update(crc, &io_frame, FRAME_SIZE-2); 
+      crc = crc_finalize(crc);
 
-    io_can_frame.can_id = io_frame.id;
-    io_can_frame.can_dlc = io_frame.dlc;
+       io_can_frame.can_id = io_frame.id;
+       io_can_frame.can_dlc = io_frame.dlc;
 
-   if (crc==io_frame.crc && io_frame.dlc>0 && io_frame.dlc<=8)
-    {
-       memcpy(io_can_frame.data, io_frame.data, io_frame.dlc); 
+      if (crc==io_frame.crc && io_frame.dlc>0 && io_frame.dlc<=8)
+        {
+         memcpy(io_can_frame.data, io_frame.data, io_frame.dlc); 
   
-        // Android to CAN MMU or ECU
+         // Android to CAN MMU or ECU
 
-        switch (io_frame.can_bus_id)
+         switch (io_frame.can_bus_id)
           {
            case 0:
               canMMU->sendMessage(&io_can_frame);
@@ -420,13 +423,11 @@ if (Serial.find(&charCr[0], 2))
             // bad frame
            break;
           }
-     }
-//  }
-}
+       }
+     }  
+     // If readBytes was a bit long
+     wdt_reset();   
+  }
 
-
-// If blocked...
-
-wdt_reset();
 }
  
