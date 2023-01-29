@@ -14,6 +14,8 @@ object Utils {
 
     private const val METERS_IN_KILOMETER = 1000f
 
+
+
     private fun toRadians(angdeg: Double): Double {
         return angdeg / 180.0 * Math.PI
     }

@@ -32,6 +32,11 @@
         android:key="@string/key_metric"
         android:title="@string/metric_title" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/list_new_players"
+            android:title="@string/media_title" />
+
         <ListPreference
             android:defaultValue="2"
             android:dialogTitle="@string/baudrate"
