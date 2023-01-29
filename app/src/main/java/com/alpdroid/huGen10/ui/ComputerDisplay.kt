@@ -126,10 +126,10 @@ class ComputerDisplay : UIFragment(500) {
                              1,
                              0x07DF,
                              byteArrayOf(
+                                 0x03.toByte(),
                                  0x22.toByte(),
                                  0x80.toByte(),
                                  0x11.toByte(),
-                                 0xFF.toByte(),
                                  0xFF.toByte(),
                                  0xFF.toByte(),
                                  0xFF.toByte(),

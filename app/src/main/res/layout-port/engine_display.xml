@@ -251,7 +251,7 @@
                 app:layout_constraintTop_toTopOf="@+id/CooL_jauge"
                 app:sv_image="@drawable/alpine_jauge_rpm"
                 app:sv_indicator="NeedleIndicator"
-                app:sv_indicatorColor="#157CB3"
+                app:sv_indicatorColor="#EA0A0A"
                 app:sv_markColor="#0434E4"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
@@ -284,7 +284,7 @@
                 app:layout_constraintTop_toTopOf="@+id/Gear_jauge"
                 app:sv_image="@drawable/alpine_jauge_temp2"
                 app:sv_indicator="NeedleIndicator"
-                app:sv_indicatorColor="#157CB3"
+                app:sv_indicatorColor="#FFFFFF"
                 app:sv_markColor="#0434E4"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
@@ -315,7 +315,7 @@
                 app:layout_constraintTop_toTopOf="@+id/Intake_jauge"
                 app:sv_image="@drawable/alpine_jauge_pression"
                 app:sv_indicator="NeedleIndicator"
-                app:sv_indicatorColor="#EA0A0A"
+                app:sv_indicatorColor="#157CB3"
                 app:sv_markColor="#0434E4"
                 app:sv_markHeight="12dp"
                 app:sv_markStyle="ROUND"
@@ -342,7 +342,7 @@
                 android:id="@+id/CooL_jauge"
                 android:layout_width="196dp"
                 android:layout_height="200dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="36dp"
                 app:layout_constraintStart_toEndOf="@+id/angularWheel"
                 app:layout_constraintTop_toBottomOf="@+id/rpmgauge"
@@ -375,9 +375,8 @@
                 android:id="@+id/Gear_jauge"
                 android:layout_width="196dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/OIL_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
                 app:sv_image="@drawable/alpine_jauge_rpm"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#EA0A0A"
@@ -422,8 +421,10 @@
                 android:layout_height="27dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:background="#474E51"
                 android:text="Distance KM"
                 android:textColor="#E1EEFB"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_speed"
                 app:layout_constraintTop_toBottomOf="@+id/text_speed" />
@@ -446,8 +447,10 @@
                 android:layout_width="100dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="24dp"
+                android:background="#474E51"
                 android:text="Conso.  L/100"
                 android:textColor="#FFFFFF"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/oddorate"
                 app:layout_constraintStart_toEndOf="@+id/text_oddoRate"
@@ -475,8 +478,10 @@
                 android:layout_width="100dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
-                android:text="Carburant (l)"
+                android:background="#474E51"
+                android:text="Réserv. (l)"
                 android:textColor="#E1EEFB"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_oddoRate"
                 app:layout_constraintTop_toBottomOf="@+id/text_oddoRate" />
@@ -541,16 +546,15 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/OIL_jauge"
                 app:layout_constraintEnd_toEndOf="@+id/OIL_jauge"
                 app:layout_constraintHorizontal_bias="0.473"
-                app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge" />
+                app:layout_constraintStart_toStartOf="@+id/OIL_jauge" />
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="78dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="49dp"
+                android:layout_height="22dp"
                 android:gravity="center_horizontal"
                 android:text="Cool"
                 android:textAlignment="center"
@@ -558,15 +562,16 @@
                 android:textColor="@color/white_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/CooL_jauge"
                 app:layout_constraintEnd_toEndOf="@+id/CooL_jauge"
                 app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="@+id/CooL_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/CooL_jauge" />
+                app:layout_constraintStart_toStartOf="@+id/CooL_jauge" />
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="123dp"
-                android:layout_height="40dp"
+                android:layout_width="59dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
                 android:text="Gear °C"
                 android:textAlignment="center"
@@ -575,35 +580,35 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
                 app:layout_constraintStart_toStartOf="@+id/Gear_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/Gear_jauge" />
+                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge" />
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="82dp"
-                android:layout_height="37dp"
+                android:layout_width="59dp"
+                android:layout_height="22dp"
                 android:gravity="center_horizontal"
                 android:text="Intake"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/Intake_jauge"
                 app:layout_constraintEnd_toEndOf="@+id/Intake_jauge"
-                app:layout_constraintStart_toStartOf="@+id/Intake_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/Intake_jauge" />
+                app:layout_constraintStart_toStartOf="@+id/Intake_jauge" />
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="129dp"
-                android:layout_height="38dp"
+                android:layout_height="22dp"
                 android:gravity="center_horizontal"
                 android:text="Oil Pressure"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/Oil_Pressure"
                 app:layout_constraintEnd_toEndOf="@+id/Oil_Pressure"
-                app:layout_constraintStart_toStartOf="@+id/Oil_Pressure"
-                app:layout_constraintTop_toBottomOf="@+id/Oil_Pressure" />
+                app:layout_constraintStart_toStartOf="@+id/Oil_Pressure" />
 
             <TextView
                 android:id="@+id/text_speed"
