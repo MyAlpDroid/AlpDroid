@@ -10,7 +10,6 @@
         android:id="@+id/fragmentblock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
         android:outlineSpotShadowColor="#03A9F4">
 
         <RelativeLayout

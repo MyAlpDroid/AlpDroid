@@ -162,6 +162,22 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                 )
             )
 
+        /*
+        AlpdroidApplication.app.alpineCanFrame.addFrame(
+            CanFrame(
+                1,
+                0x07E0,
+                byteArrayOf(
+                    0x03.toByte(),
+                    0x22.toByte(),
+                    0x11.toByte(),
+                    0x03.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte()
+                )))
+*/
 
 
         application.alpineCanFrame.unsetSending()
@@ -202,6 +218,8 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
                                 updateMusic = false
+                                application.alpdroidData.ask_OBDTyreTemperature()
+                                application.alpdroidData.ask_OBDBattV2()
                             }
 
                             clusterStarted = true

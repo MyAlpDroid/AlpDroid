@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
-import com.alpdroid.huGen10.CanFrame
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
 import kotlinx.coroutines.sync.Mutex
 
@@ -29,8 +28,8 @@ class ComputerDisplay : UIFragment(500) {
     lateinit var trackPrev:TextView
     lateinit var countCluster:TextView
     lateinit var testFrame:Switch
-    lateinit var frametoTest:EditText
-    lateinit var framedata:EditText
+    lateinit var frametoTest: EditText
+    lateinit var framedata: TextView
 
 
     var rtxTimer:Long=0
@@ -72,25 +71,28 @@ class ComputerDisplay : UIFragment(500) {
         frametoTest = fragmentBlankBinding!!.idframe
         framedata = fragmentBlankBinding!!.idframe2
 
-        rtxTimer= System.currentTimeMillis()
+        rtxTimer = System.currentTimeMillis()
 
         timerTask = {
-                activity?.runOnUiThread {
-                    if (AlpdroidApplication.app.isBound) {
-                        if (AlpdroidApplication.app.alpdroidServices.isServiceStarted)
-                            ac_header.text = "Service Is Working"
-                        else ac_header.text = "Service Stopping for some weird reason"
+            activity?.runOnUiThread {
+                if (AlpdroidApplication.app.isBound) {
+                    if (AlpdroidApplication.app.alpdroidServices.isServiceStarted)
+                        ac_header.text = "Service Is Working"
+                    else ac_header.text = "Service Stopping for some weird reason"
 
-                        countCluster.text= String.format(
-                            "RX: %.1f Kb/s",
-                            (AlpdroidApplication.app.alpdroidServices.tx/(System.currentTimeMillis()-rtxTimer)).toFloat())
+                    countCluster.text = String.format(
+                        "RX: %.1f Kb/s",
+                        (AlpdroidApplication.app.alpdroidServices.tx / (System.currentTimeMillis() - rtxTimer)).toFloat()
+                    )
 
-                        appState.text= String.format(
-                            "TX: %.1f Kb/s",(AlpdroidApplication.app.alpdroidServices.rx/(System.currentTimeMillis()-rtxTimer)).toFloat())
+                    appState.text = String.format(
+                        "TX: %.1f Kb/s",
+                        (AlpdroidApplication.app.alpdroidServices.rx / (System.currentTimeMillis() - rtxTimer)).toFloat()
+                    )
 
-                     if (testFrame.isChecked)
-                     {
-     /*                    A few comments:
+                    if (testFrame.isChecked)
+
+                    /*                    A few comments:
 
                          Each CAN transmit frame is delayed by 30 ms to avoid overlap in the message queries
                          The frequency is set to 500 ms to avoid excessive requests vs. the data resolution (which is low for OBD2)
@@ -109,7 +111,7 @@ class ComputerDisplay : UIFragment(500) {
 
                          */
 
-                   /*      frametotestString1= frametoTest.text.toString()
+                    /*      frametotestString1= frametoTest.text.toString()
                          framedataString1=framedata.text.toString()
 
                          for (i in framedataString1.indices) {
@@ -120,7 +122,7 @@ class ComputerDisplay : UIFragment(500) {
                                  framedataString1[i].digitToInt(16)
                              )
                          }
-*/
+
                          AlpdroidApplication.app.alpineCanFrame.addFrame(
                              CanFrame(
                              1,
@@ -135,35 +137,42 @@ class ComputerDisplay : UIFragment(500) {
                                  0xFF.toByte(),
                                  0xFF.toByte()
                              )))
+*/
 
-                         try {
-                         AlpdroidApplication.app.alpineCanFrame.pushFifoFrame(0x07DF)
-                         AlpdroidApplication.app.alpineCanFrame.setSending()
 
-                             } catch (e: Exception) {
-
-                             }
-                     }
-
-                     if (AlpdroidApplication.app.alpdroidServices.isArduinoWorking())
+                        if (AlpdroidApplication.app.alpdroidServices.isArduinoWorking())
                             arduinostate.text = "Arduino Serial Port Null"
                         else arduinostate.text = "Arduino transmitting"
 
 
-                        framestring1= canid.text.toString()
+                    framestring1 = canid.text.toString()
 
-                        if (framestring1.isNotEmpty()) {
-                            framestring2=AlpdroidApplication.app.alpineCanFrame.getFrame(framestring1.toInt(16))
-                                .toString()
+                    if (framestring1.isNotEmpty()) {
+                        framestring2 = AlpdroidApplication.app.alpineCanFrame.getFrame(
+                            framestring1.toInt(16)
+                        )
+                            .toString()
 
-                            canframeText.text =framestring2
-                        }
-
+                        canframeText.text = framestring2
                     }
-                    else
-                        appState.text="Application is not bound"
+
+                    frametotestString1 = frametoTest.text.toString()
+
+                    if (frametotestString1.isNotEmpty()) {
+                        framedataString1 = AlpdroidApplication.app.alpineOBDFrame.getFrame(
+                            frametotestString1.toInt(16)
+                        )
+                            .toString()
+
+                        framedata.text = framedataString1
+                    }
+
+                else
+                        appState.text = "Application is not bound"
+
+
                 }
             }
+        }
     }
-
 }

@@ -25,6 +25,8 @@ class AlpdroidApplication : Application() {
 
     var alpineCanFrame : CanframeBuffer = CanframeBuffer()
 
+    var alpineOBDFrame : OBDframeBuffer = OBDframeBuffer()
+
     var alpdroidServices : CanFrameServices = CanFrameServices()
 
     var isBound = false

@@ -3,9 +3,9 @@
     <string name="app_name" translatable="false">MyAlpDroid</string>
 
     <!-- Enabled players settings -->
-    <string name="media_title">Recherche des medias players</string>
-    <string name="list_new_players">AlpDroid automatic discovery</string>
-
+    <string name="traduction_title">Langue</string>
+    <string name="traduction">Anglais / Français</string>
+    <string name="pref_title_new_players">Rechercher les players pour MyAlpDroid</string>
     <!-- Settings menu item -->
     <string name="title_activity_settings">Settings</string>
 
@@ -56,12 +56,12 @@
     <string name="location_updated">Location Updated: %1$s</string>
 
     <!-- Strings related to settings -->
-    <string name="background">Choix du papier peint</string>
+    <string name="background_title">Choix du papier peint</string>
     <string name="background_summary">Papier peint</string>
     <string name="params1_title">Choisir le fond d\'écran</string>
-    <string name="key_subparams1">Choix</string>
+    <string name="key_background">Choix</string>
 
-    <string-array name="pref_params1">
+    <string-array name="entries_background">
         <item>Papier 1</item>
         <item>Papier 2</item>
         <item>Papier 3</item>
@@ -69,12 +69,12 @@
         <item>Original</item>
     </string-array>
 
-    <string-array name="key_subparams1">
-        <item>background1</item>
-        <item>background2</item>
-        <item>background3</item>
-        <item>background4</item>
-        <item>background5</item>
+    <string-array name="values_background">
+        <item>background_1,#000000</item>
+        <item>background_2,#04121B</item>
+        <item>background_3,#000000</item>
+        <item>background_4,#182C46</item>
+        <item>background,#242248</item>
     </string-array>
 
     <string name="metric_params">metric_params</string>

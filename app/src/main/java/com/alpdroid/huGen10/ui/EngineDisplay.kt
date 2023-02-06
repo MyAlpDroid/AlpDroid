@@ -134,15 +134,18 @@ class EngineDisplay : UIFragment(250)
                         val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
 
                         // temp
-                        temp_FL2.text= String.format("%d °C",(alpineServices.get_TyreTemperature() - 30))
+                        temp_FL2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature1() ))
+                        temp_FR2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature2() ))
+                        temp_RL2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature3() ))
+                        temp_RR2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature4() ))
 
-                        temp_FR2.text= String.format("%d °C",(alpineServices.get_FrontRightWheelTemperature() - 30))
-                        temp_RL2.text= String.format("%d °C",(alpineServices.get_RearLeftWheelTemperature() - 30) )
-                        temp_RR2.text= String.format("%d °C",(alpineServices.get_RearRightWheelTemperature() - 30))
-
+                    /*    temp_FR2.text= String.format(" %d °C",(alpineServices.get_FrontRightWheelTemperature() - 30))
+                        temp_RL2.text= String.format(" %d °C",(alpineServices.get_RearLeftWheelTemperature() - 30) )
+                        temp_RR2.text= String.format(" %d °C",(alpineServices.get_RearRightWheelTemperature() - 30))
+*/
 
                         press_FL.text = String.format(
-                            "%d mBar",
+                            " %d mBar",
                             flbrake_press
                         )
 
@@ -154,7 +157,7 @@ class EngineDisplay : UIFragment(250)
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         temp_FL.text = String.format(
-                            "%d °C",
+                            " %d °C",
                             flbrake_temp
                         )
 
@@ -167,7 +170,7 @@ class EngineDisplay : UIFragment(250)
 
 
                         press_RL.text = String.format(
-                            "%d mBar",
+                            " %d mBar",
                             rlbrake_press
                         )
 
@@ -180,7 +183,7 @@ class EngineDisplay : UIFragment(250)
 
 
                         temp_RL.text = String.format(
-                            "%d °C",
+                            " %d °C",
                             rlbrake_temp
                         )
 
@@ -193,7 +196,7 @@ class EngineDisplay : UIFragment(250)
 
 
                         press_FR.text = String.format(
-                            "%d mBar",
+                            " %d mBar",
                             frbrake_press
                         )
 
@@ -205,7 +208,7 @@ class EngineDisplay : UIFragment(250)
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         temp_FR.text = String.format(
-                            "%d °C",
+                            "  %d °C",
                             frbrake_temp
                         )
 
@@ -217,7 +220,7 @@ class EngineDisplay : UIFragment(250)
                             temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         press_RR.text = String.format(
-                            "%d mBar",
+                            " %d mBar",
                             rrbrake_press
                         )
 
@@ -230,7 +233,7 @@ class EngineDisplay : UIFragment(250)
 
 
                         temp_RR.text = String.format(
-                            "%d °C",
+                            "  %d°C",
                             rrbrake_temp
                         )
 
@@ -273,7 +276,7 @@ class EngineDisplay : UIFragment(250)
                         else
                             fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        fuel_instant = alpineServices.get_FuelConsumption().toFloat()*3600*speed_100/(100*1000000)
+                        fuel_instant = alpineServices.get_FuelConsumption().toFloat()*3600*100/(speed_100*1000000)
 
                         fuel_inst.text = String.format(
                             " %.2f l/100",

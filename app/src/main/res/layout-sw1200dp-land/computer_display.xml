@@ -17,24 +17,22 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background">
+            android:layout_height="match_parent">
 
-            <EditText
+            <TextView
                 android:id="@+id/idframe2"
-                android:layout_width="638dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="32dp"
-                android:digits="0123456789ABCDEF"
-                android:hint="0"
-                android:inputType="textCapCharacters"
+                android:layout_width="679dp"
+                android:layout_height="101dp"
+                android:layout_marginStart="104dp"
+
                 android:maxLength="4"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/idframe"
                 app:layout_constraintStart_toEndOf="@+id/idframe"
-                app:layout_constraintTop_toTopOf="@+id/idframe" />
+                app:layout_constraintTop_toTopOf="@+id/idframe"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/transmit_state"
@@ -91,21 +89,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
-                android:digits="0123456789ABCDEF"
-                android:hint="01F6"
-                android:inputType="textCapCharacters"
                 android:maxLength="4"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"
+                android:digits="0123456789ABCDEF"
+                android:hint="01F6"
+                android:inputType="textCapCharacters"
                 app:layout_constraintBottom_toBottomOf="@+id/textView11"
                 app:layout_constraintStart_toEndOf="@+id/textView11"
                 app:layout_constraintTop_toTopOf="@+id/textView11" />
 
             <EditText
                 android:id="@+id/idframe"
-                android:layout_width="149dp"
-                android:layout_height="44dp"
+                android:layout_width="662dp"
+                android:layout_height="98dp"
                 android:layout_marginTop="10dp"
                 android:digits="0123456789ABCDEF"
                 android:hint="0"

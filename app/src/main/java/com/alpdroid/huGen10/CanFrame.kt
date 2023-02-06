@@ -85,18 +85,14 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
 
         dataFrame = String.format("%1d%04X%1d", this.bus, this.id, this.dlc)
 
-        this.data[0]=(datatonum shr 56).toByte()
-        this.data[1]=(datatonum shr 48).toByte()
-        this.data[2]=(datatonum shr 40).toByte()
-        this.data[3]=(datatonum shr 32).toByte()
-        this.data[4]=(datatonum shr 24).toByte()
-        this.data[5]=(datatonum shr 16).toByte()
-        this.data[6]=(datatonum shr 8).toByte()
-        this.data[7]=(datatonum shr 0).toByte()
-
+        for (i in 0..(dlc-1))
+            this.data[i]=(datatonum shr (56-i*8)).toByte()
 
         for (i in 0..7) {
-            dataFrame = String.format("%s%02X", dataFrame, this.data[i])
+            if (i<dlc)
+                dataFrame = String.format("%s%02X", dataFrame, this.data[i])
+            else
+                dataFrame = String.format("%s%02X", dataFrame, 255)
         }
 
         return dataFrame

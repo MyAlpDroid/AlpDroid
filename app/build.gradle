@@ -104,7 +104,7 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.21'
     implementation("org.greenrobot:eventbus:3.3.1")
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "androidx.car.app:app:1.2.0"
-    implementation "androidx.activity:activity:1.7.0-alpha03"
+    implementation "androidx.activity:activity:1.7.0-alpha04"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
