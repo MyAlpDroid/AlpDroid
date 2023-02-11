@@ -142,6 +142,23 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             )
         )
 
+        // Creating first Compass Frame
+        application.alpineCanFrame.addFrame(
+            CanFrame(
+                1,
+                CanECUAddrs.CANECUSEND.idcan,
+                byteArrayOf(
+                    0x03.toByte(),
+                    0x22.toByte(),
+                    0x11.toByte(),
+                    0x03.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte()
+                )
+            )
+        )
 
         // Init Source Album & trackname info
         for (i in 0..9)
@@ -161,23 +178,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     )
                 )
             )
-
-        /*
-        AlpdroidApplication.app.alpineCanFrame.addFrame(
-            CanFrame(
-                1,
-                0x07E0,
-                byteArrayOf(
-                    0x03.toByte(),
-                    0x22.toByte(),
-                    0x11.toByte(),
-                    0x03.toByte(),
-                    0xFF.toByte(),
-                    0xFF.toByte(),
-                    0xFF.toByte(),
-                    0xFF.toByte()
-                )))
-*/
 
 
         application.alpineCanFrame.unsetSending()
@@ -521,11 +521,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     frameFlowTurn=0
                     updateMusic=true
 
-                /* trying to update name in case of missing frame
-                    albumName= application.alpdroidServices.getalbumName().toString()
-                    artistName= application.alpdroidServices.getartistName().toString()
-                    trackName= application.alpdroidServices.gettrackName().toString()
-                    prevtrackName=trackName*/
             }
 
         var radioartistname:String = artistName

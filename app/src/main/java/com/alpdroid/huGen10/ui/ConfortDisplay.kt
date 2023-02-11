@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -134,7 +135,8 @@ class ConfortDisplay : UIFragment(250) {
 
              //     battvalue= ((alpineServices.get_BatteryVoltage())/16).toFloat()
 
-                battvalue = alpineServices.get_BattV2()/100
+                battvalue = alpineServices.get_BattV2()
+                Log.d("This BatValue", battvalue.toString())
 
                   tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
 

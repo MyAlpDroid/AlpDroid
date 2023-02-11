@@ -143,24 +143,17 @@ class MainActivity : FragmentActivity()  {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         var backgroundImage = "background"
-        var taskbarColor = "#09192b"
+        var taskbarColor = "#000000"
 
-        val string = sharedPreferences.getString("Choix", "background,#FF00FF")
+        val string = sharedPreferences.getString("Choix", "background,#031627")
         val targetChar = ','
         val targetIndex = string?.indexOf(targetChar)!!+1
-
-        Log.d(TAG, "String :"+string.toString())
 
         if (targetIndex>0)
      {
              backgroundImage = string.substring(0, targetIndex - 1)
              taskbarColor = (string.substring(targetIndex))
         }
-
-
-        Log.d(TAG, "Index :"+targetIndex.toString())
-        Log.d(TAG, "Index 2:"+backgroundImage.toString())
-        Log.d(TAG, "Index :"+taskbarColor.toString())
 
 
         val backgroundImageResource = resources.getIdentifier(backgroundImage, "drawable", packageName)

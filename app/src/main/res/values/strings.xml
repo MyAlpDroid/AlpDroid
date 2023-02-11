@@ -5,9 +5,13 @@
     <!-- Enabled players settings -->
     <string name="traduction_title">Langue</string>
     <string name="traduction">Anglais / Français</string>
-    <string name="pref_title_new_players">Rechercher les players pour MyAlpDroid</string>
+    <string name="media_title">Rechercher les players pour MyAlpDroid</string>
+    <string name="media_sub_title">Affiche les lecteurs disponibles</string>
+
+    <string name="list_new_players">AlpDroid automatic discovery</string>
     <!-- Settings menu item -->
     <string name="title_activity_settings">Settings</string>
+
 
     <!-- Notification settings -->
     <string name="pref_header_notifications">Notifications</string>
@@ -62,10 +66,10 @@
     <string name="key_background">Choix</string>
 
     <string-array name="entries_background">
-        <item>Papier 1</item>
-        <item>Papier 2</item>
-        <item>Papier 3</item>
-        <item>Papier 4</item>
+        <item>Dark Blue Hexagonal</item>
+        <item>Light &amp; Star</item>
+        <item>Red &amp; Blue Hexagone</item>
+        <item>Blue Wave</item>
         <item>Original</item>
     </string-array>
 

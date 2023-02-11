@@ -33,7 +33,7 @@ class CanFrameServices : Service(), ArduinoListener {
     var bcktrackName:String = "--"
     var backartistName:String = "--"
     var audioSource:Int=0
-
+    lateinit var bytearray:String
 
     var isConnected : Boolean = false
     var isBad : Boolean = false
@@ -307,6 +307,19 @@ class CanFrameServices : Service(), ArduinoListener {
 
         application.alpineCanFrame.flush()
 
+    /*   bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[03,41,11,33,00,00,00,00]}"
+
+        Log.d("frame send One: ", bytearray)
+
+        onArduinoMessage(bytearray.toByteArray())
+
+
+         bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[04,62,80,18,88,00,00,00]}"
+
+
+        onArduinoMessage(bytearray.toByteArray())
+        Log.d("frame send One 2: ", bytearray)*/
+
     }
 
     override fun onArduinoMessage(bytes: ByteArray?) {
@@ -321,10 +334,11 @@ class CanFrameServices : Service(), ArduinoListener {
                     .create()
 
                 try {
-                        frame = gson.fromJson(buff, CanFrame::class.java)
 
-                        if (frame.id>0x700)
-                            application.alpineOBDFrame.addFrame(OBDframe(frame.id,frame.data))
+                        frame = gson.fromJson(buff, CanFrame::class.java)
+                        if (frame.id>0x700) {
+                            application.alpineOBDFrame.addFrame(OBDframe(frame.id, frame.data))
+                        }
                         else
                             application.alpineCanFrame.addFrame(frame)
                         isBad = false
@@ -355,7 +369,7 @@ class CanFrameServices : Service(), ArduinoListener {
         crcByte[1]=(crcValue/256).toByte()
 
         arduino.send("@@".toByteArray()+frame.toByteArray()+crcByte)
-        // +crcframe.value.toString().toByteArray()
+
         tx+=frame.dlc
     }
 

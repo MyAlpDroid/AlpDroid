@@ -86,7 +86,10 @@ By default, writing to the ECU CAN bus is prohibited. To be changed if you want 
 Install the Arduino IDE environment on a PC or Mac: https://www.arduino.cc/en/Guide
 Load the Arduino UNO project
 * Upload via GitHub the files from the UNO CODE folder to a directory.
-* Open Arduino IDE, File , Open, Choose directory and open
+* Open Arduino IDE, File , Open, Choose directory and open UNO_CODE.INO
+* Install  AceCRC : Tools, Manage Library, "filter your search" write AceCRC
+you should see " AceCRC by Brian T. Park"
+* Click on Install
 Compile and Upload the program:
 You need a type B USB cable (printer type on the Arduino side) and type C or another PC side.
 Once the Arduino program has been loaded into the IDE, and the cable connected to the Arduino, all you have to do is upload the program to the Arduino.

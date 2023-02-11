@@ -19,24 +19,26 @@ class OBDframeBuffer {
 
         CoroutineScope(Dispatchers.IO).launch {
             mutex_add.withLock {
-                if (this@OBDframeBuffer.mapFrame.replace(frame.servicePID, frame) == null)
-                    this@OBDframeBuffer.mapFrame[frame.servicePID] = frame
+
+                if (this@OBDframeBuffer.mapFrame.replace(
+                        (frame.serviceDir * 65536 + frame.servicePID),
+                        frame
+                    ) == null
+                )
+                    this@OBDframeBuffer.mapFrame[frame.serviceDir * 65536 + frame.servicePID] =
+                        frame
             }
         }
     }
 
+    fun getFrame(service:Int, dir:Int): OBDframe? {
 
-
-    fun getFrame(service:Int): OBDframe? {
         return try {
-            this.mapFrame[service]
-        } catch (e:Exception) {
+            this.mapFrame[dir * 65536 + service]
+        } catch (e: Exception) {
             null
         }
+
     }
-
-
-
-
 
 }

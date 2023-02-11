@@ -46,8 +46,9 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="player."
-            android:summary="@string/pref_title_new_players" />
+            android:key="@string/list_new_players"
+            android:summary="@string/media_sub_title"
+            android:title="@string/media_title" />
 
     </PreferenceCategory>
 

@@ -24,7 +24,7 @@
                 android:layout_width="786dp"
                 android:layout_height="133dp"
                 android:layout_marginStart="24dp"
-                android:maxLength="4"
+                android:maxLength="20"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"

@@ -188,28 +188,37 @@ class AlpdroidApplication : Application() {
     @Subscribe
     fun onNowPlayingChange(event: NowPlayingChangeEvent) {
 
+        var isaudio:Boolean = false
+
         lastEvent = event
 
         if (alpdroidServices.isServiceStarted) {
 
             if (lastEvent.track().album().isPresent) {
                 alpdroidServices.setalbumName(lastEvent.track().album().get().toString())
+                isaudio=true
             } else
                 alpdroidServices.setalbumName("--")
 
             if (lastEvent.track().artist().isNotEmpty()) {
                 alpdroidServices.setartistName(lastEvent.track().artist().toString())
-                alpdroidServices.setaudioSource(getplayerType(lastEvent.source()))
+                isaudio=true
             }
-            else {
+            else
                 alpdroidServices.setartistName("--")
-                alpdroidServices.setaudioSource(0)
-            }
 
-            if (lastEvent.track().track().isNotEmpty())
+
+            if (lastEvent.track().track().isNotEmpty()) {
                 alpdroidServices.settrackName(lastEvent.track().track().toString())
+                isaudio=true
+            }
             else
                 alpdroidServices.settrackName("--")
+
+            if (isaudio)
+                alpdroidServices.setaudioSource(getplayerType(lastEvent.source()))
+            else
+                alpdroidServices.setaudioSource(0)
         }
     }
 

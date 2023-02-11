@@ -4,28 +4,50 @@ import com.alpdroid.huGen10.util.clearBitsSlice
 import com.alpdroid.huGen10.util.getBit
 import com.alpdroid.huGen10.util.getBitsSlice
 
-class OBDframe (canID:Int, frameData:ByteArray) {
+class OBDframe (private var canID:Int, private var frameData:ByteArray) {
 
-    var canID = canID
-    var servicePID:Int = frameData[2]+frameData[3]*256
-    private var serviceData = frameData.copyOfRange(4,8)
+    constructor(canID: Int, size:Int) : this(canID, ByteArray(size))
+
     // dlc is first frame size data
-    private var dlc = frameData[0].toInt()-3
+    private var dlc = frameData[0].toInt()
+
+    private var dlc_offset = 0
+
+    var serviceDir : Int
+
+    var servicePID : Int
+
+    var serviceData : ByteArray
 
 
     private var datatonum: Long = 0
 
-
     // creating a view of bytearray - for bits usage
+
     init {
 
-        require (serviceData.size <= 4) { "Too many bytes for PID content! Max size is 4" }
-        for (i in serviceData.indices) {
-            datatonum = datatonum or (serviceData[i].toLong() and 0xFF shl 24-(i*8))
+        serviceDir  = frameData[1].toInt()
+
+
+        if ((serviceDir and 0xBF)>0x20) {
+            servicePID = (frameData[2].toUByte() * 256u + frameData[3].toUByte()).toInt()
+            dlc_offset=1
+        }
+        else {
+            servicePID = frameData[2].toInt()
+            dlc_offset=0
         }
 
-    }
 
+        serviceData = frameData.copyOfRange(3+dlc_offset,8)
+
+        require (serviceData.size <= 5) { "Too many bytes for PID content! Max size is 5" }
+        for (i in serviceData.indices) {
+            datatonum = datatonum or (serviceData[i].toLong() and 0xFF shl (32-dlc_offset*8)-(i*8))
+        }
+
+
+    }
 
 
     fun getByte(pos: Int): Byte {
@@ -38,7 +60,7 @@ class OBDframe (canID:Int, frameData:ByteArray) {
             throw IndexOutOfBoundsException("Offset+Len > ${dlc*8}")
         }
 
-        return datatonum.getBitsSlice(32-(pos+len), 31-pos).toInt()
+        return datatonum.getBitsSlice((40-dlc_offset*8)-(pos+len), (39-dlc_offset*8)-pos).toInt()
     }
 
     fun getBit(offset: Int): Boolean {
@@ -47,7 +69,7 @@ class OBDframe (canID:Int, frameData:ByteArray) {
             throw IndexOutOfBoundsException("Offset+Len > ${dlc*8}")
         }
 
-        return datatonum.getBit(32 - offset).toInt()==1
+        return this.datatonum.getBit(40-(dlc_offset*8) - offset).toInt()==1
     }
 
     @Synchronized
@@ -59,9 +81,9 @@ class OBDframe (canID:Int, frameData:ByteArray) {
             throw IndexOutOfBoundsException("Offset+Len > ${dlc*8}")
         }
 
-        datatonum=datatonum.clearBitsSlice(32-(offset+len),31-offset)
+        datatonum=datatonum.clearBitsSlice((40-dlc_offset*8)-(offset+len),(39-dlc_offset*8)-offset)
 
-        maskinv = value.toLong() shl (32-offset-len)
+        (value.toLong() shl ((40-dlc_offset*8)-offset-len)).also { maskinv = it }
 
         datatonum = datatonum or maskinv
 
@@ -80,32 +102,71 @@ class OBDframe (canID:Int, frameData:ByteArray) {
 
 
 
-    fun toCanframe(write:Boolean):CanFrame
+    fun toCanframe():CanFrame
     {
      val canframe:CanFrame= CanFrame(1,canID,8)
 
+
      canframe.dlc=8
 
-     canframe.data[0]=this.dlc.toByte()
+     canframe.data[0]=(this.dlc+2+dlc_offset).toByte()
 
-     if (write)
-            canframe.data[1]=0x2E
-     else
-            canframe.data[1]=0x22
+     canframe.data[1]=serviceDir.toByte()
 
-     canframe.data[2]=(this.servicePID).toByte()
-     canframe.data[3]=(this.servicePID/256).toByte()
-     canframe.data[4]=(datatonum shr 24).toByte()
-     canframe.data[5]=(datatonum shr 16).toByte()
-     canframe.data[6]=(datatonum shr 8).toByte()
-     canframe.data[7]=(datatonum shr 0).toByte()
-
+     if (dlc_offset==1) {
+         canframe.data[2] = (this.servicePID / 256).toByte()
+         canframe.data[3] = (this.servicePID).toByte()
+         canframe.data[4] = (this.datatonum shr 24).toByte()
+         canframe.data[5] = (this.datatonum shr 16).toByte()
+         canframe.data[6] = (this.datatonum shr 8).toByte()
+         canframe.data[7] = (this.datatonum shr 0).toByte()
+     }
+        else
+     {
+         canframe.data[2] = (this.servicePID ).toByte()
+         canframe.data[3] = (this.datatonum shr 32).toByte()
+         canframe.data[4] = (this.datatonum shr 24).toByte()
+         canframe.data[5] = (this.datatonum shr 16).toByte()
+         canframe.data[6] = (this.datatonum shr 8).toByte()
+         canframe.data[7] = (this.datatonum shr 0).toByte()
+     }
 
      return canframe
 
     }
 
 
+    override fun toString():String
+    {
+
+        var dataFrame: String
+
+
+        dataFrame = String.format("%04X%1d%02X", this.canID, this.dlc, this.serviceDir)
+
+
+        if (dlc_offset==1)
+            dataFrame = String.format("%s%02X", dataFrame, servicePID/256)
+
+        dataFrame = String.format("%s%02X", dataFrame, servicePID)
+
+        for (i in 0..(dlc-3-dlc_offset))
+            frameData[i]=(datatonum shr (32-(dlc_offset*8)-i*8)).toByte()
+
+
+
+        for (i in 0..(4-dlc_offset)) {
+            if (i<this.dlc-2-dlc_offset)
+                dataFrame = String.format("%s%02X", dataFrame, frameData[i])
+            else
+                dataFrame = String.format("%s%02X", dataFrame, 0x55)
+        }
+
+
+
+        return dataFrame
+
+    }
 
 
 }

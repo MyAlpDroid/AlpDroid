@@ -159,10 +159,14 @@ class ComputerDisplay : UIFragment(500) {
                     frametotestString1 = frametoTest.text.toString()
 
                     if (frametotestString1.isNotEmpty()) {
-                        framedataString1 = AlpdroidApplication.app.alpineOBDFrame.getFrame(
+                        if (frametotestString1.length<3)
+                            framedataString1 = AlpdroidApplication.app.alpineOBDFrame.getFrame(
                             frametotestString1.toInt(16)
-                        )
-                            .toString()
+                             ,0x41).toString()
+                        else
+                            framedataString1 = AlpdroidApplication.app.alpineOBDFrame.getFrame(
+                                frametotestString1.toInt(16)
+                                ,0x62).toString()
 
                         framedata.text = framedataString1
                     }

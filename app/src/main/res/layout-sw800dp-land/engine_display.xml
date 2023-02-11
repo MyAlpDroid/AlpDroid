@@ -22,9 +22,9 @@
 
             <ImageView
                 android:id="@+id/dessinCar"
-                android:layout_width="290dp"
+                android:layout_width="298dp"
                 android:layout_height="288dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/car"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,10 +32,10 @@
 
             <TextView
                 android:id="@+id/text_press_FL"
-                android:layout_width="64dp"
+                android:layout_width="82dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="52dp"
-                android:text="PsiFL"
+                android:text="7650 mBar"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="normal|bold"
@@ -94,7 +94,7 @@
 
             <TextView
                 android:id="@+id/text_press_RL"
-                android:layout_width="64dp"
+                android:layout_width="82dp"
                 android:layout_height="26dp"
                 android:layout_marginBottom="8dp"
                 android:text="PsiRL"
@@ -106,7 +106,7 @@
 
             <TextView
                 android:id="@+id/text_press_FR"
-                android:layout_width="64dp"
+                android:layout_width="82dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="52dp"
                 android:text="Psi FR"
@@ -137,7 +137,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_press_FR"
+                app:layout_constraintEnd_toEndOf="@+id/text_press_FR"
                 app:layout_constraintTop_toBottomOf="@+id/text_press_FR" />
 
             <TextView
@@ -166,7 +166,7 @@
 
             <TextView
                 android:id="@+id/text_press_RR"
-                android:layout_width="64dp"
+                android:layout_width="82dp"
                 android:layout_height="26dp"
                 android:layout_marginBottom="8dp"
                 android:text="PsiRR"

@@ -5,6 +5,7 @@ import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.util.Log
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -127,25 +128,40 @@ class VehicleServices : LocationListener {
 
     }
 
-    suspend fun pushOBDParams(candIDSend:Int, servicePID:Int, bytesData:ByteArray)
+    suspend fun pushOBDParams(candIDSend:Int, servicePID:Int, serviceDir: Int, bytesData:ByteArray)
     {
         val frame2OBD:CanFrame
+        var obdframe: OBDframe
 
         val serviceData:ByteArray = ByteArray(8)
 
         val mutex_push:Mutex=Mutex()
 
+        var dlc_offset=0
 
         try {
-
-            (3 + bytesData.size).toByte().also { serviceData[0] = it }
-            serviceData[1] = 0x22
-            serviceData[2] = (servicePID).toByte()
-            serviceData[3] = (servicePID/256).toByte()
-
-            for (i in 4..(3 + bytesData.size)) {
-                serviceData[i] = bytesData[i - 4]
+            if ((serviceDir and 0xBF)<0x20) {
+                (2 + bytesData.size).toByte().also { serviceData[0] = it }
+                serviceData[1] = serviceDir.toByte()
+                serviceData[2] = (servicePID).toByte()
             }
+            else
+            {
+                (3 + bytesData.size).toByte().also { serviceData[0] = it }
+                serviceData[1] = serviceDir.toByte()
+                serviceData[2] = (servicePID/256).toByte()
+                serviceData[3] = (servicePID).toByte()
+                dlc_offset=1
+            }
+
+            for (i in 3+dlc_offset..7) {
+                if (i<bytesData.size)
+                   serviceData[i] = bytesData[i - (3+dlc_offset)]
+                else
+                    serviceData[i] = 0x55.toByte()
+            }
+
+            obdframe = OBDframe(candIDSend, serviceData)
 
             frame2OBD = CanFrame(1, candIDSend, serviceData)
             mutex_push.withLock {
@@ -159,18 +175,22 @@ class VehicleServices : LocationListener {
     }
 
 
-    fun getOBDParams(servicePID:Int, bytesNum:Int, len:Int):Int
+    fun getOBDParams(servicePID:Int, serviceDir:Int, bytesNum:Int, len:Int):Int
     {
         val frameOBD:OBDframe
 
+
         try {
-            frameOBD= application.alpineOBDFrame.getFrame(servicePID)!!
+
+            frameOBD = application.alpineOBDFrame.getFrame(servicePID,serviceDir)!!
+
         }
         catch (e: Exception)
         {
-            return 0
+            return 77
         }
 
+        Log.d("This getOBD", frameOBD.getValue(bytesNum,len).toString())
         return frameOBD.getValue(bytesNum,len)
 
     }
@@ -219,25 +239,25 @@ class VehicleServices : LocationListener {
 
     /** Get code GearboxOilTemperature **/
 
-    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0, 8)/100).toFloat()
+    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,0, 8)).toFloat()
 
     suspend fun ask_OBDBattV2()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x1103, ByteArray(0))
-    }
-    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0, 8)
-    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0, 8)
+        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x1103, 0x22, ByteArray(0))
+       }
+    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,0, 8)
+    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,0, 8)
 
-    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0, 8)
+    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,0, 8)
 
-    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0, 8)
+    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,0, 8)
 
     suspend fun ask_OBDTyreTemperature()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8011, ByteArray(0))
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8018, ByteArray(0))
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8025, ByteArray(0))
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8032, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8011, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8018, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8025, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8032, 0x22, ByteArray(0))
 
     }
 
