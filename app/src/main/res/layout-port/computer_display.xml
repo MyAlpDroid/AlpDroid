@@ -21,16 +21,16 @@
 
             <TextView
                 android:id="@+id/idframe2"
-                android:layout_width="638dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="32dp"
+                android:layout_width="601dp"
+                android:layout_height="926dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
                 android:maxLength="20"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/idframe"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/idframe"
-                app:layout_constraintTop_toTopOf="@+id/idframe" />
+                app:layout_constraintTop_toBottomOf="@+id/canFrameView" />
 
             <TextView
                 android:id="@+id/transmit_state"
@@ -102,14 +102,15 @@
                 android:id="@+id/idframe"
                 android:layout_width="149dp"
                 android:layout_height="44dp"
-                android:layout_marginTop="10dp"
 
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="34dp"
                 android:maxLength="4"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/canFrameView" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -181,35 +182,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/showprev"
                 app:layout_constraintStart_toEndOf="@+id/showprev"
                 app:layout_constraintTop_toTopOf="@+id/showprev" />
-
-            <Switch
-                android:id="@+id/testicons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="On"
-                android:textColor="@color/white_text"
-                app:layout_constraintStart_toStartOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Test Icons Type"
-                android:textColor="@color/white_text"
-                app:layout_constraintStart_toStartOf="@+id/canFrameView"
-                app:layout_constraintTop_toBottomOf="@+id/canFrameView" />
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Value to test"
-                android:textColor="@color/white_text"
-                app:layout_constraintStart_toStartOf="@+id/testicons"
-                app:layout_constraintTop_toBottomOf="@+id/testicons" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

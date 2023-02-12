@@ -274,16 +274,14 @@ class VehicleServices : LocationListener {
 
     suspend fun ask_OBDStandardCode()
     {
-        pushOBDParams(0x7DF,0, 0x01, ByteArray(0))
+    //  TODO  pushOBDParams(0x7DF,0, 0x01, ByteArray(0))
 
     }
 
 
     suspend fun get_PTDCCode()
     {
-        pushOBDParams(0x7DF,0,0x03,ByteArray(0))
-
-
+    //   TODO pushOBDParams(0x7DF,0,0x03,ByteArray(0))
 
     }
     /** Get code GearboxOilTemperature **/
