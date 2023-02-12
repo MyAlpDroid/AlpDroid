@@ -17,18 +17,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background">
+            android:layout_height="match_parent">
 
-            <EditText
+            <TextView
                 android:id="@+id/idframe2"
                 android:layout_width="638dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="32dp"
-                android:digits="0123456789ABCDEF"
-                android:hint="0"
-                android:inputType="textCapCharacters"
-                android:maxLength="4"
+                android:maxLength="20"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"
@@ -107,9 +103,7 @@
                 android:layout_width="149dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="10dp"
-                android:digits="0123456789ABCDEF"
-                android:hint="0"
-                android:inputType="textCapCharacters"
+
                 android:maxLength="4"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"

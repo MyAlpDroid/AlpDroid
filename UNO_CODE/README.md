@@ -88,6 +88,10 @@ Installer sur un PC ou un Mac l'environnement IDE Arduino : https://www.arduino.
 Charger le projet Arduino UNO
 * Charger via GitHub les fichiers du dossier UNO CODE dans un répertoire.  
 * Ouvrir l'IDE Arduino, File , Open, Choisir le répertoire et ouvrir
+* Installer la librairie AceCRC : Tools, Manage Library, "filter your search" taper AceCRC 
+vous devez voir apparaitre AceCRC by Brian T. Park
+* Cliquer sur Install 
+
 Compiler et Uploader le programme :  
 Il vous faut un câble USB du type B (type imprimante du côté Arduino) et type C ou autre côté PC.
 Une fois le programme Arduino chargé dans l'IDE, et le câble branché sur l'Arduino, il suffit d'uploader le programme sur l'Arduino.

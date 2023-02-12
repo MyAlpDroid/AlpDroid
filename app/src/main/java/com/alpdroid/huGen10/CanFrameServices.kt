@@ -33,7 +33,7 @@ class CanFrameServices : Service(), ArduinoListener {
     var bcktrackName:String = "--"
     var backartistName:String = "--"
     var audioSource:Int=0
-
+    lateinit var bytearray:String
 
     var isConnected : Boolean = false
     var isBad : Boolean = false
@@ -95,17 +95,17 @@ class CanFrameServices : Service(), ArduinoListener {
             PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
         }
 
-        val builder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(
+        val builder: Notification.Builder = Notification.Builder(
             this,
             notificationChannelId
-        ) else Notification.Builder(this)
+        )
 
         return builder
             .setContentTitle("MyAlpdroid Foreground Service")
             .setContentText("This is your favorite endless service working")
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setTicker("Ticker text")
+            .setTicker("MFS ticker")
   //          .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
             .build()
     }
@@ -307,6 +307,19 @@ class CanFrameServices : Service(), ArduinoListener {
 
         application.alpineCanFrame.flush()
 
+    /*   bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[03,41,11,99,00,00,00,00]}"
+
+        Log.d("frame send One: ", bytearray)
+
+        onArduinoMessage(bytearray.toByteArray())
+
+
+         bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[04,62,80,18,66,00,00,00]}"
+
+
+        onArduinoMessage(bytearray.toByteArray())
+        Log.d("frame send One 2: ", bytearray)*/
+
     }
 
     override fun onArduinoMessage(bytes: ByteArray?) {
@@ -321,12 +334,15 @@ class CanFrameServices : Service(), ArduinoListener {
                     .create()
 
                 try {
-                    frame = gson.fromJson(buff, CanFrame::class.java)
-                    if (frame != null) {
-                        application.alpineCanFrame.addFrame(frame)
+
+                        frame = gson.fromJson(buff, CanFrame::class.java)
+                        if (frame.id>0x700) {
+                            application.alpineOBDFrame.addFrame(OBDframe(frame.id, frame.data))
+                        }
+                        else
+                            application.alpineCanFrame.addFrame(frame)
                         isBad = false
                         rx+=frame.dlc
-                    }
                 } catch (e: Exception) {
                     //checking bad message
                     isBad = true
@@ -343,7 +359,7 @@ class CanFrameServices : Service(), ArduinoListener {
     }
 
 
-    private fun sendFrame(frame: CanFrame) {
+    fun sendFrame(frame: CanFrame) {
 
         val crcValue= IntegerUtil.GenerateChecksumCRC16(frame.toByteArray())
 
@@ -353,7 +369,7 @@ class CanFrameServices : Service(), ArduinoListener {
         crcByte[1]=(crcValue/256).toByte()
 
         arduino.send("@@".toByteArray()+frame.toByteArray()+crcByte)
-        // +crcframe.value.toString().toByteArray()
+
         tx+=frame.dlc
     }
 

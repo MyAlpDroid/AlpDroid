@@ -1,40 +1,41 @@
 package com.alpdroid.huGen10.ui
 
-// import `in`.rmkrishna.mlog.MLog
+
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.util.Log
+import android.view.Window
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
-import net.osmand.aidlapi.navigation.ADirectionInfo
 import kotlin.time.ExperimentalTime
 
 
 @OptIn(ExperimentalTime::class)
-class MainActivity : FragmentActivity() {
+class MainActivity : FragmentActivity()  {
 
     private val TAG = "MainActivity"
 
- /*   private val textView: TextView? = null
-    private val number = 0
-    private val frame: CanFrame? = null
-    private val buff: String? = null
-
-    private val message = "{\"bus\":0,\"id\":05ED,\"data\":[00,00,00,00,00,11,22,33]}".toByteArray()
-*/
 
     lateinit var application:AlpdroidApplication
 
@@ -54,12 +55,21 @@ class MainActivity : FragmentActivity() {
     /** The [ViewPager] that will host the section contents.  */
     private lateinit var mViewPager: ViewPager2
 
+
+    private val backgroundImagePreferenceChangedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d("ONsharedPreferences","Intent passé")
+            updateBackgroundImage()
+        }
+    }
+
+
     @SuppressLint("NoLoggedException")
     override fun onCreate(savedInstanceState: Bundle?) {
 
      //   MLog.d(TAG, "Activity OnCreate")
 
-        super.onCreate(savedInstanceState)
+            super.onCreate(savedInstanceState)
 
         application=getApplication() as AlpdroidApplication
 
@@ -119,16 +129,42 @@ class MainActivity : FragmentActivity() {
             // e.printStackTrace();
         }
 
-        //important! set your user agent to prevent getting banned from the osm servers
-
-        //5.6 and newer
-        //  Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-
 
         Log.d("MainActivity : OnCreate ", TAG)
       //  MLog.d(TAG, "Activity OnCreate : fin")
+
+        updateBackgroundImage()
+
+
     }
 
+
+    private fun updateBackgroundImage() {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        var backgroundImage = "background"
+        var taskbarColor = "#000000"
+
+        val string = sharedPreferences.getString("Choix", "background,#031627")
+        val targetChar = ','
+        val targetIndex = string?.indexOf(targetChar)!!+1
+
+        if (targetIndex>0)
+     {
+             backgroundImage = string.substring(0, targetIndex - 1)
+             taskbarColor = (string.substring(targetIndex))
+        }
+
+
+        val backgroundImageResource = resources.getIdentifier(backgroundImage, "drawable", packageName)
+
+        mViewPager.setBackgroundResource(backgroundImageResource)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = window
+            window.statusBarColor = Color.parseColor(taskbarColor)
+        }
+    }
 
     public override fun onRestart() {
 
@@ -165,12 +201,16 @@ class MainActivity : FragmentActivity() {
             StrictMode.setThreadPolicy(oldPolicy)
         }
         //MLog.d(TAG, "Activity onResume : End")
+        LocalBroadcastManager.getInstance(this).registerReceiver(backgroundImagePreferenceChangedReceiver, IntentFilter("change_background"))
+
     }
 
     public override fun onPause() {
         val oldPolicy: ThreadPolicy
      //   MLog.d(TAG, "Activity onPause : Begin")
         super.onPause()
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(backgroundImagePreferenceChangedReceiver)
 
         //  application.startVehicleServices();
         //  application.alpdroidData = new VehicleServices();
@@ -190,13 +230,6 @@ class MainActivity : FragmentActivity() {
 
     }
 
-    fun onNavInfoUpdate(directionInfo: ADirectionInfo) {
-        Log.d(TAG,"ça passe ici")
-        application.alpdroidServices.alpine2Cluster.distanceToturn =
-            directionInfo.distanceTo
-        application.alpdroidServices.alpine2Cluster.nextTurnTypee =
-            directionInfo.turnType
-    }
 
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the
@@ -209,8 +242,8 @@ class MainActivity : FragmentActivity() {
             NowPlayingFragment(),
             EngineDisplay(),
             ConfortDisplay(),
-    //       ComputerDisplay()
-    //        SettingsDisplay()
+           ComputerDisplay(),
+            SettingsDisplay()
         )
 
         override fun createFragment(position: Int): Fragment {
@@ -228,8 +261,8 @@ class MainActivity : FragmentActivity() {
                 0 -> return getString(R.string.tab_now_playing)
                 1 -> return getString(R.string.engine_display)
                 2 -> return getString(R.string.confort_display)
-    //            3 -> return getString(R.string.computer_display)
-    //            3 -> return getString(R.string.settings)
+                3 -> return getString(R.string.computer_display)
+                4 -> return getString(R.string.settings)
             }
             return null
         }

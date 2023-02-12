@@ -7,7 +7,6 @@
         <!-- Customize your theme here. -->
         <item name="android:theme">@style/AppTheme.NoActionBar</item>
         <item name="colorPrimary">@color/white_text</item>
-  <!--      <item name="colorPrimaryDark">#123E5B</item> -->
         <item name="colorPrimaryDark">#242248</item>
         <item name="colorAccent">#7BB6E9</item>
         <item name="editTextColor">@color/white_text</item>

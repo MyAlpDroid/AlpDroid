@@ -1,12 +1,9 @@
 package com.alpdroid.huGen10
 
-import android.util.Log
-import com.alpdroid.huGen10.CanFrame
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
-import org.json.JSONArray
 import java.lang.reflect.Type
 
 class CanframeGsonDeserializer : JsonDeserializer<CanFrame?> {
@@ -18,9 +15,12 @@ class CanframeGsonDeserializer : JsonDeserializer<CanFrame?> {
     ): CanFrame? {
         if (json.isJsonObject) {
             val jsonObject = json.asJsonObject
+
             val jsoncanID = (jsonObject["id"].asString).toInt(16)
             val jsonbusID = jsonObject["bus"].asInt
+
             val jsonbyteArray = jsonObject.getAsJsonArray("data")
+
             val bytejson = ByteArray(8)
             if (jsonbyteArray.isJsonArray) {
                 for (i in 0..7) {

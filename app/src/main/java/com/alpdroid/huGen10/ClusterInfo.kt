@@ -142,6 +142,23 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             )
         )
 
+        // Creating first Compass Frame
+        application.alpineCanFrame.addFrame(
+            CanFrame(
+                1,
+                CanECUAddrs.CANECUSEND.idcan,
+                byteArrayOf(
+                    0x03.toByte(),
+                    0x22.toByte(),
+                    0x11.toByte(),
+                    0x03.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte(),
+                    0xFF.toByte()
+                )
+            )
+        )
 
         // Init Source Album & trackname info
         for (i in 0..9)
@@ -161,7 +178,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     )
                 )
             )
-
 
 
         application.alpineCanFrame.unsetSending()
@@ -202,6 +218,9 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
                                 updateMusic = false
+                                application.alpdroidData.ask_OBDTyreTemperature()
+                                application.alpdroidData.ask_OBDBattV2()
+                                application.alpdroidData.ask_OBDStandardCode()
                             }
 
                             clusterStarted = true
@@ -503,11 +522,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                     frameFlowTurn=0
                     updateMusic=true
 
-                /* trying to update name in case of missing frame
-                    albumName= application.alpdroidServices.getalbumName().toString()
-                    artistName= application.alpdroidServices.getartistName().toString()
-                    trackName= application.alpdroidServices.gettrackName().toString()
-                    prevtrackName=trackName*/
             }
 
         var radioartistname:String = artistName

@@ -70,7 +70,7 @@
 #define MCP_16MHz_1000kBPS_CFG2 (0xD0)
 #define MCP_16MHz_1000kBPS_CFG3 (0x82)
 /*
- * force 8Mhz for 500K speed : change here "quoted" values if using 8Mhz canbus shield
+ * force 8Mhz for 500K speed : change by following values if using 8 Mhz quartz
  */
 //#define MCP_16MHz_500kBPS_CFG1 (0x00)
 //#define MCP_16MHz_500kBPS_CFG2 (0x90)
