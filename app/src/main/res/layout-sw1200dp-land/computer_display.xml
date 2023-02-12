@@ -21,18 +21,15 @@
 
             <TextView
                 android:id="@+id/idframe2"
-                android:layout_width="679dp"
-                android:layout_height="101dp"
+                android:layout_width="1024dp"
+                android:layout_height="652dp"
                 android:layout_marginStart="104dp"
-
-                android:maxLength="20"
+                android:scrollbars="vertical"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/idframe"
                 app:layout_constraintStart_toEndOf="@+id/idframe"
-                app:layout_constraintTop_toTopOf="@+id/idframe"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="@+id/idframe" />
 
             <TextView
                 android:id="@+id/transmit_state"

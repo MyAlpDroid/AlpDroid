@@ -5,7 +5,10 @@ import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -19,6 +22,9 @@ class VehicleServices : LocationListener {
     private val TAG = VehicleServices::class.java.name
 
     private val application:AlpdroidApplication= AlpdroidApplication.app
+
+    private var obd_iteration=3
+    private var obd_service=1
 
          var deviceOrientation = 0
          var gpsspeed = 0f
@@ -164,8 +170,14 @@ class VehicleServices : LocationListener {
             obdframe = OBDframe(candIDSend, serviceData)
 
             frame2OBD = CanFrame(1, candIDSend, serviceData)
-            mutex_push.withLock {
-                application.alpdroidServices.sendFrame(frame2OBD)
+            CoroutineScope(Dispatchers.IO).launch {
+                mutex_push.withLock {
+                    application.alpdroidServices.sendFrame(frame2OBD)
+                    // We need to wait P2Can min wait between 2 OBD Messages
+                    delay(50)
+                }
+
+
             }
         }
         catch (e:java.lang.Exception)
@@ -187,10 +199,9 @@ class VehicleServices : LocationListener {
         }
         catch (e: Exception)
         {
-            return 77
+            return 0
         }
 
-        Log.d("This getOBD", frameOBD.getValue(bytesNum,len).toString())
         return frameOBD.getValue(bytesNum,len)
 
     }
@@ -239,28 +250,42 @@ class VehicleServices : LocationListener {
 
     /** Get code GearboxOilTemperature **/
 
-    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,0, 8)).toFloat()
+    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,0, 8)*8/100).toFloat()
 
     suspend fun ask_OBDBattV2()
     {
         pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x1103, 0x22, ByteArray(0))
        }
-    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,0, 8)
-    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,0, 8)
+    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,0, 8)-30
+    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,0, 8)-30
 
-    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,0, 8)
+    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,0, 8)-30
 
-    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,0, 8)
+    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,0, 8)-30
 
     suspend fun ask_OBDTyreTemperature()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8011, 0x22, ByteArray(0))
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8018, 0x22, ByteArray(0))
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8025, 0x22, ByteArray(0))
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x8032, 0x22, ByteArray(0))
+        pushOBDParams(0x745,0x8011, 0x22, ByteArray(0))
+        pushOBDParams(0x745,0x8018, 0x22, ByteArray(0))
+        pushOBDParams(0x745,0x8025, 0x22, ByteArray(0))
+        pushOBDParams(0x745,0x8032, 0x22, ByteArray(0))
 
     }
 
+    suspend fun ask_OBDStandardCode()
+    {
+        pushOBDParams(0x7DF,0, 0x01, ByteArray(0))
+
+    }
+
+
+    suspend fun get_PTDCCode()
+    {
+        pushOBDParams(0x7DF,0,0x03,ByteArray(0))
+
+
+
+    }
     /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 0, 8)
 

@@ -40,5 +40,17 @@ class OBDframeBuffer {
         }
 
     }
+    fun getKeys(): Set<Int> {
+        return mapFrame.keys
+    }
+
+    fun get(next: Int): OBDframe? {
+        try {
+            return mapFrame.get(next)
+        }
+        catch (e:Exception) {
+            return null
+        }
+    }
 
 }

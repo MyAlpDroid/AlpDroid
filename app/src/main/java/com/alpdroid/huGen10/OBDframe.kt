@@ -13,11 +13,14 @@ class OBDframe (private var canID:Int, private var frameData:ByteArray) {
 
     private var dlc_offset = 0
 
-    var serviceDir : Int
+     var serviceDir : Int
 
     var servicePID : Int
 
     var serviceData : ByteArray
+
+    var multiframe : Boolean = false
+    var long_dlc:Int=0
 
 
     private var datatonum: Long = 0
@@ -26,19 +29,29 @@ class OBDframe (private var canID:Int, private var frameData:ByteArray) {
 
     init {
 
-        serviceDir  = frameData[1].toInt()
+        multiframe  = false
 
-
-        if ((serviceDir and 0xBF)>0x20) {
-            servicePID = (frameData[2].toUByte() * 256u + frameData[3].toUByte()).toInt()
-            dlc_offset=1
+ /*       if (this.dlc==0x10) {
+            multiframe = true
+            dlc=7
+            long_dlc = frameData[1].toInt()
+            serviceDir  = frameData[2].toInt()
+            servicePID =  frameData[3]+1
+            dlc_offset = 1
         }
-        else {
-            servicePID = frameData[2].toInt()
-            dlc_offset=0
-        }
+       else {*/
 
+            serviceDir = frameData[1].toInt()
 
+            if ((serviceDir != 0x7F) && (serviceDir and 0xBF) > 0x20) {
+                servicePID = (frameData[2].toUByte() * 256u + frameData[3].toUByte()).toInt()
+                dlc_offset = 1
+            } else {
+                servicePID = frameData[2].toInt()
+                dlc_offset = 0
+            }
+
+    //    }
         serviceData = frameData.copyOfRange(3+dlc_offset,8)
 
         require (serviceData.size <= 5) { "Too many bytes for PID content! Max size is 5" }
@@ -146,9 +159,9 @@ class OBDframe (private var canID:Int, private var frameData:ByteArray) {
 
 
         if (dlc_offset==1)
-            dataFrame = String.format("%s%02X", dataFrame, servicePID/256)
+            dataFrame = String.format("%s%02X", dataFrame, (servicePID/256).toByte())
 
-        dataFrame = String.format("%s%02X", dataFrame, servicePID)
+        dataFrame = String.format("%s%02X", dataFrame, servicePID.toByte())
 
         for (i in 0..(dlc-3-dlc_offset))
             frameData[i]=(datatonum shr (32-(dlc_offset*8)-i*8)).toByte()

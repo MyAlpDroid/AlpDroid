@@ -220,6 +220,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                                 updateMusic = false
                                 application.alpdroidData.ask_OBDTyreTemperature()
                                 application.alpdroidData.ask_OBDBattV2()
+                                application.alpdroidData.ask_OBDStandardCode()
                             }
 
                             clusterStarted = true

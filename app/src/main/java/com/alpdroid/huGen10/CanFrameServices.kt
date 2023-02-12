@@ -307,14 +307,14 @@ class CanFrameServices : Service(), ArduinoListener {
 
         application.alpineCanFrame.flush()
 
-    /*   bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[03,41,11,33,00,00,00,00]}"
+    /*   bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[03,41,11,99,00,00,00,00]}"
 
         Log.d("frame send One: ", bytearray)
 
         onArduinoMessage(bytearray.toByteArray())
 
 
-         bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[04,62,80,18,88,00,00,00]}"
+         bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[04,62,80,18,66,00,00,00]}"
 
 
         onArduinoMessage(bytearray.toByteArray())
