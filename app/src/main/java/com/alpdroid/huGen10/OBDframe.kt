@@ -4,22 +4,22 @@ import com.alpdroid.huGen10.util.clearBitsSlice
 import com.alpdroid.huGen10.util.getBit
 import com.alpdroid.huGen10.util.getBitsSlice
 
-class OBDframe (private var canID:Int, private var frameData:ByteArray) {
+class OBDframe (private var canID:Int, private var multiframetype:Int, private var frameData:ByteArray) {
 
-    constructor(canID: Int, size:Int) : this(canID, ByteArray(size))
+    constructor(canID: Int, type:Int, size:Int) : this(canID, type, ByteArray(size))
 
     // dlc is first frame size data
     private var dlc = frameData[0].toInt()
 
     private var dlc_offset = 0
 
-     var serviceDir : Int
+    var serviceDir : Int
 
     var servicePID : Int
 
     var serviceData : ByteArray
 
-    var multiframe : Boolean = false
+    var multiframe : Boolean = multiframetype!=0
     var long_dlc:Int=0
 
 
@@ -29,18 +29,8 @@ class OBDframe (private var canID:Int, private var frameData:ByteArray) {
 
     init {
 
-        multiframe  = false
-
- /*       if (this.dlc==0x10) {
-            multiframe = true
-            dlc=7
-            long_dlc = frameData[1].toInt()
-            serviceDir  = frameData[2].toInt()
-            servicePID =  frameData[3]+1
-            dlc_offset = 1
-        }
-       else {*/
-
+        if (!multiframe)
+        {
             serviceDir = frameData[1].toInt()
 
             if ((serviceDir != 0x7F) && (serviceDir and 0xBF) > 0x20) {
@@ -51,7 +41,15 @@ class OBDframe (private var canID:Int, private var frameData:ByteArray) {
                 dlc_offset = 0
             }
 
-    //    }
+         }
+        else
+        {
+         //   if (multiframetype==1)
+         //   {
+                serviceDir = frameData[1].toInt()
+                servicePID = frameData[2].toInt()
+         //   }
+        }
         serviceData = frameData.copyOfRange(3+dlc_offset,8)
 
         require (serviceData.size <= 5) { "Too many bytes for PID content! Max size is 5" }

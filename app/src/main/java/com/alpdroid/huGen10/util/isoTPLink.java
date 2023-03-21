@@ -6,6 +6,8 @@ https://github.com/lishen2/isotp-c
 
 import static com.alpdroid.huGen10.util.isoTPdefines.*;
 
+import static java.lang.System.currentTimeMillis;
+
 import java.util.Arrays;
 
 
@@ -679,6 +681,6 @@ public class isoTPLink {
 
     /* user implemented, get millisecond */
     int isotp_user_get_ms()
-    {return 0;}
+    {return (int) currentTimeMillis();}
 
 }

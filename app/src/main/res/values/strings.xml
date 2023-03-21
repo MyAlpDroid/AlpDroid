@@ -2,6 +2,8 @@
 
     <string name="app_name" translatable="false">MyAlpDroid</string>
 
+    <string name="appwidget_text">MyAlpDroid</string>
+
     <!-- Enabled players settings -->
     <string name="traduction_title">Langue</string>
     <string name="traduction">Anglais / Français</string>
@@ -74,7 +76,7 @@
     </string-array>
 
     <string-array name="values_background">
-        <item>background_1,#000000</item>
+        <item>background_1,#070A1B</item>
         <item>background_2,#04121B</item>
         <item>background_3,#000000</item>
         <item>background_4,#182C46</item>

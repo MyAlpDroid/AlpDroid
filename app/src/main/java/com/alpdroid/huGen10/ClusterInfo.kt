@@ -1,7 +1,11 @@
 package com.alpdroid.huGen10
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Intent
 import android.util.Log
 import com.alpdroid.huGen10.OsmAndHelper.OnOsmandMissingListener
+import com.alpdroid.huGen10.ui.WidgetProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -234,6 +238,17 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             prevtrackName = "-- something wrong --"
                             trackName = "-- oups --"
                         } finally {
+
+                            val intent = Intent(app, WidgetProvider::class.java)
+                            intent.action = WidgetProvider.ACTION_WIDGET_UPDATE
+
+                            val ids: IntArray =
+                                AppWidgetManager.getInstance(AlpdroidApplication.app)
+                                    .getAppWidgetIds(ComponentName(AlpdroidApplication.app, WidgetProvider::class.java))
+                            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+
+                            app.sendBroadcast(intent)
+
                             delay(1250)
                         }
                     }
@@ -285,23 +300,25 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
     {
         var infoParams:AppInfoParams
 
-    /* OSMAND Values
-        const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
-        const val TL = 2 // turn left //$NON-NLS-1$
-        const val TSLL = 3 // turn slightly left //$NON-NLS-1$
-        const val TSHL = 4 // turn sharply left //$NON-NLS-1$
-        const val TR = 5 // turn right //$NON-NLS-1$
-        const val TSLR = 6 // turn slightly right //$NON-NLS-1$
-        const val TSHR = 7 // turn sharply right //$NON-NLS-1$
-        const val KL = 8 // keep left //$NON-NLS-1$
-        const val KR = 9 // keep right//$NON-NLS-1$
-        const val TU = 10 // U-turn //$NON-NLS-1$
-        const val TRU = 11 // Right U-turn //$NON-NLS-1$
-        const val OFFR = 12 // Off route //$NON-NLS-1$
-        const val RNDB = 13 // Roundabout
-        const val RNLB = 14 // Roundabout left
-        RNDB / RNLB + exitout
-*/
+
+
+        /* OSMAND Values
+            const val C = 1 //"C"; // continue (go straight) //$NON-NLS-1$
+            const val TL = 2 // turn left //$NON-NLS-1$
+            const val TSLL = 3 // turn slightly left //$NON-NLS-1$
+            const val TSHL = 4 // turn sharply left //$NON-NLS-1$
+            const val TR = 5 // turn right //$NON-NLS-1$
+            const val TSLR = 6 // turn slightly right //$NON-NLS-1$
+            const val TSHR = 7 // turn sharply right //$NON-NLS-1$
+            const val KL = 8 // keep left //$NON-NLS-1$
+            const val KR = 9 // keep right//$NON-NLS-1$
+            const val TU = 10 // U-turn //$NON-NLS-1$
+            const val TRU = 11 // Right U-turn //$NON-NLS-1$
+            const val OFFR = 12 // Off route //$NON-NLS-1$
+            const val RNDB = 13 // Roundabout
+            const val RNLB = 14 // Roundabout left
+            RNDB / RNLB + exitout
+    */
         /* Alpine Cluster Values
         1 - turn right
         2 - turn sharply right
@@ -381,6 +398,10 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
          try {
 
             infoParams=mAidlHelper.appInfo
+
+
+             // lanes 7 , 2 ==> Use Left , not straight
+             // lanes 10,5 ==> Use right turn, not turn left
 
             isNavigated=(mAidlHelper.appInfo.arrivalTime>0)
 

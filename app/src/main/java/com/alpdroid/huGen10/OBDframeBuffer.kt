@@ -31,6 +31,16 @@ class OBDframeBuffer {
         }
     }
 
+    fun addMultiFrame (frame : CanFrame, multitype : Int)
+    {
+        if (multitype==1)
+            addFrame(OBDframe(frame.id,0, frame.data))
+        else
+        {
+
+        }
+    }
+
     fun getFrame(service:Int, dir:Int): OBDframe? {
 
         return try {

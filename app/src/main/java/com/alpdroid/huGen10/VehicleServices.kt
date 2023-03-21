@@ -5,13 +5,16 @@ import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
@@ -23,41 +26,40 @@ class VehicleServices : LocationListener {
 
     private val application:AlpdroidApplication= AlpdroidApplication.app
 
-    private var obd_iteration=3
-    private var obd_service=1
 
-         var deviceOrientation = 0
-         var gpsspeed = 0f
-         var gpsbearing = 0f
-         var lat = 0f
-         var lon = 0f
-         var prevlat = 0f
-         var prevlon = 0f
-         var alt = 0f
-         var timeOfFix: Long = 0
-         var compassOrientation:Int = 0
+    var compassOrientation:Int = 0
 
-        lateinit var lm: LocationManager
+    lateinit var lm: LocationManager
 
+    private val destinationLatitude = 90.0 // True North coordinate
+    private val destinationLongitude = 0.0 // True North coordinate
 
     init {
              try {
                  lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
-                 //on API15 AVDs,network provider fails. no idea why
-                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0f,this)
-                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0f, this)
+
+                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES,this)
+                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this)
+
              } catch (ex: java.lang.Exception) {
                  //usually permissions or
                  //java.lang.IllegalArgumentException: provider doesn't exist: network
                 // ex.printStackTrace()
+                 Log.d("init gps", "pass here")
              }
-
-        //     if (compass == null) compass = InternalCompassOrientationProvider(application)
-        //     compass!!.startOrientationProvider(this)
 
 
          }
 
+    companion object {
+        private const val PERMISSIONS_REQUEST_LOCATION = 123
+        private const val MIN_TIME_BW_UPDATES: Long = 500
+        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 1.0f
+        private const val TO_RADIANS = Math.PI / 180
+        private const val TO_DEGREES = 180 / Math.PI
+
+        private var currentBearing = 0f
+    }
 
     fun onClose()
     {
@@ -65,48 +67,36 @@ class VehicleServices : LocationListener {
       //  application.alpdroidServices.onDestroy()
     }
 
+    private fun getBearing(
+        startLatitude: Double,
+        startLongitude: Double,
+        endLatitude: Double,
+        endLongitude: Double
+        ): Float {
+        Log.d("getbering  gps", "pass here")
+            val lat1 = startLatitude * TO_RADIANS
+            val lat2 = endLatitude * TO_RADIANS
+            val deltaLong = (endLongitude - startLongitude) * TO_RADIANS
+            val y = sin(deltaLong) * cos(lat2)
+            val x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(deltaLong)
+            var bearing: Float = 0f
+
+            bearing= (atan2(y, x) * 180 / Math.PI).toFloat()
+
+
+            Log.d("en getbearing gps", "pass here")
+            if (bearing < 0) bearing += 360
+            return bearing.toFloat()
+    }
+
     override fun onLocationChanged(location: Location) {
-        gpsbearing = location.bearing
-        gpsspeed = location.speed
-        lat = location.latitude.toFloat()
-        lon = location.longitude.toFloat()
-        alt = location.altitude.toFloat() //meters
-        timeOfFix = location.time
 
+        val bearing = getBearing(location.latitude, location.longitude, destinationLatitude, destinationLongitude)
 
-        if (lon-prevlon>0)
-            deviceOrientation=-90
-        else
-            deviceOrientation=90
+        compassOrientation = bearing.toInt()
+        Log.d("on location change", "pass here")
+        currentBearing = bearing
 
-        if (lat-prevlat>0)
-            deviceOrientation+=-45
-        else
-            deviceOrientation+=45
-
-
-
-        //use gps bearing instead of the compass
-        var t = 360 - gpsbearing - deviceOrientation
-        if (t < 0) {
-            t += 360f
-        }
-        if (t > 360) {
-            t -= 360f
-        }
-
-        //help smooth everything out
-        t = t.toInt().toFloat()
-        t = t / 5
-        t = t.toInt().toFloat()
-        t = t * 5
-
-            compassOrientation = t.toInt()
-
-
-        prevlat=lat
-        prevlon=lon
-   //     Log.d(TAG,"compass:"+compassOrientation.toString())
     }
 
 
@@ -115,7 +105,6 @@ class VehicleServices : LocationListener {
     fun get_CompassOrientation() : Int {
         return compassOrientation
     }
-
 
 
     //TODO : ajouter la gestion du bus
@@ -167,7 +156,7 @@ class VehicleServices : LocationListener {
                     serviceData[i] = 0x55.toByte()
             }
 
-            obdframe = OBDframe(candIDSend, serviceData)
+            obdframe = OBDframe(candIDSend,0, serviceData)
 
             frame2OBD = CanFrame(1, candIDSend, serviceData)
             CoroutineScope(Dispatchers.IO).launch {

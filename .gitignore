@@ -9,4 +9,4 @@ local.properties
 /app/cmake-build-debug/
 /app/libs/
 /app/build/
-
+/kotlin-profile/
