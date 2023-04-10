@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -65,7 +64,6 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
         try {
            this.preferenceManager.setStorageDefault()
             addPreferencesFromResource(R.xml.pref_players)
-            Log.d("this settings:", "add from ressource")
 
         } finally {
             StrictMode.setThreadPolicy(oldPolicy);
@@ -77,10 +75,6 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
         val  resourceId = resources.getIdentifier(new_bg, "drawable", root.getPackageName())
 
-        Log.d("sett0 :", new_bg)
-        Log.d("sett1 :", resourceId.toString())
-        Log.d("sett2 :", root.getTheme().toString())
-        Log.d("sett2 :", root.getTheme().toString())
 
         view?.setBackground(resources.getDrawable(resourceId,root.getTheme()))
 

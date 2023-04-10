@@ -1,9 +1,7 @@
 package com.alpdroid.huGen10
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.alpdroid.huGen10.ui.WidgetProvider
@@ -124,7 +122,6 @@ class WidgetService : RemoteViewsService() {
 
         override fun onDataSetChanged() {
 
-            Log.w("WidgetService","Fx init() - WidgetRemoteViewsFactory")
 
             try{
 
@@ -188,9 +185,6 @@ class WidgetService : RemoteViewsService() {
 
                 }
 
-            Log.d("RemoteViews : DataChange ","CallingUpdateWidget")
-
-            updateWidgets()
 
         }
 
@@ -204,38 +198,6 @@ class WidgetService : RemoteViewsService() {
             return -1 // if element not found
         }
 
-        private fun updateWidgets() {
 
-            // Get the AppWidgetManager and the RemoteViews for the widget
-            val appWidgetManager = AppWidgetManager.getInstance(mContext)
-            val remoteViews = RemoteViews(mContext.packageName, R.layout.widget_screen)
-
-            Log.d("RemoteViews : Update ","Widgets")
-
-            // Update the RemoteViews
-            remoteViews.setTextViewText(R.id.oil, mWidgetItems[findElement("Oil")].mValue)
-            remoteViews.setTextViewText(R.id.gear, mWidgetItems[findElement("Gear")].mValue)
-            remoteViews.setTextViewText(R.id.cool, mWidgetItems[findElement("Cool")].mValue)
-            remoteViews.setTextViewText(R.id.batt, mWidgetItems[findElement("Voltage")].mValue)
-            remoteViews.setProgressBar(
-                R.id.brake,
-                100,
-                mWidgetItems[findElement("Brake")].mValueInt,
-                false
-            )
-            remoteViews.setProgressBar(
-                R.id.speed,
-                100,
-                mWidgetItems[findElement("Throttle")].mValueInt,
-                false
-            )
-
-            Log.d("RemoteViews : Oil ",String.format("%s : %s", mWidgetItems[findElement("Oil")].mLabel, mWidgetItems[findElement("Oil")].mValue) )
-            Log.d("RemoteViews : Gear ",String.format("%s : %s", mWidgetItems[findElement("Gear")].mLabel, mWidgetItems[findElement("Gear")].mValue) )
-            Log.d("RemoteViews : Cool ",String.format("%s : %s", mWidgetItems[findElement("Cool")].mLabel, mWidgetItems[findElement("Cool")].mValue) )
-            Log.d("RemoteViews : Voltage ",String.format("%s : %s", mWidgetItems[findElement("Voltage")].mLabel, mWidgetItems[findElement("Voltage")].mValue) )
-
-
-        }
     }
   }

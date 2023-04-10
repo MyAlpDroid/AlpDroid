@@ -4,23 +4,28 @@ import com.alpdroid.huGen10.util.clearBitsSlice
 import com.alpdroid.huGen10.util.getBit
 import com.alpdroid.huGen10.util.getBitsSlice
 
-class OBDframe (private var canID:Int, private var multiframetype:Int, private var frameData:ByteArray) {
+class OBDframe (var canID:Int, private var multiframetype:Int, private var frameData:ByteArray) {
+
+    private val TAG = OBDframe::class.java.getName()
 
     constructor(canID: Int, type:Int, size:Int) : this(canID, type, ByteArray(size))
+
+    private var multiframeLong: Int=0
+
+    private var dlc_Long: Int=0
 
     // dlc is first frame size data
     private var dlc = frameData[0].toInt()
 
     private var dlc_offset = 0
 
-    var serviceDir : Int
+    var serviceDir : Int = 0
 
-    var servicePID : Int
+    var servicePID : Int  = 0
 
     var serviceData : ByteArray
 
-    var multiframe : Boolean = multiframetype!=0
-    var long_dlc:Int=0
+    var previousframe:Int=0
 
 
     private var datatonum: Long = 0
@@ -29,7 +34,8 @@ class OBDframe (private var canID:Int, private var multiframetype:Int, private v
 
     init {
 
-        if (!multiframe)
+
+        if (multiframetype==0)
         {
             serviceDir = frameData[1].toInt()
 
@@ -39,17 +45,26 @@ class OBDframe (private var canID:Int, private var multiframetype:Int, private v
             } else {
                 servicePID = frameData[2].toInt()
                 dlc_offset = 0
+                dlc_Long = 0
             }
 
          }
         else
         {
-         //   if (multiframetype==1)
-         //   {
-                serviceDir = frameData[1].toInt()
-                servicePID = frameData[2].toInt()
-         //   }
+           if (multiframetype==1)
+            {
+
+
+                serviceDir = frameData[2].toInt()
+                servicePID = frameData[3].toInt()
+                multiframeLong = (frameData[0].toInt() and 0x0F) shl 8
+                multiframeLong += frameData[1].toInt()
+                dlc_offset = 1
+                dlc_Long = multiframeLong-7
+            }
         }
+
+
         serviceData = frameData.copyOfRange(3+dlc_offset,8)
 
         require (serviceData.size <= 5) { "Too many bytes for PID content! Max size is 5" }
@@ -60,6 +75,30 @@ class OBDframe (private var canID:Int, private var multiframetype:Int, private v
 
     }
 
+    fun addOBDdata(data2add:ByteArray, framenumber:Int):Boolean
+    {
+        if (data2add.size>8)
+            return false//todo : throw exception
+
+        if (framenumber!=previousframe+1)
+            return false
+
+        previousframe=framenumber
+
+        dlc_Long-=7
+
+
+        if(dlc_Long>=0) {
+            serviceData += data2add.copyOfRange(0, data2add.size)
+        }
+        else
+            if (dlc_Long>=-6) {
+                serviceData += data2add.copyOfRange(0, dlc_Long + 8)
+
+            }
+
+        return true
+    }
 
     fun getByte(pos: Int): Byte {
         return this.serviceData[pos]
@@ -153,7 +192,10 @@ class OBDframe (private var canID:Int, private var multiframetype:Int, private v
         var dataFrame: String
 
 
-        dataFrame = String.format("%04X%1d%02X", this.canID, this.dlc, this.serviceDir)
+        if (multiframetype==0)
+            dataFrame = String.format("%04X%1d%02X", this.canID, this.dlc, this.serviceDir)
+        else
+            dataFrame = String.format("%04X%02X%02X", this.canID, this.multiframeLong, this.serviceDir)
 
 
         if (dlc_offset==1)
@@ -161,19 +203,25 @@ class OBDframe (private var canID:Int, private var multiframetype:Int, private v
 
         dataFrame = String.format("%s%02X", dataFrame, servicePID.toByte())
 
-        for (i in 0..(dlc-3-dlc_offset))
-            frameData[i]=(datatonum shr (32-(dlc_offset*8)-i*8)).toByte()
+        if (multiframetype==0) {
+            for (i in 0..(dlc - 3 - dlc_offset))
+                frameData[i] = (datatonum shr (32 - (dlc_offset * 8) - i * 8)).toByte()
 
-
-
-        for (i in 0..(4-dlc_offset)) {
-            if (i<this.dlc-2-dlc_offset)
-                dataFrame = String.format("%s%02X", dataFrame, frameData[i])
-            else
-                dataFrame = String.format("%s%02X", dataFrame, 0x55)
+            for (i in 0..(4 - dlc_offset)) {
+                if (i < this.dlc - 2 - dlc_offset)
+                    dataFrame = String.format("%s%02X", dataFrame, frameData[i])
+                else
+                    dataFrame = String.format("%s%02X", dataFrame, 0x55)
+            }
         }
+        else
+        {
+            for (i in 0 until serviceData.size) {
+                    dataFrame = String.format("%s%02X", dataFrame, serviceData[i])
 
+                 }
 
+        }
 
         return dataFrame
 

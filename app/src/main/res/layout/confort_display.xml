@@ -35,12 +35,12 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="68dp"
                 android:text="Internal Temp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/textView10" />
+                app:layout_constraintStart_toEndOf="@+id/nextOverhaulKM"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
 
             <TextView
                 android:id="@+id/tank_value"
@@ -109,10 +109,9 @@
             <CalendarView
                 android:id="@+id/calendarView"
                 style="@android:style/Widget.Material.CalendarView"
-                android:layout_width="308dp"
-                android:layout_height="226dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="290dp"
+                android:layout_height="274dp"
+                android:layout_marginTop="16dp"
                 android:background="#8EA4E4"
                 android:dateTextAppearance="@style/TextAppearance.AppCompat.Small"
                 android:selectedWeekBackgroundColor="#03A9F4"
@@ -120,8 +119,9 @@
                 android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:weekNumberColor="#00BCD4"
                 android:weekSeparatorLineColor="#3F51B5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/nextOverhaulKM"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <ImageView
                 android:id="@+id/washer_level"
@@ -147,12 +147,12 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="External Temp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/calendarView"
-                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+                app:layout_constraintStart_toStartOf="@+id/internalTemp"
+                app:layout_constraintTop_toBottomOf="@+id/internalTemp" />
 
             <ImageView
                 android:id="@+id/fanSpeedstate"
@@ -191,11 +191,10 @@
                 android:id="@+id/cardoor"
                 android:layout_width="155dp"
                 android:layout_height="160dp"
-                app:layout_constraintEnd_toStartOf="@+id/calendarView"
-                app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toEndOf="@+id/tank_value"
-                app:layout_constraintTop_toBottomOf="@+id/cardoorFront"
-                android:src="@drawable/cardoor_corps"  />
+                android:layout_marginTop="8dp"
+                android:src="@drawable/cardoor_corps"
+                app:layout_constraintStart_toEndOf="@+id/cardoorLeft"
+                app:layout_constraintTop_toBottomOf="@+id/cardoorFront" />
 
             <ImageView
                 android:id="@+id/cardoorFront"
@@ -211,44 +210,45 @@
                 android:id="@+id/cardoorRear"
                 android:layout_width="320dp"
                 android:layout_height="76dp"
+                android:src="@drawable/cardoor_rear"
                 app:layout_constraintEnd_toEndOf="@+id/cardoor"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="@+id/cardoor"
-                app:layout_constraintTop_toBottomOf="@+id/cardoor"
-                android:src="@drawable/cardoor_rear" />
+                app:layout_constraintTop_toBottomOf="@+id/cardoor" />
 
             <ImageView
                 android:id="@+id/cardoorLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="88dp"
+                android:src="@drawable/cardoor_left"
                 app:layout_constraintBottom_toBottomOf="@+id/cardoor"
-                app:layout_constraintEnd_toStartOf="@+id/cardoor"
-                app:layout_constraintTop_toTopOf="@+id/cardoor"
-                android:src="@drawable/cardoor_left" />
+                app:layout_constraintStart_toEndOf="@+id/tank_value"
+                app:layout_constraintTop_toTopOf="@+id/cardoor" />
 
             <ImageView
                 android:id="@+id/cardoorRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/cardoor_right"
                 app:layout_constraintBottom_toBottomOf="@+id/cardoor"
                 app:layout_constraintStart_toEndOf="@+id/cardoor"
-                app:layout_constraintTop_toTopOf="@+id/cardoor"
-                android:src="@drawable/cardoor_right" />
+                app:layout_constraintTop_toTopOf="@+id/cardoor" />
 
             <ImageView
                 android:id="@+id/absstate"
                 android:layout_width="56dp"
                 android:layout_height="48dp"
+                android:src="@drawable/abs"
                 app:layout_constraintStart_toStartOf="@+id/washer_level"
-                app:layout_constraintTop_toBottomOf="@+id/washer_level"
-                android:src="@drawable/abs" />
+                app:layout_constraintTop_toBottomOf="@+id/washer_level" />
 
             <ImageView
                 android:id="@+id/escState"
                 android:layout_width="56dp"
                 android:layout_height="48dp"
-                app:layout_constraintStart_toStartOf="@+id/absstate"
-                app:layout_constraintTop_toBottomOf="@+id/absstate"
+                app:layout_constraintStart_toEndOf="@+id/washer_level"
+                app:layout_constraintTop_toTopOf="@+id/washer_level"
                 app:srcCompat="@drawable/esc_on" />
 
             <ImageView

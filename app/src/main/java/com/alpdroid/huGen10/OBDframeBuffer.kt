@@ -9,52 +9,84 @@ import java.util.concurrent.ConcurrentHashMap
 
 class OBDframeBuffer {
 
-    private var mapFrame : ConcurrentHashMap<Int, OBDframe> = ConcurrentHashMap<Int, OBDframe>(100)
+    private var mapFrame : ConcurrentHashMap<Long, OBDframe> = ConcurrentHashMap<Long, OBDframe>(100)
     private var mutex_add : Mutex = Mutex()
 
+    private var previousOBDpid:Long = 0
 
 
     @Synchronized
-    fun addFrame(frame: OBDframe) {
+    fun addFrame(framecan: CanFrame, multiframetype:Int) {
+
+
 
         CoroutineScope(Dispatchers.IO).launch {
             mutex_add.withLock {
 
-                if (this@OBDframeBuffer.mapFrame.replace(
-                        (frame.serviceDir * 65536 + frame.servicePID),
-                        frame
-                    ) == null
-                )
-                    this@OBDframeBuffer.mapFrame[frame.serviceDir * 65536 + frame.servicePID] =
-                        frame
-            }
-        }
+                val frame:OBDframe
+
+                if (multiframetype==2)
+                   {
+                    if (this@OBDframeBuffer.mapFrame.get(previousOBDpid)!=null) {
+                        frame = this@OBDframeBuffer.mapFrame.get(previousOBDpid)!!
+                        if (frame.addOBDdata(
+                                framecan.data.copyOfRange(1, 8),
+                                framecan.data[0].toInt() - 0x20
+                            )
+                        )
+                            this@OBDframeBuffer.mapFrame.put(
+                                previousOBDpid, frame
+                            )
+                        else
+                            this@OBDframeBuffer.mapFrame.remove(
+                                previousOBDpid, frame
+                            )
+                    }
+                   }
+                else {
+                    frame = OBDframe(framecan.id, multiframetype, framecan.data)
+
+                    if (multiframetype == 1) {
+
+                        previousOBDpid = frame.canID*0x100000000+frame.serviceDir * 0x10000 + frame.servicePID
+
+
+                        this@OBDframeBuffer.mapFrame.put(previousOBDpid, frame)
+
+
+                    } else {
+                        if (this@OBDframeBuffer.mapFrame.replace(
+                                (frame.canID*0x100000000+frame.serviceDir * 0x10000 + frame.servicePID),
+                                frame
+                            ) == null
+                        )
+                            this@OBDframeBuffer.mapFrame[frame.canID*0x100000000+ frame.serviceDir * 0x10000 + frame.servicePID] =
+                                frame
+                    }
+                }
+                }
+           }
     }
 
-    fun addMultiFrame (frame : CanFrame, multitype : Int)
-    {
-        if (multitype==1)
-            addFrame(OBDframe(frame.id,0, frame.data))
-        else
-        {
 
-        }
-    }
+    fun getFrame(service:Int, dir:Int, canID:Int): OBDframe? {
 
-    fun getFrame(service:Int, dir:Int): OBDframe? {
 
-        return try {
-            this.mapFrame[dir * 65536 + service]
+    //    Log.d("OBD Buffer", "this is looking pDI : "+String.format("%012X",canID*0x100000000 + dir * 0x10000 + service ))
+
+        try {
+            return this@OBDframeBuffer.mapFrame[canID*0x100000000 + dir * 0x10000 + service]
         } catch (e: Exception) {
-            null
+   //         Log.d("OBDFrameBuffer", "frame not found")
+            return null
         }
 
     }
-    fun getKeys(): Set<Int> {
+    fun getKeys(): Set<Long> {
         return mapFrame.keys
     }
 
-    fun get(next: Int): OBDframe? {
+    fun get(next: Long): OBDframe? {
         try {
             return mapFrame.get(next)
         }

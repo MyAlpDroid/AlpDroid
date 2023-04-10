@@ -287,13 +287,13 @@ void loop() {
             }
     }
 
-    // Poll for any new CAN frames on Bus ECU
+    // Poll for any new CAN frames on Bus ECU 
    if (canECU->readMessage(&io_can_frame_read) == MCP2515::ERROR_OK)     
-          if (delaytTime+random(10)<millis())
+          if (delaytTime+random(10)<millis() || io_can_frame_read.can_id>0x700)
              {
                 delaytTime=millis();                                  
                  // CAN ECU(1) to Android 
-                 // wait a little between two ECU frames - due to heavy flow from ECU
+                 // wait a little between two ECU frames - due to heavy flow from ECU - except for diag/ECU frame
                  writeFrame(1, &io_can_frame_read);
             }
 

@@ -13,7 +13,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
-import android.util.Log
 import android.view.Window
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -58,7 +57,6 @@ class MainActivity : FragmentActivity()  {
 
     private val backgroundImagePreferenceChangedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Log.d("ONsharedPreferences","Intent passé")
             updateBackgroundImage()
         }
     }
@@ -130,7 +128,7 @@ class MainActivity : FragmentActivity()  {
         }
 
 
-        Log.d("MainActivity : OnCreate ", TAG)
+      //  Log.d("MainActivity : OnCreate ", TAG)
       //  MLog.d(TAG, "Activity OnCreate : fin")
 
         updateBackgroundImage()

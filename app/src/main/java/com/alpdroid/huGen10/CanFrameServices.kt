@@ -307,19 +307,6 @@ class CanFrameServices : Service(), ArduinoListener {
 
         application.alpineCanFrame.flush()
 
-    /*   bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[03,41,11,99,00,00,00,00]}"
-
-        Log.d("frame send One: ", bytearray)
-
-        onArduinoMessage(bytearray.toByteArray())
-
-
-         bytearray ="{\"bus\":1,\"id\":07E8,\"data\":[04,62,80,18,66,00,00,00]}"
-
-
-        onArduinoMessage(bytearray.toByteArray())
-        Log.d("frame send One 2: ", bytearray)
-        */
 
     }
 
@@ -338,10 +325,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
                         frame = gson.fromJson(buff, CanFrame::class.java)
                         if (frame.id>0x700) {
-
-                            if (frame.data[0].toInt() and 0xF0==0) application.alpineOBDFrame.addFrame(OBDframe(frame.id, 0, frame.data))
-                            else multiframe(frame)
-                                
+                            multiframe(frame)
                         }
                         else
                             application.alpineCanFrame.addFrame(frame)
@@ -359,16 +343,35 @@ class CanFrameServices : Service(), ArduinoListener {
     fun multiframe (frame : CanFrame)
     {
         // First frame
+
         when (frame.data[0].toInt() and 0xF0)
         {
-            0-> return
-            1-> {
-                application.alpineOBDFrame.addMultiFrame(frame, 1)
-                sendFrame(CanFrame(1,0x7DF, byteArrayOf(0x30,0x1)))
+            0-> application.alpineOBDFrame.addFrame(frame, 0)
+            0x10-> {
+                //convert to obd :  this is a first frame
+                //send acknowledge
+
+                var toriginID=frame.id
+
+                if (frame.id>0x7DF)
+                    toriginID-=8
+                else
+                    toriginID-=0x20
+
+                Log.d(TAG, "This is id :"+toriginID.toString(16))
+                sendFrame(CanFrame(1,toriginID, byteArrayOf(0x30,0x0,0x08,0x55,0x55,0x55,0x55,0x55)))
+
+                application.alpineOBDFrame.addFrame(frame, 1)
+
+
+
             }
-            2-> {
-                application.alpineOBDFrame.addMultiFrame(frame, 2)
-                sendFrame(CanFrame(1,0x7DF, byteArrayOf(0x30,0x1)))
+            0x20-> {
+                //convert to obd but  this is a following frame
+                application.alpineOBDFrame.addFrame(frame, 2)
+
+                //send acknowledge
+                //sendFrame(CanFrame(1,frame.id, byteArrayOf(0x30,0x1)))
             }
            //frame number in data[0] & 0x0F
           //  3-> application.alpineOBDFrame.sendMultiFrame(frame,next) //case of reply to continue
@@ -396,6 +399,7 @@ class CanFrameServices : Service(), ArduinoListener {
         crcByte[1]=(crcValue/256).toByte()
 
         arduino.send("@@".toByteArray()+frame.toByteArray()+crcByte)
+
 
         tx+=frame.dlc
     }

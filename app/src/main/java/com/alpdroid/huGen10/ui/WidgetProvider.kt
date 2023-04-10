@@ -9,7 +9,6 @@ import android.content.Intent
 import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.Gravity
 import android.widget.RemoteViews
 import android.widget.Toast
@@ -41,7 +40,7 @@ class WidgetProvider : AppWidgetProvider() {
             // into the data so that the extras will not be ignored.
             intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
            // widget_list is part of widget_layout
-            Log.d("RemoteViews : Update Loop", "Remote Adapter set  Widget Layout Item :"+appWidgetId.toString())
+       //     Log.d("RemoteViews : Update Loop", "Remote Adapter set  Widget Layout Item :"+appWidgetId.toString())
 
             rv.setRemoteAdapter(R.id.widget_list, intent)
 
