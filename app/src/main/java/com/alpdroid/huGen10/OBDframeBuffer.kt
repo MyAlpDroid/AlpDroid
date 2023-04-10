@@ -37,10 +37,6 @@ class OBDframeBuffer {
                             this@OBDframeBuffer.mapFrame.put(
                                 previousOBDpid, frame
                             )
-                        else
-                            this@OBDframeBuffer.mapFrame.remove(
-                                previousOBDpid, frame
-                            )
                     }
                    }
                 else {

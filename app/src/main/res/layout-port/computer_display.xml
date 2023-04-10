@@ -21,38 +21,15 @@
 
             <TextView
                 android:id="@+id/ptcframe"
-                android:layout_width="1059dp"
-                android:layout_height="560dp"
+                android:layout_width="488dp"
+                android:layout_height="468dp"
                 android:layout_marginStart="24dp"
                 android:scrollbars="vertical"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white_text"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/idframe"
-                app:layout_constraintTop_toTopOf="@+id/idframe" />
-
-            <TextView
-                android:id="@+id/transmit_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="tx"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@+id/idcanframe"
-                app:layout_constraintStart_toStartOf="@+id/idcanframe" />
-
-            <TextView
-                android:id="@+id/arduino_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="rx"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/transmit_state"
-                app:layout_constraintStart_toEndOf="@+id/transmit_state"
-                app:layout_constraintTop_toTopOf="@+id/transmit_state" />
+                app:layout_constraintStart_toEndOf="@+id/ptcbutton"
+                app:layout_constraintTop_toTopOf="@+id/ptcbutton" />
 
             <TextView
                 android:id="@+id/ac_header"
@@ -66,129 +43,71 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/canFrameView"
-                android:layout_width="894dp"
-                android:layout_height="61dp"
-                android:layout_marginStart="32dp"
-                android:background="#050E40"
-                android:textColor="#F3EBED"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="@+id/idcanframe"
-                app:layout_constraintStart_toEndOf="@+id/idcanframe" />
-
-            <EditText
-                android:id="@+id/idcanframe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:digits="0123456789ABCDEF"
-                android:hint="01F6"
-                android:inputType="textCapCharacters"
-                android:maxLength="4"
-                android:textAlignment="textEnd"
-                android:textColor="@color/rouge"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView11"
-                app:layout_constraintStart_toEndOf="@+id/textView11"
-                app:layout_constraintTop_toTopOf="@+id/textView11" />
-
-            <EditText
-                android:id="@+id/idframe"
-                android:layout_width="128dp"
-                android:layout_height="62dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:digits="0123456789ABCDEF"
-                android:hint="0"
-                android:inputType="textCapCharacters"
-                android:maxLength="4"
-                android:textAlignment="textEnd"
-                android:textColor="@color/rouge"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="96dp"
-                android:text="Frame ID :"
-                android:textColor="@color/orange"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ac_header" />
-
-            <TextView
-                android:id="@+id/appstate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="Appli State"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="@+id/arduino_state"
-                app:layout_constraintStart_toEndOf="@+id/arduino_state"
-                app:layout_constraintTop_toTopOf="@+id/arduino_state" />
-
-            <TextView
-                android:id="@+id/showtrack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="TextView"
-                android:textColor="#0FAABD"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/appstate"
-                app:layout_constraintStart_toEndOf="@+id/appstate"
-                app:layout_constraintTop_toTopOf="@+id/appstate" />
-
-            <TextView
-                android:id="@+id/showprev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="TextView"
-                android:textColor="#0FAABD"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/showtrack"
-                app:layout_constraintStart_toEndOf="@+id/showtrack"
-                app:layout_constraintTop_toTopOf="@+id/showtrack" />
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="21dp"
-                android:text="Prev Track"
-                android:textColor="#0FAABD"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/showprev"
-                app:layout_constraintEnd_toEndOf="@+id/showprev"
-                app:layout_constraintStart_toStartOf="@+id/showprev" />
-
-            <TextView
-                android:id="@+id/countcluster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="TextView"
-                android:textColor="#0FAABD"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/showprev"
-                app:layout_constraintStart_toEndOf="@+id/showprev"
-                app:layout_constraintTop_toTopOf="@+id/showprev" />
-
             <Button
                 android:id="@+id/ptcbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="128dp"
                 android:text="PTC DTC"
-                app:layout_constraintStart_toStartOf="@+id/idframe"
-                app:layout_constraintTop_toBottomOf="@+id/idframe" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="265dp"
+                android:layout_height="177dp"
+                app:layout_constraintStart_toStartOf="@+id/ptcframe"
+                app:layout_constraintTop_toBottomOf="@+id/ptcframe">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Car parameters" />
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mirror Autofolding" />
+
+                <Switch
+                    android:id="@+id/switch2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Start Stop" />
+
+                <Switch
+                    android:id="@+id/switch3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Car Park Signal" />
+
+                <Switch
+                    android:id="@+id/switch4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rear Brake Maint." />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:text="Start Stop is disable"
+                app:layout_constraintStart_toEndOf="@+id/radioGroup"
+                app:layout_constraintTop_toTopOf="@+id/radioGroup" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Car Sound is disable"
+                app:layout_constraintStart_toStartOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -358,7 +358,6 @@ class CanFrameServices : Service(), ArduinoListener {
                 else
                     toriginID-=0x20
 
-                Log.d(TAG, "This is id :"+toriginID.toString(16))
                 sendFrame(CanFrame(1,toriginID, byteArrayOf(0x30,0x0,0x08,0x55,0x55,0x55,0x55,0x55)))
 
                 application.alpineOBDFrame.addFrame(frame, 1)

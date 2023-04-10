@@ -160,7 +160,7 @@ class ComputerDisplay : UIFragment(1500) {
         ac_header = fragmentBlankBinding!!.acHeader
 
 
-        framedatadisplay = fragmentBlankBinding!!.ptcframe
+        framedatadisplay = fragmentBlankBinding!!.ptcframe!!
 
         rtxTimer = System.currentTimeMillis()
 
@@ -212,11 +212,11 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                   Log.d("Key2Build P:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" +String.format("%2X",ptc2decode[loop + 2])+ " = " + DtcPowertrain.valueOf(
+                                            ptc2show += key2build + "-" +String.format("%02X",ptc2decode[loop + 2])+ " = " + DtcPowertrain.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2]) + " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2]) + " = " + "This DTC code is not documented"
                                         }
                                     }
                                     1 -> {
@@ -225,11 +225,11 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                      Log.d("Key2Build C:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + DtcChassis.valueOf(
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + DtcChassis.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     2 -> {
@@ -238,11 +238,11 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                      Log.d("Key2Build B:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + DtcBody.valueOf(
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + DtcBody.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     3 -> {
@@ -251,17 +251,17 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                   Log.d("Key2Build U:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + DtcNetwork.valueOf(
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + DtcNetwork.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     else -> {
                                         key2build = "X"
                                         key2build += calculatePTCode
-                                        ptc2show += key2build + "-" + String.format("%2X",ptc2decode[loop + 2])+ " = " + "This is bad DTC "
+                                        ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This is bad DTC "
                                     }
                                 }
 
@@ -310,7 +310,7 @@ class ComputerDisplay : UIFragment(1500) {
                                     (ptc2decode2[loop].toInt() and 0x0F)
                                 )
                                 calculatePTCode += String.format(
-                                    "%2X",
+                                    "%02X",
                                     (ptc2decode2[loop + 1])
                                 )
 
@@ -322,11 +322,11 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                   Log.d("Key2Build P:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + DtcPowertrain.valueOf(
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + DtcPowertrain.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     1 -> {
@@ -335,11 +335,11 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                      Log.d("Key2Build C:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + DtcChassis.valueOf(
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + DtcChassis.valueOf(
                                                 key2build
                                             ).dtc + "-" + ptc2decode2[loop + 2]
                                         } catch (ex: Exception) {
-                                            ptc2show +=  key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     2 -> {
@@ -348,11 +348,11 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                      Log.d("Key2Build B:",key2build)
                                         try {
 
-                                            ptc2show += key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + DtcBody.valueOf(
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + DtcBody.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show +=  key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     3 -> {
@@ -361,17 +361,17 @@ class ComputerDisplay : UIFragment(1500) {
                                         //                   Log.d("Key2Build U:",key2build)
                                         try {
 
-                                            ptc2show +=  key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + DtcNetwork.valueOf(
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + DtcNetwork.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show +=  key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
                                         }
                                     }
                                     else -> {
                                         key2build = "X"
                                         key2build += calculatePTCode
-                                        ptc2show +=  key2build + "-" + String.format("%2X",ptc2decode2[loop + 2])+ " = " + "This is bad DTC "
+                                        ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This is bad DTC "
                                     }
                                 }
 

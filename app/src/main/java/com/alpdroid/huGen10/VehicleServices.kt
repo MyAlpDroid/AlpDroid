@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -316,7 +317,9 @@ class VehicleServices : LocationListener {
     {
         // 12 mean a confirmed/pretended DTC is store
         pushOBDParams(CanECUAddrs.CANECUBASE.idcan,0x02, 0x19, byteArrayOf(0x0C))
+        delay(25)
         pushOBDParams(0x743,0x02, 0x19, byteArrayOf(0x0C))
+        delay(25)
    }
 
     fun get_ptcdtc_ECM() : ByteArray? = this.getOBDLongParams(0x02,0x59, 0x7E9)
