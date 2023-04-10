@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android'
     id 'ivy-publish'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -14,7 +15,7 @@ android {
         minSdkVersion 29
         targetSdkVersion 33
         versionCode 2
-        versionName '2.50'
+        versionName '2.60.1.1'
         multiDexEnabled false
     }
 
@@ -117,7 +118,7 @@ dependencies {
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "androidx.car.app:app:1.2.0"
-    implementation "androidx.activity:activity:1.7.0-alpha04"
+    implementation "androidx.activity:activity-ktx:1.7.0-rc01"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "net.osmand:android-aidl-lib:master-snapshot@aar"

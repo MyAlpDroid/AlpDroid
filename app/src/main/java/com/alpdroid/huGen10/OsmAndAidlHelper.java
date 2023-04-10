@@ -307,7 +307,7 @@ public class OsmAndAidlHelper {
         this.isBind=aidbindService();
         if (isBind)
                  Log.d(TAG,"OsmAnd AidHelper init");
-        else Log.d(TAG,"OsmAnd not Bind");
+     //   else  Log.d(TAG,"OsmAnd not Bind");
     }
 
     public boolean isBind() {

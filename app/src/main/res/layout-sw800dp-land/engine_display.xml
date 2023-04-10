@@ -485,8 +485,8 @@
 
             <ImageView
                 android:id="@+id/angularWheel"
-                android:layout_width="142dp"
-                android:layout_height="156dp"
+                android:layout_width="180dp"
+                android:layout_height="189dp"
                 android:layout_marginTop="48dp"
                 android:rotation="0"
                 android:src="@drawable/volant"

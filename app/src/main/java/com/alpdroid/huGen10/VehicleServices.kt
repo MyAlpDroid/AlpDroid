@@ -5,13 +5,12 @@ import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
@@ -23,41 +22,40 @@ class VehicleServices : LocationListener {
 
     private val application:AlpdroidApplication= AlpdroidApplication.app
 
-    private var obd_iteration=3
-    private var obd_service=1
 
-         var deviceOrientation = 0
-         var gpsspeed = 0f
-         var gpsbearing = 0f
-         var lat = 0f
-         var lon = 0f
-         var prevlat = 0f
-         var prevlon = 0f
-         var alt = 0f
-         var timeOfFix: Long = 0
-         var compassOrientation:Int = 0
+    var compassOrientation:Int = 0
 
-        lateinit var lm: LocationManager
+    lateinit var lm: LocationManager
 
+    private val destinationLatitude = 90.0 // True North coordinate
+    private val destinationLongitude = 0.0 // True North coordinate
 
     init {
              try {
                  lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
-                 //on API15 AVDs,network provider fails. no idea why
-                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0f,this)
-                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 0f, this)
+
+                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES,this)
+                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this)
+
              } catch (ex: java.lang.Exception) {
                  //usually permissions or
                  //java.lang.IllegalArgumentException: provider doesn't exist: network
                 // ex.printStackTrace()
+                 Log.d("init gps", "fault")
              }
-
-        //     if (compass == null) compass = InternalCompassOrientationProvider(application)
-        //     compass!!.startOrientationProvider(this)
 
 
          }
 
+    companion object {
+        private const val PERMISSIONS_REQUEST_LOCATION = 123
+        private const val MIN_TIME_BW_UPDATES: Long = 500
+        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 1f
+        private const val TO_RADIANS = Math.PI / 180
+        private const val TO_DEGREES = 180 / Math.PI
+
+        private var currentBearing = 0f
+    }
 
     fun onClose()
     {
@@ -65,48 +63,89 @@ class VehicleServices : LocationListener {
       //  application.alpdroidServices.onDestroy()
     }
 
-    override fun onLocationChanged(location: Location) {
-        gpsbearing = location.bearing
-        gpsspeed = location.speed
-        lat = location.latitude.toFloat()
-        lon = location.longitude.toFloat()
-        alt = location.altitude.toFloat() //meters
-        timeOfFix = location.time
+    private fun getBearing(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val a = 6378137.0 // semi-major axis of the Earth (WGS-84)
+        val
+                b = 6356752.314245
+        val f = 1 / 298.257223563 // flattening of the Earth (WGS-84)
 
+        val phi1 = Math.toRadians(lat1)
+        val phi2 = Math.toRadians(lat2)
+        val lambda1 = Math.toRadians(lon1)
+        val lambda2 = Math.toRadians(lon2)
 
-        if (lon-prevlon>0)
-            deviceOrientation=-90
-        else
-            deviceOrientation=90
+        val U1 = Math.atan((1 - f) * Math.tan(phi1))
+        val U2 = Math.atan((1 - f) * Math.tan(phi2))
+        val L = lambda2 - lambda1
 
-        if (lat-prevlat>0)
-            deviceOrientation+=-45
-        else
-            deviceOrientation+=45
+        val sinU1 = Math.sin(U1)
+        val cosU1 = Math.cos(U1)
+        val sinU2 = Math.sin(U2)
+        val cosU2 = Math.cos(U2)
 
+        var lambda = L
+        var lambdaP = 0.0
+        val maxIterations = 100
+        var iter = 0
+        var sinSigma = 0.0
+        var cosSigma = 0.0
+        var sigma = 0.0
+        var sinAlpha = 0.0
+        var cosSqAlpha = 0.0
+        var cos2SigmaM = 0.0
+        var C = 0.0
 
+        while (Math.abs(lambda - lambdaP) > 1e-12 && iter < maxIterations) {
+            sinSigma = Math.sqrt(Math.pow(cosU2 * Math.sin(lambda), 2.0) +
+                    Math.pow(cosU1 * sinU2 - sinU1 * cosU2 * Math.cos(lambda), 2.0))
 
-        //use gps bearing instead of the compass
-        var t = 360 - gpsbearing - deviceOrientation
-        if (t < 0) {
-            t += 360f
+            if (sinSigma == 0.0) {
+                return 0.0 // two points are the same
+            }
+
+            cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * Math.cos(lambda)
+            sigma = Math.atan2(sinSigma, cosSigma)
+            sinAlpha = cosU1 * cosU2 * Math.sin(lambda) / sinSigma
+            cosSqAlpha = 1 - Math.pow(sinAlpha, 2.0)
+            cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha
+
+            if (cos2SigmaM.isNaN()) {
+                cos2SigmaM = 0.0
+            }
+
+            C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha))
+            lambdaP = lambda
+            lambda = L + (1 - C) * f * sinAlpha *
+                    (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * Math.pow(cos2SigmaM, 2.0))))
+            iter++
         }
-        if (t > 360) {
-            t -= 360f
+
+        if (iter >= maxIterations) {
+            throw Exception("Vincenty formula failed to converge")
         }
 
-        //help smooth everything out
-        t = t.toInt().toFloat()
-        t = t / 5
-        t = t.toInt().toFloat()
-        t = t * 5
+        val uSq = cosSqAlpha * (Math.pow(a, 2.0) - Math.pow(b, 2.0)) / Math.pow(b, 2.0)
+        val A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)))
+        val B = uSq / 1024 *(256 + uSq * (-128 + uSq * (74 - 47 * uSq)))
+        val deltaSigma = B * sinSigma * (cos2SigmaM + B / 4 *
+                (cosSigma * (-1 + 2 * Math.pow(cos2SigmaM, 2.0)) - B / 6 * cos2SigmaM *
+                        (-3 + 4 * Math.pow(sinSigma, 2.0)) * (-3 + 4 * Math.pow(cos2SigmaM, 2.0))))
+        val s = b * A * (sigma - deltaSigma)
 
-            compassOrientation = t.toInt()
+        val alpha1 = Math.atan2(cosU2 * Math.sin(lambda), cosU1 * sinU2 - sinU1 * cosU2 * Math.cos(lambda))
+        val alpha2 = Math.atan2(cosU1 * Math.sin(lambda), -sinU1 * cosU2 + cosU1 * sinU2 * Math.cos(lambda))
+        val alpha3 = Math.toRadians(360.0) - ((alpha1 + Math.toRadians(360.0)) % Math.toRadians(360.0))
+
+        return Math.toDegrees(alpha3)
+    }
 
 
-        prevlat=lat
-        prevlon=lon
-   //     Log.d(TAG,"compass:"+compassOrientation.toString())
+        override fun onLocationChanged(location: Location) {
+
+            compassOrientation = (currentBearing+location.bearing).toInt()
+
+            currentBearing = -compassOrientation.toFloat()
+
     }
 
 
@@ -115,7 +154,6 @@ class VehicleServices : LocationListener {
     fun get_CompassOrientation() : Int {
         return compassOrientation
     }
-
 
 
     //TODO : ajouter la gestion du bus
@@ -150,6 +188,8 @@ class VehicleServices : LocationListener {
                 (2 + bytesData.size).toByte().also { serviceData[0] = it }
                 serviceData[1] = serviceDir.toByte()
                 serviceData[2] = (servicePID).toByte()
+                if (serviceDir==0x03)
+                    dlc_offset=-1
             }
             else
             {
@@ -161,22 +201,18 @@ class VehicleServices : LocationListener {
             }
 
             for (i in 3+dlc_offset..7) {
-                if (i<bytesData.size)
+                if (i-3-dlc_offset<bytesData.size)
                    serviceData[i] = bytesData[i - (3+dlc_offset)]
                 else
                     serviceData[i] = 0x55.toByte()
             }
 
-            obdframe = OBDframe(candIDSend, serviceData)
-
             frame2OBD = CanFrame(1, candIDSend, serviceData)
+
             CoroutineScope(Dispatchers.IO).launch {
                 mutex_push.withLock {
                     application.alpdroidServices.sendFrame(frame2OBD)
-                    // We need to wait P2Can min wait between 2 OBD Messages
-                    delay(50)
                 }
-
 
             }
         }
@@ -187,14 +223,14 @@ class VehicleServices : LocationListener {
     }
 
 
-    fun getOBDParams(servicePID:Int, serviceDir:Int, bytesNum:Int, len:Int):Int
+    fun getOBDParams(servicePID:Int, serviceDir:Int, ecu:Int, bytesNum:Int, len:Int):Int
     {
         val frameOBD:OBDframe
 
 
         try {
 
-            frameOBD = application.alpineOBDFrame.getFrame(servicePID,serviceDir)!!
+            frameOBD = application.alpineOBDFrame.getFrame(servicePID,serviceDir, ecu)!!
 
         }
         catch (e: Exception)
@@ -206,6 +242,25 @@ class VehicleServices : LocationListener {
 
     }
 
+    fun getOBDLongParams(servicePID: Int, serviceDir: Int, ecu :Int): ByteArray? {
+        var frameOBD:OBDframe
+        var i:Int=0
+
+
+        try {
+
+            frameOBD = application.alpineOBDFrame.getFrame(servicePID,serviceDir, ecu)!!
+
+
+        }
+        catch (e: Exception)
+        {
+            return null
+        }
+
+        return frameOBD.serviceData
+
+    }
     @Synchronized
     fun setFrameParams(candID:Int, bytesNum:Int, len:Int, param:Int) {
 
@@ -250,18 +305,31 @@ class VehicleServices : LocationListener {
 
     /** Get code GearboxOilTemperature **/
 
-    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,0, 8)*8/100).toFloat()
+    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,0x7E8, 0, 8)*8/100).toFloat()
 
     suspend fun ask_OBDBattV2()
     {
         pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x1103, 0x22, ByteArray(0))
-       }
-    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,0, 8)-30
-    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,0, 8)-30
+    }
 
-    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,0, 8)-30
+    suspend fun ask_ptclist()
+    {
+        // 12 mean a confirmed/pretended DTC is store
+        pushOBDParams(CanECUAddrs.CANECUBASE.idcan,0x02, 0x19, byteArrayOf(0x0C))
+        pushOBDParams(0x743,0x02, 0x19, byteArrayOf(0x0C))
+   }
 
-    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,0, 8)-30
+    fun get_ptcdtc_ECM() : ByteArray? = this.getOBDLongParams(0x02,0x59, 0x7E9)
+
+    fun get_ptcdtc_ETT() : ByteArray? = this.getOBDLongParams(0x02,0x59, 0x763)
+
+
+    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,0x765, 0,8)-30
+    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,0x765, 0,8)-30
+
+    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,0x765, 0,8)-30
+
+    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,0x765, 0,8)-30
 
     suspend fun ask_OBDTyreTemperature()
     {
@@ -272,18 +340,13 @@ class VehicleServices : LocationListener {
 
     }
 
-    suspend fun ask_OBDStandardCode()
+    suspend fun ask_OBDStandardCode(serviceDir: Int, servicePID: Int)
     {
-    //  TODO  pushOBDParams(0x7DF,0, 0x01, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUBASE.idcan,servicePID, serviceDir, ByteArray(0))
 
     }
 
 
-    suspend fun get_PTDCCode()
-    {
-    //   TODO pushOBDParams(0x7DF,0,0x03,ByteArray(0))
-
-    }
     /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 0, 8)
 

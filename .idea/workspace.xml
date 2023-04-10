@@ -40,7 +40,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;OBD support / Legacy PID and Renault PID" />
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;OBD support / Legacy PID and Renault PID">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/obdUtil/DtcCodes.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/OBDframe.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/OBDframe.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/OBDframeBuffer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/OBDframeBuffer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/computer_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,7 +120,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="developp" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -158,17 +169,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;COLOR&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.language.Kotlin&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "PROJECT_TRUSTED_KEY": "true",
+    "ResourceManagerPrefKey.ResourceType": "COLOR",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED": "true",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.emulator.zoom.toolbar.visible": "false",
+    "settings.editor.selected.configurable": "preferences.language.Kotlin"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>

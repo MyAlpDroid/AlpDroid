@@ -20,17 +20,16 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/idframe2"
-                android:layout_width="601dp"
-                android:layout_height="926dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="24dp"
-                android:maxLength="20"
+                android:id="@+id/ptcframe"
+                android:layout_width="1059dp"
+                android:layout_height="560dp"
+                android:layout_marginStart="24dp"
+                android:scrollbars="vertical"
                 android:textAlignment="textEnd"
-                android:textColor="@color/rouge"
-                android:textSize="14sp"
+                android:textColor="@color/white_text"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/idframe"
-                app:layout_constraintTop_toBottomOf="@+id/canFrameView" />
+                app:layout_constraintTop_toTopOf="@+id/idframe" />
 
             <TextView
                 android:id="@+id/transmit_state"
@@ -69,17 +68,14 @@
 
             <TextView
                 android:id="@+id/canFrameView"
-                android:layout_width="1118dp"
-                android:layout_height="104dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="894dp"
+                android:layout_height="61dp"
+                android:layout_marginStart="32dp"
                 android:background="#050E40"
                 android:textColor="#F3EBED"
-                android:textSize="64sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                android:textSize="26sp"
+                app:layout_constraintBottom_toBottomOf="@+id/idcanframe"
+                app:layout_constraintStart_toEndOf="@+id/idcanframe" />
 
             <EditText
                 android:id="@+id/idcanframe"
@@ -100,28 +96,31 @@
 
             <EditText
                 android:id="@+id/idframe"
-                android:layout_width="149dp"
-                android:layout_height="44dp"
-
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="34dp"
+                android:layout_width="128dp"
+                android:layout_height="62dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:digits="0123456789ABCDEF"
+                android:hint="0"
+                android:inputType="textCapCharacters"
                 android:maxLength="4"
                 android:textAlignment="textEnd"
                 android:textColor="@color/rouge"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/canFrameView" />
+                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="96dp"
                 android:text="Frame ID :"
                 android:textColor="@color/orange"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/canFrameView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ac_header" />
 
             <TextView
@@ -182,6 +181,14 @@
                 app:layout_constraintBottom_toBottomOf="@+id/showprev"
                 app:layout_constraintStart_toEndOf="@+id/showprev"
                 app:layout_constraintTop_toTopOf="@+id/showprev" />
+
+            <Button
+                android:id="@+id/ptcbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PTC DTC"
+                app:layout_constraintStart_toStartOf="@+id/idframe"
+                app:layout_constraintTop_toBottomOf="@+id/idframe" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
