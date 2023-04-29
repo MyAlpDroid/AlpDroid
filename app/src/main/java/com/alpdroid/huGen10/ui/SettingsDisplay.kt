@@ -11,11 +11,18 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.*
+import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
+import com.alpdroid.huGen10.VehicleServices
+import com.physicaloid.lib.Boards
+import com.physicaloid.lib.Physicaloid
+import com.physicaloid.lib.usb.driver.uart.UartConfig
 
 
 /**
@@ -38,7 +45,6 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
         // Display the divider
         setDivider(ColorDrawable(Color.WHITE))
         setDividerHeight(0)
-
 
     }
 
@@ -110,8 +116,16 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
             screen.preferenceScreen.addPreference(preference)
         }
 
+        
         preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
 
+        val clickableTextViewPref = findPreference<ClickableTextViewPreference>("arduino_update")
+        if (clickableTextViewPref != null) {
+            clickableTextViewPref.setOnTextViewClickListener {
+                // Handle click event here
+                onSharedPreferenceChanged(preferenceManager.sharedPreferences,"arduino_update")
+            }
+        }
     }
 
 
@@ -119,12 +133,71 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
         val stringValue = key.toString()
 
+        Log.d("SettingsDisplay","Log is :"+key.toString())
+
         if (key.equals("Choix")) {
             // Broadcast the change to the
             val intent = Intent("change_background")
             LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
         }
 
+        if (key.equals("arduino_update")) {
+            // Broadcast the change to the
+
+
+            var application=AlpdroidApplication.app
+
+            application.alpdroidServices.arduino.unsetArduinoListener()
+            application.alpdroidServices.stopSelf()
+            application.alpdroidServices.arduino.close()
+
+            application.stopVehicleServices()
+
+
+            val mPhysicaloid = Physicaloid(this.context)
+
+            Toast.makeText(this.context,"Physicaloid Trying to launch",2.toInt()).show()
+
+            mPhysicaloid.setConfig(UartConfig(460800,8,1,0,false,false))
+            try {
+
+            if (mPhysicaloid.open()) {
+
+
+                Toast.makeText(this.context, "Physicaloid Trying Connect", 2.toInt()).show()
+
+                //****************************************************************
+                // TODO : set board type and assets file.
+                // TODO : copy .hex file to porject_dir/assets directory.
+                mPhysicaloid.upload(
+                    Boards.ARDUINO_UNO,
+                    resources.assets.open("UNO_CODE.ino.hex")
+                )
+                //****************************************************************
+
+                Toast.makeText(this.context, "Physicaloid Upload Done", 4.toInt()).show()
+             }
+
+            } catch (e: RuntimeException) {
+               // Log.e("SettingsDisplay", e.toString())
+                Toast.makeText(this.context,"Physicaloid Exception",4.toInt()).show()
+            }
+
+
+
+
+            mPhysicaloid.close()
+
+            application=AlpdroidApplication.app
+
+            AlpdroidApplication.setContext(application)
+
+            application.startVehicleServices()
+            application.alpdroidData = VehicleServices()
+            application.startListenerService()
+
+
+        }
 
     }
 

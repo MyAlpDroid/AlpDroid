@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -15,7 +14,7 @@ import androidx.core.content.ContextCompat
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
-import java.util.*
+import com.github.anastr.speedviewlib.TubeSpeedometer
 
 
 @ExperimentalUnsignedTypes
@@ -33,7 +32,6 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var tanktext:TextView
     lateinit var washerlevel:ImageView
     var washerLevel:Int=0
-    lateinit var calendar: CalendarView
     lateinit var externaltemp:TextView
     lateinit var internaltemp:TextView
     lateinit var fanspeedstate:ImageView
@@ -42,6 +40,12 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var opendoorRear:ImageView
     lateinit var opendoorLeft:ImageView
     lateinit var opendoorRight:ImageView
+
+    lateinit var climfanspeed:TubeSpeedometer
+
+    lateinit var humidityvalue:TextView
+
+    lateinit var humiditypicture:ImageView
 
     lateinit var startstopstate : ImageView
     lateinit var escstate : ImageView
@@ -93,7 +97,7 @@ class ConfortDisplay : UIFragment(250) {
         battstate=fragmentBlankBinding!!.batterieState
         batttext=fragmentBlankBinding!!.batterieValue
 
-        calendar=fragmentBlankBinding!!.calendarView
+
 
         tanklevel=fragmentBlankBinding!!.gastankLevel
         tanktext=fragmentBlankBinding!!.tankValue
@@ -115,8 +119,12 @@ class ConfortDisplay : UIFragment(250) {
         escstate=fragmentBlankBinding!!.escState
         absstate=fragmentBlankBinding!!.absstate
 
+        climfanspeed=fragmentBlankBinding!!.fanspeedGauge
 
-        calendar.date = Calendar.getInstance().timeInMillis
+        humidityvalue=fragmentBlankBinding!!.humidity
+        humiditypicture=fragmentBlankBinding!!.humidityState
+
+        humiditypicture.setImageResource(R.drawable.humid_clim)
 
         timerTask = {
             activity?.runOnUiThread {
@@ -124,18 +132,22 @@ class ConfortDisplay : UIFragment(250) {
 
                 val alpineServices=AlpdroidApplication.app.alpdroidData
 
+                climfanspeed.speedTo(alpineServices.get_IH_CoolingFanSpeed(),2)
+
+                humidityvalue.text=String.format(" %.1f %%", alpineServices.get_IH_humidity())
+
                 externaltemp.text=String.format(
                     " %d °C",
                     alpineServices.get_MM_ExternalTemp()-40)
 
                 internaltemp.text=String.format(
-                    " %d °C",
-                    alpineServices.get_InternalTemp()-40)
+                    " %.1f °C",
+                    alpineServices.get_internalTemp())
 
-             //     battvalue= ((alpineServices.get_BatteryVoltage())/16).toFloat()
+                battvalue= ((alpineServices.get_SOCBattery14V())/0.06).toFloat()-6
 
-                battvalue = alpineServices.get_BattV2()
-       //         Log.d("This BatValue", battvalue.toString())
+               // battvalue = alpineServices.get_BattV2()
+
 
                   tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
 

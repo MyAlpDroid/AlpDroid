@@ -53,8 +53,6 @@ class OBDframe (var canID:Int, private var multiframetype:Int, private var frame
         {
            if (multiframetype==1)
             {
-
-
                 serviceDir = frameData[2].toInt()
                 servicePID = frameData[3].toInt()
                 multiframeLong = (frameData[0].toInt() and 0x0F) shl 8

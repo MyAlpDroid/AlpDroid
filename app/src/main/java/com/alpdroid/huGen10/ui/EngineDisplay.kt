@@ -272,7 +272,7 @@ class EngineDisplay : UIFragment(250)
                         else
                             fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        fuel_instant = alpineServices.get_FuelConsumption().toFloat()*36*4/10000
+                        fuel_instant = (alpineServices.get_FuelConsumption().toFloat()/0.0125).toFloat()
 
                         fuel_inst.text = String.format(
                             " %.1f l/100",

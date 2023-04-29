@@ -67,25 +67,25 @@
                     android:text="Car parameters" />
 
                 <Switch
-                    android:id="@+id/switch1"
+                    android:id="@+id/mirrorswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Mirror Autofolding" />
 
                 <Switch
-                    android:id="@+id/switch2"
+                    android:id="@+id/startstopswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Start Stop" />
 
                 <Switch
-                    android:id="@+id/switch3"
+                    android:id="@+id/carparkswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Car Park Signal" />
 
                 <Switch
-                    android:id="@+id/switch4"
+                    android:id="@+id/rearbrakeswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Rear Brake Maint." />
@@ -108,6 +108,15 @@
                 android:text="Car Sound is disable"
                 app:layout_constraintStart_toStartOf="@+id/textView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+            <Switch
+                android:id="@+id/reset_dtcswitch"
+                android:layout_width="265dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="32dp"
+                android:text="Reset DTC"
+                app:layout_constraintStart_toStartOf="@+id/radioGroup"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

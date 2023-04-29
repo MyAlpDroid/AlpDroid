@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <!--below line is to create preference category-->
     <PreferenceCategory android:title="General">
 
@@ -35,6 +36,11 @@
             android:defaultValue="true"
             android:key="@string/traduction"
             android:title="@string/traduction_title" />
+
+        <com.alpdroid.huGen10.ui.ClickableTextViewPreference
+            android:title="Update Arduino"
+            android:key="arduino_update"/>
+
 
         <ListPreference
             android:defaultValue="2"

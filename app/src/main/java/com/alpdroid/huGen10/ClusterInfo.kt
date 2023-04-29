@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import net.osmand.aidlapi.info.AppInfoParams
-import java.util.*
+import java.util.Calendar
 import kotlin.math.roundToInt
 
 
@@ -191,6 +191,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
         CoroutineScope(Dispatchers.IO).launch {
 
             mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
+            var ptc_index=0
 
             while (true) {
 
@@ -222,10 +223,16 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
                                 application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
                                 updateMusic = false
-                                application.alpdroidData.ask_OBDTyreTemperature()
-                                application.alpdroidData.ask_OBDBattV2()
+
                             }
 
+                            ptc_index++
+                            if (ptc_index>5) {
+                                application.alpdroidData.ask_OBDTyreTemperature()
+                                application.alpdroidData.ask_OBDBattV2()
+                                application.alpdroidData.ask_climdata()
+                                ptc_index=0
+                            }
                             clusterStarted = true
 
                             application.alpineCanFrame.setSending()
@@ -249,6 +256,43 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             app.sendBroadcast(intent)
 
                             delay(1250)
+/*
+                            AlpdroidApplication.app.alpdroidData.ask_climdata()
+
+  if (ptc_index==0) {
+      val bytearray = "{\"bus\":1,\"id\":0764,\"data\":[10,21,61,52,10,40,74,00]}"
+      Log.d("obdptclaunch","frame send One: "+bytearray)
+      AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
+  }
+      Log.d("obdptclaunch","frame getFrame One: "+ ptc_index.toString())
+      if (AlpdroidApplication.app.alpineOBDFrame.getFrame(0x52,0x61,0x764)!=null)
+          ptc_index=1
+      if (ptc_index==1) {
+          val bytearray = "{\"bus\":1,\"id\":0764,\"data\":[21,FF,D1,2D,87,88,D1,20]}"
+          AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
+          Log.d("obdptclaunch","frame send 2: "+ bytearray)
+          ptc_index++
+      }
+      if (ptc_index==2) {
+          val bytearray = "{\"bus\":1,\"id\":0764,\"data\":[2${ptc_index.toByte().toString(16)},87,88,D1,2C,87,88,50]}"
+          AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
+          Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
+          ptc_index++
+      }
+      if (ptc_index==3) {
+          val bytearray = "{\"bus\":1,\"id\":0764,\"data\":[2${ptc_index.toByte().toString(16)},00,87,88,D1,21,87,88]}"
+          AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
+          Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
+          ptc_index++
+      }
+      if (ptc_index==4) {
+          val bytearray = "{\"bus\":1,\"id\":0764,\"data\":[2${ptc_index.toByte().toString(16)},18,15,16,D8,50,02,00]}"
+          AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
+          Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
+          ptc_index++
+      }*/
+
+
                         }
                     }
                 }

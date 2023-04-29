@@ -106,23 +106,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/gastank_level"
                 app:srcCompat="@drawable/engine_ok" />
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                style="@android:style/Widget.Material.CalendarView"
-                android:layout_width="290dp"
-                android:layout_height="274dp"
-                android:layout_marginTop="16dp"
-                android:background="#8EA4E4"
-                android:dateTextAppearance="@style/TextAppearance.AppCompat.Small"
-                android:selectedWeekBackgroundColor="#03A9F4"
-                android:unfocusedMonthDateColor="#BF6C84"
-                android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:weekNumberColor="#00BCD4"
-                android:weekSeparatorLineColor="#3F51B5"
-                app:layout_constraintEnd_toEndOf="@+id/nextOverhaulKM"
-                app:layout_constraintStart_toStartOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
             <ImageView
                 android:id="@+id/washer_level"
                 android:layout_width="56dp"
@@ -258,6 +241,59 @@
                 app:layout_constraintStart_toStartOf="@+id/escState"
                 app:layout_constraintTop_toBottomOf="@+id/escState"
                 app:srcCompat="@drawable/sas_on" />
+
+            <ImageView
+                android:id="@+id/humidityState"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:layout_constraintBottom_toBottomOf="@+id/humidity"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:srcCompat="@drawable/humid_clim" />
+
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="17dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/humidityState"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <com.github.anastr.speedviewlib.TubeSpeedometer
+                android:id="@+id/fanspeed_gauge"
+                android:layout_width="125dp"
+                android:layout_height="106dp"
+                android:layout_marginStart="32dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/textView3"
+                app:sv_indicatorColor="#3C54DA"
+                app:sv_markWidth="25dp"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedometerBackColor="#7EA0A5"
+                app:sv_speedometerWidth="25dp"
+                app:sv_unit="%"
+                app:sv_unitTextColor="#FFFFFFFF"
+                app:sv_unitTextSize="24sp"
+                app:sv_withTremble="false" />
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fan Speed"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/fanspeed_gauge"
+                app:layout_constraintTop_toBottomOf="@+id/fanspeed_gauge" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

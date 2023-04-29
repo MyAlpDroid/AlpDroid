@@ -17,12 +17,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
 
             <TextView
                 android:id="@+id/internalTemp"
-                android:layout_width="119dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20°C"
                 android:textColor="#FFFFFF"
@@ -35,13 +35,12 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="Internal Temp"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/textView10" />
+                app:layout_constraintStart_toStartOf="@+id/externalTemp"
+                app:layout_constraintTop_toBottomOf="@+id/externalTemp" />
 
             <TextView
                 android:id="@+id/tank_value"
@@ -57,21 +56,21 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="545dp"
-                android:layout_height="88dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="64dp"
                 android:text="Paramètres véhicule"
                 android:textColor="#FFFFFF"
-                android:textSize="48sp"
+                android:textSize="60sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/batterie_state"
-                android:layout_width="120dp"
-                android:layout_height="95dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -91,8 +90,8 @@
 
             <ImageView
                 android:id="@+id/gastank_level"
-                android:layout_width="120dp"
-                android:layout_height="95dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="@+id/batterie_state"
                 app:layout_constraintTop_toBottomOf="@+id/batterie_state"
@@ -100,42 +99,25 @@
 
             <ImageView
                 android:id="@+id/engine_state"
-                android:layout_width="120dp"
-                android:layout_height="95dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="@+id/gastank_level"
                 app:layout_constraintTop_toBottomOf="@+id/gastank_level"
                 app:srcCompat="@drawable/engine_ok" />
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                style="@android:style/Widget.Material.CalendarView"
-                android:layout_width="389dp"
-                android:layout_height="309dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
-                android:background="#8EA4E4"
-                android:dateTextAppearance="@style/TextAppearance.AppCompat.Small"
-                android:selectedWeekBackgroundColor="#03A9F4"
-                android:unfocusedMonthDateColor="#BF6C84"
-                android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:weekNumberColor="#00BCD4"
-                android:weekSeparatorLineColor="#3F51B5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/washer_level"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/externalTemp"
-                app:layout_constraintTop_toBottomOf="@+id/externalTemp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="@+id/internalTemp"
+                app:layout_constraintTop_toBottomOf="@+id/internalTemp"
                 app:srcCompat="@drawable/washerlevel_norm" />
 
             <TextView
                 android:id="@+id/externalTemp"
-                android:layout_width="119dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20°C"
                 android:textColor="#FFFFFF"
@@ -148,18 +130,18 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="132dp"
                 android:text="External Temp"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/calendarView"
-                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+                app:layout_constraintStart_toEndOf="@+id/cardoorRight"
+                app:layout_constraintTop_toTopOf="@+id/cardoorFront" />
 
             <ImageView
                 android:id="@+id/fanSpeedstate"
-                android:layout_width="255dp"
-                android:layout_height="95dp"
+                android:layout_width="260dp"
+                android:layout_height="110dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="@+id/engine_state"
                 app:layout_constraintTop_toBottomOf="@+id/engine_state"
@@ -191,47 +173,47 @@
 
             <ImageView
                 android:id="@+id/cardoor"
-                android:layout_width="242dp"
-                android:layout_height="207dp"
+                android:layout_width="225dp"
+                android:layout_height="260dp"
                 android:src="@drawable/cardoor_corps"
-                app:layout_constraintEnd_toStartOf="@+id/calendarView"
-                app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toEndOf="@+id/tank_value"
+                app:layout_constraintStart_toEndOf="@+id/cardoorLeft"
                 app:layout_constraintTop_toBottomOf="@+id/cardoorFront" />
 
             <ImageView
                 android:id="@+id/cardoorFront"
-                android:layout_width="0dp"
-                android:layout_height="134dp"
+                android:layout_width="230dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="@+id/cardoor"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/cardoor"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 app:srcCompat="@drawable/cardoor_front" />
 
             <ImageView
                 android:id="@+id/cardoorRear"
-                android:layout_width="428dp"
-                android:layout_height="120dp"
+                android:layout_width="430dp"
+                android:layout_height="125dp"
                 android:src="@drawable/cardoor_rear"
                 app:layout_constraintEnd_toEndOf="@+id/cardoor"
-                app:layout_constraintHorizontal_bias="0.481"
+                app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="@+id/cardoor"
                 app:layout_constraintTop_toBottomOf="@+id/cardoor" />
 
             <ImageView
                 android:id="@+id/cardoorLeft"
-                android:layout_width="106dp"
-                android:layout_height="131dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/cardoor_left"
                 app:layout_constraintBottom_toBottomOf="@+id/cardoor"
-                app:layout_constraintEnd_toStartOf="@+id/cardoor"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toTopOf="@+id/cardoor" />
 
             <ImageView
                 android:id="@+id/cardoorRight"
-                android:layout_width="106dp"
-                android:layout_height="131dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:src="@drawable/cardoor_right"
                 app:layout_constraintBottom_toBottomOf="@+id/cardoor"
                 app:layout_constraintStart_toEndOf="@+id/cardoor"
@@ -239,28 +221,82 @@
 
             <ImageView
                 android:id="@+id/absstate"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:src="@drawable/abs"
                 app:layout_constraintStart_toStartOf="@+id/washer_level"
                 app:layout_constraintTop_toBottomOf="@+id/washer_level" />
 
             <ImageView
                 android:id="@+id/escState"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
-                app:layout_constraintStart_toStartOf="@+id/absstate"
-                app:layout_constraintTop_toBottomOf="@+id/absstate"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:layout_constraintStart_toEndOf="@+id/washer_level"
+                app:layout_constraintTop_toTopOf="@+id/washer_level"
                 app:srcCompat="@drawable/esc_on" />
 
             <ImageView
                 android:id="@+id/startstopState"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 app:layout_constraintStart_toStartOf="@+id/escState"
                 app:layout_constraintTop_toBottomOf="@+id/escState"
                 app:srcCompat="@drawable/sas_on" />
 
+            <ImageView
+                android:id="@+id/humidityState"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:layout_constraintBottom_toBottomOf="@+id/humidity"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:srcCompat="@drawable/humid_clim" />
+
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="17dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/humidityState"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <com.github.anastr.speedviewlib.TubeSpeedometer
+                android:id="@+id/fanspeed_gauge"
+                android:layout_width="125dp"
+                android:layout_height="106dp"
+                android:layout_marginStart="32dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/textView10"
+                app:sv_indicatorColor="#3C54DA"
+                app:sv_indicatorWidth="25dp"
+                app:sv_markWidth="25dp"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedometerBackColor="#7C9A9E"
+                app:sv_speedometerWidth="25dp"
+                app:sv_unit="%"
+                app:sv_unitTextColor="#FFFFFFFF"
+                app:sv_unitTextSize="24sp"
+                app:sv_withTremble="false" />
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fan Speed"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/fanspeed_gauge"
+                app:layout_constraintTop_toBottomOf="@+id/fanspeed_gauge" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

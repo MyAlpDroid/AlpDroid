@@ -23,7 +23,7 @@ class CanFrameServices : Service(), ArduinoListener {
     private val TAG = CanFrameServices::class.java.name
     private val CHANNEL_ID = "ForegroundService MyAlpDroid"
 
-    private lateinit var arduino : Arduino
+    lateinit var arduino : Arduino
 
     private lateinit var application: AlpdroidApplication
 
@@ -358,10 +358,9 @@ class CanFrameServices : Service(), ArduinoListener {
                 else
                     toriginID-=0x20
 
-                sendFrame(CanFrame(1,toriginID, byteArrayOf(0x30,0x0,0x08,0x55,0x55,0x55,0x55,0x55)))
+                sendFrame(CanFrame(1,toriginID, byteArrayOf(0x30,0x0,0x0A,0x55,0x55,0x55,0x55,0x55)))
 
                 application.alpineOBDFrame.addFrame(frame, 1)
-
 
 
             }

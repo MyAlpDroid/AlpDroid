@@ -1,12 +1,15 @@
 package com.alpdroid.huGen10.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.widget.CompoundButton
 import android.widget.Switch
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
@@ -18,7 +21,6 @@ import com.alpdroid.huGen10.obdUtil.DtcNetwork
 import com.alpdroid.huGen10.obdUtil.DtcPowertrain
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
 
 
 @ExperimentalUnsignedTypes
@@ -27,15 +29,6 @@ class ComputerDisplay : UIFragment(1500) {
 
     private  var fragmentBlankBinding: ComputerDisplayBinding?=null
     lateinit var ac_header : TextView
-    lateinit var canframeText: TextView
-    lateinit var canid: EditText
-    lateinit var arduinostate : TextView
-    lateinit var transmitstate : TextView
-    lateinit var appState : TextView
-    lateinit var trackShow:TextView
-    lateinit var trackPrev:TextView
-    lateinit var testFrame:Switch
-    lateinit var frametoTest: EditText
     lateinit var framedatadisplay : TextView
 
     lateinit var keys: Set<Int>
@@ -44,17 +37,19 @@ class ComputerDisplay : UIFragment(1500) {
 
     var ptc_see:Boolean = false
 
-
     var rtxTimer:Long=0
 
-    var frametotestString1 : String=""
-    var framedataString1 : String = ""
-    var framestring1 : String=""
-    var framestring2 : String=""
+    var sharedPreferences: SharedPreferences? = null
 
-    lateinit var mutex_push:Mutex
+    var showDialog = true
 
-    var ptc_index:Int=0
+    lateinit var mirror_switch: Switch
+
+    lateinit var startstop_switch: Switch
+
+    lateinit var carpark_switch: Switch
+
+    lateinit var rearbrake_switch: Switch
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -64,91 +59,120 @@ class ComputerDisplay : UIFragment(1500) {
                obdptclaunch()
             }
 
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        mirror_switch = fragmentBlankBinding!!.mirrorswitch
+        val mirror_switchState = this.sharedPreferences?.getBoolean("mirror_switch", false)
+        if (mirror_switchState != null) {
+            mirror_switch.isChecked = mirror_switchState
+        }
+
+        startstop_switch = fragmentBlankBinding!!.startstopswitch
+        val startStop_switchState = this.sharedPreferences?.getBoolean("startstop_switch", false)
+        if (startStop_switchState != null) {
+            startstop_switch.isChecked = startStop_switchState
+        }
+
+       carpark_switch = fragmentBlankBinding!!.carparkswitch
+        val carpark_switchState = this.sharedPreferences?.getBoolean("carpark_switch", false)
+        if (carpark_switchState != null) {
+            carpark_switch.isChecked = carpark_switchState
+        }
+
+        rearbrake_switch = fragmentBlankBinding!!.rearbrakeswitch
+        val rearbrake_switchState = this.sharedPreferences?.getBoolean("rearbrake_switch", false)
+        if (rearbrake_switchState != null) {
+            rearbrake_switch.isChecked = rearbrake_switchState
+        }
+
+        // Create a single listener for all the switches and set it as the listener for each switch
+        // Create a single listener for all the switches and set it as the listener for each switch
+        val switchListener = SwitchListener(sharedPreferences!!, requireContext())
+        mirror_switch.setOnCheckedChangeListener(switchListener)
+        rearbrake_switch.setOnCheckedChangeListener(switchListener)
+        carpark_switch.setOnCheckedChangeListener(switchListener)
+        startstop_switch.setOnCheckedChangeListener(switchListener)
+
+
         return binding.root
+    }
+
+    class SwitchListener(
+        private val sharedPreferences: SharedPreferences,
+        private val context: Context
+    ) :
+        CompoundButton.OnCheckedChangeListener {
+        private var showDialog = true
+        override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
+            // Get the ID of the switch that was changed
+            val switchId = buttonView.id
+
+            // Save the state of the switch in SharedPreferences
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("$switchId", isChecked)
+            editor.apply()
+            if (showDialog) {
+                // Create a dialog builder and set the message and buttons
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("Are you sure you want to change the state of this switch?")
+                builder.setPositiveButton(
+                    "Yes"
+                ) { dialog, which ->
+                    // If the user clicked "Yes", do nothing
+                }
+                builder.setNegativeButton(
+                    "No"
+                ) { dialog, which -> // If the user clicked "No", reset the switch to its previous state
+                    showDialog = false
+                    buttonView.isChecked = !isChecked
+                    editor.putBoolean("$switchId", !isChecked)
+                    editor.apply()
+                    showDialog = true
+                }
+
+                // Show the dialog
+                val dialog = builder.create()
+                dialog.show()
+            } else {
+                showDialog = true
+            }
+        }
     }
 
     private fun obdptclaunch() {
         GlobalScope.launch {
 
 
-        AlpdroidApplication.app.alpdroidData.ask_ptclist()
-        ptc_see=true
+       AlpdroidApplication.app.alpdroidData.ask_ptclist()
+       ptc_see=true
 
-            /*
-        if (ptc_index==0) {
-            val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[10,2B,59,02,CF,40,74,87]}"
-
-            Log.d("obdptclaunch","frame send One: "+bytearray)
-
-            AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-        }
-
-
-            Log.d("obdptclaunch","frame getFrame One: "+ ptc_index.toString())
-            if (AlpdroidApplication.app.alpineOBDFrame.getFrame(2,0x59,0x7e9)!=null)
-                ptc_index=1
-
-            if (ptc_index==1) {
-
-                val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[21,08,D1,2D,87,88,D1,20]}"
-
-
-                AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-                Log.d("obdptclaunch","frame send 2: "+ bytearray)
-                ptc_index++
-            }
-
-            if (ptc_index==2) {
-                val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[2${ptc_index.toByte().toString(16)},87,88,D1,2C,87,88,50]}"
-
-                AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-                Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
-                ptc_index++
-            }
-            if (ptc_index==3) {
-                val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[2${ptc_index.toByte().toString(16)},00,87,88,D1,21,87,88]}"
-
-                AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-                Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
-                ptc_index++
-            }
-            if (ptc_index==4) {
-                val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[2${ptc_index.toByte().toString(16)},18,15,16,D8,50,02,87]}"
-
-                AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-                Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
-                ptc_index++
-            }
-
-            if (ptc_index==5) {
-                val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[2${ptc_index.toByte().toString(16)},08,D1,24,87,08,50,01]}"
-
-                AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-                Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
-                ptc_index++
-            }
-            if (ptc_index==6) {
-                val bytearray = "{\"bus\":1,\"id\":07E9,\"data\":[2${ptc_index.toByte().toString(16)},87,08,24,87,08,50,01]}"
-
-                AlpdroidApplication.app.alpdroidServices.onArduinoMessage(bytearray.toByteArray())
-
-                Log.d("obdptclaunch","frame send "+ ptc_index.toString()+" - "+bytearray)
-                ptc_index++
-            }  */
 
         }
 
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        // Save the state of switch1 in SharedPreferences
+        val editor = sharedPreferences!!.edit()
+        editor.putBoolean("mirror_switch", mirror_switch.isChecked())
+        editor.putBoolean("carpark_switch", carpark_switch.isChecked())
+        editor.putBoolean("rearbrake_switch", rearbrake_switch.isChecked())
+        editor.putBoolean("startstop_switch", startstop_switch.isChecked())
+        editor.apply()
+    }
+
     override fun onDestroyView() {
         // Consider not storing the binding instance in a field, if not needed.
-    //    fragmentBlankBinding = null
+        val editor = sharedPreferences!!.edit()
+        editor.putBoolean("mirror_switch", mirror_switch.isChecked())
+        editor.putBoolean("carpark_switch", carpark_switch.isChecked())
+        editor.putBoolean("rearbrake_switch", rearbrake_switch.isChecked())
+        editor.putBoolean("startstop_switch", startstop_switch.isChecked())
+        editor.apply()
+
+        fragmentBlankBinding = null
         super.onDestroyView()
     }
 

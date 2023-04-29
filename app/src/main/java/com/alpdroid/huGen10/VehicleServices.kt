@@ -50,8 +50,8 @@ class VehicleServices : LocationListener {
 
     companion object {
         private const val PERMISSIONS_REQUEST_LOCATION = 123
-        private const val MIN_TIME_BW_UPDATES: Long = 500
-        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 1f
+        private const val MIN_TIME_BW_UPDATES: Long = 1000
+        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 500f
         private const val TO_RADIANS = Math.PI / 180
         private const val TO_DEGREES = 180 / Math.PI
 
@@ -145,7 +145,7 @@ class VehicleServices : LocationListener {
 
             compassOrientation = (currentBearing+location.bearing).toInt()
 
-            currentBearing = -compassOrientation.toFloat()
+            currentBearing = 180+compassOrientation.toFloat()
 
     }
 
@@ -185,7 +185,7 @@ class VehicleServices : LocationListener {
         var dlc_offset=0
 
         try {
-            if ((serviceDir and 0xBF)<0x20) {
+            if ((serviceDir and 0xBF)<0x20 || servicePID<0x100) {
                 (2 + bytesData.size).toByte().also { serviceData[0] = it }
                 serviceData[1] = serviceDir.toByte()
                 serviceData[2] = (servicePID).toByte()
@@ -306,44 +306,93 @@ class VehicleServices : LocationListener {
 
     /** Get code GearboxOilTemperature **/
 
-    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,0x7E8, 0, 8)*8/100).toFloat()
+    fun get_BattV2() : Float = (this.getOBDParams(0x1103, 0x62,CanECUAddrs.CANECUREC_0.idcan, 0, 8)*8/100).toFloat()
 
     suspend fun ask_OBDBattV2()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND.idcan,0x1103, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_0.idcan,0x1103, 0x22, ByteArray(0))
     }
 
     suspend fun ask_ptclist()
     {
-        // 12 mean a confirmed/pretended DTC is store
+        // Broadcast
         pushOBDParams(CanECUAddrs.CANECUBASE.idcan,0x02, 0x19, byteArrayOf(0x0C))
-        delay(25)
-        pushOBDParams(0x743,0x02, 0x19, byteArrayOf(0x0C))
-        delay(25)
+        delay(50)
+        pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan,0x02, 0x19, byteArrayOf(0x0C))
+        delay(50)
    }
 
-    fun get_ptcdtc_ECM() : ByteArray? = this.getOBDLongParams(0x02,0x59, 0x7E9)
-
-    fun get_ptcdtc_ETT() : ByteArray? = this.getOBDLongParams(0x02,0x59, 0x763)
-
-
-    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,0x765, 0,8)-30
-    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,0x765, 0,8)-30
-
-    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,0x765, 0,8)-30
-
-    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,0x765, 0,8)-30
-
-    suspend fun ask_OBDTyreTemperature()
+    suspend fun ask_climdata()
     {
-        pushOBDParams(0x745,0x8011, 0x22, ByteArray(0))
-        pushOBDParams(0x745,0x8018, 0x22, ByteArray(0))
-        pushOBDParams(0x745,0x8025, 0x22, ByteArray(0))
-        pushOBDParams(0x745,0x8032, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_CLIM.idcan,0x52, 0x21, ByteArray(0))
 
     }
 
-    suspend fun ask_OBDStandardCode(serviceDir: Int, servicePID: Int)
+    fun get_climdata() : ByteArray? = this.getOBDLongParams(0x52,0x61, CanECUAddrs.CANECUREC_CLIM.idcan)
+
+    fun get_internalTemp() : Float
+    {
+        val dataClim=get_climdata()
+        var temp:Float=0f
+
+        if (dataClim!=null && dataClim.size>5) {
+
+            temp=-40+(((dataClim[2].toUByte().toInt() and 0x0F) shl 6)+(dataClim[3].toUByte().toInt() shr 2)).toFloat()/10
+
+        }
+        return temp
+    }
+
+    fun get_IH_humidity() : Float
+    {
+        val dataClim=get_climdata()
+        var humidity:Float=0f
+
+        if (dataClim!=null && dataClim.size>11) {
+
+            humidity=(dataClim[8].toUByte().toInt() and 0x1F).toFloat()/2
+        }
+        return humidity
+    }
+
+    fun get_IH_CoolingFanSpeed() : Float
+    {
+        val dataClim=get_climdata()
+        var blower:Float=0f
+
+        if (dataClim!=null && dataClim.size>5) {
+
+            blower=(dataClim[16].toUByte().toInt() and 0x7F).toFloat()
+
+        }
+        return blower
+    }
+
+
+
+
+    fun get_ptcdtc_ECM() : ByteArray? = this.getOBDLongParams(0x02,0x59, CanECUAddrs.CANECUREC_ECM.idcan)
+
+    fun get_ptcdtc_ETT() : ByteArray? = this.getOBDLongParams(0x02,0x59, CanECUAddrs.CANECUREC_ETT.idcan)
+
+
+    fun get_TyreTemperature1() : Int = this.getOBDParams(0x8011, 0x62,CanECUAddrs.CANECUREC_TPS.idcan, 0,8)-30
+    fun get_TyreTemperature2() : Int = this.getOBDParams(0x8018, 0x62,CanECUAddrs.CANECUREC_TPS.idcan, 0,8)-30
+
+    fun get_TyreTemperature3() : Int = this.getOBDParams(0x8025, 0x62,CanECUAddrs.CANECUREC_TPS.idcan, 0,8)-30
+
+    fun get_TyreTemperature4() : Int = this.getOBDParams(0x8032, 0x62,CanECUAddrs.CANECUREC_TPS.idcan, 0,8)-30
+
+    suspend fun ask_OBDTyreTemperature()
+    {
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8011, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8018, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8025, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8032, 0x22, ByteArray(0))
+
+    }
+
+    suspend fun ask_OBDBroadcastPid(serviceDir: Int, servicePID: Int)
     {
         pushOBDParams(CanECUAddrs.CANECUBASE.idcan,servicePID, serviceDir, ByteArray(0))
 
