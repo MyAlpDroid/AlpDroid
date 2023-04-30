@@ -7,8 +7,8 @@
     <string name="appwidget_text">MyAlpDroid</string>
 
     <!-- Enabled players settings -->
-    <string name="traduction_title">Langue</string>
-    <string name="traduction">Anglais / Français</string>
+    <string name="traduction_title">Langue Français / English</string>
+    <string name="traduction">Langue</string>
     <string name="media_title">Rechercher les players pour MyAlpDroid</string>
     <string name="media_sub_title">Affiche les lecteurs disponibles</string>
 
@@ -96,7 +96,7 @@
     <string name="start_stop_is_disable">Start Stop désactivé</string>
     <string name="car_sound_is_disable">Beep frein désactivé</string>
     <string name="reset_dtc">Raz défauts OBD</string>
-    <string name="internal_temp">%1$ °C</string>
+    <string name="internal_temp">Température intérieure</string>
     <string name="params_car">Paramètres véhicule</string>
     <string name="external_temp">Température extérieure</string>
     <string name="prochaine_revision">Prochaine révision :</string>
@@ -104,7 +104,7 @@
     <string name="temp_fl">Temp AvG</string>
     <string name="temp_rl">Temp ArG</string>
     <string name="distance_km">Distance KM</string>
-    <string name="conso_inst_l_s">Instantanée  l/100Km</string>
+    <string name="conso_inst_l_s">l/100Km</string>
     <string name="r_serv_l">Réserv. (l)</string>
     <string name="oil">Huile</string>
     <string name="cool">Eau</string>

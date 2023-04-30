@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -131,15 +132,23 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
 
 
+        Log.d("Settings", key.toString())
+
         if (key.equals("Choix")) {
-            // Broadcast the change to the
+            // Broadcast the change to the mainactivity
             val intent = Intent("change_background")
             LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
         }
 
-        if (key.equals("arduino_update")) {
-            // Broadcast the change to the
+        if (key.equals("Langue"))
+        {
+            // Broadcast the change to the mainactivity
+            val intent = Intent("change_language")
+            Log.d("Settings", "intent change_language")
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+        }
 
+        if (key.equals("arduino_update")) {
 
             var application=AlpdroidApplication.app
 

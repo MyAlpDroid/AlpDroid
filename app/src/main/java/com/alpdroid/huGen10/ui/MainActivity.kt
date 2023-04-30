@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
+import android.util.Log
 import android.view.Window
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,6 +28,7 @@ import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
+import java.util.Locale
 import kotlin.time.ExperimentalTime
 
 
@@ -58,6 +60,14 @@ class MainActivity : FragmentActivity()  {
     private val backgroundImagePreferenceChangedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             updateBackgroundImage()
+        }
+    }
+
+    private val languagePreferenceChangedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            updateLanguage()
+
         }
     }
 
@@ -127,16 +137,43 @@ class MainActivity : FragmentActivity()  {
             // e.printStackTrace();
         }
 
-
-      //  Log.d("MainActivity : OnCreate ", TAG)
-      //  MLog.d(TAG, "Activity OnCreate : fin")
-
         updateBackgroundImage()
-
 
     }
 
+    fun setLocale(languageCode: String?) {
 
+        val config = resources.configuration
+
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            config.setLocale(locale)
+        else
+            config.locale = locale
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            createConfigurationContext(config)
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
+    private fun updateLanguage()
+    {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val languetoggle = sharedPreferences.getBoolean("Langue", false)
+
+        Log.d("update Langue", languetoggle.toString())
+
+        if (languetoggle)
+            setLocale("en")
+        else
+            setLocale("fr")
+
+        val refresh = Intent(this, MainActivity::class.java)
+        startActivity(refresh)
+
+    }
     private fun updateBackgroundImage() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -200,6 +237,7 @@ class MainActivity : FragmentActivity()  {
         }
         //MLog.d(TAG, "Activity onResume : End")
         LocalBroadcastManager.getInstance(this).registerReceiver(backgroundImagePreferenceChangedReceiver, IntentFilter("change_background"))
+        LocalBroadcastManager.getInstance(this).registerReceiver(languagePreferenceChangedReceiver, IntentFilter("change_language"))
 
     }
 
@@ -209,6 +247,7 @@ class MainActivity : FragmentActivity()  {
         super.onPause()
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(backgroundImagePreferenceChangedReceiver)
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(languagePreferenceChangedReceiver)
 
         //  application.startVehicleServices();
         //  application.alpdroidData = new VehicleServices();

@@ -7,8 +7,8 @@
     <string name="appwidget_text">MyAlpDroid</string>
 
     <!-- Enabled players settings -->
-    <string name="traduction_title">Language</string>
-    <string name="traduction">English / French</string>
+    <string name="traduction_title">Language English / Français</string>
+    <string name="traduction">Langue</string>
     <string name="media_title">Find MyAlpDroid players</string>
     <string name="media_sub_title">Show available player</string>
 
@@ -113,10 +113,10 @@
     <string name="mirror_autofolding">Mirrors autofolding</string>
     <string name="car_park_signal">Parking brake sound</string>
     <string name="overspeed_buzzer">Overspeed sound</string>
-    <string name="start_stop_is_disable">Start Stop deactivated</string>
-    <string name="car_sound_is_disable">Overspeed sound deactivated</string>
+    <string name="start_stop_is_disable"><![CDATA[S&S deactivated]]></string>
+    <string name="car_sound_is_disable">Overspeed deactivated</string>
     <string name="reset_dtc">Reset Defaults</string>
-    <string name="internal_temp">Internal temperature</string>
+    <string name="internal_temp">Internal temp.</string>
     <string name="params_car">Car parameters</string>
     <string name="external_temp">External temperature</string>
     <string name="prochaine_revision">Next maintenance :</string>
@@ -124,8 +124,8 @@
     <string name="temp_fl">Temp FL</string>
     <string name="temp_rl">Temp RL</string>
     <string name="distance_km">Distance KM</string>
-    <string name="conso_inst_l_s">Instantaneous l/100Km</string>
-    <string name="r_serv_l">Tank</string>
+    <string name="conso_inst_l_s">l/100Km</string>
+    <string name="r_serv_l">Tank (l)</string>
     <string name="oil">Oil</string>
     <string name="cool">Cool</string>
     <string name="gear_c">Gear °C</string>
