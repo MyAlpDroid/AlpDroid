@@ -1,0 +1,136 @@
+<resources>
+
+    <string name="app_name" translatable="false">MyAlpDroid</string>
+    <string name="ecu_widget_name" translatable="false">ECU Info</string>
+    <string name="temp_widget_name" translatable="false">Temp. Info</string>
+
+    <string name="appwidget_text">MyAlpDroid</string>
+
+    <!-- Enabled players settings -->
+    <string name="traduction_title">Language</string>
+    <string name="traduction">English / French</string>
+    <string name="media_title">Find MyAlpDroid players</string>
+    <string name="media_sub_title">Show available player</string>
+
+    <string name="list_new_players">AlpDroid automatic discovery</string>
+    <!-- Settings menu item -->
+    <string name="title_activity_settings">Settings</string>
+
+
+    <!-- Notification settings -->
+    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_group_title_notification_types">Notification types</string>
+    <string name="pref_title_notifications_now_playing">Now Playing</string>
+    <string name="pref_title_notifications_alpdroid">Track Read</string>
+    <string name="pref_group_title_notification_settings">Notification settings</string>
+    <string name="pref_title_notification_vibrate">Vibrate</string>
+    <string name="pref_title_notification_sound">Sound</string>
+    <string name="pref_title_notification_light">Light</string>
+
+    <!-- Strings related to notifications -->
+    <string name="notification_channel_name_alpdroid">Alpdroids</string>
+    <string name="notification_channel_name_error">Errors</string>
+    <string name="notification_channel_name_now_playing">Now Playing</string>
+
+
+    <!-- Strings related to login -->
+
+    <string name="error">Error</string>
+    <string name="error_unknown">An unknown error occurred</string>
+    <string name="error_internet">You are not connected to the internet</string>
+    <string name="splash_notification_access">Notification Access required</string>
+    <string name="splash_notification_access_text">The Notification Access permission is required by Scroball to read device playback state.</string>
+
+
+    <!-- Main window tabs -->
+    <string name="tab_now_playing">Now Playing</string>
+    <string name="engine_display">Engine</string>
+    <string name="confort_display">Comfort</string>
+    <string name="computer_display">Defaults and parameters</string>
+
+
+    <!-- Strings related to Settings -->
+    <string name="saved_session_key" translatable="false">sessionKey</string>
+    <!-- Strings related to the now playing screen -->
+    <string name="nothing_playing">Nothing playing</string>
+
+    <!-- Strings related to the main screen -->
+    <string name="settings">Settings</string>
+
+    <string name="location_updated">Location Updated: %1$s</string>
+
+    <!-- Strings related to settings -->
+    <string name="background_title">Choose a wallpaper</string>
+    <string name="background_summary">Wallpaper</string>
+    <string name="params1_title">Choose Wallpaper</string>
+    <string name="key_background" translatable="false">Choix</string>
+
+    <string-array name="entries_background">
+        <item>Dark Blue Hexagonal</item>
+        <item>Light &amp; Star</item>
+        <item>Red &amp; Blue Hexagone</item>
+        <item>Blue Wave</item>
+        <item>Original</item>
+    </string-array>
+
+    <string-array name="values_background">
+        <item>background_1,#070A1B</item>
+        <item>background_2,#04121B</item>
+        <item>background_3,#000000</item>
+        <item>background_4,#182C46</item>
+        <item>background,#242248</item>
+    </string-array>
+
+    <string name="metric_params">metric_params</string>
+    <string name="key_metric">ismetric</string>
+    <string name="metric_title">metric system</string>
+
+    <string name="baudrate">baudrate_params</string>
+    <string name="baudrate_summary">Arduino baudrate</string>
+    <string name="key_baudrate">baudrate</string>
+    <string name="baudrate_title">Arduino baudrate</string>
+    <string name="key_subbaudrate" translatable="false">Baudrate</string>
+
+    <string-array name="pref_baudrate">
+        <item>57600</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>345600</item>
+        <item>460800</item>
+    </string-array>
+
+    <string-array name="key_subbaudrate">
+        <item>57600</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>345600</item>
+        <item>460800</item>
+    </string-array>
+    <string name="computer_state">ECU State</string>
+    <string name="ptc_dtc">View DTC</string>
+    <string name="start_stop"><![CDATA[Start & Stop]]></string>
+    <string name="car_parameters">Alpine parameters</string>
+    <string name="mirror_autofolding">Mirrors autofolding</string>
+    <string name="car_park_signal">Parking brake sound</string>
+    <string name="overspeed_buzzer">Overspeed sound</string>
+    <string name="start_stop_is_disable">Start Stop deactivated</string>
+    <string name="car_sound_is_disable">Overspeed sound deactivated</string>
+    <string name="reset_dtc">Reset Defaults</string>
+    <string name="internal_temp">Internal temperature</string>
+    <string name="params_car">Car parameters</string>
+    <string name="external_temp">External temperature</string>
+    <string name="prochaine_revision">Next maintenance :</string>
+    <string name="fan_speed">Fan</string>
+    <string name="temp_fl">Temp FL</string>
+    <string name="temp_rl">Temp RL</string>
+    <string name="distance_km">Distance KM</string>
+    <string name="conso_inst_l_s">Instantaneous l/100Km</string>
+    <string name="r_serv_l">Tank</string>
+    <string name="oil">Oil</string>
+    <string name="cool">Cool</string>
+    <string name="gear_c">Gear °C</string>
+    <string name="intake">Intake</string>
+    <string name="oil_pressure">Oil pressure</string>
+    <string name="update_arduino">Update Arduino</string>
+
+</resources>

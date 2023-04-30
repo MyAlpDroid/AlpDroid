@@ -40,7 +40,6 @@ class WidgetService : RemoteViewsService() {
         override fun getViewAt(position: Int): RemoteViews {
             // Position will always range from 0 to getCount() - 1.
 
-            val widgetItem = mWidgetItems[position]
             var mValue:String = "Extra"
 
             // Construct remote views item based on the item xml file and set text based on position.
@@ -152,7 +151,7 @@ class WidgetService : RemoteViewsService() {
                     mWidgetItems.add(
                         WidgetItem(
                             "Voltage",
-                            String.format("%.1f V", (alpineServices.get_BattV2())),(alpineServices.get_BattV2().toInt())
+                            String.format("%.1f V", 6+((alpineServices.get_BatteryVoltage_V2())/16.67).toFloat()),(6+((alpineServices.get_BatteryVoltage_V2())/16.67).toFloat().toInt())
                         )
                     )
 

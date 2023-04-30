@@ -91,7 +91,7 @@
         <receiver
             android:name=".ui.WidgetProvider"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/ecu_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.alpdroid.huGen10.LIST_ITEM_CLICKED" />
@@ -99,6 +99,24 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
+        </receiver>
+
+        <service
+            android:name=".WidgetTempService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name=".ui.WidgetTempProvider"
+            android:exported="true"
+            android:label="@string/temp_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.alpdroid.huGen10.LIST_ITEM_CLICKED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidgettemp_info" />
         </receiver>
 
     </application>

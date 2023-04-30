@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/widget_screen_layout"
+    android:id="@+id/widget_temp_screen_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp">
@@ -12,7 +12,7 @@
         android:padding="12dp">
 
         <LinearLayout
-            android:id="@+id/top_row"
+            android:id="@+id/top_temp_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -21,28 +21,26 @@
 
 
         <ListView
-            android:id="@+id/widget_list"
+            android:id="@+id/widget_temp_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/top_row"
+            android:layout_below="@id/top_temp_row"
             android:background="@android:color/transparent"  />
 
         <!-- Shown for empty collection due to rv.setEmptyView(R.id.widget_list, R.id.empty_view) being called: -->
 
         <TextView
-            android:id="@+id/empty_view"
+            android:id="@+id/empty_temp_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/widget_list"
+            android:layout_below="@id/widget_temp_list"
             android:background="@android:color/background_dark"
             android:padding="6dp"
             android:text="no item"
             android:textColor="@android:color/white"
             tools:visibility="invisible" />
 
-
     </RelativeLayout>
-
 
 
 </FrameLayout>

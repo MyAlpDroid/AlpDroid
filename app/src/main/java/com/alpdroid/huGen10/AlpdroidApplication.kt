@@ -179,8 +179,8 @@ class AlpdroidApplication : Application() {
 
     fun getplayerType(player: String):Int {
         var playerType:Int = 4
-        if ((player.contains("radio", true) or player.contains("tuner",true))) playerType =
-            1 else if (player.contains("com.syu.bt", true)) playerType =
+        if ((player.contains("radio", true) or player.contains("tuner",true) or player.contains("zoulou",true))) playerType =
+            1 else if (player.contains("com.syu.bt", true) or player.contains("carlink",true)) playerType =
             7
         return playerType
     }

@@ -38,7 +38,7 @@
             android:title="@string/traduction_title" />
 
         <com.alpdroid.huGen10.ui.ClickableTextViewPreference
-            android:title="Update Arduino"
+            android:title="@string/update_arduino"
             android:key="arduino_update"/>
 
 

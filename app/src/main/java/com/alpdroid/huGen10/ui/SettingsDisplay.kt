@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -131,9 +130,6 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
 
-        val stringValue = key.toString()
-
-        Log.d("SettingsDisplay","Log is :"+key.toString())
 
         if (key.equals("Choix")) {
             // Broadcast the change to the
@@ -156,9 +152,10 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
             val mPhysicaloid = Physicaloid(this.context)
 
-            Toast.makeText(this.context,"Physicaloid Trying to launch",2.toInt()).show()
-
             mPhysicaloid.setConfig(UartConfig(460800,8,1,0,false,false))
+
+            Toast.makeText(this.context,"Physicaloid Uart launch",2.toInt()).show()
+
             try {
 
             if (mPhysicaloid.open()) {

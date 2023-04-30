@@ -31,6 +31,8 @@ class VehicleServices : LocationListener {
     private val destinationLatitude = 90.0 // True North coordinate
     private val destinationLongitude = 0.0 // True North coordinate
 
+    private var previoustemp:Float = 0.0f
+
     init {
              try {
                  lm = application.getSystemService(LOCATION_SERVICE) as LocationManager
@@ -64,84 +66,8 @@ class VehicleServices : LocationListener {
       //  application.alpdroidServices.onDestroy()
     }
 
-    private fun getBearing(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-        val a = 6378137.0 // semi-major axis of the Earth (WGS-84)
-        val
-                b = 6356752.314245
-        val f = 1 / 298.257223563 // flattening of the Earth (WGS-84)
 
-        val phi1 = Math.toRadians(lat1)
-        val phi2 = Math.toRadians(lat2)
-        val lambda1 = Math.toRadians(lon1)
-        val lambda2 = Math.toRadians(lon2)
-
-        val U1 = Math.atan((1 - f) * Math.tan(phi1))
-        val U2 = Math.atan((1 - f) * Math.tan(phi2))
-        val L = lambda2 - lambda1
-
-        val sinU1 = Math.sin(U1)
-        val cosU1 = Math.cos(U1)
-        val sinU2 = Math.sin(U2)
-        val cosU2 = Math.cos(U2)
-
-        var lambda = L
-        var lambdaP = 0.0
-        val maxIterations = 100
-        var iter = 0
-        var sinSigma = 0.0
-        var cosSigma = 0.0
-        var sigma = 0.0
-        var sinAlpha = 0.0
-        var cosSqAlpha = 0.0
-        var cos2SigmaM = 0.0
-        var C = 0.0
-
-        while (Math.abs(lambda - lambdaP) > 1e-12 && iter < maxIterations) {
-            sinSigma = Math.sqrt(Math.pow(cosU2 * Math.sin(lambda), 2.0) +
-                    Math.pow(cosU1 * sinU2 - sinU1 * cosU2 * Math.cos(lambda), 2.0))
-
-            if (sinSigma == 0.0) {
-                return 0.0 // two points are the same
-            }
-
-            cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * Math.cos(lambda)
-            sigma = Math.atan2(sinSigma, cosSigma)
-            sinAlpha = cosU1 * cosU2 * Math.sin(lambda) / sinSigma
-            cosSqAlpha = 1 - Math.pow(sinAlpha, 2.0)
-            cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha
-
-            if (cos2SigmaM.isNaN()) {
-                cos2SigmaM = 0.0
-            }
-
-            C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha))
-            lambdaP = lambda
-            lambda = L + (1 - C) * f * sinAlpha *
-                    (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * Math.pow(cos2SigmaM, 2.0))))
-            iter++
-        }
-
-        if (iter >= maxIterations) {
-            throw Exception("Vincenty formula failed to converge")
-        }
-
-        val uSq = cosSqAlpha * (Math.pow(a, 2.0) - Math.pow(b, 2.0)) / Math.pow(b, 2.0)
-        val A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)))
-        val B = uSq / 1024 *(256 + uSq * (-128 + uSq * (74 - 47 * uSq)))
-        val deltaSigma = B * sinSigma * (cos2SigmaM + B / 4 *
-                (cosSigma * (-1 + 2 * Math.pow(cos2SigmaM, 2.0)) - B / 6 * cos2SigmaM *
-                        (-3 + 4 * Math.pow(sinSigma, 2.0)) * (-3 + 4 * Math.pow(cos2SigmaM, 2.0))))
-        val s = b * A * (sigma - deltaSigma)
-
-        val alpha1 = Math.atan2(cosU2 * Math.sin(lambda), cosU1 * sinU2 - sinU1 * cosU2 * Math.cos(lambda))
-        val alpha2 = Math.atan2(cosU1 * Math.sin(lambda), -sinU1 * cosU2 + cosU1 * sinU2 * Math.cos(lambda))
-        val alpha3 = Math.toRadians(360.0) - ((alpha1 + Math.toRadians(360.0)) % Math.toRadians(360.0))
-
-        return Math.toDegrees(alpha3)
-    }
-
-
-        override fun onLocationChanged(location: Location) {
+    override fun onLocationChanged(location: Location) {
 
             compassOrientation = (currentBearing+location.bearing).toInt()
 
@@ -176,7 +102,6 @@ class VehicleServices : LocationListener {
     suspend fun pushOBDParams(candIDSend:Int, servicePID:Int, serviceDir: Int, bytesData:ByteArray)
     {
         val frame2OBD:CanFrame
-        var obdframe: OBDframe
 
         val serviceData:ByteArray = ByteArray(8)
 
@@ -244,9 +169,8 @@ class VehicleServices : LocationListener {
     }
 
     fun getOBDLongParams(servicePID: Int, serviceDir: Int, ecu :Int): ByteArray? {
-        var frameOBD:OBDframe
-        var i:Int=0
 
+        var frameOBD:OBDframe
 
         try {
 
@@ -333,13 +257,15 @@ class VehicleServices : LocationListener {
     fun get_internalTemp() : Float
     {
         val dataClim=get_climdata()
-        var temp:Float=0f
+        var temp:Float = previoustemp
 
         if (dataClim!=null && dataClim.size>5) {
 
             temp=-40+(((dataClim[2].toUByte().toInt() and 0x0F) shl 6)+(dataClim[3].toUByte().toInt() shr 2)).toFloat()/10
+            previoustemp=temp
 
         }
+
         return temp
     }
 
@@ -348,7 +274,7 @@ class VehicleServices : LocationListener {
         val dataClim=get_climdata()
         var humidity:Float=0f
 
-        if (dataClim!=null && dataClim.size>11) {
+        if (dataClim!=null && dataClim.size>8) {
 
             humidity=(dataClim[8].toUByte().toInt() and 0x1F).toFloat()/2
         }
@@ -360,7 +286,7 @@ class VehicleServices : LocationListener {
         val dataClim=get_climdata()
         var blower:Float=0f
 
-        if (dataClim!=null && dataClim.size>5) {
+        if (dataClim!=null && dataClim.size>16) {
 
             blower=(dataClim[16].toUByte().toInt() and 0x7F).toFloat()
 

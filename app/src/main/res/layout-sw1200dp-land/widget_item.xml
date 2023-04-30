@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:showDividers="middle"
-        android:divider="@android:drawable/divider_horizontal_textfield">
+        android:divider="@drawable/rectangle">
 
         <ImageView
             android:id="@+id/widget_item_view"

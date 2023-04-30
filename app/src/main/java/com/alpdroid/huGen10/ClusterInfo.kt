@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import com.alpdroid.huGen10.OsmAndHelper.OnOsmandMissingListener
 import com.alpdroid.huGen10.ui.WidgetProvider
+import com.alpdroid.huGen10.ui.WidgetTempProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -146,23 +147,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             )
         )
 
-        // Creating first Compass Frame
-        application.alpineCanFrame.addFrame(
-            CanFrame(
-                1,
-                CanECUAddrs.CANECUSEND.idcan,
-                byteArrayOf(
-                    0x03.toByte(),
-                    0x22.toByte(),
-                    0x11.toByte(),
-                    0x03.toByte(),
-                    0xFF.toByte(),
-                    0xFF.toByte(),
-                    0xFF.toByte(),
-                    0xFF.toByte()
-                )
-            )
-        )
 
         // Init Source Album & trackname info
         for (i in 0..9)
@@ -229,7 +213,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             ptc_index++
                             if (ptc_index>5) {
                                 application.alpdroidData.ask_OBDTyreTemperature()
-                                application.alpdroidData.ask_OBDBattV2()
                                 application.alpdroidData.ask_climdata()
                                 ptc_index=0
                             }
@@ -254,6 +237,16 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
 
                             app.sendBroadcast(intent)
+
+                            val intenttemp = Intent(app, WidgetTempProvider::class.java)
+                            intenttemp.action = WidgetProvider.ACTION_WIDGET_UPDATE
+
+                            val idstemp: IntArray =
+                                AppWidgetManager.getInstance(AlpdroidApplication.app)
+                                    .getAppWidgetIds(ComponentName(AlpdroidApplication.app, WidgetTempProvider::class.java))
+                            intenttemp.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idstemp)
+
+                            app.sendBroadcast(intenttemp)
 
                             delay(1250)
 /*

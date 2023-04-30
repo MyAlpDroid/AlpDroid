@@ -55,7 +55,7 @@ class ComputerDisplay : UIFragment(1500) {
         // Inflate the layout for this fragment
         val binding = ComputerDisplayBinding.inflate(inflater, container, false)
         fragmentBlankBinding = binding
-        fragmentBlankBinding!!.ptcbutton!!.setOnClickListener {
+        fragmentBlankBinding!!.ptcbutton.setOnClickListener {
                obdptclaunch()
             }
 
@@ -184,7 +184,7 @@ class ComputerDisplay : UIFragment(1500) {
         ac_header = fragmentBlankBinding!!.acHeader
 
 
-        framedatadisplay = fragmentBlankBinding!!.ptcframe!!
+        framedatadisplay = fragmentBlankBinding!!.ptcframe
 
         rtxTimer = System.currentTimeMillis()
 
@@ -207,7 +207,7 @@ class ComputerDisplay : UIFragment(1500) {
                                 AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!!.size
                             )
 
-                            var key2build: String = ""
+                            var key2build: String
                             var calculatePTCode: String
 
 
@@ -315,7 +315,7 @@ class ComputerDisplay : UIFragment(1500) {
                                     AlpdroidApplication.app.alpdroidData.get_ptcdtc_ETT()!!.size
                                 )
 
-                            var key2build: String = ""
+                            var key2build: String
                             var calculatePTCode: String
 
 

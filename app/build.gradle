@@ -26,6 +26,8 @@ android {
         versionCode 2
         versionName '2.60.2.1'
         multiDexEnabled false
+        resConfigs("en", "fr")
+
 
     }
 

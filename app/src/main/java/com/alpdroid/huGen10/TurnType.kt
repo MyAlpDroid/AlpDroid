@@ -198,17 +198,14 @@ class TurnType {
         }
 
         fun valueOf(vs: Int, leftSide: Boolean): TurnType {
-            var vs = vs
+            var vs2 = vs
             if (vs == TU && leftSide) {
-                vs = TRU
+                vs2 = TRU
             } else if (vs == RNDB && leftSide) {
-                vs = RNLB
+                vs2 = RNLB
             }
-            return TurnType(vs)
-            //		if (s != null && s.startsWith("EXIT")) { //$NON-NLS-1$
-//			return getExitTurn(Integer.parseInt(s.substring(4)), 0, leftSide);
-//		}
-//		return null;
+            return TurnType(vs2)
+
         }
 
         fun getExitTurn(out: Int, angle: Float, leftSide: Boolean): TurnType {

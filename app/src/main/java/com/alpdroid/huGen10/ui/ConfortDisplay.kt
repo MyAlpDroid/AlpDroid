@@ -144,12 +144,9 @@ class ConfortDisplay : UIFragment(250) {
                     " %.1f °C",
                     alpineServices.get_internalTemp())
 
-                battvalue= ((alpineServices.get_SOCBattery14V())/0.06).toFloat()-6
+                battvalue= 6+((alpineServices.get_BatteryVoltage_V2())/16.67).toFloat()
 
-               // battvalue = alpineServices.get_BattV2()
-
-
-                  tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
+                tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
 
 
                 nextoverhaul.text= String.format(" %d Km", alpineServices.get_MilageMinBeforeOverhaul()*250)
