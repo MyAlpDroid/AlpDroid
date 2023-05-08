@@ -32,6 +32,8 @@ class VehicleServices : LocationListener {
     private val destinationLongitude = 0.0 // True North coordinate
 
     private var previoustemp:Float = 0.0f
+    private var previoushumidity:Float = 0.0f
+    private var previousblower:Float = 0.0f
 
     init {
              try {
@@ -52,12 +54,12 @@ class VehicleServices : LocationListener {
 
     companion object {
         private const val PERMISSIONS_REQUEST_LOCATION = 123
-        private const val MIN_TIME_BW_UPDATES: Long = 1000
-        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 500f
+        private const val MIN_TIME_BW_UPDATES: Long = 100
+        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 50f
         private const val TO_RADIANS = Math.PI / 180
         private const val TO_DEGREES = 180 / Math.PI
 
-        private var currentBearing = 0f
+        private var currentBearing = 0
     }
 
     fun onClose()
@@ -69,9 +71,9 @@ class VehicleServices : LocationListener {
 
     override fun onLocationChanged(location: Location) {
 
-            compassOrientation = (currentBearing+location.bearing).toInt()
+            compassOrientation = (location.bearing).toInt()
 
-            currentBearing = 180+compassOrientation.toFloat()
+            currentBearing = compassOrientation
 
     }
 
@@ -79,6 +81,10 @@ class VehicleServices : LocationListener {
     // Update Regular Services
 
     fun get_CompassOrientation() : Int {
+
+        if (compassOrientation>180)
+              compassOrientation=256-(compassOrientation-360)
+
         return compassOrientation
     }
 
@@ -239,16 +245,26 @@ class VehicleServices : LocationListener {
 
     suspend fun ask_ptclist()
     {
-        // Broadcast
-        pushOBDParams(CanECUAddrs.CANECUBASE.idcan,0x02, 0x19, byteArrayOf(0x0C))
-        delay(50)
+        // To main ECU and ETT ECU
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x02, 0x19, byteArrayOf(0x0C))
+        delay(70)
         pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan,0x02, 0x19, byteArrayOf(0x0C))
         delay(50)
    }
 
+    suspend fun reset_ptclist()
+    {
+
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0xFF, 0x14, byteArrayOf(0xFF.toByte(),0xFF.toByte()))
+        delay(25)
+        pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan,0xF, 0x14, byteArrayOf(0xFF.toByte(),0xFF.toByte()))
+
+    }
+
     suspend fun ask_climdata()
     {
         pushOBDParams(CanECUAddrs.CANECUSEND_CLIM.idcan,0x52, 0x21, ByteArray(0))
+        delay(30)
 
     }
 
@@ -272,11 +288,12 @@ class VehicleServices : LocationListener {
     fun get_IH_humidity() : Float
     {
         val dataClim=get_climdata()
-        var humidity:Float=0f
+        var humidity:Float=previoushumidity
 
         if (dataClim!=null && dataClim.size>8) {
 
             humidity=(dataClim[8].toUByte().toInt() and 0x1F).toFloat()/2
+            previoushumidity=humidity
         }
         return humidity
     }
@@ -284,11 +301,12 @@ class VehicleServices : LocationListener {
     fun get_IH_CoolingFanSpeed() : Float
     {
         val dataClim=get_climdata()
-        var blower:Float=0f
+        var blower:Float=previousblower
 
         if (dataClim!=null && dataClim.size>16) {
 
             blower=(dataClim[16].toUByte().toInt() and 0x7F).toFloat()
+            previousblower=blower
 
         }
         return blower
@@ -324,6 +342,21 @@ class VehicleServices : LocationListener {
 
     }
 
+
+    suspend fun set_startstop_switch()
+    {
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x22, ByteArray(0))
+
+    }
+    suspend fun set_mirror_switch()
+    {
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x22, ByteArray(0))
+
+    }
+    suspend fun set_carpark_switch()
+    {
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x22, ByteArray(0))
+    }
 
     /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature() : Int = this.getFrameParams(CanECUAddrs.AT_CANHS_R_01.idcan, 0, 8)

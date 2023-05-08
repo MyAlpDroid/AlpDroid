@@ -13,16 +13,10 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.*
-import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
-import com.alpdroid.huGen10.VehicleServices
-import com.physicaloid.lib.Boards
-import com.physicaloid.lib.Physicaloid
-import com.physicaloid.lib.usb.driver.uart.UartConfig
 
 
 /**
@@ -138,6 +132,7 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
             // Broadcast the change to the mainactivity
             val intent = Intent("change_background")
             LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
         }
 
         if (key.equals("Langue"))
@@ -146,62 +141,18 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
             val intent = Intent("change_language")
             Log.d("Settings", "intent change_language")
             LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
         }
 
-        if (key.equals("arduino_update")) {
+        if (key.equals(getString(/* resId = */ R.string.arduino_update))) {
 
-            var application=AlpdroidApplication.app
-
-            application.alpdroidServices.arduino.unsetArduinoListener()
-            application.alpdroidServices.stopSelf()
-            application.alpdroidServices.arduino.close()
-
-            application.stopVehicleServices()
-
-
-            val mPhysicaloid = Physicaloid(this.context)
-
-            mPhysicaloid.setConfig(UartConfig(460800,8,1,0,false,false))
-
-            Toast.makeText(this.context,"Physicaloid Uart launch",2.toInt()).show()
-
-            try {
-
-            if (mPhysicaloid.open()) {
-
-
-                Toast.makeText(this.context, "Physicaloid Trying Connect", 2.toInt()).show()
-
-                //****************************************************************
-                // TODO : set board type and assets file.
-                // TODO : copy .hex file to porject_dir/assets directory.
-                mPhysicaloid.upload(
-                    Boards.ARDUINO_UNO,
-                    resources.assets.open("UNO_CODE.ino.hex")
-                )
-                //****************************************************************
-
-                Toast.makeText(this.context, "Physicaloid Upload Done", 4.toInt()).show()
-             }
-
-            } catch (e: RuntimeException) {
-               // Log.e("SettingsDisplay", e.toString())
-                Toast.makeText(this.context,"Physicaloid Exception",4.toInt()).show()
-            }
-
-
-
-
-            mPhysicaloid.close()
-
-            application=AlpdroidApplication.app
-
-            AlpdroidApplication.setContext(application)
-
-            application.startVehicleServices()
-            application.alpdroidData = VehicleServices()
-            application.startListenerService()
-
+                preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+                sharedPreferences!!.edit().putBoolean(getString(R.string.arduino_update), true)
+                    .apply()
+                // Broadcast the change to the mainactivity
+         /*       val intent = Intent(getString(R.string.arduino_update))
+                Log.d("Settings", "intent arduino update")
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent) */
 
         }
 

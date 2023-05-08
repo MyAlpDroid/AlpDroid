@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
@@ -15,6 +16,7 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.util.Log
 import android.view.Window
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -31,14 +33,15 @@ import com.google.common.collect.ImmutableList
 import java.util.Locale
 import kotlin.time.ExperimentalTime
 
-
 @OptIn(ExperimentalTime::class)
 class MainActivity : FragmentActivity()  {
 
     private val TAG = "MainActivity"
 
-
     lateinit var application:AlpdroidApplication
+
+    private var sharedPreferences: SharedPreferences? = null
+
 
     companion object {
 
@@ -72,10 +75,19 @@ class MainActivity : FragmentActivity()  {
     }
 
 
+    private val updateArduinoChangedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            Log.d(TAG,"receive intent to update arduino")
+
+        }
+    }
+
+
+
     @SuppressLint("NoLoggedException")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-     //   MLog.d(TAG, "Activity OnCreate")
 
             super.onCreate(savedInstanceState)
 
@@ -139,9 +151,24 @@ class MainActivity : FragmentActivity()  {
 
         updateBackgroundImage()
 
+
+
+        StrictMode.allowThreadDiskReads()
+        try {
+              sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        } finally {
+            StrictMode.setThreadPolicy(oldPolicy)
+        }
+
+        if (sharedPreferences!!.getBoolean(getString(R.string.isdownload_UNO),false))
+        {
+            Toast.makeText(this, "Arduino code updated",5.toInt()).show()
+            sharedPreferences!!.edit().putBoolean(getString(R.string.isdownload_UNO),false).apply()
+        }
+
     }
 
-    fun setLocale(languageCode: String?) {
+    fun setLocale(languageCode: String) {
 
         val config = resources.configuration
 
@@ -162,8 +189,6 @@ class MainActivity : FragmentActivity()  {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         val languetoggle = sharedPreferences.getBoolean("Langue", false)
-
-        Log.d("update Langue", languetoggle.toString())
 
         if (languetoggle)
             setLocale("en")
@@ -200,6 +225,7 @@ class MainActivity : FragmentActivity()  {
             window.statusBarColor = Color.parseColor(taskbarColor)
         }
     }
+
 
     public override fun onRestart() {
 

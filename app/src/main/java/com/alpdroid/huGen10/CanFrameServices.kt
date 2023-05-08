@@ -172,6 +172,7 @@ class CanFrameServices : Service(), ArduinoListener {
     override fun stopService(name: Intent?): Boolean {
         isServiceStarted = false
         setServiceState(this, ServiceState.STOPPED)
+
         Log.d(TAG, "Stopping CanFrameServices's foreground service")
         try {
             wakeLock?.let {
@@ -195,6 +196,7 @@ class CanFrameServices : Service(), ArduinoListener {
     override fun onUnbind(intent: Intent?): Boolean {
         return super.onUnbind(intent)
     }
+
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun startService(name: Intent?): ComponentName? {

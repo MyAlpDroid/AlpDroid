@@ -112,14 +112,15 @@
                 app:layout_constraintStart_toStartOf="@+id/textView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-            <Switch
-                android:id="@+id/reset_dtcswitch"
-                android:layout_width="265dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/reset_dtc"
-                app:layout_constraintStart_toStartOf="@+id/radioGroup"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            <Button
+                android:id="@+id/reset_dtc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Reset DTC"
+                app:layout_constraintEnd_toEndOf="@+id/ptcbutton"
+                app:layout_constraintStart_toStartOf="@+id/ptcbutton"
+                app:layout_constraintTop_toBottomOf="@+id/ptcbutton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

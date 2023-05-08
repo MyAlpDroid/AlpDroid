@@ -21,8 +21,8 @@
 
             <TextView
                 android:id="@+id/ptcframe"
-                android:layout_width="488dp"
-                android:layout_height="468dp"
+                android:layout_width="363dp"
+                android:layout_height="330dp"
                 android:layout_marginStart="24dp"
                 android:scrollbars="vertical"
                 android:textAlignment="textEnd"
@@ -91,32 +91,15 @@
                     android:text="@string/overspeed_buzzer" />
             </RadioGroup>
 
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/reset_dtc"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="64dp"
-                android:text="@string/start_stop_is_disable"
-                app:layout_constraintStart_toEndOf="@+id/radioGroup"
-                app:layout_constraintTop_toTopOf="@+id/radioGroup" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/car_sound_is_disable"
-                app:layout_constraintStart_toStartOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <Switch
-                android:id="@+id/reset_dtcswitch"
-                android:layout_width="265dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:text="Reset DTC"
-                app:layout_constraintStart_toStartOf="@+id/radioGroup"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintEnd_toEndOf="@+id/ptcbutton"
+                app:layout_constraintStart_toStartOf="@+id/ptcbutton"
+                app:layout_constraintTop_toBottomOf="@+id/ptcbutton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

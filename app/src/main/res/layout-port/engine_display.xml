@@ -242,7 +242,7 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/OIL_jauge"
-                android:layout_width="196dp"
+                android:layout_width="186dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
@@ -275,7 +275,7 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Intake_jauge"
-                android:layout_width="196dp"
+                android:layout_width="186dp"
                 android:layout_height="200dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/Gear_jauge"
@@ -306,7 +306,7 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Oil_Pressure"
-                android:layout_width="196dp"
+                android:layout_width="186dp"
                 android:layout_height="200dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/Intake_jauge"
@@ -338,7 +338,7 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/CooL_jauge"
-                android:layout_width="196dp"
+                android:layout_width="186dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="36dp"
@@ -371,7 +371,7 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Gear_jauge"
-                android:layout_width="196dp"
+                android:layout_width="186dp"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="@+id/OIL_jauge"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"

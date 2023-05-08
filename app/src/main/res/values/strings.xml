@@ -111,7 +111,9 @@
     <string name="gear_c">Boite °C</string>
     <string name="intake">Air</string>
     <string name="oil_pressure">Pression huile</string>
-    <string name="update_arduino">Update Arduino</string>
+    <string name="title_arduino" translatable="false">Update Arduino</string>
+    <string name="arduino_update" translatable="false">arduino_update</string>
+    <string name="isdownload_UNO" translatable="false">isdownload_UNO</string>
 
     <string-array name="pref_baudrate">
         <item>57600</item>

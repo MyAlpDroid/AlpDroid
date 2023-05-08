@@ -19,7 +19,8 @@ import com.alpdroid.huGen10.obdUtil.DtcBody
 import com.alpdroid.huGen10.obdUtil.DtcChassis
 import com.alpdroid.huGen10.obdUtil.DtcNetwork
 import com.alpdroid.huGen10.obdUtil.DtcPowertrain
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -59,6 +60,11 @@ class ComputerDisplay : UIFragment(1500) {
                obdptclaunch()
             }
 
+        fragmentBlankBinding!!.resetDtc.setOnClickListener {
+            obdptcreset()
+        }
+
+
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
         mirror_switch = fragmentBlankBinding!!.mirrorswitch
@@ -86,8 +92,9 @@ class ComputerDisplay : UIFragment(1500) {
         }
 
         // Create a single listener for all the switches and set it as the listener for each switch
-        // Create a single listener for all the switches and set it as the listener for each switch
-        val switchListener = SwitchListener(sharedPreferences!!, requireContext())
+        val switchListener = SwitchListener(sharedPreferences!!, requireContext(),
+            fragmentBlankBinding!!
+        )
         mirror_switch.setOnCheckedChangeListener(switchListener)
         rearbrake_switch.setOnCheckedChangeListener(switchListener)
         carpark_switch.setOnCheckedChangeListener(switchListener)
@@ -99,7 +106,8 @@ class ComputerDisplay : UIFragment(1500) {
 
     class SwitchListener(
         private val sharedPreferences: SharedPreferences,
-        private val context: Context
+        private val context: Context,
+        private val fragmentBlankBinding: ComputerDisplayBinding
     ) :
         CompoundButton.OnCheckedChangeListener {
         private var showDialog = true
@@ -118,7 +126,25 @@ class ComputerDisplay : UIFragment(1500) {
                 builder.setPositiveButton(
                     "Yes"
                 ) { dialog, which ->
-                    // If the user clicked "Yes", do nothing
+                    when (switchId)
+                    {
+                        fragmentBlankBinding.startstopswitch.id->
+                        {
+                //            AlpdroidApplication.app.alpdroidData.set_startstop_switch()
+                        }
+                        fragmentBlankBinding.mirrorswitch.id->
+                        {
+                //            AlpdroidApplication.app.alpdroidData.set_mirror_switch()
+                        }
+                        fragmentBlankBinding.rearbrakeswitch.id->
+                        {
+
+                        }
+                        fragmentBlankBinding.carparkswitch.id->
+                        {
+                 //           AlpdroidApplication.app.alpdroidData.set_carpark_switch()
+                        }
+                    }
                 }
                 builder.setNegativeButton(
                     "No"
@@ -140,7 +166,7 @@ class ComputerDisplay : UIFragment(1500) {
     }
 
     private fun obdptclaunch() {
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.Default).launch {
 
 
        AlpdroidApplication.app.alpdroidData.ask_ptclist()
@@ -150,6 +176,18 @@ class ComputerDisplay : UIFragment(1500) {
         }
 
     }
+
+    private fun obdptcreset() {
+        CoroutineScope(Dispatchers.Default).launch {
+
+            AlpdroidApplication.app.alpdroidData.reset_ptclist()
+            ptc_see=true
+
+        }
+
+    }
+
+
 
     override fun onPause() {
         super.onPause()

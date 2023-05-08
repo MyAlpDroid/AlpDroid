@@ -15,6 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
+import com.manicben.physicaloid.lib.Boards
+import com.manicben.physicaloid.lib.Physicaloid
 
 
 class AlpdroidApplication : Application() {
@@ -34,6 +36,7 @@ class AlpdroidApplication : Application() {
 
     private var sharedPreferences: SharedPreferences? = null
 
+    var mPhysicaloid:Physicaloid? = null
 
 
 
@@ -66,9 +69,6 @@ class AlpdroidApplication : Application() {
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
 
-      //  MLog.init(this,true,true)
-      //  MLog.d(TAG, "OnCreate")
-
         super.onCreate()
         if(BuildConfig.DEBUG)
             StrictMode.enableDefaults();
@@ -90,6 +90,59 @@ class AlpdroidApplication : Application() {
             StrictMode.setThreadPolicy(oldPolicy)
         }
 
+        // Check if the "update_arduino" preference is set to true
+       val isArduinoEnabled = sharedPreferences!!.getBoolean(getString(R.string.arduino_update), true)
+
+
+        if (isArduinoEnabled) {
+
+            Log.d(TAG,"trying physicaloid stuff")
+            mPhysicaloid = Physicaloid(this)
+
+            mPhysicaloid!!.setAutoDtr()
+
+            mPhysicaloid!!.open()
+
+            val timeout = 30000L // 30 secondes en millisecondes
+
+            val startTime = System.currentTimeMillis()
+
+            while (!mPhysicaloid!!.isOpened && System.currentTimeMillis() - startTime < timeout)
+            {
+                mPhysicaloid!!.open()
+            }
+
+            // Call the specific function to perform physical tasks
+            try {
+
+
+                //****************************************************************
+                // TODO : set board type and assets file.
+                // TODO : copy .hex file to porject_dir/assets directory.
+
+
+                mPhysicaloid!!.upload(
+                    Boards.ARDUINO_UNO,
+                    resources.assets.open("UNO_CODE.ino.hex")
+                )
+
+                // if no exception, seems to be OK
+                sharedPreferences!!.edit().putBoolean(getString(R.string.isdownload_UNO), true).apply()
+
+            } catch (e: RuntimeException) {
+                Log.e("Physicaloid", e.toString())
+            }
+
+            // Update the "arduino" preference to false
+            sharedPreferences!!.edit().putBoolean(getString(R.string.arduino_update), false).apply()
+
+            mPhysicaloid!!.close()
+
+            Log.d(TAG,"End Physicaloid Stuff")
+
+        }
+
+        Log.d(TAG, "OnCreate Application")
 
         eventBus.register(this)
      //   initLog.
@@ -100,20 +153,19 @@ class AlpdroidApplication : Application() {
     fun startListenerService() {
         if (ListenerService.isNotificationAccessEnabled(this)) {
             startService(Intent(this, ListenerService::class.java))
-            Log.d("%s : Listener started", TAG)
+            Log.d(TAG," Listener started")
         }
         else
-            Log.d("%s : Listener not started", TAG)
+            Log.d(TAG,"Listener not started")
 
     }
 
    fun startVehicleServices() {
-       Log.d("CanFrameServices start phase : ", TAG)
 
        actionOnService(Actions.START)
 
        try {
-               Log.d("CanFrameServices binding phase : ", TAG)
+               Log.d(TAG,"CanFrameServices binding phase  ")
                bindService(
                Intent(
                    this,
@@ -121,16 +173,15 @@ class AlpdroidApplication : Application() {
                ), alpineConnection, BIND_AUTO_CREATE
            )
 
-           Log.d("CanFrameServices binding phase : ", alpineConnection.toString())
            }
            catch (e : Exception)
            {
-               Log.d("Echec binding CanframeServices : ",e.toString())
+               Log.d(TAG,"Echec binding CanframeServices : "+e.toString())
            }
 
             isStarted = true
             isBound = true
-            Log.d("%s : CanFrameServices started", TAG)
+            Log.d(TAG,"CanFrameServices started")
    }
 
 
@@ -147,17 +198,17 @@ class AlpdroidApplication : Application() {
     private fun stopListenerService()
     {
         stopService(Intent(this, ListenerService::class.java))
-        Log.d("ListenerServices stopped : ", TAG)
+        Log.d(TAG,"ListenerServices stopped ")
     }
 
     fun stopVehicleServices() {
-        Log.d("CanFrameServices stop phase: ", TAG)
+
         isBound=false
         // Detach the service connection.
         actionOnService(Actions.STOP)
         isStarted=false
         alpdroidServices.isServiceStarted=false
-        Log.d("CanFrameServices stopped : ", TAG)
+        Log.d(TAG, "CanFrameServices stopped ")
     }
 
 
@@ -166,10 +217,7 @@ class AlpdroidApplication : Application() {
        val preferences = getSharedPreferences()
         val editor = preferences!!.edit()
         editor.apply()
-        /*
-        stopListenerService()
-        stopVehicleServices()
-        alpdroidData.onClose()*/
+
     }
 
 

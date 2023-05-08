@@ -51,8 +51,6 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var escstate : ImageView
     lateinit var absstate:ImageView
 
-    private var latitude:Double = 0.0
-    private var longitude:Double = 0.0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -183,7 +181,7 @@ class ConfortDisplay : UIFragment(250) {
 
                 val id =
                     resources.getIdentifier(
-                        "enginefanspeed_on${alpineServices.get_CoolingFanSpeedStatus()}",
+                        "enginefanspeed_on${alpineServices.get_EngineFanSpeedRequest()}",
                         "drawable",
                         context?.packageName
                     )
