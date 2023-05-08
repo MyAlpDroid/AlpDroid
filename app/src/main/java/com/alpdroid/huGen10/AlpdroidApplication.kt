@@ -97,6 +97,8 @@ class AlpdroidApplication : Application() {
         if (isArduinoEnabled) {
 
             Log.d(TAG,"trying physicaloid stuff")
+            // Call the specific function to perform physical tasks
+            try {
             mPhysicaloid = Physicaloid(this)
 
             mPhysicaloid!!.setAutoDtr()
@@ -111,9 +113,6 @@ class AlpdroidApplication : Application() {
             {
                 mPhysicaloid!!.open()
             }
-
-            // Call the specific function to perform physical tasks
-            try {
 
 
                 //****************************************************************
