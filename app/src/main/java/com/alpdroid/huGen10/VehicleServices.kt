@@ -83,7 +83,7 @@ class VehicleServices : LocationListener {
     fun get_CompassOrientation() : Int {
 
         if (compassOrientation>180)
-              compassOrientation=256-(compassOrientation-360)
+              compassOrientation=256+(compassOrientation-180)
 
         return compassOrientation
     }
@@ -174,6 +174,24 @@ class VehicleServices : LocationListener {
 
     }
 
+    fun isOBDParams(servicePID:Int, serviceDir:Int, ecu:Int):Boolean
+    {
+        val frameOBD:OBDframe
+
+
+        try {
+
+            frameOBD = application.alpineOBDFrame.getFrame(servicePID,serviceDir, ecu)!!
+
+        }
+        catch (e: Exception)
+        {
+            return false
+        }
+
+        return true
+    }
+
     fun getOBDLongParams(servicePID: Int, serviceDir: Int, ecu :Int): ByteArray? {
 
         var frameOBD:OBDframe
@@ -192,6 +210,17 @@ class VehicleServices : LocationListener {
         return frameOBD.serviceData
 
     }
+
+    fun removeOBDFrame(servicePID: Int, serviceDir: Int, ecu :Int) {
+
+        try {
+
+            application.alpineOBDFrame.remove(servicePID, serviceDir,ecu)
+
+        } catch (e: Exception) {
+        }
+    }
+
     @Synchronized
     fun setFrameParams(candID:Int, bytesNum:Int, len:Int, param:Int) {
 
@@ -211,6 +240,7 @@ class VehicleServices : LocationListener {
         }
 
     }
+
 
     fun getFrameBool(candID:Int, bytesNum:Int): Boolean {
 
@@ -247,24 +277,24 @@ class VehicleServices : LocationListener {
     {
         // To main ECU and ETT ECU
         pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x02, 0x19, byteArrayOf(0x0C))
-        delay(70)
+        delay(20)
         pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan,0x02, 0x19, byteArrayOf(0x0C))
-        delay(50)
+        delay(20)
    }
 
     suspend fun reset_ptclist()
     {
 
         pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0xFF, 0x14, byteArrayOf(0xFF.toByte(),0xFF.toByte()))
-        delay(25)
-        pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan,0xF, 0x14, byteArrayOf(0xFF.toByte(),0xFF.toByte()))
-
+        delay(20)
+        pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan,0xFF, 0x14, byteArrayOf(0xFF.toByte(),0xFF.toByte()))
+        delay(20)
     }
 
     suspend fun ask_climdata()
     {
         pushOBDParams(CanECUAddrs.CANECUSEND_CLIM.idcan,0x52, 0x21, ByteArray(0))
-        delay(30)
+        delay(20)
 
     }
 
@@ -345,17 +375,93 @@ class VehicleServices : LocationListener {
 
     suspend fun set_startstop_switch()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x2E, ByteArray(0))
 
     }
     suspend fun set_mirror_switch()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x22, ByteArray(0))
+
+        var Nbx_AutoFolding_CF:Int=get_folding_state()
+
+        if (Nbx_AutoFolding_CF!=-1) {
+            val Nsx_AutoFoldingDelay_CF=getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan,0,8)
+            val Nsx_AutoUnfoldingDelay_CF=getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan,8,8)
+            if (Nbx_AutoFolding_CF==0)
+                Nbx_AutoFolding_CF=1
+            else
+                Nbx_AutoFolding_CF=0
+
+            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x1F, 0x3B, byteArrayOf(Nsx_AutoFoldingDelay_CF.toByte(), Nsx_AutoUnfoldingDelay_CF.toByte(),Nbx_AutoFolding_CF.toByte()))
+        }
 
     }
+
+    suspend fun get_folding_state():Int
+    {
+        val tempo:Long
+
+        removeOBDFrame(0x1F,0x21, CanECUAddrs.CANECUREC_EMM.idcan)
+
+        pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan,0x1F,0x21, ByteArray(0))
+
+        tempo=System.currentTimeMillis()
+
+        while (!isOBDParams(0x1F,0x61,CanECUAddrs.CANECUREC_EMM.idcan) && tempo+100<System.currentTimeMillis())
+        {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (isOBDParams(0x1F,0x61,CanECUAddrs.CANECUREC_EMM.idcan)) {
+            return getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan, 16, 8)
+        }
+            return -1
+    }
+
+
     suspend fun set_carpark_switch()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x22, ByteArray(0))
+        var coldCountryMode:Int=get_apbconfiguration_country_state()
+        var data2send:ByteArray=ByteArray(2)
+
+        if (coldCountryMode!=-1) {
+            val gearBoxType=getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,6,2)
+            val stopAndStartMode=getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,2,2)
+            val sCUVehicleType:Int =getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,0,2)
+            val tiltByESCMode:Int =getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,14,2)
+            val driverSeatSensorConf:Int =getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,12,2)
+            val axOrientation:Int =getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,10,2)
+
+            if (coldCountryMode==0)
+                coldCountryMode=1
+            else
+                coldCountryMode=0
+
+            data2send[0]= (sCUVehicleType.toByte()+(stopAndStartMode shl 2).toByte()+(gearBoxType shl 4).toByte()+(coldCountryMode shl 6).toByte()).toByte()
+            data2send[1]= ((axOrientation shl 2).toByte()+(driverSeatSensorConf shl 4).toByte()+(tiltByESCMode shl 6).toByte()).toByte()
+
+            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x1F, 0x3B, data2send)
+        }
+    }
+
+    suspend fun get_apbconfiguration_country_state():Int
+    {
+        val tempo:Long
+
+        removeOBDFrame(0x0220,0x62, CanECUAddrs.CANECUREC_APB.idcan)
+
+        pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0x0220,0x22, ByteArray(0))
+
+        tempo=System.currentTimeMillis()
+
+        while (!isOBDParams(0x0220,0x62,CanECUAddrs.CANECUREC_APB.idcan) && tempo+100<System.currentTimeMillis())
+        {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (isOBDParams(0x0220,0x62,CanECUAddrs.CANECUREC_APB.idcan)) {
+            return getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 4, 2)
+        }
+        return -1
     }
 
     /** Get code GearboxOilTemperature **/

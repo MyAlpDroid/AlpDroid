@@ -41,7 +41,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;Initialisation du programme Arduino à la première installation de MyAlpdroid&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/OBDframeBuffer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/OBDframeBuffer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -316,13 +320,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Merge remote-tracking branch 'remote/main'">
-      <created>1657952032299</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1657952032299</updated>
     </task>
     <task id="LOCAL-00014" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1657952191555</created>
@@ -660,7 +657,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683556197078</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Merge remote-tracking branch 'remote/main'&#10;Initialisation du programme Arduino à la première installation de MyAlpdroid&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1683556373015</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1683556373015</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">

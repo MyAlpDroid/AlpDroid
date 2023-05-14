@@ -91,4 +91,9 @@ class OBDframeBuffer {
         }
     }
 
+    fun remove(service:Int, dir:Int, canID:Int) {
+        mapFrame.remove(canID*0x100000000 + dir * 0x10000 + service)
+    }
+
+
 }

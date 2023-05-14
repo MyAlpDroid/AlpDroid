@@ -130,7 +130,9 @@ class ComputerDisplay : UIFragment(1500) {
                     {
                         fragmentBlankBinding.startstopswitch.id->
                         {
-                //            AlpdroidApplication.app.alpdroidData.set_startstop_switch()
+                            CoroutineScope(Dispatchers.Default).launch {
+                                AlpdroidApplication.app.alpdroidData.set_startstop_switch()
+                            }
                         }
                         fragmentBlankBinding.mirrorswitch.id->
                         {
