@@ -91,6 +91,10 @@ Load the Arduino UNO project
 you should see " AceCRC by Brian T. Park"
 * Click on Install
 Compile and Upload the program:
+
+*** (now this step is useless, the MyAlpDroid program is responsible for installing the Arduino program on the Arduino connected to the station) ***
+
+
 You need a type B USB cable (printer type on the Arduino side) and type C or another PC side.
 Once the Arduino program has been loaded into the IDE, and the cable connected to the Arduino, all you have to do is upload the program to the Arduino.
 https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploading-a-sketch

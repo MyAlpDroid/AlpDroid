@@ -84,6 +84,11 @@ Par défaut l'écriture sur le bus CAN ECU est interdit. A changer si on veut en
 
 
 ## Comment installer le programme sur l'Arduino :  
+
+-----------------------------------------------------------------------
+*** (désormais cette étape est inutile, le programme MyAlpDroid se charge d'installer le programme Arduino sur l'arduino connecté au poste) ***
+-----------------------------------------------------------------------
+
 Installer sur un PC ou un Mac l'environnement IDE Arduino : https://www.arduino.cc/en/Guide
 Charger le projet Arduino UNO
 * Charger via GitHub les fichiers du dossier UNO CODE dans un répertoire.  
