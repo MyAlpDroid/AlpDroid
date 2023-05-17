@@ -54,10 +54,12 @@ class VehicleServices : LocationListener {
 
     companion object {
         private const val PERMISSIONS_REQUEST_LOCATION = 123
-        private const val MIN_TIME_BW_UPDATES: Long = 100
+        private const val MIN_TIME_BW_UPDATES: Long = 500
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 50f
         private const val TO_RADIANS = Math.PI / 180
         private const val TO_DEGREES = 180 / Math.PI
+
+
 
         private var currentBearing = 0
     }
@@ -70,10 +72,14 @@ class VehicleServices : LocationListener {
 
 
     override fun onLocationChanged(location: Location) {
+        val northPoleLocation = Location("north_pole")
+        northPoleLocation.latitude = 90.0
+        northPoleLocation.longitude = 0.0
 
-            compassOrientation = (location.bearing).toInt()
 
-            currentBearing = compassOrientation
+        compassOrientation = (location.bearingTo(northPoleLocation)).toInt()
+
+        currentBearing = compassOrientation
 
     }
 
@@ -82,8 +88,8 @@ class VehicleServices : LocationListener {
 
     fun get_CompassOrientation() : Int {
 
-        if (compassOrientation>180)
-              compassOrientation=256+(compassOrientation-180)
+      /*  if (compassOrientation>180)
+              compassOrientation=256+(compassOrientation-360)*/
 
         return compassOrientation
     }
@@ -439,7 +445,7 @@ class VehicleServices : LocationListener {
             data2send[0]= (sCUVehicleType.toByte()+(stopAndStartMode shl 2).toByte()+(gearBoxType shl 4).toByte()+(coldCountryMode shl 6).toByte()).toByte()
             data2send[1]= ((axOrientation shl 2).toByte()+(driverSeatSensorConf shl 4).toByte()+(tiltByESCMode shl 6).toByte()).toByte()
 
-            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x1F, 0x3B, data2send)
+            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x0220, 0x2E, data2send)
         }
     }
 
