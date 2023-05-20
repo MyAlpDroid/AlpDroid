@@ -6,7 +6,7 @@ import com.alpdroid.huGen10.util.getBitsSlice
 
 class OBDframe (var canID:Int, private var multiframetype:Int, private var frameData:ByteArray) {
 
-    private val TAG = OBDframe::class.java.getName()
+    private val TAG = OBDframe::class.java.name
 
     constructor(canID: Int, type:Int, size:Int) : this(canID, type, ByteArray(size))
 
@@ -25,7 +25,7 @@ class OBDframe (var canID:Int, private var multiframetype:Int, private var frame
 
     var serviceData : ByteArray
 
-    var previousframe:Int=0
+    private var previousframe:Int=0
 
 
     private var datatonum: Long = 0
@@ -152,7 +152,7 @@ class OBDframe (var canID:Int, private var multiframetype:Int, private var frame
 
     fun toCanframe():CanFrame
     {
-     val canframe:CanFrame= CanFrame(1,canID,8)
+     val canframe = CanFrame(1,canID,8)
 
 
      canframe.dlc=8

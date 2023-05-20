@@ -14,8 +14,8 @@ class CanframeBuffer {
     private var mapFrame : ConcurrentHashMap<Int, CanFrame> = ConcurrentHashMap<Int, CanFrame>(100)
     private var queueoutFrame : LinkedHashMap<Int, CanFrame> = LinkedHashMap(50)
     private var sendingSwitch : Boolean = false
-    private var mutex_add : Mutex = Mutex()
-    private var mutex_push : Mutex = Mutex()
+    private var mutexadd : Mutex = Mutex()
+    private var mutexpush : Mutex = Mutex()
 
 
 
@@ -23,7 +23,7 @@ class CanframeBuffer {
     fun addFrame(frame: CanFrame) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            mutex_add.withLock {
+            mutexadd.withLock {
                 if (this@CanframeBuffer.mapFrame.replace(frame.id, frame) == null)
                     this@CanframeBuffer.mapFrame[frame.id] = frame
             }
@@ -59,7 +59,7 @@ class CanframeBuffer {
     fun pushFifoFrame(candID: Int)
     {
         CoroutineScope(Dispatchers.IO).launch {
-            mutex_push.withLock {  // Push frame to send into FiFO queue
+            mutexpush.withLock {  // Push frame to send into FiFO queue
             getFrame(candID).also {
             if (it!=null) this@CanframeBuffer.queueoutFrame[candID] = it
             }
@@ -97,7 +97,7 @@ class CanframeBuffer {
     fun flush()
     {
         CoroutineScope(Dispatchers.IO).launch {
-            mutex_push.withLock {
+            mutexpush.withLock {
                 queueoutFrame.clear()
             }
        }

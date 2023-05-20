@@ -20,9 +20,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
             NetworkInfo networkInfo =
                     (NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
 
-            if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
 
-            }
         }
     }
 }

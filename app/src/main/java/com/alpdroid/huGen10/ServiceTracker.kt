@@ -27,11 +27,9 @@ fun setServiceState(context: Context, state: ServiceState) {
 
 fun getServiceState(context: Context): ServiceState {
     val sharedPrefs = getPreferences(context)
-    var state:ServiceState
+    val state:ServiceState
 
-    val oldPolicy: ThreadPolicy
-
-    oldPolicy = StrictMode.getThreadPolicy()
+    val oldPolicy: ThreadPolicy = StrictMode.getThreadPolicy()
     StrictMode.allowThreadDiskReads()
     try {
         val value = sharedPrefs.getString(key, ServiceState.STOPPED.name)

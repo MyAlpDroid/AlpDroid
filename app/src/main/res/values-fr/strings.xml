@@ -111,6 +111,7 @@
     <string name="gear_c">Boite °C</string>
     <string name="intake">Air</string>
     <string name="oil_pressure">Pression huile</string>
+    <string name="switch_coomputer">Etes-vous sûr de vouloir modifier ce paramètre ?</string>
     <string name="update_arduino">Update Arduino</string>
 
     <string-array name="pref_baudrate">
@@ -128,5 +129,7 @@
         <item>345600</item>
         <item>460800</item>
     </string-array>
+    <string name="non">Non</string>
+    <string name="oui">Oui</string>
 
 </resources>

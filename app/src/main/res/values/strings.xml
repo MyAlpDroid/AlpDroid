@@ -114,6 +114,9 @@
     <string name="title_arduino" translatable="false">Update Arduino</string>
     <string name="arduino_update" translatable="false">arduino_update</string>
     <string name="isdownload_UNO" translatable="false">isdownload_UNO</string>
+    <string name="switch_coomputer">Etes-vous sûr de vouloir modifier ce paramètre ?</string>
+    <string name="non">Non </string>
+    <string name="oui">Oui </string>
 
     <string-array name="pref_baudrate">
         <item>57600</item>
@@ -130,5 +133,6 @@
         <item>345600</item>
         <item>460800</item>
     </string-array>
+    <string name="update_arduino">Update Arduino</string>
 
 </resources>

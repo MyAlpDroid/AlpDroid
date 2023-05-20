@@ -6,12 +6,10 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.IBinder
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
@@ -66,14 +64,13 @@ class AlpdroidApplication : Application() {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onCreate() {
 
         super.onCreate()
         if(BuildConfig.DEBUG)
-            StrictMode.enableDefaults();
+            StrictMode.enableDefaults()
 
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (BuildConfig.DEBUG && true) {
             StrictMode.setVmPolicy(
                 VmPolicy.Builder()
                     .detectNonSdkApiUsage()
@@ -211,7 +208,6 @@ class AlpdroidApplication : Application() {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     fun close() {
        val preferences = getSharedPreferences()
         val editor = preferences!!.edit()
@@ -225,7 +221,7 @@ class AlpdroidApplication : Application() {
     }
 
     fun getplayerType(player: String):Int {
-        var playerType:Int = 4
+        var playerType = 4
         if ((player.contains("radio", true) or player.contains("tuner",true) or player.contains("zoulou",true))) playerType =
             1 else if (player.contains("com.syu.bt", true) or player.contains("carlink",true)) playerType =
             7
@@ -235,7 +231,7 @@ class AlpdroidApplication : Application() {
     @Subscribe
     fun onNowPlayingChange(event: NowPlayingChangeEvent) {
 
-        var isaudio:Boolean = false
+        var isaudio = false
 
         lastEvent = event
 
@@ -270,7 +266,7 @@ class AlpdroidApplication : Application() {
     }
 
 
-    fun getEventBus(): EventBus? {
+    fun getEventBus(): EventBus {
         return eventBus
     }
 

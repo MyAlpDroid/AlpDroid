@@ -298,7 +298,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
     private fun clusterInfoUpdate()
     {
-        var infoParams:AppInfoParams
+        val infoParams:AppInfoParams
 
 
 
@@ -418,9 +418,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                 unitToKilometer = true
             }
 
-            var checkstring=infoParams.turnInfo.getString("next_turn_type", "no type")
-
-            when (checkstring)
+             when (val checkstring=infoParams.turnInfo.getString("next_turn_type", "no type"))
             {
                 "no type" -> nextTurnTypee=0
                 "C" -> nextTurnTypee=6
@@ -475,9 +473,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             if (isleftSide)
                 nextTurnTypee+=43
 
-            var checkstring2=infoParams.turnInfo.getString("no_speak_next_turn_type", "no type")
-
-            when (checkstring2)
+             when (val checkstring2=infoParams.turnInfo.getString("no_speak_next_turn_type", "no type"))
             {
                 "no type" -> secondnextTurnTypee=0
                 "C" -> secondnextTurnTypee=6
@@ -610,7 +606,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
 
 // Compass
-        application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.get_CompassOrientation())
+        application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.getCompassOrientation())
 
 
 // Navigation / Direction

@@ -34,9 +34,7 @@ class OBDframeBuffer {
                                 framecan.data[0].toInt() - 0x20
                             )
                         )
-                            this@OBDframeBuffer.mapFrame.put(
-                                previousOBDpid, frame
-                            )
+                            this@OBDframeBuffer.mapFrame[previousOBDpid] = frame
                     }
                    }
                 else {
@@ -47,7 +45,7 @@ class OBDframeBuffer {
                         previousOBDpid = frame.canID*0x100000000+frame.serviceDir * 0x10000 + frame.servicePID
 
 
-                        this@OBDframeBuffer.mapFrame.put(previousOBDpid, frame)
+                        this@OBDframeBuffer.mapFrame[previousOBDpid] = frame
 
 
                     } else {
@@ -70,11 +68,11 @@ class OBDframeBuffer {
 
     //    Log.d("OBD Buffer", "this is looking pDI : "+String.format("%012X",canID*0x100000000 + dir * 0x10000 + service ))
 
-        try {
-            return this@OBDframeBuffer.mapFrame[canID*0x100000000 + dir * 0x10000 + service]
+        return try {
+            this@OBDframeBuffer.mapFrame[canID*0x100000000 + dir * 0x10000 + service]
         } catch (e: Exception) {
-   //         Log.d("OBDFrameBuffer", "frame not found")
-            return null
+            //         Log.d("OBDFrameBuffer", "frame not found")
+            null
         }
 
     }
@@ -83,11 +81,10 @@ class OBDframeBuffer {
     }
 
     fun get(next: Long): OBDframe? {
-        try {
-            return mapFrame.get(next)
-        }
-        catch (e:Exception) {
-            return null
+        return try {
+            mapFrame.get(next)
+        } catch (e:Exception) {
+            null
         }
     }
 

@@ -24,12 +24,9 @@ class VehicleServices : LocationListener {
     private val application:AlpdroidApplication= AlpdroidApplication.app
 
 
-    var compassOrientation:Int = 0
+    private var compassOrientation:Int = 0
 
-    lateinit var lm: LocationManager
-
-    private val destinationLatitude = 90.0 // True North coordinate
-    private val destinationLongitude = 0.0 // True North coordinate
+    private lateinit var lm: LocationManager
 
     private var previoustemp:Float = 0.0f
     private var previoushumidity:Float = 0.0f
@@ -53,13 +50,8 @@ class VehicleServices : LocationListener {
          }
 
     companion object {
-        private const val PERMISSIONS_REQUEST_LOCATION = 123
         private const val MIN_TIME_BW_UPDATES: Long = 500
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 50f
-        private const val TO_RADIANS = Math.PI / 180
-        private const val TO_DEGREES = 180 / Math.PI
-
-
 
         private var currentBearing = 0
     }
@@ -67,7 +59,6 @@ class VehicleServices : LocationListener {
     fun onClose()
     {
         lm.removeUpdates(this)
-      //  application.alpdroidServices.onDestroy()
     }
 
 
@@ -86,7 +77,7 @@ class VehicleServices : LocationListener {
 
     // Update Regular Services
 
-    fun get_CompassOrientation() : Int {
+    fun getCompassOrientation() : Int {
 
       /*  if (compassOrientation>180)
               compassOrientation=256+(compassOrientation-360)*/
@@ -96,7 +87,7 @@ class VehicleServices : LocationListener {
 
 
     //TODO : ajouter la gestion du bus
-    fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
+    private fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
         val frame:CanFrame
 
         try {
@@ -111,13 +102,13 @@ class VehicleServices : LocationListener {
 
     }
 
-    suspend fun pushOBDParams(candIDSend:Int, servicePID:Int, serviceDir: Int, bytesData:ByteArray)
+    private suspend fun pushOBDParams(candIDSend:Int, servicePID:Int, serviceDir: Int, bytesData:ByteArray)
     {
         val frame2OBD:CanFrame
 
-        val serviceData:ByteArray = ByteArray(8)
+        val serviceData = ByteArray(8)
 
-        val mutex_push:Mutex=Mutex()
+        val mutex_push =Mutex()
 
         var dlc_offset=0
 
@@ -161,7 +152,7 @@ class VehicleServices : LocationListener {
     }
 
 
-    fun getOBDParams(servicePID:Int, serviceDir:Int, ecu:Int, bytesNum:Int, len:Int):Int
+    private fun getOBDParams(servicePID:Int, serviceDir:Int, ecu:Int, bytesNum:Int, len:Int):Int
     {
         val frameOBD:OBDframe
 
@@ -180,14 +171,13 @@ class VehicleServices : LocationListener {
 
     }
 
-    fun isOBDParams(servicePID:Int, serviceDir:Int, ecu:Int):Boolean
+    private fun isOBDParams(servicePID:Int, serviceDir:Int, ecu:Int):Boolean
     {
-        val frameOBD:OBDframe
 
 
         try {
 
-            frameOBD = application.alpineOBDFrame.getFrame(servicePID,serviceDir, ecu)!!
+            application.alpineOBDFrame.getFrame(servicePID,serviceDir, ecu)!!
 
         }
         catch (e: Exception)
@@ -198,9 +188,9 @@ class VehicleServices : LocationListener {
         return true
     }
 
-    fun getOBDLongParams(servicePID: Int, serviceDir: Int, ecu :Int): ByteArray? {
+    private fun getOBDLongParams(servicePID: Int, serviceDir: Int, ecu :Int): ByteArray? {
 
-        var frameOBD:OBDframe
+        val frameOBD:OBDframe
 
         try {
 
@@ -217,13 +207,14 @@ class VehicleServices : LocationListener {
 
     }
 
-    fun removeOBDFrame(servicePID: Int, serviceDir: Int, ecu :Int) {
+    private fun removeOBDFrame(servicePID: Int, serviceDir: Int, ecu :Int) {
 
         try {
 
             application.alpineOBDFrame.remove(servicePID, serviceDir,ecu)
 
         } catch (e: Exception) {
+            // nothing to remove
         }
     }
 
@@ -304,7 +295,7 @@ class VehicleServices : LocationListener {
 
     }
 
-    fun get_climdata() : ByteArray? = this.getOBDLongParams(0x52,0x61, CanECUAddrs.CANECUREC_CLIM.idcan)
+    private fun get_climdata() : ByteArray? = this.getOBDLongParams(0x52,0x61, CanECUAddrs.CANECUREC_CLIM.idcan)
 
     fun get_internalTemp() : Float
     {
@@ -427,7 +418,7 @@ class VehicleServices : LocationListener {
     suspend fun set_carpark_switch()
     {
         var coldCountryMode:Int=get_apbconfiguration_country_state()
-        var data2send:ByteArray=ByteArray(2)
+        var data2send=ByteArray(2)
 
         if (coldCountryMode!=-1) {
             val gearBoxType=getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,6,2)

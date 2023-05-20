@@ -1,17 +1,28 @@
 package com.alpdroid.huGen10
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.hardware.usb.UsbDevice
-import android.os.*
+import android.os.Binder
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
+import android.os.PowerManager
 import android.util.Log
 import com.alpdroid.huGen10.ui.MainActivity
 import com.alpdroid.huGen10.util.IntegerUtil
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -23,20 +34,20 @@ class CanFrameServices : Service(), ArduinoListener {
     private val TAG = CanFrameServices::class.java.name
     private val CHANNEL_ID = "ForegroundService MyAlpDroid"
 
-    lateinit var arduino : Arduino
+    private lateinit var arduino : Arduino
 
     private lateinit var application: AlpdroidApplication
 
-    lateinit var alpine2Cluster: ClusterInfo
+    private lateinit var alpine2Cluster: ClusterInfo
 
-    var backalbumName:String = "--"
-    var bcktrackName:String = "--"
-    var backartistName:String = "--"
-    var audioSource:Int=0
-    lateinit var bytearray:String
+    private var backalbumName:String = "--"
+    private var bcktrackName:String = "--"
+    private var backartistName:String = "--"
+    private var audioSource:Int=0
 
-    var isConnected : Boolean = false
-    var isBad : Boolean = false
+
+    private var isConnected : Boolean = false
+    private var isBad : Boolean = false
 
     var isServiceStarted = false
 
@@ -50,8 +61,8 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private val DEFAULT_BAUD_RATE = Constants.BAUDRATE
 
-    var tx:Int = 0
-    var rx:Int = 0
+    private var tx:Int = 0
+    private var rx:Int = 0
 
     /* TODO : Implement ECU & MCU class or list enum */
     /* ECU enum could be : Cand_ID, ECUParameters, bytes, offset, value, len, step, offset, unit */
@@ -74,22 +85,20 @@ class CanFrameServices : Service(), ArduinoListener {
 
         // depending on the Android API that we're dealing with we will have
         // to use a specific method to create the notification
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
-            val channel = NotificationChannel(
-                notificationChannelId,
-                "Endless Service notifications channel",
-                NotificationManager.IMPORTANCE_HIGH
-            ).let {
-                it.description = "Endless Service channel"
-                it.enableLights(true)
-                it.lightColor = Color.RED
-                it.enableVibration(true)
-                it.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-                it
-            }
-            notificationManager.createNotificationChannel(channel)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channel = NotificationChannel(
+            notificationChannelId,
+            "Endless Service notifications channel",
+            NotificationManager.IMPORTANCE_HIGH
+        ).let {
+            it.description = "Endless Service channel"
+            it.enableLights(true)
+            it.lightColor = Color.RED
+            it.enableVibration(true)
+            it.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+            it
         }
+        notificationManager.createNotificationChannel(channel)
 
         val pendingIntent: PendingIntent = Intent(this, MainActivity::class.java).let { notificationIntent ->
             PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
@@ -158,7 +167,7 @@ class CanFrameServices : Service(), ArduinoListener {
     }
 
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         return myBinder // or null ?
     }
 
@@ -198,7 +207,6 @@ class CanFrameServices : Service(), ArduinoListener {
     }
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun startService(name: Intent?): ComponentName? {
 
         try {
@@ -294,7 +302,7 @@ class CanFrameServices : Service(), ArduinoListener {
         arduino.close()
     }
 
-    fun sendFifoFrame()
+    private fun sendFifoFrame()
     {
 
         val keys: Set<Int> = application.alpineCanFrame.getKeys()
@@ -342,7 +350,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     }
 
-    fun multiframe (frame : CanFrame)
+    private fun multiframe (frame : CanFrame)
     {
         // First frame
 
@@ -393,7 +401,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
         val crcValue= IntegerUtil.GenerateChecksumCRC16(frame.toByteArray())
 
-        val crcByte:ByteArray = ByteArray(2)
+        val crcByte = ByteArray(2)
 
         crcByte[0]=crcValue.toByte()
         crcByte[1]=(crcValue/256).toByte()
@@ -428,15 +436,15 @@ class CanFrameServices : Service(), ArduinoListener {
         alpine2Cluster.albumArtist=albumartist
     }
 
-    fun getalbumName(): String? {
+    fun getalbumName(): String {
         return backalbumName
     }
 
-    fun getartistName(): String? {
+    fun getartistName(): String {
         return backartistName
     }
 
-    fun gettrackName(): String? {
+    fun gettrackName(): String {
         return bcktrackName
     }
 

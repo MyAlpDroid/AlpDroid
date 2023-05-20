@@ -24,7 +24,7 @@ android {
         minSdkVersion 29
         targetSdkVersion 33
         versionCode 3
-        versionName '3.0.0.1'
+        versionName '3.0.2'
         multiDexEnabled false
         resConfigs("en", "fr")
 
@@ -109,7 +109,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -118,7 +118,7 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.5.7'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.21'
     implementation("org.greenrobot:eventbus:3.3.1")
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation 'com.manicben:PhysicaloidLibrary:1.0.0'
     testImplementation 'junit:junit:4.13.2'

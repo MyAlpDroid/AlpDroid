@@ -14,6 +14,7 @@ import android.widget.Switch
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.OBDframe
+import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
 import com.alpdroid.huGen10.obdUtil.DtcBody
 import com.alpdroid.huGen10.obdUtil.DtcChassis
@@ -122,9 +123,9 @@ class ComputerDisplay : UIFragment(1500) {
             if (showDialog) {
                 // Create a dialog builder and set the message and buttons
                 val builder = AlertDialog.Builder(context)
-                builder.setMessage("Are you sure you want to change the state of this switch?")
+                builder.setMessage(R.string.switch_coomputer)
                 builder.setPositiveButton(
-                    "Yes"
+                    R.string.oui
                 ) { dialog, which ->
                     when (switchId)
                     {
@@ -136,7 +137,9 @@ class ComputerDisplay : UIFragment(1500) {
                         }
                         fragmentBlankBinding.mirrorswitch.id->
                         {
-                //            AlpdroidApplication.app.alpdroidData.set_mirror_switch()
+                            CoroutineScope(Dispatchers.Default).launch {
+                                AlpdroidApplication.app.alpdroidData.set_mirror_switch()
+                            }
                         }
                         fragmentBlankBinding.rearbrakeswitch.id->
                         {
@@ -144,12 +147,14 @@ class ComputerDisplay : UIFragment(1500) {
                         }
                         fragmentBlankBinding.carparkswitch.id->
                         {
-                 //           AlpdroidApplication.app.alpdroidData.set_carpark_switch()
+                            CoroutineScope(Dispatchers.Default).launch {
+                                AlpdroidApplication.app.alpdroidData.set_carpark_switch()
+                            }
                         }
                     }
                 }
                 builder.setNegativeButton(
-                    "No"
+                    R.string.non
                 ) { dialog, which -> // If the user clicked "No", reset the switch to its previous state
                     showDialog = false
                     buttonView.isChecked = !isChecked

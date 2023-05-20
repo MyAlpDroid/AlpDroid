@@ -131,6 +131,9 @@
     <string name="gear_c">Gear °C</string>
     <string name="intake">Intake</string>
     <string name="oil_pressure">Oil pressure</string>
+    <string name="switch_coomputer">Are you sure you want to change the state of this switch ?</string>
     <string name="update_arduino">Update Arduino</string>
+    <string name="non">No</string>
+    <string name="oui">Yes</string>
 
 </resources>

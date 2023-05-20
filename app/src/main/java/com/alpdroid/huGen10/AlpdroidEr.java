@@ -9,17 +9,15 @@ import com.google.common.eventbus.EventBus;
 public class AlpdroidEr {
 
   private static final String TAG = AlpdroidEr.class.getName();
-  private static final int MINIMUM_PLAYING_TIME = 30 * 1000;
 
   private final ConnectivityManager connectivityManager;
-
-  private final EventBus eventBus = AlpdroidApplication.Companion.getEventBus();
 
 
   public AlpdroidEr(
       ConnectivityManager connectivityManager) {
     this.connectivityManager = connectivityManager;
 
+    EventBus eventBus = AlpdroidApplication.Companion.getEventBus();
     eventBus.register(this);
   }
 
@@ -39,31 +37,7 @@ public class AlpdroidEr {
     Track track = playbackItem.getTrack();
 
 
-    long timestamp = playbackItem.getTimestamp();
-    long duration = 0;
-
-    if (track.duration().isPresent()) {
-      duration = track.duration().get();
-    }
-
     long playTime = playbackItem.getAmountPlayed();
-
-    if (playTime < 1) {
-      return;
-    }
-
-    if (duration == 0) {
-      duration = playTime;
-    }
-
-    int playCount = (int) (playTime / duration);
-
-    if (duration < MINIMUM_PLAYING_TIME) {
-      return;
-    }
-     int itemTimestamp = (int) ((timestamp + duration) / 1000);
-
-    //Alpdroid alpdroid = Alpdroid.builder().track(track).timestamp(itemTimestamp).build();
 
 
   }

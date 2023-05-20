@@ -40,7 +40,7 @@ class WidgetTempService : RemoteViewsService() {
         override fun getViewAt(position: Int): RemoteViews {
             // Position will always range from 0 to getCount() - 1.
 
-            var mValue:String = "Extra"
+            var mValue = "Extra"
 
             // Construct remote views item based on the item xml file and set text based on position.
             val rv = RemoteViews(mContext.packageName, R.layout.widget_temp_item)
@@ -106,7 +106,7 @@ class WidgetTempService : RemoteViewsService() {
 
             try{
 
-                    var alpineServices: VehicleServices = AlpdroidApplication.app.alpdroidData
+                    val alpineServices: VehicleServices = AlpdroidApplication.app.alpdroidData
 
 
                     mWidgetItems.clear()

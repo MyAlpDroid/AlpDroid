@@ -68,7 +68,9 @@ public class ListenerService extends NotificationListenerService
             if(networkStateReceiver!=null)
                 unregisterReceiver(networkStateReceiver);
 
-        }catch(Exception e){}
+        }catch(Exception e){ //nothing
+             }
+
 
         networkStateReceiver = new NetworkStateReceiver(alpdroidEr);
         IntentFilter filter = new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION);

@@ -52,15 +52,13 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
     @Synchronized
     fun setBitRange(offset: Int, len: Int, value: Int) {
 
-        val maskinv:Long
-
         if (offset+len > dlc*8) {
             throw IndexOutOfBoundsException("Offset+Len > ${dlc*8}")
         }
 
         datatonum=datatonum.clearBitsSlice(64-(offset+len),63-offset)
 
-        maskinv = value.toLong() shl (64-offset-len)
+        val maskinv:Long = value.toLong() shl (64-offset-len)
 
        datatonum = datatonum or maskinv
 
