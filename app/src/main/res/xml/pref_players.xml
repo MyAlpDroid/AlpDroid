@@ -42,7 +42,7 @@
             android:key="@string/arduino_update"
             android:defaultValue="false"/>
 
-
+<!--
         <ListPreference
             android:defaultValue="2"
             android:dialogTitle="@string/baudrate"
@@ -50,6 +50,7 @@
             android:entryValues="@array/key_subbaudrate"
             android:key="@string/baudrate_summary"
             android:title="@string/baudrate_title" />
+            -->
 
         <SwitchPreference
             android:defaultValue="true"

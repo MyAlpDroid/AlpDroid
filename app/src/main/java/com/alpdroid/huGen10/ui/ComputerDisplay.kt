@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import android.widget.Switch
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.OBDframe
@@ -20,6 +19,7 @@ import com.alpdroid.huGen10.obdUtil.DtcBody
 import com.alpdroid.huGen10.obdUtil.DtcChassis
 import com.alpdroid.huGen10.obdUtil.DtcNetwork
 import com.alpdroid.huGen10.obdUtil.DtcPowertrain
+import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,13 +45,13 @@ class ComputerDisplay : UIFragment(1500) {
 
     var showDialog = true
 
-    lateinit var mirror_switch: Switch
+    lateinit var mirror_switch: SwitchMaterial
 
-    lateinit var startstop_switch: Switch
+    lateinit var startstop_switch: SwitchMaterial
 
-    lateinit var carpark_switch: Switch
+    lateinit var carpark_switch: SwitchMaterial
 
-    lateinit var rearbrake_switch: Switch
+    lateinit var rearbrake_switch: SwitchMaterial
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment

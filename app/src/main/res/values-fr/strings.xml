@@ -108,7 +108,7 @@
     <string name="r_serv_l">Réserv. (l)</string>
     <string name="oil">Huile</string>
     <string name="cool">Eau</string>
-    <string name="gear_c">Boite °C</string>
+    <string name="gear_c">Temp. Boite</string>
     <string name="intake">Air</string>
     <string name="oil_pressure">Pression huile</string>
     <string name="switch_coomputer">Etes-vous sûr de vouloir modifier ce paramètre ?</string>

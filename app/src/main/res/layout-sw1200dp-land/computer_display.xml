@@ -67,15 +67,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/car_parameters" />
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/mirrorswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    tools:checked="true"
-                    android:text="@string/mirror_autofolding" />
+                    android:text="@string/mirror_autofolding"
+                    tools:checked="true" />
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/startstopswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                     tools:checked="true"
                     android:text="@string/start_stop" />
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/carparkswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                     tools:checked="true"
                     android:text="@string/car_park_signal" />
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/rearbrakeswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
