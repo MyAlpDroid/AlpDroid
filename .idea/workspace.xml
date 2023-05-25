@@ -40,25 +40,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning /2&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Arduino.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/Arduino.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_6.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shift_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shift_7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-port/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/computer_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/computer_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/computer_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/pref_players.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/pref_players.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -333,13 +318,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
-      <created>1657953774343</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1657953774343</updated>
     </task>
     <task id="LOCAL-00018" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1657953800828</created>
@@ -677,7 +655,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684606253687</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning /2&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1684694425884</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1684694425884</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -733,7 +718,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;Adding openstreetmap for Compass &amp; Directions&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;adding openstreetmap" />
@@ -758,7 +742,8 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;Initialisation du programme Arduino à la première installation de MyAlpdroid&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Autofolding &amp; cold country handbrake (not tested)&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning /2&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning /2&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
