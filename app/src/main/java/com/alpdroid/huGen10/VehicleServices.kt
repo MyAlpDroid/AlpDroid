@@ -50,8 +50,9 @@ class VehicleServices : LocationListener {
          }
 
     companion object {
+        private const val PERMISSIONS_REQUEST_LOCATION = 123
         private const val MIN_TIME_BW_UPDATES: Long = 500
-        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 50f
+        private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 25f
 
         private var currentBearing = 0
     }
@@ -68,9 +69,14 @@ class VehicleServices : LocationListener {
         northPoleLocation.longitude = 0.0
 
 
-        compassOrientation = (location.bearingTo(northPoleLocation)).toInt()
+        this.compassOrientation = (location.bearingTo(northPoleLocation) + location.bearing).toInt()
 
-        currentBearing = compassOrientation
+        // Adjust the compassOrientation value to a range of 0 to 360 degrees
+        this.compassOrientation = (this.compassOrientation + 360) % 360
+
+        currentBearing = this.compassOrientation
+
+
 
     }
 
@@ -79,10 +85,8 @@ class VehicleServices : LocationListener {
 
     fun getCompassOrientation() : Int {
 
-      /*  if (compassOrientation>180)
-              compassOrientation=256+(compassOrientation-360)*/
 
-        return compassOrientation
+        return this.compassOrientation
     }
 
 
@@ -113,7 +117,7 @@ class VehicleServices : LocationListener {
         var dlc_offset=0
 
         try {
-            if ((serviceDir and 0xBF)<0x20 || servicePID<0x100) {
+            if ((serviceDir and 0xBF)<0x22) {
                 (2 + bytesData.size).toByte().also { serviceData[0] = it }
                 serviceData[1] = serviceDir.toByte()
                 serviceData[2] = (servicePID).toByte()
@@ -372,9 +376,46 @@ class VehicleServices : LocationListener {
 
     suspend fun set_startstop_switch()
     {
-        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x2E, ByteArray(0))
+
+        val startstopvalue=get_startstop_switch()
+
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0xC0, 0x10, ByteArray(0))
+
+        val tempo=System.currentTimeMillis()
+
+        while (!isOBDParams(0xC0,0x52,CanECUAddrs.CANECUREC_ECM.idcan) && tempo+100<System.currentTimeMillis())
+        {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (startstopvalue==0x80)
+            pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x2E, byteArrayOf(0x0.toByte()))
+        else
+            pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x2E, byteArrayOf(0x80.toByte()))
 
     }
+
+    suspend fun get_startstop_switch():Int
+    {
+        val tempo:Long
+
+        removeOBDFrame(0x00AD,0x22, CanECUAddrs.CANECUREC_ECM.idcan)
+
+        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD,0x22, ByteArray(0))
+
+        tempo=System.currentTimeMillis()
+
+        while (!isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_ECM.idcan) && tempo+100<System.currentTimeMillis())
+        {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_ECM.idcan)) {
+            return getOBDParams(0x00AD, 0x62, CanECUAddrs.CANECUREC_ECM.idcan, 0, 8)
+        }
+        return -1
+    }
+
     suspend fun set_mirror_switch()
     {
 

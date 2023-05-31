@@ -608,6 +608,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 // Compass
         application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.getCompassOrientation())
 
+        Log.d("Compass Cluster", app.alpdroidData.getCompassOrientation().toString())
 
 // Navigation / Direction
 // TODO : mise à jour plus rapide des directions
