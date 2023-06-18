@@ -56,7 +56,7 @@
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="316dp"
-                android:layout_height="171dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
                 app:layout_constraintStart_toEndOf="@+id/ptcframe"
                 app:layout_constraintTop_toTopOf="@+id/ptcframe">
@@ -72,22 +72,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:text="@string/mirror_autofolding"
-                    tools:checked="true" />
+                    android:minHeight="48dp"
+                    android:text="@string/mirror_autofolding" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/startstopswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    tools:checked="true"
-                    android:text="@string/start_stop" />
+                    android:minHeight="48dp"
+                    android:text="@string/start_stop"
+                    tools:checked="true" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/carparkswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:minHeight="48dp"
                     tools:checked="true"
                     android:text="@string/car_park_signal" />
 
@@ -96,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:minHeight="48dp"
                     tools:checked="true"
                     android:text="@string/overspeed_buzzer" />
             </RadioGroup>

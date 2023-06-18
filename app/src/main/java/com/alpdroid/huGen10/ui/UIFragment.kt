@@ -2,7 +2,8 @@ package com.alpdroid.huGen10.ui
 
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 abstract class UIFragment(private val uiRefreshTime: Long) : Fragment() {
 
@@ -25,5 +26,6 @@ abstract class UIFragment(private val uiRefreshTime: Long) : Fragment() {
         super.onPause()
         runningTimer.cancel()
     }
+
 
 }

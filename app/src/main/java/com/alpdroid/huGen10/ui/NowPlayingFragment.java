@@ -1,5 +1,4 @@
-package com.alpdroid.huGen10.ui;
-
+package main.java.com.alpdroid.huGen10.ui;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;

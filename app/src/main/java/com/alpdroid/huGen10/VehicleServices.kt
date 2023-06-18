@@ -72,7 +72,7 @@ class VehicleServices : LocationListener {
         this.compassOrientation = (location.bearingTo(northPoleLocation) + location.bearing).toInt()
 
         // Adjust the compassOrientation value to a range of 0 to 360 degrees
-        this.compassOrientation = (this.compassOrientation + 360) % 360
+        this.compassOrientation = (this.compassOrientation % 180 ) + 180
 
         currentBearing = this.compassOrientation
 
@@ -379,19 +379,21 @@ class VehicleServices : LocationListener {
 
         val startstopvalue=get_startstop_switch()
 
-        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0xC0, 0x10, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0xC0, 0x10, ByteArray(0))
 
         val tempo=System.currentTimeMillis()
 
-        while (!isOBDParams(0xC0,0x52,CanECUAddrs.CANECUREC_ECM.idcan) && tempo+100<System.currentTimeMillis())
+        while (!isOBDParams(0xC0,0x50,CanECUAddrs.CANECUREC_TPS.idcan) && tempo+100<System.currentTimeMillis())
         {
             // do nothing .. waiting for folding _ state
         }
 
         if (startstopvalue==0x80)
-            pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x2E, byteArrayOf(0x0.toByte()))
+            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x00AD, 0x2E, byteArrayOf(0x0.toByte()))
         else
-            pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD, 0x2E, byteArrayOf(0x80.toByte()))
+            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x00AD, 0x2E, byteArrayOf(0x80.toByte()))
+
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x81, 0x10, ByteArray(0))
 
     }
 
@@ -399,19 +401,19 @@ class VehicleServices : LocationListener {
     {
         val tempo:Long
 
-        removeOBDFrame(0x00AD,0x22, CanECUAddrs.CANECUREC_ECM.idcan)
+        removeOBDFrame(0x00AD,0x62, CanECUAddrs.CANECUREC_TPS.idcan)
 
-        pushOBDParams(CanECUAddrs.CANECUSEND_ECM.idcan,0x00AD,0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x00AD,0x22, ByteArray(0))
 
         tempo=System.currentTimeMillis()
 
-        while (!isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_ECM.idcan) && tempo+100<System.currentTimeMillis())
+        while (!isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_TPS.idcan) && tempo+100<System.currentTimeMillis())
         {
             // do nothing .. waiting for folding _ state
         }
 
-        if (isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_ECM.idcan)) {
-            return getOBDParams(0x00AD, 0x62, CanECUAddrs.CANECUREC_ECM.idcan, 0, 8)
+        if (isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_TPS.idcan)) {
+            return getOBDParams(0x00AD, 0x62, CanECUAddrs.CANECUREC_TPS.idcan, 0, 8)
         }
         return -1
     }
@@ -421,15 +423,27 @@ class VehicleServices : LocationListener {
 
         var Nbx_AutoFolding_CF:Int=get_folding_state()
 
-        if (Nbx_AutoFolding_CF!=-1) {
+        if (Nbx_AutoFolding_CF!=-255) {
             val Nsx_AutoFoldingDelay_CF=getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan,0,8)
             val Nsx_AutoUnfoldingDelay_CF=getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan,8,8)
             if (Nbx_AutoFolding_CF==0)
-                Nbx_AutoFolding_CF=1
+                Nbx_AutoFolding_CF=0x80
             else
                 Nbx_AutoFolding_CF=0
 
+            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan,0xC0, 0x10, ByteArray(0))
+
+            val tempo=System.currentTimeMillis()
+
+            while (!isOBDParams(0xC0,0x50,CanECUAddrs.CANECUREC_EMM.idcan) && tempo+100<System.currentTimeMillis())
+            {
+                // do nothing .. waiting for folding _ state
+            }
+
             pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x1F, 0x3B, byteArrayOf(Nsx_AutoFoldingDelay_CF.toByte(), Nsx_AutoUnfoldingDelay_CF.toByte(),Nbx_AutoFolding_CF.toByte()))
+
+            // back to default mode
+            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan,0x81, 0x10, ByteArray(0))
         }
 
     }
@@ -438,7 +452,7 @@ class VehicleServices : LocationListener {
     {
         val tempo:Long
 
-        removeOBDFrame(0x1F,0x21, CanECUAddrs.CANECUREC_EMM.idcan)
+        removeOBDFrame(0x1F,0x61, CanECUAddrs.CANECUREC_EMM.idcan)
 
         pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan,0x1F,0x21, ByteArray(0))
 
@@ -452,7 +466,7 @@ class VehicleServices : LocationListener {
         if (isOBDParams(0x1F,0x61,CanECUAddrs.CANECUREC_EMM.idcan)) {
             return getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan, 16, 8)
         }
-            return -1
+            return -255
     }
 
 
@@ -461,7 +475,7 @@ class VehicleServices : LocationListener {
         var coldCountryMode:Int=get_apbconfiguration_country_state()
         var data2send=ByteArray(2)
 
-        if (coldCountryMode!=-1) {
+        if (coldCountryMode!=-255) {
             val gearBoxType=getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,6,2)
             val stopAndStartMode=getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,2,2)
             val sCUVehicleType:Int =getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan,0,2)
@@ -477,7 +491,19 @@ class VehicleServices : LocationListener {
             data2send[0]= (sCUVehicleType.toByte()+(stopAndStartMode shl 2).toByte()+(gearBoxType shl 4).toByte()+(coldCountryMode shl 6).toByte()).toByte()
             data2send[1]= ((axOrientation shl 2).toByte()+(driverSeatSensorConf shl 4).toByte()+(tiltByESCMode shl 6).toByte()).toByte()
 
-            pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x0220, 0x2E, data2send)
+            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0xC0, 0x10, ByteArray(0))
+
+            val tempo=System.currentTimeMillis()
+
+            while (!isOBDParams(0xC0,0x50,CanECUAddrs.CANECUREC_APB.idcan) && tempo+100<System.currentTimeMillis())
+            {
+                // do nothing .. waiting for folding _ state
+            }
+
+            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x0220, 0x2E, data2send)
+
+            // back to default mode
+            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0x81, 0x10, ByteArray(0))
         }
     }
 
@@ -499,7 +525,7 @@ class VehicleServices : LocationListener {
         if (isOBDParams(0x0220,0x62,CanECUAddrs.CANECUREC_APB.idcan)) {
             return getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 4, 2)
         }
-        return -1
+        return -255
     }
 
     /** Get code GearboxOilTemperature **/

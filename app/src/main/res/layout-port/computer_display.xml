@@ -56,7 +56,7 @@
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="265dp"
-                android:layout_height="177dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@+id/ptcframe"
                 app:layout_constraintTop_toBottomOf="@+id/ptcframe">
 
@@ -71,6 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:minHeight="48dp"
                     android:text="@string/mirror_autofolding"
                     tools:checked="true" />
 
@@ -79,24 +80,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:minHeight="48dp"
                     android:text="@string/start_stop"
-                    tools:checked="true"/>
+                    tools:checked="true" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/carparkswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:minHeight="48dp"
                     android:text="@string/car_park_signal"
-                    tools:checked="true"/>
+                    tools:checked="true" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/rearbrakeswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:minHeight="48dp"
                     android:text="@string/overspeed_buzzer"
-                    tools:checked="true"/>
+                    tools:checked="true" />
 
             </RadioGroup>
 

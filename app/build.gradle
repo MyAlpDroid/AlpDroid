@@ -24,7 +24,7 @@ android {
         minSdkVersion 29
         targetSdkVersion 33
         versionCode 3
-        versionName '3.0.2'
+        versionName '3.1.5'
         multiDexEnabled false
         resConfigs("en", "fr")
 
@@ -121,6 +121,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation 'com.manicben:PhysicaloidLibrary:1.0.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -132,7 +133,7 @@ dependencies {
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "androidx.car.app:app:1.2.0"
-    implementation "androidx.activity:activity-ktx:1.7.1"
+    implementation "androidx.activity:activity-ktx:1.7.2"
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
