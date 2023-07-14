@@ -25,6 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import com.alpdroid.huGen10.AlpdroidApplication
 
 
 // Main CLass for Arduino and Canframe handling, as a service, listening to Arduino, sending to arduino and giving Frame value

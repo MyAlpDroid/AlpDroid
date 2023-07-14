@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.res.ResourcesCompat
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
@@ -15,6 +16,7 @@ import com.alpdroid.huGen10.databinding.EngineDisplayBinding
 import com.github.anastr.speedviewlib.ImageLinearGauge
 import com.github.anastr.speedviewlib.ImageSpeedometer
 import com.github.anastr.speedviewlib.ProgressiveGauge
+import com.github.anastr.speedviewlib.components.indicators.ImageIndicator
 
 
 @ExperimentalUnsignedTypes
@@ -116,6 +118,40 @@ class EngineDisplay : UIFragment(250)
 
         otherJauge3 = fragmentBlankBinding!!.OilPressure
 
+        val imageIndicatorBlue = getDrawable(AlpdroidApplication.app,R.drawable.image_indicator2)?.let {
+            ImageIndicator(
+                AlpdroidApplication.app,
+                it
+            )
+        }
+
+        if (imageIndicatorBlue != null) {
+            oil_temp.indicator = imageIndicatorBlue
+            intake_temp.indicator = imageIndicatorBlue
+        }
+
+        val imageIndicatorWhite = getDrawable(AlpdroidApplication.app,R.drawable.image_indicator_white)?.let {
+            ImageIndicator(
+                AlpdroidApplication.app,
+                it
+            )
+        }
+
+        if (imageIndicatorWhite != null) {
+            cool_temp.indicator = imageIndicatorWhite
+        }
+
+        val imageIndicatorRed = getDrawable(AlpdroidApplication.app,R.drawable.image_indicator_red)?.let {
+            ImageIndicator(
+                AlpdroidApplication.app,
+                it
+            )
+        }
+
+        if (imageIndicatorRed != null) {
+            gear_temp.indicator = imageIndicatorRed
+            otherJauge3.indicator = imageIndicatorRed
+        }
 
             timerTask = {
                 activity?.runOnUiThread {
@@ -132,17 +168,20 @@ class EngineDisplay : UIFragment(250)
                         val frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
                         val rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
                         val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
-
+                        val tyretemp_fl2:Int =alpineServices.get_TyreTemperature1()
+                        val tyretemp_fr2:Int =alpineServices.get_TyreTemperature2()
+                        val tyretemp_rl2:Int =alpineServices.get_TyreTemperature3()
+                        val tyretemp_rr2:Int =alpineServices.get_TyreTemperature4()
                         // temp
-                        temp_FL2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature1() ))
-                        temp_FR2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature2() ))
-                        temp_RL2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature3() ))
-                        temp_RR2.text= String.format(" %d °C",(alpineServices.get_TyreTemperature4() ))
+                        temp_FL2.text= String.format(" %d °C", tyretemp_fl2)
+                        temp_FR2.text= String.format(" %d °C",tyretemp_fr2)
+                        temp_RL2.text= String.format(" %d °C",tyretemp_rl2)
+                        temp_RR2.text= String.format(" %d °C",tyretemp_rr2)
 
 
                         press_FL.text = String.format(
-                            " %d mBar",
-                            flbrake_press
+                            " %.2f Bar",
+                            (flbrake_press.toFloat()/1000)
                         )
 
                         if (flbrake_press<2300)
@@ -151,6 +190,13 @@ class EngineDisplay : UIFragment(250)
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                        if (tyretemp_fl2<25)
+                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                        else if (tyretemp_fl2<35)
+                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                        else
+                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         temp_FL.text = String.format(
                             " %d °C",
@@ -164,10 +210,16 @@ class EngineDisplay : UIFragment(250)
                         else
                             temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
+                        if (tyretemp_fr2<25)
+                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                        else if (tyretemp_fr2<35)
+                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                        else
+                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         press_RL.text = String.format(
-                            " %d mBar",
-                            rlbrake_press
+                            " %.2f Bar",
+                            (rlbrake_press.toFloat()/1000)
                         )
 
                         if (rlbrake_press<2300)
@@ -177,12 +229,6 @@ class EngineDisplay : UIFragment(250)
                         else
                             press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-
-                        temp_RL.text = String.format(
-                            " %d °C",
-                            rlbrake_temp
-                        )
-
                         if (rlbrake_temp<120)
                             temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                         else if (rlbrake_temp<250)
@@ -190,11 +236,12 @@ class EngineDisplay : UIFragment(250)
                         else
                             temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-
-                        press_FR.text = String.format(
-                            " %d mBar",
-                            frbrake_press
+                        temp_RL.text = String.format(
+                            " %d °C",
+                            rlbrake_temp
                         )
+
+
 
                         if (frbrake_press<2300)
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
@@ -203,8 +250,20 @@ class EngineDisplay : UIFragment(250)
                         else
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
+                        if (tyretemp_rr2<25)
+                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                        else if (tyretemp_rr2<35)
+                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                        else
+                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                        press_FR.text = String.format(
+                            " %.2f Bar",
+                            (frbrake_press.toFloat()/1000)
+                        )
+
                         temp_FR.text = String.format(
-                            "  %d °C",
+                            " %d °C",
                             frbrake_temp
                         )
 
@@ -216,8 +275,8 @@ class EngineDisplay : UIFragment(250)
                             temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         press_RR.text = String.format(
-                            " %d mBar",
-                            rrbrake_press
+                            " %.2f Bar",
+                            (rrbrake_press.toFloat()/1000)
                         )
 
                         if (rrbrake_press<2300)
@@ -227,9 +286,19 @@ class EngineDisplay : UIFragment(250)
                         else
                             press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
+                        if (tyretemp_rl2<25)
+                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                        else if (tyretemp_rl2<30)
+                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                        else
+                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
+                        press_FR.text = String.format(
+                            " %.2f Bar",
+                            (frbrake_press.toFloat()/1000)
+                        )
                         temp_RR.text = String.format(
-                            "  %d°C",
+                            " %d°C",
                             rrbrake_temp
                         )
 

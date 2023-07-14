@@ -27,11 +27,12 @@ import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.alpdroid.huGen10.*
-import main.java.com.alpdroid.huGen10.ui.NowPlayingFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
-import main.java.com.alpdroid.huGen10.ui.ParametersFragment
+import com.alpdroid.huGen10.AlpdroidApplication
+import main.java.com.alpdroid.huGen10.ui.CompassDisplay
+import main.java.com.alpdroid.huGen10.ui.NowPlayingFragment
 import java.util.Locale
 import kotlin.time.ExperimentalTime
 
@@ -40,7 +41,7 @@ class MainActivity : FragmentActivity()  {
 
     private val TAG = "MainActivity"
 
-    lateinit var application:AlpdroidApplication
+    lateinit var application: AlpdroidApplication
 
     private var sharedPreferences: SharedPreferences? = null
 
@@ -308,7 +309,7 @@ class MainActivity : FragmentActivity()  {
             EngineDisplay(),
             ConfortDisplay(),
            ComputerDisplay(),
-            ParametersFragment(),
+            CompassDisplay(),
             SettingsDisplay()
         )
 

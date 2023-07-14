@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 
 import com.google.common.eventbus.EventBus;
 
+import com.alpdroid.huGen10.AlpdroidApplication;
+
 public class AlpdroidEr {
 
   private static final String TAG = AlpdroidEr.class.getName();

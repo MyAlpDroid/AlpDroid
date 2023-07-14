@@ -13,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import com.alpdroid.huGen10.AlpdroidApplication
 import net.osmand.aidlapi.info.AppInfoParams
 import java.util.Calendar
 import kotlin.math.roundToInt
@@ -69,7 +70,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
     private lateinit var mAidlHelper:OsmAndAidlHelper
 
-    private var app:AlpdroidApplication=this.application
+    private var app: AlpdroidApplication =this.application
 
 
     init {

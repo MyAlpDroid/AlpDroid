@@ -248,7 +248,7 @@ class ComputerDisplay : UIFragment(1500) {
                         if (AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!=null) {
 
                             ptc2show+="ECM Defaults :\b\n"
-                            ptc2decode =AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!!.copyOfRange(1,
+                            ptc2decode = AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!!.copyOfRange(1,
                                 AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!!.size
                             )
 

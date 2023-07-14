@@ -4,6 +4,8 @@ import android.media.session.PlaybackState;
 
 import com.google.common.eventbus.EventBus;
 
+import com.alpdroid.huGen10.AlpdroidApplication;
+
 public class PlayerState {
 
     private static final String TAG = PlayerState.class.getName();

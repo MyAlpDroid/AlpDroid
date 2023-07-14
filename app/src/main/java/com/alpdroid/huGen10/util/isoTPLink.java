@@ -4,8 +4,16 @@ package com.alpdroid.huGen10.util;
 https://github.com/lishen2/isotp-c
 */
 
-import static com.alpdroid.huGen10.util.isoTPdefines.*;
-
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_INVALID_BS;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_ERROR;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_INPROGRESS;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_LENGTH;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_NO_DATA;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_OK;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_OVERFLOW;
+import static com.alpdroid.huGen10.util.isoTPdefines.ISOTP_RET_WRONG_SN;
+import static com.alpdroid.huGen10.util.isoTPdefines.IsoTpReceiveStatusTypes;
+import static com.alpdroid.huGen10.util.isoTPdefines.IsoTpSendStatusTypes;
 import static java.lang.System.currentTimeMillis;
 
 import java.util.Arrays;
@@ -152,7 +160,7 @@ public class isoTPLink {
 
     int isotp_send_flow_control( byte flow_status, byte block_size, byte st_min_ms) {
 
-        IsoTpCanMessage message=new IsoTpCanMessage();
+        com.alpdroid.huGen10.util.IsoTpCanMessage message=new com.alpdroid.huGen10.util.IsoTpCanMessage();
         int ret;
 
         /* setup message  */

@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.lang.Math.abs
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
@@ -21,7 +22,7 @@ class VehicleServices : LocationListener {
 
     private val TAG = VehicleServices::class.java.name
 
-    private val application:AlpdroidApplication= AlpdroidApplication.app
+    private val application: AlpdroidApplication = AlpdroidApplication.app
 
 
     private var compassOrientation:Int = 0
@@ -72,11 +73,9 @@ class VehicleServices : LocationListener {
         this.compassOrientation = (location.bearingTo(northPoleLocation) + location.bearing).toInt()
 
         // Adjust the compassOrientation value to a range of 0 to 360 degrees
-        this.compassOrientation = (this.compassOrientation % 180 ) + 180
+       this.compassOrientation = abs((this.compassOrientation % 360)/2)
 
         currentBearing = this.compassOrientation
-
-
 
     }
 
@@ -86,9 +85,14 @@ class VehicleServices : LocationListener {
     fun getCompassOrientation() : Int {
 
 
-        return this.compassOrientation
+        return compassOrientation
     }
 
+    fun setCompassOrientation(value:Int) {
+
+
+         compassOrientation=value
+    }
 
     //TODO : ajouter la gestion du bus
     private fun getFrameParams(canID:Int, bytesNum:Int, len:Int): Int {
@@ -379,22 +383,40 @@ class VehicleServices : LocationListener {
 
         val startstopvalue=get_startstop_switch()
 
-        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0xC0, 0x10, ByteArray(0))
+        if (startstopvalue!=-255) {
 
-        val tempo=System.currentTimeMillis()
 
-        while (!isOBDParams(0xC0,0x50,CanECUAddrs.CANECUREC_TPS.idcan) && tempo+100<System.currentTimeMillis())
-        {
-            // do nothing .. waiting for folding _ state
+            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan, 0xC0, 0x10, ByteArray(0))
+
+            val tempo = System.currentTimeMillis()
+
+            while (!isOBDParams(
+                    0xC0,
+                    0x50,
+                    CanECUAddrs.CANECUREC_TPS.idcan
+                ) && tempo + 300 < System.currentTimeMillis()
+            ) {
+                // do nothing .. waiting for folding _ state
+            }
+
+            if (startstopvalue == 0x80)
+                pushOBDParams(
+                    CanECUAddrs.CANECUSEND_TPS.idcan,
+                    0x00AD,
+                    0x2E,
+                    byteArrayOf(0x0.toByte())
+                )
+            else
+                pushOBDParams(
+                    CanECUAddrs.CANECUSEND_TPS.idcan,
+                    0x00AD,
+                    0x2E,
+                    byteArrayOf(0x80.toByte())
+                )
+
+            delay(20)
+            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan, 0x81, 0x10, ByteArray(0))
         }
-
-        if (startstopvalue==0x80)
-            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x00AD, 0x2E, byteArrayOf(0x0.toByte()))
-        else
-            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x00AD, 0x2E, byteArrayOf(0x80.toByte()))
-
-        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x81, 0x10, ByteArray(0))
-
     }
 
     suspend fun get_startstop_switch():Int
@@ -405,9 +427,11 @@ class VehicleServices : LocationListener {
 
         pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x00AD,0x22, ByteArray(0))
 
+        delay(10)
+
         tempo=System.currentTimeMillis()
 
-        while (!isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_TPS.idcan) && tempo+100<System.currentTimeMillis())
+       while (!isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_TPS.idcan) && tempo+250<System.currentTimeMillis())
         {
             // do nothing .. waiting for folding _ state
         }
@@ -415,7 +439,7 @@ class VehicleServices : LocationListener {
         if (isOBDParams(0x00AD,0x62,CanECUAddrs.CANECUREC_TPS.idcan)) {
             return getOBDParams(0x00AD, 0x62, CanECUAddrs.CANECUREC_TPS.idcan, 0, 8)
         }
-        return -1
+        return -255
     }
 
     suspend fun set_mirror_switch()
@@ -432,10 +456,11 @@ class VehicleServices : LocationListener {
                 Nbx_AutoFolding_CF=0
 
             pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan,0xC0, 0x10, ByteArray(0))
+            delay(10)
 
             val tempo=System.currentTimeMillis()
 
-            while (!isOBDParams(0xC0,0x50,CanECUAddrs.CANECUREC_EMM.idcan) && tempo+100<System.currentTimeMillis())
+            while (!isOBDParams(0xC0,0x50,CanECUAddrs.CANECUREC_EMM.idcan) && tempo+30<System.currentTimeMillis())
             {
                 // do nothing .. waiting for folding _ state
             }
@@ -452,7 +477,7 @@ class VehicleServices : LocationListener {
     {
         val tempo:Long
 
-        removeOBDFrame(0x1F,0x61, CanECUAddrs.CANECUREC_EMM.idcan)
+      //  removeOBDFrame(0x1F,0x61, CanECUAddrs.CANECUREC_EMM.idcan)
 
         pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan,0x1F,0x21, ByteArray(0))
 
@@ -491,7 +516,7 @@ class VehicleServices : LocationListener {
             data2send[0]= (sCUVehicleType.toByte()+(stopAndStartMode shl 2).toByte()+(gearBoxType shl 4).toByte()+(coldCountryMode shl 6).toByte()).toByte()
             data2send[1]= ((axOrientation shl 2).toByte()+(driverSeatSensorConf shl 4).toByte()+(tiltByESCMode shl 6).toByte()).toByte()
 
-            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0xC0, 0x10, ByteArray(0))
+            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0x03, 0x10, ByteArray(0))
 
             val tempo=System.currentTimeMillis()
 
@@ -501,9 +526,10 @@ class VehicleServices : LocationListener {
             }
 
             pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x0220, 0x2E, data2send)
-
+            delay(20)
             // back to default mode
-            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0x81, 0x10, ByteArray(0))
+            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan,0x01, 0x10, ByteArray(0))
+
         }
     }
 

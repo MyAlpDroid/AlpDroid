@@ -128,7 +128,7 @@ class ConfortDisplay : UIFragment(250) {
             activity?.runOnUiThread {
             if (AlpdroidApplication.app.isBound) {
 
-                val alpineServices=AlpdroidApplication.app.alpdroidData
+                val alpineServices= AlpdroidApplication.app.alpdroidData
 
                 climfanspeed.speedTo(alpineServices.get_IH_CoolingFanSpeed(),2)
 

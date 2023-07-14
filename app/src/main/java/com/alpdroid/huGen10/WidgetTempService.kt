@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.alpdroid.huGen10.ui.WidgetProvider
+import com.alpdroid.huGen10.AlpdroidApplication
 
 class WidgetTempService : RemoteViewsService() {
 

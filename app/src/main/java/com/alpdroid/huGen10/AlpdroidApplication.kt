@@ -284,7 +284,7 @@ class AlpdroidApplication : Application() {
         lateinit var app : AlpdroidApplication
 
         fun setContext(con: AlpdroidApplication) {
-            app=con
+            app =con
         }
 
 
