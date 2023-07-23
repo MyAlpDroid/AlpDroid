@@ -34,7 +34,7 @@
     </queries>
 
     <application
-            android:name="com.alpdroid.huGen10.main.java.com.alpdroid.huGen10.AlpdroidApplication"
+            android:name="com.alpdroid.huGen10.AlpdroidApplication"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"

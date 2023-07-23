@@ -34,7 +34,7 @@
                 android:id="@+id/text_press_FL"
                 android:layout_width="88dp"
                 android:layout_height="26dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="54dp"
                 android:text="7650 mBar"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -58,7 +58,7 @@
                 android:id="@+id/text_temp_FL"
                 android:layout_width="64dp"
                 android:layout_height="26dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:text="TFL"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -96,19 +96,21 @@
                 android:id="@+id/text_press_RL"
                 android:layout_width="88dp"
                 android:layout_height="26dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:text="PsiRL"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintBottom_toTopOf="@+id/text_temp_RL"
-                app:layout_constraintStart_toStartOf="@+id/text_press_FL" />
+                app:layout_constraintStart_toStartOf="@+id/text_temp_RL2"
+                app:layout_constraintTop_toBottomOf="@+id/text_temp_RL2" />
 
             <TextView
                 android:id="@+id/text_press_FR"
                 android:layout_width="88dp"
                 android:layout_height="26dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="54dp"
                 android:text="Psi FR"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -132,7 +134,7 @@
                 android:id="@+id/text_temp_FR"
                 android:layout_width="64dp"
                 android:layout_height="26dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:text="TFR"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -168,13 +170,15 @@
                 android:id="@+id/text_press_RR"
                 android:layout_width="88dp"
                 android:layout_height="26dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:text="PsiRR"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintBottom_toTopOf="@+id/text_temp_RR"
-                app:layout_constraintEnd_toEndOf="@+id/dessinCar" />
+                app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintTop_toBottomOf="@+id/text_temp_RR2" />
 
             <ImageView
                 android:id="@+id/gear_Active"
@@ -217,6 +221,7 @@
                 app:sv_unit="%"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="24sp"
+                app:sv_withTremble="false"
                 app:sv_unitUnderSpeedText="false" />
 
             <com.github.anastr.speedviewlib.ProgressiveGauge
@@ -239,6 +244,7 @@
                 app:sv_unit="%"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="24sp"
+                app:sv_withTremble="false"
                 app:sv_unitUnderSpeedText="false" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
@@ -307,6 +313,7 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
+                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="42dp" />
 
@@ -343,6 +350,7 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="FLOAT"
                 app:sv_unit=" Bar"
+                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="32dp" />
 
@@ -376,6 +384,7 @@
                 app:sv_tickNumber="7"
                 app:sv_tickPadding="75dp"
                 app:sv_tickRotation="false"
+                app:sv_withTremble="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
                 app:sv_unitTextColor="#FFFFFF"

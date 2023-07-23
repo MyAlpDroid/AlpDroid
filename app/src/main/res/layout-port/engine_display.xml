@@ -35,9 +35,11 @@
                 android:layout_width="64dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="52dp"
-                android:text="7650 mBar"
+                android:text="2.09 Bar"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/dessinCar" />
@@ -47,9 +49,10 @@
                 android:layout_width="64dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="24dp"
-                android:text="temp FL"
+                android:text="temp iFL"
+                android:gravity="center"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/dessinCar" />
@@ -61,8 +64,9 @@
                 android:layout_marginTop="8dp"
                 android:text="TFL"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/text_press_FL"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/text_press_FL"
@@ -75,8 +79,9 @@
                 android:layout_marginBottom="24dp"
                 android:text="TRL"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
                 app:layout_constraintStart_toStartOf="@+id/text_temp_RL2" />
 
@@ -86,8 +91,9 @@
                 android:layout_height="26dp"
                 android:layout_marginBottom="32dp"
                 android:text="Temp RL"
+                android:gravity="center"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintBottom_toTopOf="@+id/text_temp_RL"
                 app:layout_constraintStart_toStartOf="@+id/text_press_FL" />
@@ -99,8 +105,9 @@
                 android:layout_marginBottom="8dp"
                 android:text="PsiRL"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/text_temp_RL"
                 app:layout_constraintStart_toStartOf="@+id/text_press_FL" />
 
@@ -111,8 +118,9 @@
                 android:layout_marginTop="52dp"
                 android:text="Psi FR"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/dessinCar" />
 
@@ -123,8 +131,9 @@
                 android:layout_marginTop="24dp"
                 android:text="Temp FR"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/dessinCar" />
 
@@ -135,9 +144,10 @@
                 android:layout_marginTop="8dp"
                 android:text="TFR"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_press_FR"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="@+id/text_press_FR"
                 app:layout_constraintTop_toBottomOf="@+id/text_press_FR" />
 
             <TextView
@@ -147,8 +157,9 @@
                 android:layout_marginBottom="24dp"
                 android:text="TRR"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
                 app:layout_constraintStart_toStartOf="@+id/text_temp_RR2" />
 
@@ -159,11 +170,11 @@
                 android:layout_marginBottom="32dp"
                 android:text="Temp RR"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/text_temp_RR"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar" />
-
             <TextView
                 android:id="@+id/text_press_RR"
                 android:layout_width="64dp"
@@ -171,8 +182,9 @@
                 android:layout_marginBottom="8dp"
                 android:text="PsiRR"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="normal|bold"
+                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/text_temp_RR"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar" />
 
@@ -214,9 +226,10 @@
                 app:sv_speedometerBackColor="#375F7FDD"
                 app:sv_speedometerColor="#3AE641"
                 app:sv_textColor="#FFFFFF"
+                app:sv_withTremble="false"
                 app:sv_unit="%"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitUnderSpeedText="false" />
+                app:sv_unitUnderSpeedText="false"  />
 
             <com.github.anastr.speedviewlib.ProgressiveGauge
                 android:id="@+id/brake_Press"
@@ -235,7 +248,8 @@
                 app:sv_speedometerBackColor="#375F7FDD"
                 app:sv_speedometerColor="#F42828"
                 app:sv_textColor="#FFFFFF"
-                app:sv_unit="%"
+                app:sv_withTremble="false"
+                app:sv_unit="Bar"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitUnderSpeedText="false" />
 
@@ -255,13 +269,13 @@
                 app:sv_markStyle="ROUND"
                 app:sv_marksNumber="5"
                 app:sv_marksPadding="26dp"
-                app:sv_maxSpeed="150"
-                app:sv_minSpeed="0"
+                app:sv_maxSpeed="165"
+                app:sv_minSpeed="55"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="52dp"
                 app:sv_speedTextPosition="BOTTOM_CENTER"
-                app:sv_speedTextSize="22dp"
+                app:sv_speedTextSize="26dp"
                 app:sv_textColor="#FFFFFF"
                 app:sv_tickNumber="7"
                 app:sv_tickPadding="40dp"
@@ -269,9 +283,11 @@
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
                 app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitTextSize="24dp"
                 app:sv_withIndicatorLight="true"
                 app:sv_withTremble="false"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="16dp" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Intake_jauge"
@@ -301,6 +317,7 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
+                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="22dp" />
 
@@ -333,6 +350,7 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="FLOAT"
                 app:sv_unit=" Bar"
+                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="22dp" />
 
@@ -364,6 +382,7 @@
                 app:sv_tickNumber="7"
                 app:sv_tickPadding="40dp"
                 app:sv_tickRotation="false"
+                app:sv_withTremble="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
                 app:sv_unitTextColor="#FFFFFF"
@@ -396,6 +415,7 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
+                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
                 app:sv_unitTextSize="22dp" />
 
@@ -529,6 +549,7 @@
                 app:sv_textColor="#FFFFFF"
                 app:sv_textSize="8dp"
                 app:sv_tickNumber="4"
+                app:sv_withTremble="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="RPM"
                 app:sv_unitTextColor="#FFFFFF" />
@@ -621,7 +642,7 @@
                 android:text="0 Km/h"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 android:textColor="#FFFFFF"
-                android:textSize="34sp"
+                android:textSize="42sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/brake_Press"
                 app:layout_constraintStart_toStartOf="@+id/throttle_Press"
