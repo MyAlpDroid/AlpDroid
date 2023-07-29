@@ -39,7 +39,7 @@ class OBDframe (var canID:Int, private var multiframetype:Int, private var frame
         {
             serviceDir = frameData[1].toInt()
 
-            if ((serviceDir != 0x7F) && (serviceDir and 0xBF) > 0x20) {
+            if ((serviceDir != 0x7F) && (serviceDir and 0xBF > 0x21) && (serviceDir and 0xBF<0x2F)) {
                 servicePID = (frameData[2].toUByte() * 256u + frameData[3].toUByte()).toInt()
                 dlc_offset = 1
             } else {

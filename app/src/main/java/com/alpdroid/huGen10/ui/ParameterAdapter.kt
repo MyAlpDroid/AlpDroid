@@ -17,7 +17,7 @@ class ParameterAdapter(val parameters: MutableList<Gauge>,    private val contex
 
 
     class ParameterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val paramNameTextView: TextView = itemView.findViewById(R.id.paramNameTextView)
+        val paramNameTextView: TextView = itemView.findViewById(R.id.list_item)
 
     }
 

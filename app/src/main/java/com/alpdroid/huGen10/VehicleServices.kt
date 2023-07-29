@@ -427,7 +427,7 @@ class VehicleServices : LocationListener {
                     byteArrayOf(0x80.toByte())
                 )
 
-            delay(40)
+            delay(140)
             pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan, 0x81, 0x10, ByteArray(0))
         }
     }
@@ -501,7 +501,7 @@ class VehicleServices : LocationListener {
             )
         )
 
-        delay(40)
+        delay(140)
         // back to default mode
         pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x81, 0x10, ByteArray(0))
 
@@ -572,7 +572,7 @@ class VehicleServices : LocationListener {
             }
 
             pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x0220, 0x2E, data2send)
-            delay(40)
+            delay(140)
             // back to default mode
             pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x81, 0x10, ByteArray(0))
 

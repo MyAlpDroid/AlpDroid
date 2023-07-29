@@ -24,7 +24,7 @@ android {
         minSdkVersion 29
         targetSdkVersion 33
         versionCode 3
-        versionName '3.1.5'
+        versionName '3.2.0'
         multiDexEnabled false
         resConfigs("en", "fr")
 
@@ -115,7 +115,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.fragment:fragment-ktx:1.5.7'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.21'
     implementation("org.greenrobot:eventbus:3.3.1")
     implementation 'com.google.android.material:material:1.9.0'
@@ -139,9 +139,6 @@ dependencies {
     implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
     implementation "com.github.rh-id:a-logger:0.0.3"
     implementation 'com.android.support:support-annotations:28.0.0'
-
-
-
 
 }
 

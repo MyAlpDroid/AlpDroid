@@ -30,6 +30,7 @@ import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
+import main.java.com.alpdroid.huGen10.ui.GaugeFragment
 import main.java.com.alpdroid.huGen10.ui.NowPlayingFragment
 import java.util.Locale
 import kotlin.time.ExperimentalTime
@@ -306,8 +307,8 @@ class MainActivity : FragmentActivity()  {
             NowPlayingFragment(),
             EngineDisplay(),
             ConfortDisplay(),
-           ComputerDisplay(),
-     //       CompassDisplay(),
+            ComputerDisplay(),
+            GaugeFragment(),
             SettingsDisplay()
         )
 
@@ -327,8 +328,8 @@ class MainActivity : FragmentActivity()  {
                 1 -> return getString(R.string.engine_display)
                 2 -> return getString(R.string.confort_display)
                 3 -> return getString(R.string.computer_display)
-              //  4 -> return "Télémétrie"
-                4 -> return getString(R.string.settings)
+                4 -> return "Télémétrie"
+                5 -> return getString(R.string.settings)
             }
             return null
         }
