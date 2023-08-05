@@ -5,83 +5,98 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.ui.UIFragment
 
-class GaugeFragment : UIFragment(500),AdapterView.OnItemLongClickListener {
+// Classe GaugeFragment utilisant UIFragment
+class GaugeFragment : UIFragment(500) {
+    // Ajoutez ici les variables membres spécifiques à GaugeFragment
+    private var gaugeValue: Int = 0
+    private var gaugeLabel: String = ""
+    private var selectedFunction: FunctionItem? = null
 
-    private lateinit var functionsList: LinearLayout
-    lateinit var functionProgressBars: MutableMap<String, ProgressBar>
-    lateinit var  functionProgressBar:ProgressBar
-    private var currentHeight = 0
-    val functions = listOf("Function 1", "Function 2", "Function 3")
+    // Liste des fonctions disponibles
+    private val functionsList: ArrayList<FunctionItem> = ArrayList()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Inflate the layout for the fragment
-        return inflater.inflate(R.layout.telemetrics_parameter, container, false)
+    // Classe représentant une fonction
+    data class FunctionItem(val name: String, val minParam: Int, val maxParam: Int, val function: (Int) -> Unit)
+
+    // Méthode pour ajouter une fonction à la liste
+    fun addFunction(name: String, minParam: Int, maxParam: Int, function: (Int) -> Unit) {
+        functionsList.add(FunctionItem(name, minParam, maxParam, function))
     }
 
+    // Méthode pour définir la valeur de la jauge
+    fun setGaugeValue(value: Int) {
+        gaugeValue = value
+        // Ici, vous pouvez mettre à jour l'affichage de la jauge en fonction de la nouvelle valeur
+    }
+
+    // Méthode pour définir l'étiquette de la jauge
+    fun setGaugeLabel(label: String) {
+        gaugeLabel = label
+        // Ici, vous pouvez mettre à jour l'affichage de l'étiquette de la jauge si nécessaire
+    }
+
+    // Override de la méthode onCreateView pour inflater le layout de GaugeFragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Utilisez inflater pour inflater le layout de GaugeFragment ici
+        val view = inflater.inflate(R.layout.telemetrics_parameter, container, false)
+
+        // Initialisez ici les éléments de l'UI, comme les TextView pour afficher la valeur et l'étiquette de la jauge
+
+        // Initialisez ici la liste déroulante avec les noms des fonctions
+        val functionNames = functionsList.map { it.name }.toTypedArray()
+        val spinner = view.findViewById<Spinner>(R.id.function_spinner)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, functionNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedFunction = functionsList[position]
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedFunction = null
+            }
+        }
+
+        return view
+    }
+
+    // Override de la méthode onViewCreated pour initialiser la liste de fonctions
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Get the list of functions from the class data.
+        // Ajoutez ici les fonctions avec leurs noms, paramètres min, max et fonctions réelles associées
+        addFunction("Function 1", 0, 100) { param ->
+            // Implémentez ici la logique de la première fonction
+            // param représente le paramètre de la fonction
+        }
 
+        addFunction("Function 2", -10, 10) { param ->
+            // Implémentez ici la logique de la deuxième fonction
+            // param représente le paramètre de la fonction
+        }
 
-        // Create a map to store the function progress bars.
-        functionProgressBars = mutableMapOf()
+        // Ajoutez autant de fonctions que nécessaire
 
-        // Create a list view to display the functions.
-        functionsList = view.findViewById(R.id.functions_list)
-
-        // Add the functions to the list view.
-        for (function in functions) {
-             functionProgressBar = ProgressBar(requireContext()).apply {
-                max = 100
-                functionProgressBars[function] = this
+        // Vous pouvez maintenant mettre à jour la liste déroulante avec les noms des fonctions
+        val functionNames = functionsList.map { it.name }.toTypedArray()
+        val spinner = view.findViewById<Spinner>(R.id.function_spinner)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, functionNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedFunction = functionsList[position]
             }
-
-            functionsList.addView(functionProgressBar)
-
-            // Get the function's min and max values from the class data.
-            val functionData = FunctionData(function, 0, 100)
-            val functionValue = functionData.getFuncitonValue()
-
-            // Update the progress bar with the function value.
-            functionProgressBar.progress = functionValue
-
-            // Update the height of the list view.
-            currentHeight += functionProgressBar.height
-            functionsList.layoutParams.height = currentHeight
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedFunction = null
+            }
         }
     }
 
-    // Set the listener for the long click on the list view.
-    override fun onItemLongClick(parent: AdapterView<*>, view: View, position: Int, id: Long): Boolean {
-        // Get the name of the selected function.
-        val functionName = functions[position]
-
-        // If the progress bar for the selected function exists, remove it from the list view.
-        if (functionProgressBars.containsKey(functionName)) {
-            functionsList.removeView(functionProgressBars[functionName])
-            functionProgressBars.remove(functionName)
-        }
-
-        // Update the height of the list view.
-        currentHeight -= functionProgressBar.height
-        functionsList.layoutParams.height = currentHeight
-
-        return true
-    }
-
-}
-
-data class FunctionData(val name: String, val min: Int, val max: Int) {
-
-    fun getFuncitonValue(): Int {
-        // This is just a simple example of how to get the function value.
-        return (52)
-    }
-
+    // Vous pouvez ajouter ici d'autres méthodes spécifiques à GaugeFragment, si nécessaire
 }

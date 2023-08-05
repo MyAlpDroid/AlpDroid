@@ -1,10 +1,9 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'ivy-publish'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id 'org.jetbrains.kotlin.android'
-
 
 }
 
@@ -15,18 +14,18 @@ android {
         jvmTarget = '1.8'
     }
 
+
     compileSdk 33
-    compileSdkVersion "android-33"
 
     defaultConfig {
         applicationId "com.alpdroid.huGen10"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         minSdkVersion 29
-        targetSdkVersion 33
+        targetSdkVersion 31
         versionCode 3
         versionName '3.2.0'
         multiDexEnabled false
-        resConfigs("en", "fr")
+        resourceConfigurations += ['en', 'fr']
 
 
     }
@@ -87,7 +86,7 @@ android {
         }
     }
 
-    ndkVersion '23.1.7779620'
+   // ndkVersion '23.1.7779620'
     compileOptions {
         targetCompatibility kotlin_version
         sourceCompatibility kotlin_version
@@ -107,7 +106,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -116,7 +115,7 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.6.1'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.21'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.9.0'
     implementation("org.greenrobot:eventbus:3.3.1")
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
@@ -126,12 +125,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.github.mik3y:usb-serial-for-android:v3.4.0'
-    implementation 'com.github.anastr:speedviewlib:1.6.0'
-    implementation "com.google.guava:guava:31.1-jre"
-    implementation "com.google.auto.value:auto-value-annotations:1.8.1"
-    annotationProcessor "com.google.auto.value:auto-value:1.6"
+    implementation 'com.github.anastr:speedviewlib:1.6.1'
+    implementation 'com.google.guava:guava:32.1.2-jre'
+    implementation 'com.google.auto.value:auto-value-annotations:1.10.2'
+    annotationProcessor 'com.google.auto.value:auto-value:1.10.2'
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation "androidx.car.app:app:1.2.0"
     implementation "androidx.activity:activity-ktx:1.7.2"
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
