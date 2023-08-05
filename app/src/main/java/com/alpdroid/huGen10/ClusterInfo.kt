@@ -73,6 +73,9 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
     private var app: AlpdroidApplication =this.application
 
 
+    private var raceMode:Int=0
+
+
     init {
 
 
@@ -182,6 +185,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
                 if (application.alpdroidServices.isServiceStarted) {
                     clusterStarted = false
+                    raceMode = application.alpdroidData.get_RST_VehicleMode()
                     if (!mAidlHelper.isBind) {
                         mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
                     }
@@ -545,9 +549,17 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
             }
 
         var radioartistname:String = artistName
+        var radiotrackname:String = trackName
 
         if (trackName==artistName)
             radioartistname=albumArtist
+
+        if (raceMode==3)
+        {
+            radioartistname = String.format("Oil :%2d Cool:%2d",application.alpdroidData.get_OilTemperature() -40,application.alpdroidData.get_EngineCoolantTemp()-40)
+            radiotrackname = String.format("Gear :%2d Oil.Pres:%.1f",application.alpdroidData.get_RST_ATClutchTemperature() + 60,application.alpdroidData.get_EngineOilPressure()/10)
+
+        }
 
         if (updateMusic) {
                 for (i in 0..4) {
@@ -564,7 +576,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                         CanFrame(
                             0,
                             CanMCUAddrs.Audio_Display.idcan + i + 5,
-                            getStringLine(trackName, i + 1)
+                            getStringLine(radiotrackname, i + 1)
                         )
                     )
                 }

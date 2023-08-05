@@ -598,7 +598,7 @@ class VehicleServices : LocationListener {
         }
 
         if (isOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan)) {
-            return getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 4, 2)
+            return getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 0, 2)
         }
         return -255
     }
