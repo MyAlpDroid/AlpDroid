@@ -73,16 +73,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:minHeight="48dp"
+                    android:minHeight="48sp"
                     android:text="@string/mirror_autofolding"
-                    android:textColor="#DACDCD" />
+                    android:textColor="#DACDCD"
+                    android:thumb="@android:drawable/presence_online" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/startstopswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:minHeight="48dp"
+                    android:minHeight="48sp"
                     android:text="@string/start_stop"
                     tools:checked="true" />
 
@@ -91,18 +92,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:minHeight="48dp"
+                    android:minHeight="48sp"
                     android:text="@string/car_park_signal"
                     tools:checked="true" />
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/rearbrakeswitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="true"
-                    android:minHeight="48dp"
-                    android:text="@string/overspeed_buzzer"
-                    tools:checked="true" />
             </RadioGroup>
 
             <Button

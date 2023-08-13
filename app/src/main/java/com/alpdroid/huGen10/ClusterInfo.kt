@@ -556,9 +556,11 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
         if (raceMode==3)
         {
-            radioartistname = String.format("Oil :%2d Cool:%2d",application.alpdroidData.get_OilTemperature() -40,application.alpdroidData.get_EngineCoolantTemp()-40)
-            radiotrackname = String.format("Gear :%2d Oil.Pres:%.1f",application.alpdroidData.get_RST_ATClutchTemperature() + 60,application.alpdroidData.get_EngineOilPressure()/10)
-
+            radioartistname = String.format("Oil :%3d Cool:%3d",application.alpdroidData.get_OilTemperature() -40,application.alpdroidData.get_EngineCoolantTemp()-40)
+            radiotrackname = String.format("Gear :%3d Pres.:%.1f",application.alpdroidData.get_RST_ATClutchTemperature() + 60,application.alpdroidData.get_EngineOilPressure()/10)
+            audioSource=7
+            prevtrackName=radiotrackname
+            updateMusic=true
         }
 
         if (updateMusic) {

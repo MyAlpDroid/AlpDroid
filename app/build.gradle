@@ -23,7 +23,7 @@ android {
         minSdkVersion 29
         targetSdkVersion 31
         versionCode 3
-        versionName '3.2.0'
+        versionName '3.2.2'
         multiDexEnabled false
         resourceConfigurations += ['en', 'fr']
 

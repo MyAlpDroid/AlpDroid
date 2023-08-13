@@ -391,44 +391,97 @@ class VehicleServices : LocationListener {
     }
 
 
+    suspend fun set_defaultsession(ecu:Int):Boolean
+    {
+        pushOBDParams(ecu, 0x81,0x10,ByteArray(0))
+
+        val tempo = System.currentTimeMillis()
+
+        while (!isOBDParams(
+                0x81,
+                0x50,
+                ecu
+            ) && tempo + 300 < System.currentTimeMillis()
+        ) {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (isOBDParams(0x81, 0x50,ecu)) {
+            return true
+        }
+        return false
+
+    }
+    suspend fun set_extendedsession(ecu:Int):Boolean
+    {
+        pushOBDParams(ecu, 0xC0,0x10,ByteArray(0))
+
+        val tempo = System.currentTimeMillis()
+
+        while (!isOBDParams(
+                0xC0,
+                0x50,
+                ecu
+            ) && tempo + 300 < System.currentTimeMillis()
+        ) {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (isOBDParams(0xC0, 0x50,ecu)) {
+            return true
+        }
+        return false
+    }
+
+    suspend fun ecu_softreset(ecu:Int):Boolean
+    {
+        pushOBDParams(ecu, 0x03,0x11,ByteArray(0))
+
+        val tempo = System.currentTimeMillis()
+
+        while (!isOBDParams(
+                0x03,
+                0x11,
+                ecu
+            ) && tempo + 300 < System.currentTimeMillis()
+        ) {
+            // do nothing .. waiting for folding _ state
+        }
+
+        if (isOBDParams(0x03, 0x11,ecu)) {
+            return true
+        }
+        return false
+    }
+
+
     suspend fun set_startstop_switch() {
 
         val startstopvalue = get_startstop_switch()
 
-        Log.d("StartStop Switch", startstopvalue.toString())
-
         if (startstopvalue != -255) {
 
-           pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan, 0xC0, 0x10, ByteArray(0))
+            if (set_extendedsession(CanECUAddrs.CANECUSEND_TPS.idcan)) {
 
-            val tempo = System.currentTimeMillis()
+                if (startstopvalue == 0x80)
+                    pushOBDParams(
+                        CanECUAddrs.CANECUSEND_TPS.idcan,
+                        0x00AD,
+                        0x2E,
+                        byteArrayOf(0x0.toByte())
+                    )
+                else
+                    pushOBDParams(
+                        CanECUAddrs.CANECUSEND_TPS.idcan,
+                        0x00AD,
+                        0x2E,
+                        byteArrayOf(0x80.toByte())
+                    )
 
-            while (!isOBDParams(
-                    0xC0,
-                    0x50,
-                    CanECUAddrs.CANECUREC_TPS.idcan
-                ) && tempo + 300 < System.currentTimeMillis()
-            ) {
-                // do nothing .. waiting for folding _ state
+                delay(140)
+                ecu_softreset(CanECUAddrs.CANECUSEND_TPS.idcan)
+                set_defaultsession(CanECUAddrs.CANECUSEND_TPS.idcan)
             }
-
-            if (startstopvalue == 0x80)
-                pushOBDParams(
-                    CanECUAddrs.CANECUSEND_TPS.idcan,
-                    0x00AD,
-                    0x2E,
-                    byteArrayOf(0x0.toByte())
-                )
-            else
-                pushOBDParams(
-                    CanECUAddrs.CANECUSEND_TPS.idcan,
-                    0x00AD,
-                    0x2E,
-                    byteArrayOf(0x80.toByte())
-                )
-
-            delay(140)
-            pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan, 0x81, 0x10, ByteArray(0))
         }
     }
 
@@ -477,34 +530,24 @@ class VehicleServices : LocationListener {
         } else
             Nbx_AutoFolding_CF = 0
 
-        pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0xC0, 0x10, ByteArray(0))
+        if (set_extendedsession(CanECUAddrs.CANECUREC_EMM.idcan)) {
 
-        val tempo = System.currentTimeMillis()
-
-        while (!isOBDParams(
-                0xC0,
-                0x50,
-                CanECUAddrs.CANECUREC_EMM.idcan
-            ) && tempo + 250 > System.currentTimeMillis()
-        ) {
-            // do nothing .. waiting for folding _ state
-        }
-
-        pushOBDParams(
-            CanECUAddrs.CANECUSEND_EMM.idcan,
-            0x1F,
-            0x3B,
-            byteArrayOf(
-                Nsx_AutoFoldingDelay_CF.toByte(),
-                Nsx_AutoUnfoldingDelay_CF.toByte(),
-                Nbx_AutoFolding_CF.toByte()
+            pushOBDParams(
+                CanECUAddrs.CANECUSEND_EMM.idcan,
+                0x1F,
+                0x3B,
+                byteArrayOf(
+                    Nsx_AutoFoldingDelay_CF.toByte(),
+                    Nsx_AutoUnfoldingDelay_CF.toByte(),
+                    Nbx_AutoFolding_CF.toByte()
+                )
             )
-        )
 
-        delay(140)
-        // back to default mode
-        pushOBDParams(CanECUAddrs.CANECUSEND_EMM.idcan, 0x81, 0x10, ByteArray(0))
-
+            delay(140)
+            // back to default mode
+            ecu_softreset(CanECUAddrs.CANECUREC_EMM.idcan)
+            set_defaultsession(CanECUAddrs.CANECUREC_EMM.idcan)
+        }
 
     }
 
@@ -534,47 +577,29 @@ class VehicleServices : LocationListener {
 
     suspend fun set_carpark_switch() {
         var coldCountryMode: Int = get_apbconfiguration_country_state()
-        var data2send = ByteArray(2)
 
         if (coldCountryMode != -255) {
-            val gearBoxType = getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 6, 2)
-            val stopAndStartMode = getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 2, 2)
-            val sCUVehicleType: Int =
-                getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 0, 2)
-            val tiltByESCMode: Int =
-                getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 14, 2)
-            val driverSeatSensorConf: Int =
-                getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 12, 2)
-            val axOrientation: Int =
-                getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 10, 2)
 
             if (coldCountryMode == 0)
                 coldCountryMode = 1
             else
                 coldCountryMode = 0
 
-            data2send[0] =
-                (sCUVehicleType.toByte() + (stopAndStartMode shl 2).toByte() + (gearBoxType shl 4).toByte() + (coldCountryMode shl 6).toByte()).toByte()
-            data2send[1] =
-                ((axOrientation shl 2).toByte() + (driverSeatSensorConf shl 4).toByte() + (tiltByESCMode shl 6).toByte()).toByte()
 
-            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0xC0, 0x10, ByteArray(0))
+            if (set_extendedsession(CanECUAddrs.CANECUSEND_APB.idcan)) {
 
-            val tempo = System.currentTimeMillis()
+                pushOBDParams(
+                    CanECUAddrs.CANECUSEND_APB.idcan,
+                    0x4BC0,
+                    0x2E,
+                    byteArrayOf(coldCountryMode.toByte())
+                )
 
-            while (!isOBDParams(
-                    0xC0,
-                    0x50,
-                    CanECUAddrs.CANECUREC_APB.idcan
-                ) && tempo + 250 > System.currentTimeMillis()
-            ) {
-                // do nothing .. waiting for folding _ state
+                delay(140)
+                // back to default mode
+                ecu_softreset(CanECUAddrs.CANECUSEND_APB.idcan)
+                set_defaultsession(CanECUAddrs.CANECUSEND_APB.idcan)
             }
-
-            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x0220, 0x2E, data2send)
-            delay(140)
-            // back to default mode
-            pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x81, 0x10, ByteArray(0))
 
         }
     }
@@ -582,14 +607,14 @@ class VehicleServices : LocationListener {
     suspend fun get_apbconfiguration_country_state(): Int {
         val tempo: Long
 
-        removeOBDFrame(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan)
+        removeOBDFrame(0x4BC0, 0x62, CanECUAddrs.CANECUREC_APB.idcan)
 
-        pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x0220, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_APB.idcan, 0x4BC0, 0x22, ByteArray(0))
 
         tempo = System.currentTimeMillis()
 
         while (!isOBDParams(
-                0x0220,
+                0x4BC0,
                 0x62,
                 CanECUAddrs.CANECUREC_APB.idcan
             ) && tempo + 250 > System.currentTimeMillis()
@@ -597,8 +622,8 @@ class VehicleServices : LocationListener {
             // do nothing .. waiting for folding _ state
         }
 
-        if (isOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan)) {
-            return getOBDParams(0x0220, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 0, 2)
+        if (isOBDParams(0x4BC0, 0x62, CanECUAddrs.CANECUREC_APB.idcan)) {
+            return getOBDParams(0x4BC0, 0x62, CanECUAddrs.CANECUREC_APB.idcan, 0, 1)
         }
         return -255
     }

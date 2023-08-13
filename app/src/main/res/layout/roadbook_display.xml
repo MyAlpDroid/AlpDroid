@@ -1,0 +1,158 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/startRoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white_text"
+        android:text="Start" />
+
+
+
+    <!-- Placez vos TextViews ici -->
+    <RelativeLayout
+        android:id="@+id/upperLeftLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#102078"
+        app:layout_constraintBottom_toTopOf="@+id/startRoad"
+        app:layout_constraintEnd_toStartOf="@+id/startRoad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/book_duree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/white_text"
+            android:text="Durée départ"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/roadduree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_duree"
+            android:layout_alignStart="@id/book_duree"
+            android:textColor="@color/white_text"
+            android:text="00:00:00"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/upperCenterLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#102078"
+        app:layout_constraintStart_toEndOf="@id/startRoad"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/startRoad"
+        >
+
+
+        <TextView
+            android:id="@+id/roadmoyenne"
+            android:layout_width="248sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bookmoyenne"
+            android:layout_alignStart="@+id/bookmoyenne"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@color/white_text"
+            android:text="0"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bookmoyenne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moyenne (km/h)"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white_text"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/lowerLeftLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#102078"
+
+        app:layout_constraintEnd_toStartOf="@+id/startRoad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startRoad"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/bookdistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="64dp"
+            android:textColor="@color/white_text"
+            android:text="Distance (km)"
+
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/roaddistance"
+            android:layout_width="214sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bookdistance"
+            android:layout_alignStart="@id/bookdistance"
+            android:textColor="@color/white_text"
+            android:text="0"
+            android:gravity="center"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lowerRightLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#102078"
+        android:textColor="@color/white_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/startRoad"
+        app:layout_constraintTop_toBottomOf="@id/startRoad"
+        app:layout_constraintBottom_toBottomOf="parent">
+    <ImageView
+        android:id="@+id/compassdir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        app:srcCompat="@drawable/compas_road" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

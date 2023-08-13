@@ -18,8 +18,8 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <device id="_device_class_foldable" />
         <device id="_device_class_tablet" />
+        <device id="_device_class_foldable" />
         <device id="_device_class_desktop" />
         <device id="automotive_1024p_landscape" />
         <device id="_device_class_phone" />
@@ -40,13 +40,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;Change needle / Compass / Start&amp;Stop&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;OsmAnd Builder update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/RoadBook.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compas_road.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/roadbook_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/GaugeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/GaugeFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/telemetrics_parameter.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/telemetrics_parameter.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,25 +188,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED&quot;: &quot;true&quot;,
-    &quot;android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED&quot;: &quot;RecyclerView&quot;,
-    &quot;android-custom-view/Users/philippetangre/Library/Android/sdk/sources/android-33/android/widget/GridView.java_SELECTED&quot;: &quot;GridView&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/values-fr&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "PROJECT_TRUSTED_KEY": "true",
+    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED": "true",
+    "android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED": "RecyclerView",
+    "android-custom-view/Users/philippetangre/Library/Android/sdk/sources/android-33/android/widget/GridView.java_SELECTED": "GridView",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.emulator.zoom.toolbar.visible": "false",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "last_opened_file_path": "/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/values-fr",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -332,20 +331,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Merge remote-tracking branch 'remote/main'">
-      <created>1658002636237</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1658002636237</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
-      <created>1658002786879</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1658002786879</updated>
     </task>
     <task id="LOCAL-00028" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1658063479844</created>
@@ -676,7 +661,21 @@
       <option name="project" value="LOCAL" />
       <updated>1690635460852</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;OsmAnd Builder update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1691219748479</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1691219748479</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;OsmAnd Builder update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1691249708643</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1691249708643</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -732,7 +731,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;adding openstreetmap / API OsmAndHelper" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;modifying service management / study coroutines" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;modifying service management / using coroutines / upgrade SettingsActivity" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;modifying service management / using coroutines / upgrade" />
@@ -757,7 +755,8 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning /3&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Code cleaning /4 - Switch Active (except speed signal)&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;Change needle / Compass / Start&amp;Stop&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;Change needle / Compass / Start&amp;Stop&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;OsmAnd Builder update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;OsmAnd Builder update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

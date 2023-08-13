@@ -23,6 +23,9 @@ enum class CanMCUAddrs(val idcan: Int) {
 	UserSetPrefs2_MM(0x0402),
 	CLUSTER_CANHS_R_07(0x05CE),
 	MMI_BCM_CANHS_R_01(0x05DE),
-
+	CANMCUREC_MMU(0x767),
+	CANMCUSEND_MMU(0x747), // Navigation / Multimedia / Télémétrie
+	CANMCUSEND(0x712), // Audio - Audio Unit
+	CANMCUREC(0x732),
 
 }

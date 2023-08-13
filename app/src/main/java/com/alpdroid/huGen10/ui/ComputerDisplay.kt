@@ -51,7 +51,6 @@ class ComputerDisplay : UIFragment(1500) {
 
     lateinit var carpark_switch: SwitchMaterial
 
-    lateinit var rearbrake_switch: SwitchMaterial
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -86,18 +85,12 @@ class ComputerDisplay : UIFragment(1500) {
             carpark_switch.isChecked = carpark_switchState
         }
 
-        rearbrake_switch = fragmentBlankBinding!!.rearbrakeswitch
-        val rearbrake_switchState = this.sharedPreferences?.getBoolean("rearbrake_switch", false)
-        if (rearbrake_switchState != null) {
-            rearbrake_switch.isChecked = rearbrake_switchState
-        }
 
         // Create a single listener for all the switches and set it as the listener for each switch
         val switchListener = SwitchListener(sharedPreferences!!, requireContext(),
             fragmentBlankBinding!!
         )
         mirror_switch.setOnCheckedChangeListener(switchListener)
-        rearbrake_switch.setOnCheckedChangeListener(switchListener)
         carpark_switch.setOnCheckedChangeListener(switchListener)
         startstop_switch.setOnCheckedChangeListener(switchListener)
 
@@ -141,10 +134,7 @@ class ComputerDisplay : UIFragment(1500) {
                                 AlpdroidApplication.app.alpdroidData.set_mirror_switch()
                             }
                         }
-                        fragmentBlankBinding.rearbrakeswitch.id->
-                        {
 
-                        }
                         fragmentBlankBinding.carparkswitch.id->
                         {
                             CoroutineScope(Dispatchers.Default).launch {
@@ -203,7 +193,6 @@ class ComputerDisplay : UIFragment(1500) {
         val editor = sharedPreferences!!.edit()
         editor.putBoolean("mirror_switch", mirror_switch.isChecked())
         editor.putBoolean("carpark_switch", carpark_switch.isChecked())
-        editor.putBoolean("rearbrake_switch", rearbrake_switch.isChecked())
         editor.putBoolean("startstop_switch", startstop_switch.isChecked())
         editor.apply()
     }
@@ -213,7 +202,6 @@ class ComputerDisplay : UIFragment(1500) {
         val editor = sharedPreferences!!.edit()
         editor.putBoolean("mirror_switch", mirror_switch.isChecked())
         editor.putBoolean("carpark_switch", carpark_switch.isChecked())
-        editor.putBoolean("rearbrake_switch", rearbrake_switch.isChecked())
         editor.putBoolean("startstop_switch", startstop_switch.isChecked())
         editor.apply()
 

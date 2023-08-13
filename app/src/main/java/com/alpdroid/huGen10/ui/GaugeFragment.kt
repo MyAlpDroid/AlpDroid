@@ -34,6 +34,8 @@ class GaugeFragment : UIFragment(500) {
 
     // Liste des ProgressBars affichées
     private val progressBars: ArrayList<ProgressBar> = ArrayList()
+    private val progressBarLayouts: ArrayList<LinearLayout> = ArrayList()
+
 
     // Classe représentant une fonction
     data class FunctionItem(
@@ -156,22 +158,13 @@ class GaugeFragment : UIFragment(500) {
     private fun addProgressBar() {
         val container = view?.findViewById<LinearLayout>(R.id.right_container)
         container?.let {
-            val progressBarLayout = LinearLayout(requireContext())
-            progressBarLayout.orientation = LinearLayout.VERTICAL
-            val params = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            params.setMargins(0, dpToPx(80), 0, 0) // Marge de 80 pixels depuis le haut de l'écran
-            progressBarLayout.layoutParams = params
-            progressBarLayout.gravity = Gravity.CENTER_HORIZONTAL
-
+            val progressBarLayout = createProgressBarLayout()
             val progressBar = ProgressBar(requireContext(), null, android.R.attr.progressBarStyleHorizontal)
-            val progressBarParams = LinearLayout.LayoutParams(
+            val params = LinearLayout.LayoutParams(
                 dpToPx(128), // Largeur maximale de 128 pixels
-                dpToPx(32)   // Hauteur de 32 pixels
+                dpToPx(48)   // Hauteur de 32 pixels
             )
-            progressBar.layoutParams = progressBarParams
+            progressBar.layoutParams = params
             progressBar.max = selectedFunction?.maxParam ?: 100
 
             progressBarLayout.addView(progressBar)
@@ -180,7 +173,7 @@ class GaugeFragment : UIFragment(500) {
                 // Gérer le double-clic pour supprimer la ProgressBar
                 if (doubleClickHandler != null && doubleClickRunnable != null) {
                     if (doubleClickHandler?.hasCallbacks(doubleClickRunnable!!) == true) {
-                        removeProgressBarLayout(progressBarLayout)
+                        removeProgressBar(progressBarLayout)
                     } else {
                         doubleClickHandler?.postDelayed(doubleClickRunnable!!, 500)
                         Toast.makeText(requireContext(), "Double-click to remove the function", Toast.LENGTH_SHORT).show()
@@ -190,33 +183,36 @@ class GaugeFragment : UIFragment(500) {
             }
 
             container.addView(progressBarLayout)
-            addProgressBarLayout()
+            progressBarLayouts.add(progressBarLayout)
             progressBarCount++
 
             // Espacement de 16 pixels entre les ProgressBar
             val progressBarParamsLayout = progressBarLayout.layoutParams as ViewGroup.MarginLayoutParams
-            progressBarParamsLayout.bottomMargin = dpToPx(16)
+            progressBarParamsLayout.bottomMargin = dpToPx(48)
         }
     }
 
+    // Méthode pour créer un LinearLayout contenant une ProgressBar
+    private fun createProgressBarLayout(): LinearLayout {
+        val progressBarLayout = LinearLayout(requireContext())
+        progressBarLayout.orientation = LinearLayout.VERTICAL
+        val params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(0, dpToPx(32), 0, 0) // Marge de 80 pixels depuis le haut de l'écran
+        progressBarLayout.layoutParams = params
+        progressBarLayout.gravity = Gravity.CENTER_HORIZONTAL
+        return progressBarLayout
+    }
 
-    // Méthode pour ajouter un LinearLayout contenant une ProgressBar à l'écran
-    private fun addProgressBarLayout() {
+    // Méthode pour supprimer un LinearLayout contenant une ProgressBar de l'écran
+    private fun removeProgressBar(progressBarLayout: LinearLayout) {
         val container = view?.findViewById<LinearLayout>(R.id.right_container)
         container?.let {
-            val progressBarLayout = LinearLayout(requireContext())
-            progressBarLayout.orientation = LinearLayout.VERTICAL
-            val params = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            params.setMargins(0, dpToPx(80), 0, 0) // Marge de 80 pixels depuis le haut de l'écran
-            progressBarLayout.layoutParams = params
-            progressBarLayout.gravity = Gravity.CENTER_HORIZONTAL
-
-            addProgressBar()
-
-            container.addView(progressBarLayout)
+            container.removeView(progressBarLayout)
+            progressBarLayouts.remove(progressBarLayout)
+            progressBarCount--
         }
     }
 
@@ -226,15 +222,6 @@ class GaugeFragment : UIFragment(500) {
         return (dp * density).toInt()
     }
     
-    // Méthode pour supprimer un LinearLayout contenant une ProgressBar de l'écran
-    private fun removeProgressBarLayout(progressBarLayout: LinearLayout) {
-        val container = view?.findViewById<LinearLayout>(R.id.right_container)
-        container?.let {
-            container.removeView(progressBarLayout)
-            removeProgressBarLayout(progressBarLayout)
-            progressBarCount--
-        }
-    }
 
     // Méthode pour afficher le popup lorsque la limite de ProgressBar est atteinte
     private fun showPopup() {
