@@ -17,6 +17,7 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
     init {
 
         require (data.size <= 8) { "Too many bytes for frame content! Max size is 8" }
+
         for (i in data.indices) {
             datatonum = datatonum or (data[i].toLong() and 0xFF shl 56-(i*8))
         }

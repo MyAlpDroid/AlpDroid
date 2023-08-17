@@ -55,8 +55,8 @@
 
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:layout_width="316dp"
-                android:layout_height="wrap_content"
+                android:layout_width="339dp"
+                android:layout_height="173dp"
                 android:layout_marginStart="64dp"
                 app:layout_constraintStart_toEndOf="@+id/ptcframe"
                 app:layout_constraintTop_toTopOf="@+id/ptcframe">
@@ -69,16 +69,16 @@
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/mirrorswitch"
-                    android:layout_width="match_parent"
+                    android:layout_width="338dp"
                     android:layout_height="wrap_content"
                     android:enabled="true"
                     android:minHeight="48sp"
                     android:text="@string/mirror_autofolding"
-                    android:thumb="@android:drawable/presence_online" />
+                    tools:checked="true" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/startstopswitch"
-                    android:layout_width="match_parent"
+                    android:layout_width="338dp"
                     android:layout_height="wrap_content"
                     android:enabled="true"
                     android:minHeight="48sp"
@@ -87,12 +87,12 @@
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/carparkswitch"
-                    android:layout_width="match_parent"
+                    android:layout_width="339dp"
                     android:layout_height="wrap_content"
                     android:enabled="true"
                     android:minHeight="48sp"
-                    tools:checked="true"
-                    android:text="@string/car_park_signal" />
+                    android:text="@string/car_park_signal"
+                    tools:checked="true" />
 
             </RadioGroup>
 

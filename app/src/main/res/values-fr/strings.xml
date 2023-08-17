@@ -90,7 +90,7 @@
     <string name="ptc_dtc">Voir DTC</string>
     <string name="car_parameters">Paramètres Alpine</string>
     <string name="mirror_autofolding">Rabat Rétroviseurs</string>
-    <string name="start_stop"><![CDATA[Start & Stop]]></string>
+    <string name="start_stop">Start and Stop</string>
     <string name="car_park_signal">Beep frein à main</string>
     <string name="overspeed_buzzer">Beep limiteur</string>
     <string name="start_stop_is_disable">Start Stop désactivé</string>
@@ -131,5 +131,31 @@
     </string-array>
     <string name="non">Non</string>
     <string name="oui">Oui</string>
+    <string name="dur_e_d_part">Durée départ</string>
+    <string name="moyenne_km_h">Moyenne (km/h)</string>
+    <string name="roaddistance_km">Distance (km)</string>
+    <string name="defauts_ecu_entretien">Défauts ECU Entretien</string>
+    <string name="change_coldcountry">Changement mode ColdCountry</string>
+    <string name="ecm_defaults">Défauts ECM</string>
+    <string name="this_dtc_code_is_not_documented">Ce code DTC n\'est pas documenté</string>
+    <string name="this_is_bad_dtc">Mauvais code DTC</string>
+    <string name="not_confirmed">Non confirmé</string>
+    <string name="confirmed">Confirmé</string>
+    <string name="and_light">et voyant allumé</string>
+    <string name="setting_start_stop_mode">Modification du mode StartStop</string>
+    <string name="start_stop_switch_value">Etat Start Stop</string>
+    <string name="start_programming_mode">Mode étendu</string>
+    <string name="start_stop_string"><![CDATA[Start & Stop]]></string>
+    <string name="reset_ecu">Réinitialisation Ecu</string>
+    <string name="ecu_in_default_mode">Mode par défaut</string>
+    <string name="unable_to_set_start_stop_mode">Impossible de modifier Start Stop</string>
+    <string name="suppress_auto_folding_mode">Supression du mode Autofolding</string>
+    <string name="mirror_switch_value">Valeur du mode Autofolding</string>
+    <string name="mirror_folding">Rabat rétroviseurs</string>
+    <string name="unable_to_suppress_autofolding">Impossible de changer le mode Autofolding</string>
+    <string name="coldcountry_actual_value">Valeur du mode ColdCountry</string>
+    <string name="mode_coldcountry">Mode ColdCountry</string>
+    <string name="unable_to_set_coldcountry_mode">Impossible de mettre le mode ColdCountry</string>
+    <string name="show_stored_diagnostic_trouble_codes">Voir les défauts (DTC)</string>
 
 </resources>

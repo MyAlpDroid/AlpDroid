@@ -185,7 +185,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
                 if (application.alpdroidServices.isServiceStarted) {
                     clusterStarted = false
-                    raceMode = application.alpdroidData.get_RST_VehicleMode()
                     if (!mAidlHelper.isBind) {
                         mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
                     }
@@ -193,6 +192,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
                         try {
                             // Cluster's Frame
+                            raceMode = application.alpdroidData.get_EspAsrSportMode_MM()
                             clusterInfoUpdate()
                             application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan + 0)
                             application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan + 0)
@@ -556,9 +556,9 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
         if (raceMode==3)
         {
-            radioartistname = String.format("Oil :%3d Cool:%3d",application.alpdroidData.get_OilTemperature() -40,application.alpdroidData.get_EngineCoolantTemp()-40)
-            radiotrackname = String.format("Gear :%3d Pres.:%.1f",application.alpdroidData.get_RST_ATClutchTemperature() + 60,application.alpdroidData.get_EngineOilPressure()/10)
-            audioSource=7
+            radioartistname = String.format("Oil:%3d Cool:%3d",application.alpdroidData.get_OilTemperature() -40,application.alpdroidData.get_EngineCoolantTemp()-40)
+            radiotrackname =  String.format("Gear:%3d Box:%.1f",application.alpdroidData.get_RST_ATClutchTemperature() + 60,(application.alpdroidData.get_EngineOilPressure().toFloat()/10))
+            audioSource=3
             prevtrackName=radiotrackname
             updateMusic=true
         }

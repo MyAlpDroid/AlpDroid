@@ -35,7 +35,7 @@ enum class CanECUAddrs(val idcan: Int) {
 	CANECUSEND_ECM(0x7E1),
 	CANECUREC_ECM(0x7E9), // Engine Control Module
 	CANECUREC_SCR(0x7EE), // Selective Catalytic Reduction
-	CANECUSEND_ABS(0x740), // ABS ESP
+	CANECUSEND_ABS(0x740), // ABS ESP Automatic Brake Parking
 	CANECUSEND_EPS(0x742), // Direction assistée
 	CANECUSEND_ETT(0x743), // ECU Entretien
 	CANECUSEND_CLIM(0x744), // Clim
@@ -44,7 +44,7 @@ enum class CanECUAddrs(val idcan: Int) {
 	CANECUSEND_EMM(0x74D), // Engine Management Module
 	CANECUSEND_AUP(0x74E), // Parking Sonar
 	CANECUSEND_SRS(0x752), // Airbag
-	CANECUSEND_APB(0x755), // Automatic Brake Parking
+	CANECUSEND_APB(0x755), // Brake Parking
 	CANECUREC_ABS(0x760),
 	CANECUREC_EPS(0x762),
 	CANECUREC_ETT(0x763),

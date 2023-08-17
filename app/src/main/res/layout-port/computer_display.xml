@@ -71,10 +71,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    tools:checked="true"
                     android:minHeight="48sp"
-                    android:text="@string/mirror_autofolding"
-                    android:thumb="@android:drawable/presence_online"
-                    tools:checked="true" />
+                    android:text="@string/mirror_autofolding" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/startstopswitch"
@@ -105,15 +104,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/ptcbutton"
                 app:layout_constraintStart_toStartOf="@+id/ptcbutton"
                 app:layout_constraintTop_toBottomOf="@+id/ptcbutton" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="39dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="2dp"
-                app:layout_constraintStart_toEndOf="@+id/radioGroup"
-                app:layout_constraintTop_toBottomOf="@+id/ptcframe"
-                app:srcCompat="@drawable/on_off" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

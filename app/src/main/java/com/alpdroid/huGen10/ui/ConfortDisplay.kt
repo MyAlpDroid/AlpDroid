@@ -31,7 +31,6 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var tanklevel:ImageView
     lateinit var tanktext:TextView
     lateinit var washerlevel:ImageView
-    var washerLevel:Int=0
     lateinit var externaltemp:TextView
     lateinit var internaltemp:TextView
     lateinit var fanspeedstate:ImageView
@@ -94,7 +93,6 @@ class ConfortDisplay : UIFragment(250) {
 
         battstate=fragmentBlankBinding!!.batterieState
         batttext=fragmentBlankBinding!!.batterieValue
-
 
 
         tanklevel=fragmentBlankBinding!!.gastankLevel

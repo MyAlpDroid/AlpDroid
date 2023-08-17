@@ -74,9 +74,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:minHeight="48sp"
+                    android:minHeight="64sp"
                     android:text="@string/mirror_autofolding"
-                    android:thumb="@android:drawable/presence_online"
                     tools:checked="true" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -84,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:minHeight="48sp"
+                    android:minHeight="64sp"
                     android:text="@string/start_stop"
                     tools:checked="true" />
 
@@ -93,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:minHeight="48sp"
+                    android:minHeight="64sp"
                     android:text="@string/car_park_signal"
                     tools:checked="true" />
 
@@ -108,13 +107,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/ptcbutton"
                 app:layout_constraintStart_toStartOf="@+id/ptcbutton"
                 app:layout_constraintTop_toBottomOf="@+id/ptcbutton" />
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="39dp"
-                android:layout_height="32dp"
-                app:layout_constraintStart_toEndOf="@+id/radioGroup"
-                app:layout_constraintTop_toTopOf="@+id/radioGroup"
-                app:srcCompat="@drawable/on_off" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.TextView
 import com.alpdroid.huGen10.AlpdroidApplication
-import com.alpdroid.huGen10.OBDframe
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ComputerDisplayBinding
 import com.alpdroid.huGen10.obdUtil.DtcBody
@@ -33,9 +32,7 @@ class ComputerDisplay : UIFragment(1500) {
     lateinit var ac_header : TextView
     lateinit var framedatadisplay : TextView
 
-    lateinit var keys: Set<Int>
     lateinit var iterator:Iterator<Int>
-    lateinit var key2fifo: OBDframe
 
     var ptc_see:Boolean = false
 
@@ -43,7 +40,6 @@ class ComputerDisplay : UIFragment(1500) {
 
     var sharedPreferences: SharedPreferences? = null
 
-    var showDialog = true
 
     lateinit var mirror_switch: SwitchMaterial
 
@@ -125,20 +121,23 @@ class ComputerDisplay : UIFragment(1500) {
                         fragmentBlankBinding.startstopswitch.id->
                         {
                             CoroutineScope(Dispatchers.Default).launch {
-                                AlpdroidApplication.app.alpdroidData.set_startstop_switch()
+                                fragmentBlankBinding.ptcframe.text=String.format("OBD Process:")
+                                fragmentBlankBinding.ptcframe.append(AlpdroidApplication.app.alpdroidData.set_startstop_switch(context))
                             }
                         }
                         fragmentBlankBinding.mirrorswitch.id->
                         {
                             CoroutineScope(Dispatchers.Default).launch {
-                                AlpdroidApplication.app.alpdroidData.set_mirror_switch()
+                                fragmentBlankBinding.ptcframe.text=String.format("OBD Process:")
+                                fragmentBlankBinding.ptcframe.append(AlpdroidApplication.app.alpdroidData.set_mirror_switch(context))
                             }
                         }
 
                         fragmentBlankBinding.carparkswitch.id->
                         {
                             CoroutineScope(Dispatchers.Default).launch {
-                                AlpdroidApplication.app.alpdroidData.set_carpark_switch()
+                                fragmentBlankBinding.ptcframe.text=String.format("OBD Process:")
+                                fragmentBlankBinding.ptcframe.append(AlpdroidApplication.app.alpdroidData.set_carpark_switch(context))
                             }
                         }
                     }
@@ -222,7 +221,7 @@ class ComputerDisplay : UIFragment(1500) {
         rtxTimer = System.currentTimeMillis()
 
         framedatadisplay.setMovementMethod(ScrollingMovementMethod())
-        framedatadisplay.text="Show stored Diagnostic Trouble Codes --> \r\n"
+        framedatadisplay.text=String.format("%s \r\n",getString(R.string.show_stored_diagnostic_trouble_codes))
 
         timerTask = {
             activity?.runOnUiThread {
@@ -231,11 +230,11 @@ class ComputerDisplay : UIFragment(1500) {
                     if (ptc_see) {
 
                         var ptc2show = String()
-                        var ptc2decode:ByteArray
+                        val ptc2decode:ByteArray
 
                         if (AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!=null) {
 
-                            ptc2show+="ECM Defaults :\b\n"
+                            ptc2show+= getString(R.string.ecm_defaults)+"\r\n"
                             ptc2decode = AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!!.copyOfRange(1,
                                 AlpdroidApplication.app.alpdroidData.get_ptcdtc_ECM()!!.size
                             )
@@ -273,7 +272,9 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2]) + " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2]) + " = " + getString(
+                                                R.string.this_dtc_code_is_not_documented
+                                            )
                                         }
                                     }
                                     1 -> {
@@ -286,7 +287,9 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " +  getString(
+                                                R.string.this_dtc_code_is_not_documented
+                                            )
                                         }
                                     }
                                     2 -> {
@@ -299,7 +302,9 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + getString(
+                                                R.string.this_dtc_code_is_not_documented
+                                            )
                                         }
                                     }
                                     3 -> {
@@ -312,25 +317,29 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " +  getString(
+                                                R.string.this_dtc_code_is_not_documented
+                                            )
                                         }
                                     }
                                     else -> {
                                         key2build = "X"
                                         key2build += calculatePTCode
-                                        ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + "This is bad DTC "
+                                        ptc2show += key2build + "-" + String.format("%02X",ptc2decode[loop + 2])+ " = " + getString(
+                                            R.string.this_is_bad_dtc
+                                        )
                                     }
                                 }
 
 
                                 if ((ptc2decode[loop + 3].toUByte().toInt() and 0x02) shr 1 == 1)
-                                    ptc2show +=" -> Not Confirmed"
+                                    ptc2show += " ->"+ getString(R.string.not_confirmed)
                                 if ((ptc2decode[loop + 3].toUByte().toInt() and 0x08) shr 3 == 1)
-                                    ptc2show +=" -> Confirmed"
+                                    ptc2show +=" ->"+ getString(R.string.confirmed)
                                 if ((ptc2decode[loop + 3].toUByte().toInt() and 0x80) shr 7 == 1)
-                                    ptc2show +=" and Light"
+                                    ptc2show +=" "+ getString(R.string.and_light)
 
-                                ptc2show +="\b\n"
+                                ptc2show +="\r\n"
 
                                loop += 4
                             }
@@ -341,7 +350,7 @@ class ComputerDisplay : UIFragment(1500) {
 
                         if (AlpdroidApplication.app.alpdroidData.get_ptcdtc_ETT() != null) {
 
-                            ptc2show+="\b\nDéfauts ECU Entretien :\b\n"
+                            ptc2show+="\r\n"+ getString(R.string.defauts_ecu_entretien)+" :\r\n"
                             val ptc2decode2 =
                                 AlpdroidApplication.app.alpdroidData.get_ptcdtc_ETT()!!.copyOfRange(
                                     1,
@@ -383,7 +392,7 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show += key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + getString(R.string.this_dtc_code_is_not_documented)
                                         }
                                     }
                                     1 -> {
@@ -396,7 +405,7 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc + "-" + ptc2decode2[loop + 2]
                                         } catch (ex: Exception) {
-                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + getString(R.string.this_dtc_code_is_not_documented)
                                         }
                                     }
                                     2 -> {
@@ -409,38 +418,38 @@ class ComputerDisplay : UIFragment(1500) {
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + getString(R.string.this_dtc_code_is_not_documented)
                                         }
                                     }
                                     3 -> {
                                         key2build = "U"
                                         key2build += calculatePTCode
-                                        //                   Log.d("Key2Build U:",key2build)
+
                                         try {
 
                                             ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + DtcNetwork.valueOf(
                                                 key2build
                                             ).dtc
                                         } catch (ex: Exception) {
-                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This DTC code is not documented"
+                                            ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + getString(R.string.this_dtc_code_is_not_documented)
                                         }
                                     }
                                     else -> {
                                         key2build = "X"
                                         key2build += calculatePTCode
-                                        ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + "This is bad DTC "
+                                        ptc2show +=  key2build + "-" + String.format("%02X",ptc2decode2[loop + 2])+ " = " + getString(R.string.this_is_bad_dtc)
                                     }
                                 }
 
 
                                 if ((ptc2decode2[loop + 3].toUByte().toInt() and 0x02) shr 1 == 1)
-                                    ptc2show +=" -> Not Confirmed"
+                                    ptc2show +=" ->" +getString(R.string.not_confirmed)
                                 if ((ptc2decode2[loop + 3].toUByte().toInt() and 0x08) shr 3 == 1)
-                                    ptc2show +=" -> Confirmed"
+                                    ptc2show +=" ->" +getString(R.string.confirmed)
                                 if ((ptc2decode2[loop + 3].toUByte().toInt() and 0x80) shr 7 == 1)
-                                    ptc2show +=" and Light"
+                                    ptc2show +=" "+ getString(R.string.and_light)
 
-                                ptc2show +="\b\n"
+                                ptc2show +="\r\n"
 
                                 loop += 4
                             }

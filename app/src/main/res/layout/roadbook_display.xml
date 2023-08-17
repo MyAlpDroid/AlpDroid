@@ -22,7 +22,9 @@
         android:id="@+id/upperLeftLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#102078"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@+id/startRoad"
         app:layout_constraintEnd_toStartOf="@+id/startRoad"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +38,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="8dp"
             android:textColor="@color/white_text"
-            android:text="Durée départ"
+            android:text="@string/dur_e_d_part"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -53,12 +55,15 @@
 
     </RelativeLayout>
 
+
     <RelativeLayout
         android:id="@+id/upperCenterLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#102078"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toEndOf="@id/startRoad"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/startRoad"
@@ -82,7 +87,7 @@
             android:id="@+id/bookmoyenne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Moyenne (km/h)"
+            android:text="@string/moyenne_km_h"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textColor="@color/white_text"
@@ -100,8 +105,9 @@
         android:id="@+id/lowerLeftLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#102078"
-
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
         app:layout_constraintEnd_toStartOf="@+id/startRoad"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startRoad"
@@ -114,7 +120,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="64dp"
             android:textColor="@color/white_text"
-            android:text="Distance (km)"
+            android:text="@string/roaddistance_km"
 
             android:textSize="34sp"
             android:textStyle="bold" />
@@ -137,7 +143,9 @@
         android:id="@+id/lowerRightLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#102078"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
         android:textColor="@color/white_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/startRoad"

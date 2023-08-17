@@ -108,12 +108,12 @@
     </string-array>
     <string name="computer_state">ECU State</string>
     <string name="ptc_dtc">View DTC</string>
-    <string name="start_stop"><![CDATA[Start & Stop]]></string>
+    <string name="start_stop">Start and Stop</string>
     <string name="car_parameters">Alpine parameters</string>
     <string name="mirror_autofolding">Mirrors autofolding</string>
     <string name="car_park_signal">Parking brake sound</string>
     <string name="overspeed_buzzer">Overspeed sound</string>
-    <string name="start_stop_is_disable"><![CDATA[S&S deactivated]]></string>
+    <string name="start_stop_is_disable">Start Stop deactivated</string>
     <string name="car_sound_is_disable">Overspeed deactivated</string>
     <string name="reset_dtc">Reset Defaults</string>
     <string name="internal_temp">Internal temp.</string>
@@ -135,5 +135,31 @@
     <string name="update_arduino">Update Arduino</string>
     <string name="non">No</string>
     <string name="oui">Yes</string>
+    <string name="dur_e_d_part">Duration</string>
+    <string name="moyenne_km_h">Average (km/h)</string>
+    <string name="roaddistance_km">Distance (km)</string>
+    <string name="defauts_ecu_entretien">Maintenance ECU Defaults</string>
+    <string name="change_coldcountry">Change ColdCountry Mode</string>
+    <string name="ecm_defaults">ECM Defaults</string>
+    <string name="this_dtc_code_is_not_documented">This DTC code is not documented</string>
+    <string name="this_is_bad_dtc">This is bad DTC</string>
+    <string name="not_confirmed">Not confirmed</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="and_light">and Light On</string>
+    <string name="setting_start_stop_mode"><![CDATA[Setting Start & Stop mode]]></string>
+    <string name="start_stop_switch_value"><![CDATA[Start & Stop switch value]]></string>
+    <string name="start_programming_mode">Extended mode</string>
+    <string name="start_stop_string"><![CDATA[Start & Stop]]></string>
+    <string name="reset_ecu">Reset Ecu</string>
+    <string name="ecu_in_default_mode">Default Mode</string>
+    <string name="unable_to_set_start_stop_mode"><![CDATA[Unable to set Start & Stop Mode]]></string>
+    <string name="suppress_auto_folding_mode">Suppress Auto Folding Mode</string>
+    <string name="mirror_switch_value">Mirror switch value</string>
+    <string name="mirror_folding">Mirror Folding</string>
+    <string name="unable_to_suppress_autofolding">Unable to suppress Autofolding</string>
+    <string name="coldcountry_actual_value">ColdCountry actual value</string>
+    <string name="mode_coldcountry">Mode ColdCountry</string>
+    <string name="unable_to_set_coldcountry_mode">Unable to Set ColdCountry Mode - try later</string>
+    <string name="show_stored_diagnostic_trouble_codes">Show Stored Defaults code</string>
 
 </resources>

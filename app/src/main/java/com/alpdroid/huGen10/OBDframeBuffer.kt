@@ -1,5 +1,6 @@
 package com.alpdroid.huGen10
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ class OBDframeBuffer {
     @Synchronized
     fun addFrame(framecan: CanFrame, multiframetype:Int) {
 
-
+        var servicePIDtoUInt:Int
 
         CoroutineScope(Dispatchers.IO).launch {
             mutex_add.withLock {
@@ -42,20 +43,25 @@ class OBDframeBuffer {
 
                     if (multiframetype == 1) {
 
-                        previousOBDpid = frame.canID*0x100000000+frame.serviceDir * 0x10000 + frame.servicePID
+                        servicePIDtoUInt=(frame.servicePID.toUByte()+(frame.servicePID/256).toUByte()* 256u).toInt()
 
+                    //    Log.d("servicePID replace:", String.format("%04X",servicePIDtoUInt.toString()))
 
+                        previousOBDpid = (frame.canID*0x100000000+frame.serviceDir * 0x10000 + servicePIDtoUInt)
                         this@OBDframeBuffer.mapFrame[previousOBDpid] = frame
 
-
                     } else {
+                        servicePIDtoUInt=(frame.servicePID.toUByte()+(frame.servicePID/256).toUByte()* 256u).toInt()
+
+                 //       Log.d("servicePID add:", String.format("%04X",servicePIDtoUInt))
+
                         if (this@OBDframeBuffer.mapFrame.replace(
-                                (frame.canID*0x100000000+frame.serviceDir * 0x10000 + frame.servicePID),
+                                (frame.canID*0x100000000+frame.serviceDir * 0x10000 + servicePIDtoUInt),
                                 frame
                             ) == null
                         )
-                            this@OBDframeBuffer.mapFrame[frame.canID*0x100000000+ frame.serviceDir * 0x10000 + frame.servicePID] =
-                                frame
+                            this@OBDframeBuffer.mapFrame[frame.canID*0x100000000+ frame.serviceDir * 0x10000 + servicePIDtoUInt] = frame
+                       //     Log.d("this pid :",servicePIDtoUInt.toString())
                     }
                 }
                 }
@@ -66,12 +72,15 @@ class OBDframeBuffer {
     fun getFrame(service:Int, dir:Int, canID:Int): OBDframe? {
 
 
-    //    Log.d("OBD Buffer", "this is looking pDI : "+String.format("%012X",canID*0x100000000 + dir * 0x10000 + service ))
-
         return try {
-            this@OBDframeBuffer.mapFrame[canID*0x100000000 + dir * 0x10000 + service]
+
+           val servicePIDtoUInt=(service.toUByte()+((service/256).toUByte()* 256u)).toInt()
+
+            if (this@OBDframeBuffer.mapFrame[canID*0x100000000 + dir * 0x10000 + servicePIDtoUInt]!=null)
+                this@OBDframeBuffer.mapFrame[canID*0x100000000 + dir * 0x10000 + servicePIDtoUInt]
+            else null
         } catch (e: Exception) {
-            //         Log.d("OBDFrameBuffer", "frame not found")
+                    Log.d("OBDFrameBuffer", "frame not found")
             null
         }
 
@@ -80,16 +89,20 @@ class OBDframeBuffer {
         return mapFrame.keys
     }
 
-    fun get(next: Long): OBDframe? {
+    fun get(key: Long): OBDframe? {
         return try {
-            mapFrame.get(next)
+            mapFrame.get(key)
         } catch (e:Exception) {
             null
         }
     }
 
     fun remove(service:Int, dir:Int, canID:Int) {
-        mapFrame.remove(canID*0x100000000 + dir * 0x10000 + service)
+
+        val servicePIDtoUInt=(service.toUByte()+(service/256).toUByte()* 256u).toInt()
+
+        mapFrame.remove((canID*0x100000000 + dir * 0x10000 + servicePIDtoUInt))
+
     }
 
 

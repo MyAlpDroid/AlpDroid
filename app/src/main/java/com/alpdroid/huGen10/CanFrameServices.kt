@@ -335,6 +335,7 @@ class CanFrameServices : Service(), ArduinoListener {
                 try {
 
                         frame = gson.fromJson(buff, CanFrame::class.java)
+
                         if (frame.id>0x700) {
                             multiframe(frame)
                         }
@@ -408,8 +409,6 @@ class CanFrameServices : Service(), ArduinoListener {
         crcByte[1]=(crcValue/256).toByte()
 
         arduino.send("@@".toByteArray()+frame.toByteArray()+crcByte)
-
-
         tx+=frame.dlc
     }
 
