@@ -53,8 +53,8 @@ android {
 
     sourceSets {
         main {
-            aidl.srcDirs = ["src"]
-            java.srcDirs = ["src"]
+            aidl.srcDirs = ["src/main/src"]
+            java.srcDirs = ["src/main/src"]
         }
     }
 
