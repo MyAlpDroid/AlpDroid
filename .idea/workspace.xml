@@ -40,33 +40,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;    track data / obd control / roadbook update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/custom_progress_bar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/bargraph_with_title.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_bargraphe.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/popup_layout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/tooltip_layout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;    bargraphes 3.3.0&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrame.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ComputerDisplay.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/Gauge.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/GaugeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/Parameter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ParameterAdapter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ParametersFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/computer_display.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/alpine_telemetrics.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/progress_bar_item.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/telemetrics_dialog.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/telemetrics_parameter.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -352,13 +331,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00031" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
-      <created>1658158257278</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1658158257278</updated>
     </task>
     <task id="LOCAL-00032" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;Signed-off-by: MyAlpDroid &lt;MyAlpDroid@gmail.com&gt;">
       <created>1658158566542</created>
@@ -696,7 +668,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692289339402</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;    bargraphes&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1693742448430</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1693742448430</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -752,8 +731,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;modifying service management / using coroutines / upgrade" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'no tabs view'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'new pcb card'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'readme in english'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'prepare settings tab'" />
@@ -777,7 +754,9 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;OsmAnd Builder update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    adding roadbook / new obd command&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    track data / obd control / roadbook update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;    track data / obd control / roadbook update&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    bargraphes&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    bargraphes 3.3.0&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;    bargraphes 3.3.0&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -804,5 +783,10 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="AndroidRunConfigurationType">
+        <watch expression="this" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

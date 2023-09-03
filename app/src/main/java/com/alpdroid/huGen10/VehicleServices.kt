@@ -1579,6 +1579,9 @@ class VehicleServices : LocationListener {
     fun get_KickDownActivated(): Boolean =
         this.getFrameParams(CanMCUAddrs.GW_Engine_Data1.idcan, 55, 1) != 0
 
+    /** Get TorqueEstimated **/
+    fun get_EstimatedPowertrainWheelTorque(): Int = this.getFrameParams(CanECUAddrs.TORQUE_AT_CANHS_RNr_01.idcan, 42, 16)
+
 
     /** Get EngineOilPressure **/
     fun get_EngineOilPressure(): Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data1.idcan, 57, 7)

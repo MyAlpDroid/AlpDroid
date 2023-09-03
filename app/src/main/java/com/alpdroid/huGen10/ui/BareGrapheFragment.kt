@@ -2,7 +2,6 @@ package main.java.com.alpdroid.huGen10.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,10 +34,18 @@ class BargrapheFragment : UIFragment(500) {
     private var maxBargraphs = 6
 
     private var lastClickTime: Long = 0
-    private val DOUBLE_CLICK_TIME_DELTA: Long = 300 // Adjust as needed
+    private val DOUBLE_CLICK_TIME_DELTA: Long = 300 // Autant que nécessaire
 
-    private val barGrapheList = mutableMapOf<String, View>() // Utilisez une Map
-    private var barGrapheTypes= mutableListOf<BareGrapheType>() // List des types
+    private var barGrapheList = mutableMapOf<String, View>() // Utilisez une Map
+    private var barGrapheTypes= mutableListOf<BareGrapheType>() // Liste des types
+
+    companion object {
+        private const val PREFS_NAME = "BargrapheFragmentPrefs"
+        private const val BARGRAPH_STATE_KEY = "bargraphState"
+    }
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,10 +61,6 @@ class BargrapheFragment : UIFragment(500) {
 
         maxBargraphs=(heightPixels*density/spacing).toInt()
 
-        Log.d("Number", maxBargraphs.toString())
-        Log.d("Heigth space total", spacing.toString())
-        Log.d("hieght Bar", resources.getDimension(R.dimen.bargraph_height).toString())
-
         val questionView: ImageView = view.findViewById(R.id.question)
         questionView.setOnTouchListener { _, _ ->
             showTooltip("Cliquez sur l'écran pour ajouter un bargraphe")
@@ -67,25 +70,86 @@ class BargrapheFragment : UIFragment(500) {
         bargraphContainer = view.findViewById(R.id.bargraphContainer)
 
 
+
         view.setOnTouchListener { _, _ ->
             showBargraphSelectionPopup()
             false
         }
 
+        // Restoring the fragment state
+        restoreFragmentState()
+
+
         return view
     }
 
+    private fun saveFragmentState() {
+        val prefs = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE) ?: return
+        val editor = prefs.edit()
+
+        // Save the selected types to SharedPreferences
+        val selectedTypesSet = HashSet(chosenTypes)
+        editor.putStringSet("selectedTypes", selectedTypesSet)
+
+        // Save the state of each progress bar
+        for ((type, bargrapheView) in barGrapheList) {
+            editor.putString("$type-type", type)
+            editor.putString("$type-maxObserved", (bargrapheView.findViewById<TextView>(R.id.maxObserved)).text.toString())
+            editor.putString("$type-maxValue", bargrapheView.findViewById<TextView>(R.id.maxValueTextView).text.toString())
+            editor.putString("$type-minValue", (bargrapheView.findViewById<TextView>(R.id.minValueTextView)).text.toString())
+        }
+
+        // Save the list of types to SharedPreferences
+
+        editor.apply()
+    }
+
+    private fun restoreFragmentState() {
+        val prefs = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val selectedTypesSet = prefs?.getStringSet("selectedTypes", emptySet())
+        selectedTypesSet?.let { chosenTypes.addAll(it) }
+
+        barGrapheList.clear()
+
+        // Iterate through SharedPreferences entries and restore bargraphs
+        val allEntries: Map<String, *> = prefs!!.all
+        for ((key, value) in allEntries) {
+            if (key.endsWith("-type") && value is String) {
+                val type = value
+                val maxValueKey = "$type-maxValue"
+                val minValueKey = "$type-minValue"
+                val maxObservedKey = "$type-maxObserved"
+
+                // Check if the corresponding keys for maxValue, minValue, and maxObserved exist
+                if (prefs!!.contains(maxValueKey) && prefs.contains(minValueKey) && prefs.contains(maxObservedKey)) {
+                    val maxValue = prefs.getString(maxValueKey, "0")?.toInt() ?: 0
+                    val minValue = prefs.getString(minValueKey, "0")?.toInt() ?: 0
+                    val maxObserved = prefs.getString(maxObservedKey, "0")?.toInt() ?: 0
+
+                    // Create and add the bargraph to the barGrapheList
+                    createBargraphProgressbar(type, minValue, maxValue, maxObserved)
+
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Save the fragment state when it is destroyed
+        saveFragmentState()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         barGrapheTypes = mutableListOf(
-            BareGrapheType("Oil Temp.", 25, 150, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 1
+            BareGrapheType("Oil Temp.", 0, 150, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type 1
                 val progressValue =
                     (alpineServices.get_OilTemperature() - 40)
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -94,12 +158,12 @@ class BargrapheFragment : UIFragment(500) {
                 }
             },
             BareGrapheType("Cool Temp.", 0, 130, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type 2
                 val progressValue =
                     (alpineServices.get_EngineCoolantTemp() - 40)
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -111,12 +175,12 @@ class BargrapheFragment : UIFragment(500) {
 
 
             BareGrapheType("Gear Temp.", 60, 140, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type 3
                 val progressValue =
                     (alpineServices.get_RST_ATClutchTemperature() + 60)
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -127,12 +191,12 @@ class BargrapheFragment : UIFragment(500) {
             },
 
                     BareGrapheType("Air Temp.", -10, 60, 0) { barGrapheView, maxObs ->
-            // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+             //  logique de mise à jour de la ProgressBar pour le type x
             val progressValue =
                 (alpineServices.get_IntakeAirTemperature() - 40)
 
             if (progressValue > maxObs) {
-                // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                 updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                 return@BareGrapheType progressValue
             } else {
@@ -142,12 +206,12 @@ class BargrapheFragment : UIFragment(500) {
 
         },
             BareGrapheType("Speed", 0, 300, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
                     (alpineServices.get_Disp_Speed_MM() / 100)
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -157,12 +221,12 @@ class BargrapheFragment : UIFragment(500) {
 
             },
             BareGrapheType("Engine Pressure", 0, 70, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
                     alpineServices.get_EngineOilPressure()
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -172,12 +236,12 @@ class BargrapheFragment : UIFragment(500) {
 
             },
             BareGrapheType("Engine RPM", 0, 7500, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
                     alpineServices.get_EngineRPM_MMI()/8
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -186,13 +250,29 @@ class BargrapheFragment : UIFragment(500) {
                 }
 
             },
-            BareGrapheType("Torque", 0, 350, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+            BareGrapheType("Torque Nm", 0, 350, 0) { barGrapheView, maxObs ->
+                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
-                    (alpineServices.get_MeanEffTorque()-400)/2
+                    (alpineServices.get_EstimatedPowertrainWheelTorque()-6400)/2
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
+                    return@BareGrapheType progressValue
+                } else {
+                    updateBargrapheWithMarker(barGrapheView, progressValue, maxObs)
+                    return@BareGrapheType maxObs
+                }
+
+            },
+
+            BareGrapheType("HorsePower", 0, 350, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type x
+                val progressValue =
+                    (alpineServices.get_SharpInstantMecanicalPowerByAlt()*40)
+
+                if (progressValue > maxObs) {
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -203,12 +283,12 @@ class BargrapheFragment : UIFragment(500) {
             },
 
             BareGrapheType("Braking Pressure", 0, 120, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type 2
                 val progressValue =
                     alpineServices.get_BrakingPressure()/2
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -217,12 +297,12 @@ class BargrapheFragment : UIFragment(500) {
                 }
             },
             BareGrapheType("Throttle", 0, 100, 0) { barGrapheView, maxObs ->
-                // Mettez ici la logique de mise à jour de la ProgressBar pour le type 2
+                 //  logique de mise à jour de la ProgressBar pour le type 2
                 val progressValue =
                     alpineServices.get_RawSensor()/8
 
                 if (progressValue > maxObs) {
-                    // Assumez que currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
                     return@BareGrapheType progressValue
                 } else {
@@ -262,6 +342,10 @@ class BargrapheFragment : UIFragment(500) {
 
         }
     }
+
+
+
+
 
     private fun showTooltip(text: String) {
         val tooltipView = LayoutInflater.from(context).inflate(R.layout.tooltip_layout, null)
@@ -339,20 +423,20 @@ class BargrapheFragment : UIFragment(500) {
                 position: Int,
                 id: Long
             ) {
-                // Lorsqu'un type est sélectionné, mettez à jour la valeur de minValueEditText
+                // Lorsqu'un type est sélectionné, mettre à jour la valeur de minValueEditText
                 val selectedType = types[position]
                 val minValueEditText = popupView.findViewById<EditText>(R.id.minValueEditText)
                 val maxValueEditText = popupView.findViewById<EditText>(R.id.maxValueEditText)
 
-                // Mettez à jour la valeur de minValueEditText en fonction du type sélectionné
+                // Mettre à jour la valeur de minValueEditText en fonction du type sélectionné
 
                 minValueEditText.setText((barGrapheTypes.find { it.type == selectedType }?.minValue).toString())
                 maxValueEditText.setText((barGrapheTypes.find { it.type == selectedType }?.maxValue).toString())
 
             }
 
-            override fun onNothingSelected(parentView: AdapterView<*>) {
-                // Lorsqu'aucun élément n'est sélectionné, vous pouvez ajouter un comportement personnalisé ici si nécessaire
+         override fun onNothingSelected(parentView: AdapterView<*>) {
+                // Lorsqu'aucun élément n'est sélectionné,  ajouter un comportement personnalisé ici si nécessaire
             }
         }
 
@@ -377,7 +461,7 @@ class BargrapheFragment : UIFragment(500) {
                 val minValue = minValueEditText.text.toString().toIntOrNull() ?: 0
                 val maxValue = maxValueEditText.text.toString().toIntOrNull() ?: 100
 
-                createBargraphProgressbar(selectedType, minValue, maxValue)
+                createBargraphProgressbar(selectedType, minValue, maxValue, 0)
 
             }
             popupWindow.dismiss()
@@ -392,9 +476,9 @@ class BargrapheFragment : UIFragment(500) {
 
 
     private fun getListOfAvailableTypes(): List<String> {
-        // Créez une liste de types disponibles en excluant ceux déjà choisis
+        // Crée une liste de types disponibles en excluant ceux déjà choisis
         val availableTypes = mutableListOf<String>()
-        val allTypes = listOf("Oil Temp.", "Cool Temp.", "Gear Temp.","Air Temp.","Speed","Engine Pressure","Engine RPM", "Torque","Braking Pressure","Throttle", /* ... 37 more types */)
+        val allTypes = listOf("Oil Temp.", "Cool Temp.", "Gear Temp.","Air Temp.","Speed","Engine Pressure","Engine RPM", "Torque Nm","Braking Pressure","Throttle","HorsePower", /* ... 37 more types */)
 
         for (type in allTypes) {
             if (!chosenTypes.contains(type)) {
@@ -405,7 +489,7 @@ class BargrapheFragment : UIFragment(500) {
         return availableTypes
     }
 
-    private fun createBargraphProgressbar(type: String, minValue: Int, maxValue: Int) {
+    private fun createBargraphProgressbar(type: String, minValue: Int, maxValue: Int, maxObserved:Int) {
         val bargraphWithMarker = LayoutInflater.from(context).inflate(R.layout.bargraph_with_title, null)
         val titleTextView = bargraphWithMarker.findViewById<TextView>(R.id.titleTextView)
         val maxTextView = bargraphWithMarker.findViewById<TextView>(R.id.maxValueTextView)
@@ -420,13 +504,13 @@ class BargrapheFragment : UIFragment(500) {
         progressBar.max = maxValue
         maxTextView.text=maxValue.toString()
         minTextView.text=minValue.toString()
-        maxObsValue.text="0"
+        maxObsValue.text=maxObserved.toString()
         progressBar.min = minValue
 
         // Ajoutez le type à la liste des types choisis
         chosenTypes.add(type)
 
-        barGrapheList[type] = bargraphWithMarker // Stockez lebaregraphe complet dans la Map
+        barGrapheList[type] = bargraphWithMarker // Stocke le baregraphe complet dans la Map
 
         // ... (Configurer les autres propriétés de la ProgressBar) ...
 
@@ -444,7 +528,7 @@ class BargrapheFragment : UIFragment(500) {
         progressBar.setOnClickListener {
             val clickTime = System.currentTimeMillis()
             if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
-                barGrapheList.remove(type) // Retirez la ProgressBar de la Map
+                barGrapheList.remove(type) // Retire la ProgressBar de la Map
                 chosenTypes.remove(type)
                 bargraphContainer.removeView(bargraphWithMarker)
             }
@@ -465,7 +549,7 @@ class CustomSpinnerAdapter(
         val view = super.getView(position, convertView, parent)
         val type = types[position]
 
-        // Personnalisez la vue du Spinner pour afficher le type
+        // Personnalise la vue du Spinner pour afficher le type
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = type
 
