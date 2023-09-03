@@ -184,16 +184,16 @@ class EngineDisplay : UIFragment(250)
                             (flbrake_press.toFloat()/1000)
                         )
 
-                        if (flbrake_press<2300)
+                        if (flbrake_press<2000)
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (flbrake_press<2500)
+                        else if (flbrake_press<2400)
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        if (tyretemp_fl2<32)
+                        if (tyretemp_fl2<35)
                             temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_fl2<45)
+                        else if (tyretemp_fl2<90)
                             temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
@@ -210,9 +210,9 @@ class EngineDisplay : UIFragment(250)
                         else
                             temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        if (tyretemp_fr2<32)
+                        if (tyretemp_fr2<35)
                             temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_fr2<45)
+                        else if (tyretemp_fr2<90)
                             temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
@@ -222,9 +222,9 @@ class EngineDisplay : UIFragment(250)
                             (rlbrake_press.toFloat()/1000)
                         )
 
-                        if (rlbrake_press<2300)
+                        if (rlbrake_press<2000)
                             press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (rlbrake_press<2500)
+                        else if (rlbrake_press<2400)
                             press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
@@ -243,16 +243,16 @@ class EngineDisplay : UIFragment(250)
 
 
 
-                        if (frbrake_press<2300)
+                        if (frbrake_press<2000)
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (frbrake_press<2500)
+                        else if (frbrake_press<2400)
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        if (tyretemp_rr2<32)
+                        if (tyretemp_rr2<35)
                             temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_rr2<45)
+                        else if (tyretemp_rr2<90)
                             temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
@@ -279,16 +279,16 @@ class EngineDisplay : UIFragment(250)
                             (rrbrake_press.toFloat()/1000)
                         )
 
-                        if (rrbrake_press<2300)
+                        if (rrbrake_press<2000)
                             press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (rrbrake_press<2500)
+                        else if (rrbrake_press<2400)
                             press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        if (tyretemp_rl2<32)
+                        if (tyretemp_rl2<35)
                             temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_rl2<45)
+                        else if (tyretemp_rl2<90)
                             temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))

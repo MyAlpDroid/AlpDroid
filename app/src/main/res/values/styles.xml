@@ -1,5 +1,10 @@
 <resources>
 
+    <style name="CustomProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="colorPrimary">@color/white_text</item>
+        <item name="android:progressDrawable">@drawable/custom_progress_bar</item>
+    </style>
 
     <!-- Base application theme. -->
 

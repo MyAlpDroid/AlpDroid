@@ -32,6 +32,7 @@ class ComputerDisplay : UIFragment(1500) {
     lateinit var ac_header : TextView
     lateinit var framedatadisplay : TextView
 
+
     lateinit var iterator:Iterator<Int>
 
     var ptc_see:Boolean = false
@@ -59,6 +60,7 @@ class ComputerDisplay : UIFragment(1500) {
         fragmentBlankBinding!!.resetDtc.setOnClickListener {
             obdptcreset()
         }
+
 
 
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -458,7 +460,9 @@ class ComputerDisplay : UIFragment(1500) {
                             )
                         }
                     }
+
                 }
+
             }
         }
     }

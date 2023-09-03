@@ -57,13 +57,16 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
             throw IndexOutOfBoundsException("Offset+Len > ${dlc*8}")
         }
 
+
         datatonum=datatonum.clearBitsSlice(64-(offset+len),63-offset)
 
         val maskinv:Long = value.toLong() shl (64-offset-len)
 
        datatonum = datatonum or maskinv
 
+
     }
+
 
 
     fun clear()
@@ -95,6 +98,19 @@ class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
         }
 
         return dataFrame
+
+    }
+
+    fun numtodataByte()
+    {
+        data[0]=(datatonum shr 56).toByte()
+        data[1]=(datatonum shr 48).toByte()
+        data[2]=(datatonum shr 40).toByte()
+        data[3]=(datatonum shr 32).toByte()
+        data[4]=(datatonum shr 24).toByte()
+        data[5]=(datatonum shr 16).toByte()
+        data[6]=(datatonum shr 8).toByte()
+        data[7]=(datatonum shr 0).toByte()
 
     }
 

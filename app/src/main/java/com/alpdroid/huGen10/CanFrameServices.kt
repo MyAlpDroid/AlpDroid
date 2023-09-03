@@ -25,7 +25,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import com.alpdroid.huGen10.AlpdroidApplication
 
 
 // Main CLass for Arduino and Canframe handling, as a service, listening to Arduino, sending to arduino and giving Frame value
@@ -39,7 +38,7 @@ class CanFrameServices : Service(), ArduinoListener {
 
     private lateinit var application: AlpdroidApplication
 
-    private lateinit var alpine2Cluster: ClusterInfo
+    lateinit var alpine2Cluster: ClusterInfo
 
     private var backalbumName:String = "--"
     private var bcktrackName:String = "--"
