@@ -71,7 +71,7 @@ class BargrapheFragment : UIFragment(500) {
 
 
 
-        view.setOnTouchListener { _, _ ->
+        view.setOnClickListener { _ ->
             showBargraphSelectionPopup()
             false
         }
@@ -253,7 +253,7 @@ class BargrapheFragment : UIFragment(500) {
             BareGrapheType("Torque Nm", 0, 350, 0) { barGrapheView, maxObs ->
                  //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
-                    (alpineServices.get_EstimatedPowertrainWheelTorque()-6400)/2
+                    (alpineServices.get_MeanEffTorque()-400)/2
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -269,7 +269,7 @@ class BargrapheFragment : UIFragment(500) {
             BareGrapheType("HorsePower", 0, 350, 0) { barGrapheView, maxObs ->
                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
-                    (alpineServices.get_SharpInstantMecanicalPowerByAlt()*40)
+                    (alpineServices.get_EstimatedPowertrainWheelTorque()-6400)/2
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar

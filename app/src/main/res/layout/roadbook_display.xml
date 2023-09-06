@@ -26,7 +26,7 @@
         android:padding="8dp"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@+id/startRoad"
-        app:layout_constraintEnd_toStartOf="@+id/startRoad"
+        app:layout_constraintEnd_toStartOf="@+id/middleLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -55,6 +55,48 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/middleLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/startRoad"
+        app:layout_constraintEnd_toStartOf="@+id/upperCenterLayout"
+        app:layout_constraintStart_toEndOf="@+id/upperLeftLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/top_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            android:padding="6dp"/>
+
+        <ListView
+            android:id="@+id/road_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_row"
+            android:layout_marginTop="-18dp"
+            android:background="@android:color/transparent" />
+
+        <!-- Shown for empty collection due to rv.setEmptyView(R.id.widget_list, R.id.empty_view) being called: -->
+
+        <TextView
+            android:id="@+id/road_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/road_list"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:text="---"
+            android:textColor="@android:color/white"
+            tools:visibility="invisible" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/upperCenterLayout"
@@ -64,7 +106,7 @@
         android:background="#80102078"
         android:padding="8dp"
         android:layout_margin="8dp"
-        app:layout_constraintStart_toEndOf="@id/startRoad"
+        app:layout_constraintStart_toEndOf="@id/middleLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/startRoad"
         >
@@ -161,6 +203,16 @@
         app:srcCompat="@drawable/compas_road" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/razButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="RAZ"
+        app:layout_constraintEnd_toEndOf="@+id/startRoad"
+        app:layout_constraintStart_toStartOf="@+id/startRoad"
+        app:layout_constraintTop_toBottomOf="@+id/startRoad" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
