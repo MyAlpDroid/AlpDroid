@@ -174,7 +174,7 @@ class BargrapheFragment : UIFragment(500) {
             },
 
 
-            BareGrapheType("Gear Temp.", 60, 140, 0) { barGrapheView, maxObs ->
+            BareGrapheType("Clutch Temp.", 60, 140, 0) { barGrapheView, maxObs ->
                  //  logique de mise à jour de la ProgressBar pour le type 3
                 val progressValue =
                     (alpineServices.get_RST_ATClutchTemperature() + 60)
@@ -224,7 +224,6 @@ class BargrapheFragment : UIFragment(500) {
                  //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
                     alpineServices.get_EngineOilPressure()
-
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
                     updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
@@ -269,7 +268,7 @@ class BargrapheFragment : UIFragment(500) {
             BareGrapheType("HorsePower", 0, 350, 0) { barGrapheView, maxObs ->
                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
-                    (alpineServices.get_EstimatedPowertrainWheelTorque()-6400)/2
+                    (((alpineServices.get_MeanEffTorque()-400)/2)*(alpineServices.get_EngineRPM_MMI()/8)/5.252).toInt()
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -300,6 +299,54 @@ class BargrapheFragment : UIFragment(500) {
                  //  logique de mise à jour de la ProgressBar pour le type 2
                 val progressValue =
                     alpineServices.get_RawSensor()/8
+
+                if (progressValue > maxObs) {
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
+                    return@BareGrapheType progressValue
+                } else {
+                    updateBargrapheWithMarker(barGrapheView, progressValue, maxObs)
+                    return@BareGrapheType maxObs
+                }
+
+            },
+
+            // temp is Ok
+            BareGrapheType("GearBox Temp.", 0, 140, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type 2
+                val progressValue =
+                    alpineServices.get_RST_ATOilTemperature()-40
+
+                if (progressValue > maxObs) {
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
+                    return@BareGrapheType progressValue
+                } else {
+                    updateBargrapheWithMarker(barGrapheView, progressValue, maxObs)
+                    return@BareGrapheType maxObs
+                }
+
+            },
+
+            BareGrapheType("Boost Pressure", 0, 100, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type 2
+                val progressValue =
+                    alpineServices.get_BoostPressure()/20
+
+                if (progressValue > maxObs) {
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
+                    return@BareGrapheType progressValue
+                } else {
+                    updateBargrapheWithMarker(barGrapheView, progressValue, maxObs)
+                    return@BareGrapheType maxObs
+                }
+
+            },
+            BareGrapheType("Fuel Temp.", 0, 150, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type 2
+                val progressValue =
+                    alpineServices.get_FuelTemperature()-40
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -376,13 +423,16 @@ class BargrapheFragment : UIFragment(500) {
         activity?.runOnUiThread {
 
             val maxObsTextView = bargrapheWithMarker.findViewById<TextView>(R.id.maxObserved)
+            val currentValueTextView = bargrapheWithMarker.findViewById<TextView>(R.id.currentValue)
             val progressBar=bargrapheWithMarker.findViewById<ProgressBar>(R.id.progressBar)
 
+            currentValueTextView.text=currentValue.toString()
 
             if (currentValue <= progressBar.max && currentValue >= progressBar.min) {
 
                 if (currentValue >= maxValue) {
                     maxObsTextView.text=currentValue.toString()
+
                     progressBar.progress=currentValue
 
                 }
@@ -478,7 +528,7 @@ class BargrapheFragment : UIFragment(500) {
     private fun getListOfAvailableTypes(): List<String> {
         // Crée une liste de types disponibles en excluant ceux déjà choisis
         val availableTypes = mutableListOf<String>()
-        val allTypes = listOf("Oil Temp.", "Cool Temp.", "Gear Temp.","Air Temp.","Speed","Engine Pressure","Engine RPM", "Torque Nm","Braking Pressure","Throttle","HorsePower", /* ... 37 more types */)
+        val allTypes = listOf("Oil Temp.", "Cool Temp.", "Clutch Temp.","GearBox Temp.","Air Temp.","Speed","Engine Pressure","Engine RPM", "Torque Nm","Braking Pressure","Throttle","HorsePower",  "Boost Pressure", "Fuel Temp." /* ... 37 more types */)
 
         for (type in allTypes) {
             if (!chosenTypes.contains(type)) {
@@ -500,12 +550,14 @@ class BargrapheFragment : UIFragment(500) {
 
 
         // Set title text and ProgressBar properties based on type
-        titleTextView.text = type+" (peak) :"
+        titleTextView.text = type+" ( / peak) :"
         progressBar.max = maxValue
         maxTextView.text=maxValue.toString()
         minTextView.text=minValue.toString()
+
         maxObsValue.text=maxObserved.toString()
         progressBar.min = minValue
+
 
         // Ajoutez le type à la liste des types choisis
         chosenTypes.add(type)

@@ -118,13 +118,35 @@ class VehicleServices : LocationListener {
 
     }
 
+    // Dans certains cas rares, les 2 BUS utilisent la même adresse, il faut distringuer les BUS
+    // A priori concerne uniquement :
+    /* <SentBytes>03B7</SentBytes>
+       <SentBytes>0405</SentBytes>
+       <SentBytes>0589</SentBytes>
+       <SentBytes>0597</SentBytes>
+    */
+
+    private fun getFrameParamsFromBus(bus:Int,canID: Int, bytesNum: Int, len: Int): Int {
+        val frame: CanFrame
+
+        try {
+            frame = application.alpineCanFrame.getFrameFromBus(canID,bus)!!
+        } catch (e: Exception) {
+            return 0
+        }
+
+        return frame.getValue(bytesNum, len)
+
+    }
+
+
     private suspend fun pushOBDParams(
         candIDSend: Int,
         servicePID: Int,
         serviceDir: Int,
         bytesData: ByteArray
     ) {
-        var frame2OBD: CanFrame
+        val frame2OBD: CanFrame
 
         val serviceData = ByteArray(8)
 
@@ -191,7 +213,7 @@ class VehicleServices : LocationListener {
 
     private fun isOBDParams(servicePID: Int, serviceDir: Int, ecu: Int): Boolean {
 
-        var eval_frame: OBDframe
+        val eval_frame: OBDframe
 
         try {
 
@@ -424,13 +446,11 @@ class VehicleServices : LocationListener {
         try{removeOBDFrame(0xC0,0x50, ecu+0x20)}
         catch (e:Exception){}
 
+        pushOBDParams(ecu, 0xC0, 0x10, ByteArray(0))
 
+        val tempo = System.currentTimeMillis()
 
-            pushOBDParams(ecu, 0xC0, 0x10, ByteArray(0))
-
-            val tempo = System.currentTimeMillis()
-
-            while ( !isOBDParams(
+        while ( !isOBDParams(
                     0xC0,
                     0x50,
                     ecu + 0x20
@@ -658,7 +678,7 @@ class VehicleServices : LocationListener {
 
         result+= String.format("%2X", coldCountryMode)
 
-                if (coldCountryMode != 255) {
+        if (coldCountryMode != 255) {
 
                     if (coldCountryMode == 0) {
                         coldCountryMode = 1
@@ -1355,19 +1375,19 @@ class VehicleServices : LocationListener {
 
 
     /** Get MM_ExternalTemp **/
-    fun get_MM_ExternalTemp(): Int = this.getFrameParams(CanMCUAddrs.CLUSTER_CANM_01.idcan, 0, 8)
+    fun get_MM_ExternalTemp(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 0, 8)
 
     /** Get MMNightRheostatedLightMaxPercent **/
     fun get_MMNightRheostatedLightMaxPercent(): Int =
-        this.getFrameParams(CanMCUAddrs.CLUSTER_CANM_01.idcan, 8, 8)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 8, 8)
 
     /** Get MM_DayNightStatusForBacklights **/
     fun get_MM_DayNightStatusForBacklights(): Boolean =
-        this.getFrameParams(CanMCUAddrs.CLUSTER_CANM_01.idcan, 16, 1) != 0
+        this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 16, 1) != 0
 
     /** Get MM_CustomerDeparture **/
     fun get_MM_CustomerDeparture(): Int =
-        this.getFrameParams(CanMCUAddrs.CLUSTER_CANM_01.idcan, 17, 7)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 17, 7)
 
     /**
      *  Clock
@@ -1457,6 +1477,11 @@ class VehicleServices : LocationListener {
     /** Get VehicleSpeed **/
     fun get_VehicleSpeed(): Int = this.getFrameParams(CanMCUAddrs.GW_Chassis_Data1.idcan, 48, 16)
 
+
+    //** Get Fuel Temperature **/
+
+    fun get_FuelTemperature():Int = this.getFrameParamsFromBus(1, CanECUAddrs.CLUSTER_CANHS_R_04.idcan,56,8)
+
     /**
      * Acceleration, YawRate
      **/
@@ -1488,50 +1513,50 @@ class VehicleServices : LocationListener {
      **/
 
     /** Get Engine RPM**/
-    fun get_EngineRPM_MMI(): Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 0, 16)
+    fun get_EngineRPM_MMI(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 0, 16)
 
     /** Get LaunchControlReady **/
     fun get_RST_LaunchControlReady(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 16, 2)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 16, 2)
 
     /** Get RST_LaunchControlReady_MMI **/
     fun get_RST_LaunchControlReady_MMI(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 18, 2)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 18, 2)
 
     /** Get RST_ATMode **/
-    fun get_RST_ATMode(): Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 20, 1)
+    fun get_RST_ATMode(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 20, 1)
 
 
     /** Get RST_ATPreSelectedRange **/
     fun get_RST_ATPreSelectedRange(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 21, 3)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 21, 3)
 
 
     /** Get ATCVT_RangeIndication **/
     fun get_ATCVT_RangeIndication(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 24, 5)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 24, 5)
 
 
     /** Get RST_CentralShifterPosition **/
     fun get_RST_CentralShifterPosition(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 29, 3)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 29, 3)
 
 
     /** Get RST_ATOilTemperature **/
     fun get_RST_ATOilTemperature(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 32, 8)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 32, 8)
 
 
     /** Get RST_ATClutchTemperature **/
     fun get_RST_ATClutchTemperature(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 40, 8)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 40, 8)
 
     /** Get AT_MMIParkActivation **/
     fun get_AT_MMIParkActivation(): Int =
-        this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 48, 2)
+        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 48, 2)
 
     /** Get AT_Parkfailure **/
-    fun get_AT_Parkfailure(): Int = this.getFrameParams(CanMCUAddrs.GW_Engine_Data.idcan, 50, 1)
+    fun get_AT_Parkfailure(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 50, 1)
 
     /**
      *  Cool temp, Oil Temp, etc

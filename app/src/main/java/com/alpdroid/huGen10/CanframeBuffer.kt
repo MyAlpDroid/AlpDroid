@@ -24,8 +24,10 @@ class CanframeBuffer {
 
         CoroutineScope(Dispatchers.IO).launch {
             mutexadd.withLock {
-                if (this@CanframeBuffer.mapFrame.replace(frame.id, frame) == null)
-                    this@CanframeBuffer.mapFrame[frame.id] = frame
+                val frame2test=this@CanframeBuffer.mapFrame.get(frame.id)
+                if (frame2test!=null && frame2test.bus==frame.bus)
+                    this@CanframeBuffer.mapFrame.replace(frame.id, frame)
+                else  this@CanframeBuffer.mapFrame[frame.id] = frame
             }
         }
     }
@@ -53,6 +55,14 @@ class CanframeBuffer {
         catch (e:Exception) {
             return null
         }
+    }
+
+    fun getFrameFromBus(candID:Int, bus:Int): CanFrame? {
+        val frame2test= this.mapFrame[candID]
+
+        if (frame2test!=null && frame2test.bus==bus)
+            return frame2test
+        else  return null
     }
 
     @Synchronized

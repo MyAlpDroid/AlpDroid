@@ -2,14 +2,22 @@ package com.alpdroid.huGen10
 /**
  *   ECU Address data for CAN ECU
 **/
-
+// Dans certains cas rares, les 2 BUS utilisent la même adresse, il faut distringuer les BUS
+// A priori concerne uniquement :
+/* <SentBytes>03B7</SentBytes>
+   <SentBytes>0405</SentBytes>
+   <SentBytes>0589</SentBytes>
+   <SentBytes>0597</SentBytes>
+*/
 enum class CanECUAddrs(val idcan: Int) {
 	EMM_CANHS_R_01(0x0211),
 	CLIM_CANHS_R_03(0x0392),
 	AT_CANHS_R_01(0x04AD),
 	MMI_TPMS_CANHS_R_01(0x0673),
-	MMI_BRAKE_CANHS_Rst_01(0x0597),
+	MMI_BRAKE_CANHS_Rst_01(0x0597), //doublon
+	GCS_CANHS_Rst_01(0x0589), // doublon
 	CLUSTER_CANHS_R_01(0x06FB),
+	CLUSTER_CANHS_R_04(0x03B7), // doublon
 	ECM_CANHS_RNr_01(0x01F6),
 	AT_CANV_Rst_01(0x017C),
 	BCM_CANHS_R_04(0x0350),

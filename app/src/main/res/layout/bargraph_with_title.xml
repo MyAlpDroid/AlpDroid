@@ -51,16 +51,34 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/maxObserved"
+        android:id="@+id/currentValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="100"
+        android:text="0"
         android:textColor="@color/white_text"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/titleTextView"
-        app:layout_constraintTop_toTopOf="@+id/titleTextView"
-         />
+        app:layout_constraintTop_toTopOf="@+id/titleTextView" />
+
+    <TextView
+        android:id="@+id/maxObserved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:textColor="@color/white_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" / "
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/currentValue"
+        app:layout_constraintTop_toTopOf="@+id/currentValue" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
