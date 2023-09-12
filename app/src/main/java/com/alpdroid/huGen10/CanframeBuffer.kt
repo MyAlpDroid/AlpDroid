@@ -24,7 +24,7 @@ class CanframeBuffer {
 
         CoroutineScope(Dispatchers.IO).launch {
             mutexadd.withLock {
-                val frame2test=this@CanframeBuffer.mapFrame.get(frame.id)
+                val frame2test= this@CanframeBuffer.mapFrame.get(frame.id)
                 if (frame2test!=null && frame2test.bus==frame.bus)
                     this@CanframeBuffer.mapFrame.replace(frame.id, frame)
                 else  this@CanframeBuffer.mapFrame[frame.id] = frame

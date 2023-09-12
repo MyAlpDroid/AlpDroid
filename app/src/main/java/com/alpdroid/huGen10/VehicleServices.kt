@@ -13,7 +13,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.lang.Math.abs
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
@@ -34,7 +33,7 @@ class VehicleServices : LocationListener {
     private var previoushumidity: Float = 0.0f
     private var previousblower: Float = 0.0f
 
-    private var mutex_prog=Mutex()
+    private var mutexprog=Mutex()
 
     init {
         try {
@@ -85,7 +84,7 @@ class VehicleServices : LocationListener {
         this.compassOrientation = (location.bearingTo(northPoleLocation) + location.bearing).toInt()
 
         // Adjust the compassOrientation value to a range of 0 to 360 degrees
-        this.compassOrientation = abs((this.compassOrientation % 360) / 2)
+        this.compassOrientation = kotlin.math.abs((this.compassOrientation % 360) / 2)
 
         currentBearing = this.compassOrientation
 
@@ -178,7 +177,7 @@ class VehicleServices : LocationListener {
             frame2OBD = CanFrame(1, candIDSend, serviceData)
 
             CoroutineScope(Dispatchers.IO).launch {
-                mutex_prog.withLock {
+                mutexprog.withLock {
                     application.alpdroidServices.sendFrame(frame2OBD)
                 }
 
@@ -420,7 +419,7 @@ class VehicleServices : LocationListener {
     suspend fun set_defaultsession(ecu:Int):Boolean
     {
         try{removeOBDFrame(0x81,0x50, ecu+0x20)}
-        catch (e:Exception){}
+        catch (_:Exception){}
 
         pushOBDParams(ecu, 0x81,0x10,ByteArray(0))
 
@@ -444,7 +443,7 @@ class VehicleServices : LocationListener {
     suspend fun set_extendedsession(ecu:Int):Boolean
     {
         try{removeOBDFrame(0xC0,0x50, ecu+0x20)}
-        catch (e:Exception){}
+        catch (_:Exception){}
 
         pushOBDParams(ecu, 0xC0, 0x10, ByteArray(0))
 
@@ -468,7 +467,7 @@ class VehicleServices : LocationListener {
     suspend fun ecu_softreset(ecu:Int):Boolean
     {
         try{removeOBDFrame(0x03,0x51, ecu+0x20)}
-        catch (e:Exception){}
+        catch (_:Exception){}
 
         pushOBDParams(ecu, 0x03,0x11,ByteArray(0))
 
@@ -553,7 +552,7 @@ class VehicleServices : LocationListener {
         val tempo: Long
 
         try{removeOBDFrame(0x00AD, 0x62, CanECUAddrs.CANECUREC_TPS.idcan)}
-        catch (e:Exception)
+        catch (_:Exception)
         {}
 
         pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan, 0x00AD, 0x22, ByteArray(0))
@@ -580,27 +579,27 @@ class VehicleServices : LocationListener {
 
     suspend fun set_mirror_switch(context: Context):String {
 
-        var Nbx_AutoFolding_CF: Int = get_folding_state()
+        var nbx_AutoFolding_CF: Int = get_folding_state()
 
-        var Nsx_AutoFoldingDelay_CF: Int = 10
-        var Nsx_AutoUnfoldingDelay_CF: Int = 10
+        val nsx_AutoFoldingDelay_CF: Int
+        val nsx_AutoUnfoldingDelay_CF: Int
 
         var result:String="\r\n"+ context.getString(R.string.suppress_auto_folding_mode)
 
         result+="\r\n"+ context.getString(R.string.mirror_switch_value)+" :"
 
-        result+=String.format("%2X",Nbx_AutoFolding_CF.toByte())
+        result+=String.format("%2X",nbx_AutoFolding_CF.toByte())
 
-        if (Nbx_AutoFolding_CF!=255) {
-            Nsx_AutoFoldingDelay_CF =
+        if (nbx_AutoFolding_CF!=255) {
+            nsx_AutoFoldingDelay_CF =
                 getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan, 0, 8)
-            Nsx_AutoUnfoldingDelay_CF =
+            nsx_AutoUnfoldingDelay_CF =
                 getOBDParams(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan, 8, 8)
-            if (Nbx_AutoFolding_CF == 0) {
-                Nbx_AutoFolding_CF = 0x80
+            if (nbx_AutoFolding_CF == 0) {
+                nbx_AutoFolding_CF = 0x80
                 result += String.format("\r\n" + context.getString(R.string.mirror_folding) + " : On")
             } else {
-                Nbx_AutoFolding_CF = 0
+                nbx_AutoFolding_CF = 0
                 result += String.format("\r\n" + context.getString(R.string.mirror_folding) + " : Off")
             }
 
@@ -617,9 +616,9 @@ class VehicleServices : LocationListener {
                     0x1F,
                     0x3B,
                     byteArrayOf(
-                        Nsx_AutoFoldingDelay_CF.toByte(),
-                        Nsx_AutoUnfoldingDelay_CF.toByte(),
-                        Nbx_AutoFolding_CF.toByte()
+                        nsx_AutoFoldingDelay_CF.toByte(),
+                        nsx_AutoUnfoldingDelay_CF.toByte(),
+                        nbx_AutoFolding_CF.toByte()
                     )
                 )
 
@@ -646,7 +645,7 @@ class VehicleServices : LocationListener {
         val tempo: Long
 
         try {removeOBDFrame(0x1F, 0x61, CanECUAddrs.CANECUREC_EMM.idcan)}
-        catch (e:Exception)
+        catch (_:Exception)
         {
         }
 
@@ -718,17 +717,15 @@ class VehicleServices : LocationListener {
         }
 
     suspend fun get_apbconfiguration_country_state(): Int {
-        val tempo: Long
 
         try {removeOBDFrame(0x4BC0, 0x62, CanECUAddrs.CANECUREC_ABS.idcan)}
-        catch (e:Exception)
+        catch (_:Exception)
         {
-
         }
 
         pushOBDParams(CanECUAddrs.CANECUSEND_ABS.idcan, 0x4BC0, 0x22, ByteArray(0))
 
-        tempo = System.currentTimeMillis()
+        val tempo:Long = System.currentTimeMillis()
 
         while (!isOBDParams(
                 0x4BC0,
@@ -736,7 +733,7 @@ class VehicleServices : LocationListener {
                 CanECUAddrs.CANECUREC_ABS.idcan
             ) && tempo + 1000 > System.currentTimeMillis()
         ) {
-            // do nothing .. waiting for folding _ state
+            // do nothing .. waiting for country _ state
         }
 
         if (isOBDParams(0x4BC0, 0x62, CanECUAddrs.CANECUREC_ABS.idcan)) {
@@ -1375,7 +1372,7 @@ class VehicleServices : LocationListener {
 
 
     /** Get MM_ExternalTemp **/
-    fun get_MM_ExternalTemp(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 0, 8)
+    fun get_MM_ExternalTemp(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.CLUSTER_CANHS_R_04.idcan, 0, 8)
 
     /** Get MMNightRheostatedLightMaxPercent **/
     fun get_MMNightRheostatedLightMaxPercent(): Int =
