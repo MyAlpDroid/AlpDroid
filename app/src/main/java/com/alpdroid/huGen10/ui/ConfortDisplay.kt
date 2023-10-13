@@ -145,7 +145,7 @@ class ConfortDisplay : UIFragment(250) {
                 tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
 
 
-                nextoverhaul.text= String.format(" %d Km", alpineServices.get_MilageMinBeforeOverhaul()*250)
+                nextoverhaul.text= String.format(" %d Km ou %d Jours", alpineServices.get_MilageMinBeforeOverhaul()*250,alpineServices.get_TimeBeforeOverhaul())
 
                 battstate.setImageResource(R.drawable.batterie_ok)
                 batttext.text=String.format(
@@ -179,7 +179,7 @@ class ConfortDisplay : UIFragment(250) {
 
                 val id =
                     resources.getIdentifier(
-                        "enginefanspeed_on${alpineServices.get_EngineFanSpeedRequest()}",
+                        "enginefanspeed_on${alpineServices.get_CoolingFanSpeedStatus()}",
                         "drawable",
                         context?.packageName
                     )

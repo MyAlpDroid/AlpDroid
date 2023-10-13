@@ -1,4 +1,4 @@
-package main.java.com.alpdroid.huGen10.ui
+package com.alpdroid.huGen10.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,6 @@ import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.RoadInfo
 import com.alpdroid.huGen10.VehicleServices
 import com.alpdroid.huGen10.databinding.RoadbookDisplayBinding
-import com.alpdroid.huGen10.ui.UIFragment
 
 class RoadBook:UIFragment(500) {
 

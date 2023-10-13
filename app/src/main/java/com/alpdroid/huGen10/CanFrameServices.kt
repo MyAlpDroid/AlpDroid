@@ -19,6 +19,7 @@ import android.util.Log
 import com.alpdroid.huGen10.ui.MainActivity
 import com.alpdroid.huGen10.util.IntegerUtil
 import com.google.gson.GsonBuilder
+import com.alpdroid.huGen10.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -411,10 +412,10 @@ class CanFrameServices : Service(), ArduinoListener {
         tx+=frame.dlc
     }
 
-    fun checkFrame(ecuAddrs:Int):Boolean {
+    fun checkFrame(bus:Int,ecuAddrs:Int):Boolean {
 
         // check if the frame is valuable
-        if (application.alpineCanFrame.getFrame(ecuAddrs)!=null) {
+        if (application.alpineCanFrame.getFrame(ecuAddrs shl (bus*0x10))!=null) {
             return true
         }
         return false

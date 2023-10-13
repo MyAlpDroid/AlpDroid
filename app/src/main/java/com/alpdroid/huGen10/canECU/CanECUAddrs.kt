@@ -18,6 +18,8 @@ enum class CanECUAddrs(val idcan: Int) {
 	GCS_CANHS_Rst_01(0x0589), // doublon
 	CLUSTER_CANHS_R_01(0x06FB),
 	CLUSTER_CANHS_R_04(0x03B7), // doublon
+	CLUSTER_CANHS_R_07(0x05CE),
+	MMI_BCM_CANHS_R_01(0x05DE),
 	ECM_CANHS_RNr_01(0x01F6),
 	AT_CANV_Rst_01(0x017C),
 	BCM_CANHS_R_04(0x0350),

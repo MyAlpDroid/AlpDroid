@@ -6,7 +6,7 @@ import com.alpdroid.huGen10.util.getBit
 import com.alpdroid.huGen10.util.getBitsSlice
 
 
-class CanFrame (var bus: Int, var id: Int, var data: ByteArray) {
+class CanFrame (val bus: Int, val id: Int, var data: ByteArray) {
 
     constructor(bus: Int, id: Int, size: Int) : this(bus, id, ByteArray(size))
 

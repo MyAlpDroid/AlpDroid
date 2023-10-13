@@ -4,8 +4,8 @@ plugins {
     id 'kotlin-android'
     id 'ivy-publish'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-
 }
+
 
 
 android {
@@ -15,13 +15,13 @@ android {
     }
 
 
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.alpdroid.huGen10"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         minSdkVersion 29
-        targetSdk 32
+        targetSdk 34
         versionCode 3
         versionName '3.3.1'
         multiDexEnabled false
@@ -97,16 +97,14 @@ android {
         }
     }
     namespace 'com.alpdroid.huGen10'
-
-    
+    ndkVersion '25.2.9519653'
 
 }
 
 
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
@@ -124,8 +122,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
@@ -136,7 +134,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation 'com.manicben:PhysicaloidLibrary:1.0.0'
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.10.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -154,6 +152,8 @@ dependencies {
     implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
     implementation "com.github.rh-id:a-logger:0.0.3"
     implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'androidx.annotation:annotation:1.7.0'
+    implementation 'com.google.android.gms:play-services-base:18.2.0'
 
 }
 

@@ -70,6 +70,11 @@
         <item>Light &amp; Star</item>
         <item>Red &amp; Blue Hexagone</item>
         <item>Blue Wave</item>
+        <item>Blue Square</item>
+        <item>Modern Chrono</item>
+        <item>Right Corner Chrono</item>
+        <item>Left Corner Chrono</item>
+        <item>Blue Circle</item>
         <item>Original</item>
     </string-array>
 
@@ -78,8 +83,14 @@
         <item>background_2,#04121B</item>
         <item>background_3,#000000</item>
         <item>background_4,#182C46</item>
+        <item>background_5,#242248</item>
+        <item>background_6,#041438</item>
+        <item>background_7,#000C18</item>
+        <item>background_8,#000312</item>
+        <item>background_9,#000E25</item>
         <item>background,#242248</item>
     </string-array>
+
 
     <string name="metric_params">metric_params</string>
     <string name="key_metric">ismetric</string>

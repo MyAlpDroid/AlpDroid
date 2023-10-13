@@ -15,8 +15,9 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.preference.*
 import com.alpdroid.huGen10.R
+import androidx.preference.*
+
 
 
 /**

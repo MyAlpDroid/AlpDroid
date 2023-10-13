@@ -5,15 +5,19 @@ buildscript {
 
 
     repositories {
-            google()
-            mavenCentral()
-        }
+        google()
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+
+    }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.1.2'
         // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
+        classpath 'com.google.gms:google-services:4.4.0'
 
     }
 

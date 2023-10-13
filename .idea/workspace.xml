@@ -41,10 +41,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;    bugs+Fuel Temperature+Hp&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compteur_354.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compteur_354_aircool.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compteur_354_oil.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/progressive_brake.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/progressive_brake_empty.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/parampopup_layout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAlpdroid_bom.html" beforeDir="false" afterPath="$PROJECT_DIR$/MyAlpdroid_bom.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrame.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanframeBuffer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanframeBuffer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetTempService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetTempService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canMCU/CanMCUAddrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canMCU/CanMCUAddrs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ConfortDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ConfortDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/NowPlayingFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/NowPlayingFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/RoadBook.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/RoadBook.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SettingsDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SettingsDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +87,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/New_Device_1_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/10.1_WXGA_Tablet_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -161,14 +194,14 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/UNO_CODE/mcp2515.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/build.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/src/main/res/xml/device_filter.xml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../BlueAlpine/app/build.gradle" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../BlueAlpine/build.gradle" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KotlinCodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -195,11 +228,12 @@
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED&quot;: &quot;true&quot;,
     &quot;android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED&quot;: &quot;RecyclerView&quot;,
+    &quot;android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/com.github.anastr/speedviewlib/1.6.1/9194b6b7c873811676270be4e3feb21e462a7071/speedviewlib-1.6.1-sources.jar!/com/github/anastr/speedviewlib/Gauge.kt_SELECTED&quot;: &quot;Gauge&quot;,
     &quot;android-custom-view/Users/philippetangre/Library/Android/sdk/sources/android-33/android/widget/GridView.java_SELECTED&quot;: &quot;GridView&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.android.tools.idea.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/values&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/xml&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -213,11 +247,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/xml" />
+      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/src/main/res/values" />
       <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/values-fr" />
-      <recent name="$PROJECT_DIR$/app/src/main/res" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
@@ -330,13 +364,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00035" summary="Merge remote-tracking branch 'remote/main'&#10;adding openstreetmap">
-      <created>1659447482509</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1659447482509</updated>
     </task>
     <task id="LOCAL-00036" summary="Merge remote-tracking branch 'remote/main'&#10;adding openstreetmap / API OsmAndHelper">
       <created>1659691190809</created>
@@ -674,7 +701,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694363549620</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;    bugs+Fuel Temperature+Hp&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1694522727810</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1694522727810</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">

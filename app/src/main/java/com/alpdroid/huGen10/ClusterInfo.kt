@@ -199,23 +199,23 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                             // Cluster's Frame
                             raceMode = application.alpdroidData.get_EspAsrSportMode_MM()
                             clusterInfoUpdate()
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Info.idcan + 0)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.CustomerClockSync.idcan + 0)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.RoadNavigation.idcan + 0)
-                            application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Compass_Info.idcan + 0)
+                            application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Info.idcan + 0)
+                            application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.CustomerClockSync.idcan + 0)
+                            application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.RoadNavigation.idcan + 0)
+                            application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Compass_Info.idcan + 0)
 
                             if (updateMusic) {
                                 // settings audio info
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 0)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 1)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 2)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 3)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 4)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 5)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 6)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 7)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 8)
-                                application.alpineCanFrame.pushFifoFrame(CanMCUAddrs.Audio_Display.idcan + 9)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 0)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 1)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 2)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 3)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 4)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 5)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 6)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 7)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 8)
+                                application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Display.idcan + 9)
                                 updateMusic = false
 
                             }
@@ -675,31 +675,31 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
         // Setting audio Info to Internet Source
 
-        application.alpdroidData.setFrameParams(CanMCUAddrs.Audio_Info.idcan+0,0,3,audioSource)
+        application.alpdroidData.setFrameParams(0,CanMCUAddrs.Audio_Info.idcan+0,0,3,audioSource)
 
         if (audioSource==1) {
             when {
                 albumName.contains("FM") -> application.alpdroidData.setFrameParams(
-                    CanMCUAddrs.Audio_Info.idcan + 0,
+                    0,CanMCUAddrs.Audio_Info.idcan + 0,
                     3,
                     2,
                     0
                 )
                 albumName.contains("AM") -> application.alpdroidData.setFrameParams(
-                    CanMCUAddrs.Audio_Info.idcan + 0,
+                    0,CanMCUAddrs.Audio_Info.idcan + 0,
                     3,
                     2,
                     1
                 )
             }
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.Audio_Info.idcan + 0,
+                0,CanMCUAddrs.Audio_Info.idcan + 0,
                 5,
                 2,
                 1
             )
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.Audio_Info.idcan + 0,
+                0,CanMCUAddrs.Audio_Info.idcan + 0,
                 7,
                 4,
                 0
@@ -709,7 +709,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
 
 // Compass
-        application.alpdroidData.setFrameParams(CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.getCompassOrientation())
+        application.alpdroidData.setFrameParams(0,CanMCUAddrs.Compass_Info.idcan+0,0,8,application.alpdroidData.getCompassOrientation())
 
     //    Log.d("Compass Cluster", app.alpdroidData.getCompassOrientation().toString())
 
@@ -741,39 +741,39 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
 
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.RoadNavigation.idcan + 0,
+                0,CanMCUAddrs.RoadNavigation.idcan + 0,
                 0,
                 12,
                 distanceToturn
             )
             if (unitToKilometer)
-                application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 1)
+                application.alpdroidData.setFrameParams(0,CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 1)
             else
-                application.alpdroidData.setFrameParams(CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
+                application.alpdroidData.setFrameParams(0,CanMCUAddrs.RoadNavigation.idcan + 0, 12, 4, 0)
             
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.RoadNavigation.idcan + 0,
+                0,CanMCUAddrs.RoadNavigation.idcan + 0,
                 16,
                 8,
                 nextTurnTypee
             )
 
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.RoadNavigation.idcan + 0,
+                0,CanMCUAddrs.RoadNavigation.idcan + 0,
                 24,
                 8,
                 0
             )
 
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.RoadNavigation.idcan + 0,
+                0,CanMCUAddrs.RoadNavigation.idcan + 0,
                 40,
                 8,
                 0
             )
 
             application.alpdroidData.setFrameParams(
-                CanMCUAddrs.RoadNavigation.idcan + 0,
+                0,CanMCUAddrs.RoadNavigation.idcan + 0,
                 32,
                 8,
                 secondnextTurnTypee

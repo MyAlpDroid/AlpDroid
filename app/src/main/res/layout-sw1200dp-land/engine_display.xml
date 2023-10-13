@@ -201,7 +201,7 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
             <com.github.anastr.speedviewlib.ProgressiveGauge
-                android:id="@+id/throttle_Press"
+                android:id="@+id/brake_Press"
                 android:layout_width="400dp"
                 android:layout_height="160dp"
                 android:layout_marginStart="24dp"
@@ -215,22 +215,21 @@
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="42dp"
                 app:sv_speedTextPosition="BOTTOM_RIGHT"
-                app:sv_speedometerBackColor="#375F7FDD"
-                app:sv_speedometerColor="#3AE641"
+                app:sv_speedometerBackColor="#175F7FDD"
+                app:sv_speedometerColor="#F42828"
                 app:sv_textColor="#FFFFFF"
-                app:sv_unit="%"
+                app:sv_unit="Bar"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="24sp"
-                app:sv_withTremble="false"
-                app:sv_unitUnderSpeedText="false" />
+                app:sv_unitUnderSpeedText="false"
+                app:sv_withTremble="false" />
 
             <com.github.anastr.speedviewlib.ProgressiveGauge
-                android:id="@+id/brake_Press"
-                android:layout_width="89dp"
+                android:id="@+id/throttle_Press"
+                android:layout_width="103dp"
                 android:layout_height="160dp"
                 android:verticalScrollbarPosition="defaultPosition"
-                app:layout_constraintStart_toEndOf="@+id/throttle_Press"
-                app:layout_constraintTop_toTopOf="@+id/throttle_Press"
+                app:layout_constraintStart_toEndOf="@+id/brake_Press"
+                app:layout_constraintTop_toTopOf="@+id/brake_Press"
                 app:sv_maxSpeed="100"
                 app:sv_minSpeed="0"
                 app:sv_orientation="VERTICAL"
@@ -238,14 +237,13 @@
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="4dp"
                 app:sv_speedTextPosition="TOP_LEFT"
-                app:sv_speedometerBackColor="#375F7FDD"
-                app:sv_speedometerColor="#F42828"
+                app:sv_speedometerBackColor="#175F7FDD"
+                app:sv_speedometerColor="#3AE641"
                 app:sv_textColor="#FFFFFF"
                 app:sv_unit="%"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="24sp"
-                app:sv_withTremble="false"
-                app:sv_unitUnderSpeedText="false" />
+                app:sv_unitUnderSpeedText="false"
+                app:sv_withTremble="false" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/OIL_jauge"
@@ -255,12 +253,13 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toEndOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="parent"
-                app:sv_image="@drawable/alpine_jauge_rpm"
+                app:sv_image="@drawable/compteur_354_oil"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#157CB3"
-                app:sv_markColor="#0434E4"
+                app:sv_markColor="#FFFFFF"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
+                app:sv_markWidth="4dp"
                 app:sv_marksNumber="5"
                 app:sv_marksPadding="56dp"
                 app:sv_maxSpeed="165"
@@ -278,6 +277,7 @@
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
                 app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitTextSize="42dp"
                 app:sv_withIndicatorLight="true"
                 app:sv_withTremble="false"
                 tools:ignore="MissingConstraints" />
@@ -291,12 +291,13 @@
                 app:layout_constraintEnd_toEndOf="@+id/OIL_jauge"
                 app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:sv_image="@drawable/alpine_jauge_temp2"
+                app:sv_image="@drawable/compteur_354_aircool"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#157CB3"
-                app:sv_markColor="#0434E4"
+                app:sv_markColor="#FFFFFF"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
+                app:sv_markWidth="4dp"
                 app:sv_marksNumber="7"
                 app:sv_marksPadding="56dp"
                 app:sv_maxSpeed="50"
@@ -313,27 +314,27 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
-                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="42dp" />
+                app:sv_unitTextSize="42dp"
+                app:sv_withTremble="false" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Oil_Pressure"
                 android:layout_width="372dp"
                 android:layout_height="375dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="36dp"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/brake_Press"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
-                app:sv_image="@drawable/alpine_jauge_pression"
+                app:sv_image="@drawable/compteur_354"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#EA0A0A"
-                app:sv_markColor="#0434E4"
+                app:sv_markColor="#FFFFFF"
                 app:sv_markHeight="12dp"
                 app:sv_markStyle="ROUND"
-                app:sv_markWidth="3dp"
+                app:sv_markWidth="6dp"
                 app:sv_marksNumber="5"
                 app:sv_marksPadding="56dp"
                 app:sv_maxSpeed="6"
@@ -342,7 +343,7 @@
                 app:sv_speedTextFormat="FLOAT"
                 app:sv_speedTextPadding="82dp"
                 app:sv_speedTextPosition="BOTTOM_CENTER"
-                app:sv_speedTextSize="32dp"
+                app:sv_speedTextSize="42dp"
                 app:sv_textColor="#FFFFFF"
                 app:sv_textSize="16dp"
                 app:sv_tickNumber="7"
@@ -350,9 +351,9 @@
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="FLOAT"
                 app:sv_unit=" Bar"
-                app:sv_withTremble="false"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="32dp" />
+                app:sv_unitTextSize="42dp"
+                app:sv_withTremble="false" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/CooL_jauge"
@@ -364,12 +365,13 @@
                 app:layout_constraintTop_toTopOf="@+id/OIL_jauge"
                 app:layout_constraintVertical_bias="0.0"
                 app:sv_backgroundCircleColor="#FFEB3B"
-                app:sv_image="@drawable/alpine_jauge_oil"
+                app:sv_image="@drawable/compteur_354_aircool"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#DDECF3"
-                app:sv_markColor="#0434E4"
+                app:sv_markColor="#FFFFFF"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
+                app:sv_markWidth="4dp"
                 app:sv_marksNumber="5"
                 app:sv_marksPadding="56dp"
                 app:sv_maxSpeed="145"
@@ -384,11 +386,11 @@
                 app:sv_tickNumber="7"
                 app:sv_tickPadding="75dp"
                 app:sv_tickRotation="false"
-                app:sv_withTremble="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="22dp" />
+                app:sv_unitTextSize="42dp"
+                app:sv_withTremble="false" />
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Gear_jauge"
@@ -399,12 +401,13 @@
                 app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
                 app:layout_constraintTop_toTopOf="@+id/CooL_jauge"
                 app:layout_constraintVertical_bias="0.0"
-                app:sv_image="@drawable/alpine_jauge_rpm"
+                app:sv_image="@drawable/compteur_354_oil"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#EA0A0A"
-                app:sv_markColor="#0434E4"
+                app:sv_markColor="#FFFFFF"
                 app:sv_markHeight="14dp"
                 app:sv_markStyle="ROUND"
+                app:sv_markWidth="4dp"
                 app:sv_marksNumber="11"
                 app:sv_marksPadding="56dp"
                 app:sv_maxSpeed="160"
@@ -422,7 +425,7 @@
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
                 app:sv_unitTextColor="#FFFFFF"
-                app:sv_unitTextSize="22dp" />
+                app:sv_unitTextSize="42dp" />
 
 
             <TextView
@@ -508,8 +511,8 @@
 
             <ImageView
                 android:id="@+id/angularWheel"
-                android:layout_width="336dp"
-                android:layout_height="260dp"
+                android:layout_width="162dp"
+                android:layout_height="109dp"
                 android:layout_marginTop="48dp"
                 android:rotation="0"
                 android:src="@drawable/volant"
@@ -645,8 +648,8 @@
                 android:textColor="#FFFFFF"
                 android:textSize="60sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/brake_Press"
-                app:layout_constraintStart_toStartOf="@+id/throttle_Press"
+                app:layout_constraintEnd_toEndOf="@+id/throttle_Press"
+                app:layout_constraintStart_toStartOf="@+id/brake_Press"
                 app:layout_constraintTop_toBottomOf="@+id/throttle_Press"
                 app:textAllCaps="false" />
 

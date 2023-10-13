@@ -1,4 +1,4 @@
-package main.java.com.alpdroid.huGen10.ui
+package com.alpdroid.huGen10.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -20,7 +20,9 @@ import android.widget.Toast
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.VehicleServices
-import com.alpdroid.huGen10.ui.UIFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class BargrapheFragment : UIFragment(500) {
@@ -249,10 +251,12 @@ class BargrapheFragment : UIFragment(500) {
                 }
 
             },
-            BareGrapheType("Torque Nm", 0, 350, 0) { barGrapheView, maxObs ->
+            BareGrapheType("Torque Nm", 0, 415, 0) { barGrapheView, maxObs ->
                  //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
-                    (alpineServices.get_MeanEffTorque()-400)/2
+                    ( (alpineServices.get_MeanEffTorque()/2)-400).takeUnless { it < 0 } ?: 0
+
+
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -265,10 +269,10 @@ class BargrapheFragment : UIFragment(500) {
 
             },
 
-            BareGrapheType("HorsePower", 0, 350, 0) { barGrapheView, maxObs ->
+            BareGrapheType("HorsePower", 0, 320, 0) { barGrapheView, maxObs ->
                 //  logique de mise à jour de la ProgressBar pour le type x
                 val progressValue =
-                    (((alpineServices.get_MeanEffTorque()-400)/2)*(alpineServices.get_EngineRPM_MMI()/8)/5.252).toInt()
+                    (((((alpineServices.get_MeanEffTorque()/2)-400).takeUnless { it < 0 } ?: 0)*alpineServices.get_EngineRPM_MMI()/8)/5252)
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -328,10 +332,10 @@ class BargrapheFragment : UIFragment(500) {
 
             },
 
-            BareGrapheType("Boost Pressure", 0, 100, 0) { barGrapheView, maxObs ->
+            BareGrapheType("Boost Pressure mBar", 0, 20, 0) { barGrapheView, maxObs ->
                 //  logique de mise à jour de la ProgressBar pour le type 2
                 val progressValue =
-                    alpineServices.get_BoostPressure()/20
+                    (-1+alpineServices.get_BoostPressure()/20)*100   // step de 0.05 on ramene sur 100 ?
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -346,7 +350,13 @@ class BargrapheFragment : UIFragment(500) {
             BareGrapheType("Fuel Temp.", 0, 150, 0) { barGrapheView, maxObs ->
                 //  logique de mise à jour de la ProgressBar pour le type 2
                 val progressValue =
-                    alpineServices.get_FuelTemperature()-40
+                    alpineServices.get_OBDFuelTemperature()
+
+                CoroutineScope(Dispatchers.Default).launch {
+
+                        alpineServices.ask_OBDFuelTemperature()
+
+                }
 
                 if (progressValue > maxObs) {
                     //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
@@ -359,6 +369,49 @@ class BargrapheFragment : UIFragment(500) {
 
             },
 
+            BareGrapheType("Radiator Fan", 0, 100, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type 2
+                val progressValue =
+                    alpineServices.get_OBDRadiatorFan()
+
+                CoroutineScope(Dispatchers.Default).launch {
+
+                    alpineServices.ask_OBDRadiatorFan()
+
+                }
+
+                if (progressValue > maxObs) {
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
+                    return@BareGrapheType progressValue
+                } else {
+                    updateBargrapheWithMarker(barGrapheView, progressValue, maxObs)
+                    return@BareGrapheType maxObs
+                }
+
+            },
+
+            BareGrapheType("Fuel Pump", 0, 100, 0) { barGrapheView, maxObs ->
+                //  logique de mise à jour de la ProgressBar pour le type 2
+                val progressValue =
+                    alpineServices.get_OBDFuelPumpDuty()
+
+                CoroutineScope(Dispatchers.Default).launch {
+
+                    alpineServices.ask_OBDFuelPumpDuty()
+
+                }
+
+                if (progressValue > maxObs) {
+                    //  currentValue et maxValue sont les valeurs actuelles et maximales pour la ProgressBar
+                    updateBargrapheWithMarker(barGrapheView, progressValue, progressValue)
+                    return@BareGrapheType progressValue
+                } else {
+                    updateBargrapheWithMarker(barGrapheView, progressValue, maxObs)
+                    return@BareGrapheType maxObs
+                }
+
+            },
  // ici les autres fonctions
 
         )
@@ -380,7 +433,6 @@ class BargrapheFragment : UIFragment(500) {
                         val find = barGrapheTypes.find { it.type == type }
                         find?.maxObservedValue =
                             find?.updater?.invoke(bargraphe, find.maxObservedValue)!!
-
 
                     }
 
@@ -528,7 +580,7 @@ class BargrapheFragment : UIFragment(500) {
     private fun getListOfAvailableTypes(): List<String> {
         // Crée une liste de types disponibles en excluant ceux déjà choisis
         val availableTypes = mutableListOf<String>()
-        val allTypes = listOf("Oil Temp.", "Cool Temp.", "Clutch Temp.","GearBox Temp.","Air Temp.","Speed","Engine Pressure","Engine RPM", "Torque Nm","Braking Pressure","Throttle","HorsePower",  "Boost Pressure", "Fuel Temp." /* ... 37 more types */)
+        val allTypes = listOf("Oil Temp.", "Cool Temp.", "Clutch Temp.","GearBox Temp.","Air Temp.","Speed","Engine Pressure","Engine RPM", "Torque Nm","Braking Pressure","Throttle","HorsePower",  "Boost Pressure mBar", "Fuel Temp.","Radiator Fan", "Fuel Pump" /* ... 37 more types */)
 
         for (type in allTypes) {
             if (!chosenTypes.contains(type)) {

@@ -24,10 +24,10 @@ class CanframeBuffer {
 
         CoroutineScope(Dispatchers.IO).launch {
             mutexadd.withLock {
-                val frame2test= this@CanframeBuffer.mapFrame.get(frame.id)
-                if (frame2test!=null && frame2test.bus==frame.bus)
-                    this@CanframeBuffer.mapFrame.replace(frame.id, frame)
-                else  this@CanframeBuffer.mapFrame[frame.id] = frame
+                val frame2test= this@CanframeBuffer.mapFrame.get(frame.id shl (frame.bus*0x10))
+                if (frame2test!=null)
+                    this@CanframeBuffer.mapFrame.replace(frame.id shl (frame.bus*0x10), frame)
+                else  this@CanframeBuffer.mapFrame[frame.id shl (frame.bus*0x10)] = frame
             }
         }
     }
@@ -57,21 +57,25 @@ class CanframeBuffer {
         }
     }
 
-    fun getFrameFromBus(candID:Int, bus:Int): CanFrame? {
-        val frame2test= this.mapFrame[candID]
+    fun getFrameFromBus(bus: Int, candID: Int): CanFrame? {
 
-        if (frame2test!=null && frame2test.bus==bus)
-            return frame2test
-        else  return null
+        try {
+
+        return this.mapFrame[candID shl (bus*0x10)]
+        }
+
+            catch (e:Exception) {
+                return null
+            }
     }
 
     @Synchronized
-    fun pushFifoFrame(candID: Int)
+    fun pushFifoFrame(bus:Int,candID: Int)
     {
         CoroutineScope(Dispatchers.IO).launch {
             mutexpush.withLock {  // Push frame to send into FiFO queue
-            getFrame(candID).also {
-            if (it!=null) this@CanframeBuffer.queueoutFrame[candID] = it
+            getFrameFromBus(bus,candID ).also {
+            if (it!=null) this@CanframeBuffer.queueoutFrame[candID shl (bus*0x10)] = it
             }
           }
         }

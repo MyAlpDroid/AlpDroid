@@ -30,9 +30,6 @@ import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
-import main.java.com.alpdroid.huGen10.ui.BargrapheFragment
-import main.java.com.alpdroid.huGen10.ui.NowPlayingFragment
-import main.java.com.alpdroid.huGen10.ui.RoadBook
 import java.util.Locale
 import kotlin.time.ExperimentalTime
 

@@ -15,6 +15,8 @@ import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
 import com.manicben.physicaloid.lib.Boards
 import com.manicben.physicaloid.lib.Physicaloid
+import com.alpdroid.huGen10.BuildConfig
+import com.alpdroid.huGen10.R
 
 
 class AlpdroidApplication : Application() {
