@@ -2,24 +2,26 @@ package com.alpdroid.huGen10.ui
 
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.DialogFragment
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.VehicleServices
 import com.alpdroid.huGen10.databinding.EngineDisplayBinding
-import com.github.anastr.speedviewlib.ImageLinearGauge
 import com.github.anastr.speedviewlib.ImageSpeedometer
 import com.github.anastr.speedviewlib.ProgressiveGauge
 import com.github.anastr.speedviewlib.components.indicators.ImageIndicator
@@ -30,37 +32,25 @@ import com.github.anastr.speedviewlib.components.indicators.ImageIndicator
 class EngineDisplay : UIFragment(250)
 {
 
-    // offset b2r1S
-    var offset_tyretemp: Int = 0
-    var offset_tyrepress: Float = 0.0f
-    var toggle_braketemp: Boolean = false
 
     lateinit var alpineServices : VehicleServices
-    private  var fragmentBlankBinding: EngineDisplayBinding?=null
+    private  lateinit var fragmentBlankBinding: EngineDisplayBinding
     
-    private var currentDegree:Float = 90.0f
-    private var steeringAngle:Float = 90.0f
-    lateinit var cardessin : ImageView
+
     lateinit var press_FL : TextView
     lateinit var press_RL: TextView
     lateinit var press_FR: TextView
     lateinit var press_RR: TextView
-    lateinit var temp_FL: TextView
-    lateinit var temp_FR: TextView
-    lateinit var temp_RL: TextView
-    lateinit var temp_RR: TextView
+
     lateinit var temp_FL2: TextView
     lateinit var temp_FR2: TextView
     lateinit var temp_RL2: TextView
     lateinit var temp_RR2: TextView
-    lateinit var oddo_Rate: TextView
-    lateinit var fuel_inst: TextView
+
     lateinit var fuel_level: TextView
     lateinit var gear_active: ImageView
-    lateinit var gear_next: ImageView
     lateinit var speed : TextView
-    lateinit var rpm_gauge : ImageLinearGauge
-    lateinit var angle_steering : ImageView
+
     lateinit var oil_temp : ImageSpeedometer
     lateinit var cool_temp : ImageSpeedometer
     lateinit var intake_temp : ImageSpeedometer
@@ -70,11 +60,16 @@ class EngineDisplay : UIFragment(250)
     lateinit var brakethrottle : ProgressiveGauge
     lateinit var textCtl : TextView
 
-    var fuel_instant:Float = 0.0f
     var speed_100:Int = 0
     var fuelgauge:Int =0
 
+    // offset b2r1S
+    var offset_tyretemp: Int = 0
+    var offset_tyrepress: Float = 0.0f
+    var toggle_braketemp: Boolean = false
+    var offset_tpms:Int = 0
 
+    lateinit var tanklevel:ImageView
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -93,16 +88,17 @@ class EngineDisplay : UIFragment(250)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cardessin = fragmentBlankBinding!!.dessinCar
+
+        var press_color:Int
+        var temp_color:Int
+
+        var tyre_calul4alert:Boolean
+
         press_FL = fragmentBlankBinding!!.textPressFL
         press_RL = fragmentBlankBinding!!.textPressRL
         press_FR = fragmentBlankBinding!!.textPressFR
         press_RR = fragmentBlankBinding!!.textPressRR
 
-        temp_FL = fragmentBlankBinding!!.textTempFL
-        temp_FR = fragmentBlankBinding!!.textTempFR
-        temp_RL = fragmentBlankBinding!!.textTempRL
-        temp_RR = fragmentBlankBinding!!.textTempRR
 
 
         temp_FL2 = fragmentBlankBinding!!.textTempFL2
@@ -110,34 +106,44 @@ class EngineDisplay : UIFragment(250)
         temp_RL2 = fragmentBlankBinding!!.textTempRL2
         temp_RR2 = fragmentBlankBinding!!.textTempRR2
 
-        angle_steering = fragmentBlankBinding!!.angularWheel
+
 
         speed = fragmentBlankBinding!!.textSpeed
 
-        rpm_gauge = fragmentBlankBinding!!.rpmgauge
 
         oil_temp = fragmentBlankBinding!!.OILJauge
         cool_temp = fragmentBlankBinding!!.CooLJauge
         intake_temp = fragmentBlankBinding!!.IntakeJauge
         gear_temp = fragmentBlankBinding!!.GearJauge
-        oddo_Rate = fragmentBlankBinding!!.textOddoRate
-        fuel_inst = fragmentBlankBinding!!.textFuelInst
+
         fuel_level = fragmentBlankBinding!!.textFueLevel
 
         gear_active = fragmentBlankBinding!!.gearActive
-        gear_next = fragmentBlankBinding!!.gearNext
+
 
         speedthrottle = fragmentBlankBinding!!.throttlePress
         brakethrottle = fragmentBlankBinding!!.brakePress
 
         otherJauge3 = fragmentBlankBinding!!.OilPressure
 
-        loadPreferences()
+        tanklevel=fragmentBlankBinding!!.gastankLevel!!
 
-        // Ajout d'un listener sur cardessin
-        cardessin.setOnClickListener {
-            showPopupDialog()
-        }
+        fragmentBlankBinding!!.imagetpms1!!.setImageResource(R.drawable.tpms_checks)
+        fragmentBlankBinding!!.imagetpms2!!.setImageResource(R.drawable.tpms_checks_right)
+
+        fragmentBlankBinding!!.imageView3!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageView11!!.setImageResource(R.drawable.unite_bar)
+
+        fragmentBlankBinding!!.imageView5!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageView10!!.setImageResource(R.drawable.unite_bar)
+
+        fragmentBlankBinding!!.imageView6!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageView12!!.setImageResource(R.drawable.unite_bar)
+
+        fragmentBlankBinding!!.imageView7!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageView9!!.setImageResource(R.drawable.unite_bar)
+
+        loadPreferences()
 
         val imageIndicatorBlue = getDrawable(AlpdroidApplication.app, R.drawable.image_indicator2)?.let {
             ImageIndicator(
@@ -174,6 +180,39 @@ class EngineDisplay : UIFragment(250)
             otherJauge3.indicator = imageIndicatorRed
         }
 
+
+        val snackbar_oilalert = AlertDialog.Builder(this.context)
+            .setTitle(R.string.engine_alert_title)
+            .setMessage(R.string.engine_alert_text)
+            .setPositiveButton(
+                android.R.string.ok
+            ) { dialogInterface: DialogInterface?, i: Int ->
+                val action: String
+                action = if (Build.VERSION.SDK_INT >= 22) {
+                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+                } else {
+                    "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
+                }
+                startActivity(Intent(action))
+            }
+
+
+        val snackbar_tyrealert = AlertDialog.Builder(this.context)
+            .setTitle(R.string.engine_alert_title)
+            .setMessage(R.string.tyre_alert_text)
+            .setPositiveButton(
+                android.R.string.ok
+            ) { dialogInterface: DialogInterface?, i: Int ->
+                val action: String
+                action = if (Build.VERSION.SDK_INT >= 22) {
+                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+                } else {
+                    "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
+                }
+                startActivity(Intent(action))
+            }
+
+
             timerTask = {
                 activity?.runOnUiThread {
                   if (AlpdroidApplication.app.isBound)
@@ -181,209 +220,326 @@ class EngineDisplay : UIFragment(250)
 
                         alpineServices = AlpdroidApplication.app.alpdroidData
 
-                        val flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
-                        val frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
-                        val rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
-                        val rrbrake_temp:Int = (alpineServices.get_RearRightBrakeTemperature() * 5) - 50
                         val flbrake_press:Int = alpineServices.get_FrontLeftWheelPressure_V2() * 30
                         val frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
                         val rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
                         val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
+
                         val tyretemp_fl2:Int =alpineServices.get_TyreTemperature1()
                         val tyretemp_fr2:Int =alpineServices.get_TyreTemperature2()
                         val tyretemp_rl2:Int =alpineServices.get_TyreTemperature3()
                         val tyretemp_rr2:Int =alpineServices.get_TyreTemperature4()
 
-                        if (toggle_braketemp) {
-                            temp_FL.visibility=View.INVISIBLE
-                            temp_RL.visibility=View.INVISIBLE
-                            temp_FR.visibility=View.INVISIBLE
-                            temp_RR.visibility=View.INVISIBLE
-                        }
-                        else
-                        {
-                            temp_FL.visibility=View.VISIBLE
-                            temp_RL.visibility=View.VISIBLE
-                            temp_FR.visibility=View.VISIBLE
-                            temp_RR.visibility=View.VISIBLE
-                        }
-
-
                         // temp
-                        temp_FL2.text= String.format(" %d °C", tyretemp_fl2+offset_tyretemp)
-                        temp_FR2.text= String.format(" %d °C",tyretemp_fr2+offset_tyretemp)
-                        temp_RL2.text= String.format(" %d °C",tyretemp_rl2+offset_tyretemp)
-                        temp_RR2.text= String.format(" %d °C",tyretemp_rr2+offset_tyretemp)
+                        temp_FL2.text= String.format("%d", tyretemp_fl2+offset_tyretemp)
+                        temp_FR2.text= String.format("%d",tyretemp_fr2+offset_tyretemp)
+                        temp_RL2.text= String.format("%d",tyretemp_rl2+offset_tyretemp)
+                        temp_RR2.text= String.format("%d",tyretemp_rr2+offset_tyretemp)
 
+                        // Mode
+                        val rst_vehicleMode=alpineServices.get_RST_VehicleMode()
+
+                        var psi_limit_low_AVAR=1990
+                        var psi_limit_mid_AV=2100
+                        var psi_limit_mid_AR=2100
+                        var psi_limit_high_AV=2250
+                        var psi_limit_high_AR=2250
+
+                        var tyretemp_limit_low=20
+                        var tyretemp_limit_mid_step1=20
+                        var tyretemp_limit_mid_step2=60
+                        var tyretemp_limit_high=60
+
+                        var oil_alert=125
+
+                        if (rst_vehicleMode==3)
+                        {
+                             psi_limit_low_AVAR=1950
+                             psi_limit_mid_AV=2050
+                             psi_limit_mid_AR=2100
+                             psi_limit_high_AV=2250
+                             psi_limit_high_AR=2300
+
+                             tyretemp_limit_low=40
+                             tyretemp_limit_mid_step1=50
+                             tyretemp_limit_mid_step2=80
+                             tyretemp_limit_high=85
+
+                             oil_alert=125
+                        }
+
+                        tyretemp_limit_low-=offset_tpms
+                        tyretemp_limit_mid_step1-=offset_tpms
+                        tyretemp_limit_mid_step2-=offset_tpms
+                        tyretemp_limit_high-=offset_tpms
 
                         press_FL.text = String.format(
-                            " %.2f Bar",
+                            "%.2f",
                             offset_tyrepress +  (flbrake_press.toFloat()/1000)
                         )
 
-                        if (flbrake_press<2000)
-                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (flbrake_press<2400)
-                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                        tyre_calul4alert=false
 
-                        if (tyretemp_fl2<35)
-                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_fl2<90)
-                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                        if (rst_vehicleMode!=3) {
 
-                        temp_FL.text = String.format(
-                            " %d °C",
-                            flbrake_temp
-                        )
+                         // affectation des couleurs pressions & temp pour conduite normal / sport
 
-                        if (flbrake_temp<120)
-                            temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (flbrake_temp<250)
-                            temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                            press_color = when {
+                                flbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                flbrake_press < psi_limit_mid_AV -> R.color.vert
+                                flbrake_press < psi_limit_high_AV -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
 
-                        if (tyretemp_fr2<35)
-                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_fr2<90)
-                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+
+                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            press_color = when {
+                                frbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                frbrake_press < psi_limit_mid_AV -> R.color.vert
+                                frbrake_press < psi_limit_high_AV -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+
+                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            press_color = when {
+                                rlbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                rlbrake_press < psi_limit_mid_AV -> R.color.vert
+                                rlbrake_press < psi_limit_high_AV -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+
+                            press_color = when {
+                                rrbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                rrbrake_press < psi_limit_mid_AV -> R.color.vert
+                                rrbrake_press < psi_limit_high_AV -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+
+                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            temp_color = when {
+                                tyretemp_fl2 < tyretemp_limit_low -> R.color.orange
+                                tyretemp_fl2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+
+                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            temp_color = when {
+                                tyretemp_rl2 < tyretemp_limit_low -> R.color.orange
+                                tyretemp_rl2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            temp_color = when {
+                                tyretemp_fr2 < tyretemp_limit_low -> R.color.orange
+                                tyretemp_fr2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            temp_color = when {
+                                tyretemp_rr2 < tyretemp_limit_low -> R.color.orange
+                                tyretemp_rr2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+
+                        }
                         else
-                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                        {
+
+
+                            // affectation des couleurs pressions & temp pour conduite track
+
+                            press_color = when {
+                                flbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                flbrake_press < psi_limit_mid_AV -> R.color.orange
+                                flbrake_press < psi_limit_high_AV -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            if (press_color==R.color.rouge)
+                                tyre_calul4alert=true
+
+                            press_color = when {
+                                frbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                frbrake_press < psi_limit_mid_AV -> R.color.orange
+                                frbrake_press < psi_limit_high_AV -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            if (press_color==R.color.rouge)
+                                tyre_calul4alert=true
+
+                            press_color = when {
+                                rlbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                rlbrake_press < psi_limit_mid_AR -> R.color.orange
+                                rlbrake_press < psi_limit_high_AR -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            if (press_color==R.color.rouge)
+                                tyre_calul4alert=true
+
+                            press_color = when {
+                                rrbrake_press < psi_limit_low_AVAR -> R.color.rouge
+                                rrbrake_press < psi_limit_mid_AR -> R.color.orange
+                                rrbrake_press < psi_limit_high_AR -> R.color.vert
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            if (press_color==R.color.rouge)
+                                tyre_calul4alert=true
+
+                            temp_color = when {
+                                tyretemp_fl2 < tyretemp_limit_low -> R.color.rouge
+                                tyretemp_fl2 < tyretemp_limit_mid_step1 -> R.color.orange
+                                tyretemp_fl2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                tyretemp_fl2 < tyretemp_limit_high -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            if (temp_color==R.color.rouge && tyretemp_fl2> tyretemp_limit_high)
+                                tyre_calul4alert=true
+
+                            temp_color = when {
+                                tyretemp_rl2 < tyretemp_limit_low -> R.color.rouge
+                                tyretemp_rl2 < tyretemp_limit_mid_step1 -> R.color.orange
+                                tyretemp_rl2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                tyretemp_rl2 < tyretemp_limit_high -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            if (temp_color==R.color.rouge && tyretemp_rl2> tyretemp_limit_high)
+                                tyre_calul4alert=true
+
+                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            temp_color = when {
+                                tyretemp_fr2 < tyretemp_limit_low -> R.color.rouge
+                                tyretemp_fr2 < tyretemp_limit_mid_step1 -> R.color.orange
+                                tyretemp_fr2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                tyretemp_fr2 < tyretemp_limit_high -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            if (temp_color==R.color.rouge && tyretemp_fr2> tyretemp_limit_high)
+                                tyre_calul4alert=true
+
+                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            temp_color = when {
+                                tyretemp_rr2 < tyretemp_limit_low -> R.color.rouge
+                                tyretemp_rr2 < tyretemp_limit_mid_step1 -> R.color.orange
+                                tyretemp_rr2 < tyretemp_limit_mid_step2 -> R.color.vert
+                                tyretemp_rr2 < tyretemp_limit_high -> R.color.orange
+                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
+                            if (temp_color==R.color.rouge && tyretemp_rr2> tyretemp_limit_high)
+                                tyre_calul4alert=true
+
+                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                        }
 
                         press_RL.text = String.format(
-                            " %.2f Bar",
+                            "%.2f",
                             offset_tyrepress + (rlbrake_press.toFloat()/1000)
                         )
 
-                        if (rlbrake_press<2000)
-                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (rlbrake_press<2400)
-                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                        if (rlbrake_temp<120)
-                            temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (rlbrake_temp<250)
-                            temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                        temp_RL.text = String.format(
-                            " %d °C",
-                            rlbrake_temp
-                        )
-
-
-
-                        if (frbrake_press<2000)
-                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (frbrake_press<2400)
-                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                        if (tyretemp_rr2<35)
-                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_rr2<90)
-                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         press_FR.text = String.format(
-                            " %.2f Bar",
+                            "%.2f",
                             offset_tyrepress + (frbrake_press.toFloat()/1000)
                         )
 
-                        temp_FR.text = String.format(
-                            " %d °C",
-                            frbrake_temp
-                        )
-
-                        if (frbrake_temp<120)
-                            temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (frbrake_temp<250)
-                            temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         press_RR.text = String.format(
-                            " %.2f Bar",
+                            "%.2f",
                             offset_tyrepress + (rrbrake_press.toFloat()/1000)
                         )
 
-                        if (rrbrake_press<2000)
-                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (rrbrake_press<2400)
-                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                        if (tyretemp_rl2<35)
-                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (tyretemp_rl2<90)
-                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                         press_FR.text = String.format(
-                            " %.2f Bar",
+                            "%.2f",
                             offset_tyrepress +  (frbrake_press.toFloat()/1000)
                         )
-                        temp_RR.text = String.format(
-                            " %d°C",
-                            rrbrake_temp
-                        )
-
-                        if (rrbrake_temp<120)
-                            temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                        else if (rrbrake_temp<250)
-                            temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                        else
-                            temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
 
-                        rpm_gauge.speedTo(alpineServices.get_EngineRPM_MMI().toFloat()/8)
 
-                        var steeringAngle:Float = -((alpineServices.get_SteeringWheelAngle()/10)-3276.7).toFloat()
-
-                        angle_steering.rotation=steeringAngle
+                        if (tyre_calul4alert)
+                                    snackbar_tyrealert.show()
 
                         oil_temp.speedTo((alpineServices.get_OilTemperature() - 40).toFloat())
+
+                        if ((alpineServices.get_OilTemperature() - 40)>oil_alert)
+                            snackbar_oilalert.show()
+
+
+
                         cool_temp.speedTo((alpineServices.get_EngineCoolantTemp() - 40).toFloat())
                         intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
                         gear_temp.speedTo((alpineServices.get_RST_ATClutchTemperature() + 60).toFloat())
 
                         speed_100=(alpineServices.get_Disp_Speed_MM()/100)
-                        speed.text = String.format(" %d Km/h", speed_100)
+                        speed.text = String.format("%d Km/h", speed_100)
 
                         otherJauge3.speedTo((alpineServices.get_EngineOilPressure()).toFloat()/10)
-
-                        oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
 
 
                         fuelgauge=(alpineServices.get_FuelLevelDisplayed())
                         fuel_level.text =
-                            String.format(" %2d l", fuelgauge)
+                            String.format("%2d l", fuelgauge)
 
 
                         if (fuelgauge>18)
-                            fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                            fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
                         else if (fuelgauge>9)
                             fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                         else
                             fuel_level.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                        fuel_instant = (alpineServices.get_FuelConsumption().toFloat()/0.0125/1000).toFloat()
 
-                        fuel_inst.text = String.format(
-                            " %.1f l/100",
-                            fuel_instant
-                        )
+                        tanklevel.setImageResource(R.drawable.gastank_levelfull)
+
+
+                        if (fuelgauge<5)
+                            tanklevel.setImageResource(R.drawable.gastank_levellow)
+                        else if (fuelgauge<15)
+                            tanklevel.setImageResource(R.drawable.gastank_levelmed)
 
                         brakethrottle.speedTo((alpineServices.get_BrakingPressure()).toFloat()/2)
 
@@ -398,54 +554,11 @@ class EngineDisplay : UIFragment(250)
                             )
                         gear_active.setImageResource(id)
 
-                        val id1 =
-                            resources.getIdentifier(
-                                "shift_${(alpineServices.get_RST_ATPreSelectedRange())}",
-                                "drawable",
-                                context?.packageName
-                            )
-                        gear_next.setImageResource(id1)
+
                       }
                 }
                 }
             }
-
-    private fun showPopupDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Paramètres")
-
-        val inflater = requireActivity().layoutInflater
-        val dialogView = inflater.inflate(R.layout.parampopup_layout, null)
-        builder.setView(dialogView)
-
-        val offsetTyrePressureEditText: EditText = dialogView.findViewById(R.id.offsetTyrePressureEditText)
-        val offsetTyreTempEditText: EditText = dialogView.findViewById(R.id.offsetTyreTempEditText)
-        val switchBrakeTemp: Switch = dialogView.findViewById(R.id.switchBrakeTemp)
-
-        // Pré-remplir les champs avec les valeurs actuelles
-        offsetTyrePressureEditText.setText(offset_tyrepress.toString())
-        offsetTyreTempEditText.setText(offset_tyretemp.toString())
-        switchBrakeTemp.isChecked = toggle_braketemp
-
-        builder.setPositiveButton("OK") { _, _ ->
-            // Capturer les valeurs des champs
-            offset_tyrepress = offsetTyrePressureEditText.text.toString().toFloat()
-            offset_tyretemp = (offsetTyreTempEditText.text).toString().toInt()
-            toggle_braketemp = switchBrakeTemp.isChecked
-
-            // Stocker les valeurs dans SharedPreferences
-            saveToSharedPreferences()
-
-            // Mettre à jour vos variables globales si nécessaire
-
-            // Afficher un message Toast pour informer l'utilisateur
-            Toast.makeText(requireContext(), "Paramètres sauvegardés", Toast.LENGTH_SHORT).show()
-        }
-
-        builder.setNegativeButton("Annuler", null)
-
-        builder.show()
-    }
 
     private fun loadPreferences() {
         val sharedPreferences: SharedPreferences =
@@ -454,18 +567,21 @@ class EngineDisplay : UIFragment(250)
         offset_tyretemp = sharedPreferences.getInt("offset_tyretemp", 0)
         offset_tyrepress = sharedPreferences.getFloat("offset_tyrepress", 0.0f)
         toggle_braketemp = sharedPreferences.getBoolean("toggle_braketemp", false)
+        offset_tpms = sharedPreferences.getInt("offset_tpms", 0)
     }
 
-    private fun saveToSharedPreferences() {
-        val sharedPreferences: SharedPreferences =
-            requireContext().getSharedPreferences("EnginePrefs", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+    class SnackDialog : DialogFragment() {
+        fun onCreateDialog(savedInstanceState: Bundle?, message:String): Dialog {
+            return activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.setMessage(message)
+                    .setPositiveButton("OK") { _, _ ->
+                        // Code à exécuter lorsque l'utilisateur appuie sur le bouton "OK"
+                    }
 
-        editor.putInt("offset_tyretemp", offset_tyretemp)
-        editor.putFloat("offset_tyrepress", offset_tyrepress)
-        editor.putBoolean("toggle_braketemp", toggle_braketemp)
-
-        editor.apply()
+                builder.create()
+            } ?: throw IllegalStateException("Activity cannot be null")
+        }
     }
 }
 

@@ -5,7 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="widget_margin">20dp</dimen>
 
-    <dimen name="bargraph_spacing">8sp</dimen>
+    <dimen name="bargraph_spacing">4sp</dimen>
     <dimen name="bargraph_height">32sp</dimen> <!-- Change the value to your desired height -->
     <dimen name="bargraph_width">200sp</dimen>
 </resources>

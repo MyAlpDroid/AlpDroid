@@ -15,8 +15,8 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.alpdroid.huGen10.R
 import androidx.preference.*
+import com.alpdroid.huGen10.R
 
 
 
@@ -75,7 +75,6 @@ class SettingsDisplay : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
         val new_bg=sharedPreferences.getString("key_background","background")!!
 
         val  resourceId = resources.getIdentifier(new_bg, "drawable", root.getPackageName())
-
 
         view?.setBackground(resources.getDrawable(resourceId,root.getTheme()))
 

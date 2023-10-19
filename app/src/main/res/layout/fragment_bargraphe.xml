@@ -9,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32sp"
+        android:layout_marginTop="24sp"
+        android:gravity="center_horizontal"
         android:text="Bargraphes"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal" />
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/question"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleTextView"
-        android:layout_marginTop="16sp"
+        android:layout_marginTop="8sp"
         android:orientation="vertical"
         android:gravity="center_horizontal" />
 

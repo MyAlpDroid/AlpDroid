@@ -23,11 +23,25 @@
         android:layout_height="wrap_content"
         android:text="Offset Tyre Temp"
         />
+
     <EditText
         android:id="@+id/offsetTyreTempEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Offset Tyre Temp"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Offset Tpms delta (Connect/Alpine)"
+        />
+
+    <EditText
+        android:id="@+id/offsetTpmsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Offset Tpms delta (Connect/Alpine)"
         android:inputType="number" />
 
     <Switch

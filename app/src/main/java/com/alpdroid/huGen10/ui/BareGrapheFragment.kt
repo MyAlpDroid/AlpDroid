@@ -2,6 +2,7 @@ package com.alpdroid.huGen10.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -59,9 +60,14 @@ class BargrapheFragment : UIFragment(500) {
 
         val heightPixels = displayMetrics.heightPixels
         val density = displayMetrics.density
-        val spacing = 4*resources.getDimension(R.dimen.bargraph_height)
+        val spacing = 5*resources.getDimension(R.dimen.bargraph_height)
 
         maxBargraphs=(heightPixels*density/spacing).toInt()
+
+        Log.d("max bar:",maxBargraphs.toString())
+        Log.d("max height:",heightPixels.toString())
+        Log.d("max spacing:",spacing.toString())
+        Log.d("max density:",density.toString())
 
         val questionView: ImageView = view.findViewById(R.id.question)
         questionView.setOnTouchListener { _, _ ->
@@ -620,7 +626,7 @@ class BargrapheFragment : UIFragment(500) {
 
         val layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT,
         )
 
         if (bargraphContainer.childCount > 0) {

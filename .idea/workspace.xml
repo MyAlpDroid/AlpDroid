@@ -18,8 +18,8 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <device id="_device_class_desktop" />
         <device id="_device_class_tablet" />
+        <device id="_device_class_desktop" />
         <device id="_device_class_foldable" />
         <device id="_device_class_phone" />
         <device id="automotive_1024p_landscape" />
@@ -40,44 +40,40 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;    bugs+Fuel Temperature+Hp&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compteur_354.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compteur_354_aircool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/compteur_354_oil.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/progressive_brake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/progressive_brake_empty.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/parampopup_layout.xml" afterDir="false" />
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;   review&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/TPMS_Checks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/TPMS_Checks_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/background_10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/degre_C.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/degre_F.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/unite_Bar.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/AlpdroidApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrame.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanframeBuffer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanframeBuffer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetTempService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/WidgetTempService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canECU/CanECUAddrs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canMCU/CanMCUAddrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/canMCU/CanMCUAddrs.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/BareGrapheFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ConfortDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ConfortDisplay.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/NowPlayingFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/NowPlayingFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/RoadBook.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/RoadBook.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SettingsDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SettingsDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_front.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_front.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_frontopen.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_frontopen.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_left.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_left.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_rear.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_rear.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_right.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_right.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_rightopen.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cardoor_rightopen.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-port/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/confort_display.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/confort_display.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp-land/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/confort_display.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp-land/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/bargraph_with_title.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/bargraph_with_title.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/confort_display.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_bargraphe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_bargraphe.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/parampopup_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/parampopup_layout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +83,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/10.1_WXGA_Tablet_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/New_Device_1_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -183,7 +179,7 @@
     </file-type-list>
   </component>
   <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="6fd438ea-4e14-4ee7-b185-35f429285019" />
+    <option name="defaultAccountId" value="8ddc1b9e-b91b-4f5c-a380-c92bdc7c62b1" />
   </component>
   <component name="GithubProjectSettings">
     <option name="branchProtectionPatterns">
@@ -237,7 +233,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
 }</component>
   <component name="PsdUISettings">
@@ -364,13 +360,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644648534067</updated>
-    </task>
-    <task id="LOCAL-00036" summary="Merge remote-tracking branch 'remote/main'&#10;adding openstreetmap / API OsmAndHelper">
-      <created>1659691190809</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1659691190810</updated>
     </task>
     <task id="LOCAL-00037" summary="Merge remote-tracking branch 'remote/main'&#10;modifying service management / study coroutines">
       <created>1660062276338</created>
@@ -708,7 +697,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694522727810</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Merge remote-tracking branch 'remote/main'&#10;&#10;   review&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <created>1697237901757</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1697237901757</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -764,7 +760,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'prepare settings tab'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;update 'adding CRC16 CCITT and fix Baudrate to 460800'" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;OBD support test" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;OBD support / Legacy PID and Renault PID" />
@@ -789,7 +784,8 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    bargraphes 3.3.0&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    addon to Tripmaster&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;    bugs+Fuel Temperature+Hp&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;    bugs+Fuel Temperature+Hp&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;   review&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;   review&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
