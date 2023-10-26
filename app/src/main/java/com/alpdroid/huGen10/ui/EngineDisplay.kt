@@ -2,14 +2,10 @@ package com.alpdroid.huGen10.ui
 
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.DialogFragment
 import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.VehicleServices
@@ -33,19 +28,19 @@ class EngineDisplay : UIFragment(250)
 {
 
 
-    lateinit var alpineServices : VehicleServices
-    private  lateinit var fragmentBlankBinding: EngineDisplayBinding
+    private lateinit var alpineServices : VehicleServices
+    private lateinit var fragmentBlankBinding: EngineDisplayBinding
     
 
-    lateinit var press_FL : TextView
-    lateinit var press_RL: TextView
-    lateinit var press_FR: TextView
-    lateinit var press_RR: TextView
+    private lateinit var press_FL : TextView
+    private lateinit var press_RL: TextView
+    private lateinit var press_FR: TextView
+    private lateinit var press_RR: TextView
 
-    lateinit var temp_FL2: TextView
-    lateinit var temp_FR2: TextView
-    lateinit var temp_RL2: TextView
-    lateinit var temp_RR2: TextView
+    private lateinit var temp_FL2: TextView
+    private lateinit var temp_FR2: TextView
+    private lateinit var temp_RL2: TextView
+    private lateinit var temp_RR2: TextView
 
     lateinit var fuel_level: TextView
     lateinit var gear_active: ImageView
@@ -58,7 +53,7 @@ class EngineDisplay : UIFragment(250)
     lateinit var otherJauge3: ImageSpeedometer
     lateinit var speedthrottle : ProgressiveGauge
     lateinit var brakethrottle : ProgressiveGauge
-    lateinit var textCtl : TextView
+
 
     var speed_100:Int = 0
     var fuelgauge:Int =0
@@ -68,6 +63,10 @@ class EngineDisplay : UIFragment(250)
     var offset_tyrepress: Float = 0.0f
     var toggle_braketemp: Boolean = false
     var offset_tpms:Int = 0
+
+    private var alert_set = false
+    private var blink_switch = false
+    private var alert_ack = false
 
     lateinit var tanklevel:ImageView
 
@@ -94,54 +93,54 @@ class EngineDisplay : UIFragment(250)
 
         var tyre_calul4alert:Boolean
 
-        press_FL = fragmentBlankBinding!!.textPressFL
-        press_RL = fragmentBlankBinding!!.textPressRL
-        press_FR = fragmentBlankBinding!!.textPressFR
-        press_RR = fragmentBlankBinding!!.textPressRR
+        press_FL = fragmentBlankBinding.textPressFL
+        press_RL = fragmentBlankBinding.textPressRL
+        press_FR = fragmentBlankBinding.textPressFR
+        press_RR = fragmentBlankBinding.textPressRR
 
 
 
-        temp_FL2 = fragmentBlankBinding!!.textTempFL2
-        temp_FR2 = fragmentBlankBinding!!.textTempFR2
-        temp_RL2 = fragmentBlankBinding!!.textTempRL2
-        temp_RR2 = fragmentBlankBinding!!.textTempRR2
+        temp_FL2 = fragmentBlankBinding.textTempFL2
+        temp_FR2 = fragmentBlankBinding.textTempFR2
+        temp_RL2 = fragmentBlankBinding.textTempRL2
+        temp_RR2 = fragmentBlankBinding.textTempRR2
 
 
 
-        speed = fragmentBlankBinding!!.textSpeed
+        speed = fragmentBlankBinding.textSpeed
 
 
-        oil_temp = fragmentBlankBinding!!.OILJauge
-        cool_temp = fragmentBlankBinding!!.CooLJauge
-        intake_temp = fragmentBlankBinding!!.IntakeJauge
-        gear_temp = fragmentBlankBinding!!.GearJauge
+        oil_temp = fragmentBlankBinding.OILJauge
+        cool_temp = fragmentBlankBinding.CooLJauge
+        intake_temp = fragmentBlankBinding.IntakeJauge
+        gear_temp = fragmentBlankBinding.GearJauge
 
-        fuel_level = fragmentBlankBinding!!.textFueLevel
+        fuel_level = fragmentBlankBinding.textFueLevel
 
-        gear_active = fragmentBlankBinding!!.gearActive
+        gear_active = fragmentBlankBinding.gearActive
 
 
-        speedthrottle = fragmentBlankBinding!!.throttlePress
-        brakethrottle = fragmentBlankBinding!!.brakePress
+        speedthrottle = fragmentBlankBinding.throttlePress
+        brakethrottle = fragmentBlankBinding.brakePress
 
-        otherJauge3 = fragmentBlankBinding!!.OilPressure
+        otherJauge3 = fragmentBlankBinding.OilPressure
 
-        tanklevel=fragmentBlankBinding!!.gastankLevel!!
+        tanklevel= fragmentBlankBinding.gastankLevel
 
-        fragmentBlankBinding!!.imagetpms1!!.setImageResource(R.drawable.tpms_checks)
-        fragmentBlankBinding!!.imagetpms2!!.setImageResource(R.drawable.tpms_checks_right)
+        fragmentBlankBinding.imagetpms1.setImageResource(R.drawable.tpms_checks)
+        fragmentBlankBinding.imagetpms2.setImageResource(R.drawable.tpms_checks_right)
 
-        fragmentBlankBinding!!.imageView3!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imageView11!!.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageView3.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageView11.setImageResource(R.drawable.unite_bar)
 
-        fragmentBlankBinding!!.imageView5!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imageView10!!.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageView5.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageView10.setImageResource(R.drawable.unite_bar)
 
-        fragmentBlankBinding!!.imageView6!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imageView12!!.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageView6.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageView12.setImageResource(R.drawable.unite_bar)
 
-        fragmentBlankBinding!!.imageView7!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imageView9!!.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageView7.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageView9.setImageResource(R.drawable.unite_bar)
 
         loadPreferences()
 
@@ -187,14 +186,11 @@ class EngineDisplay : UIFragment(250)
             .setPositiveButton(
                 android.R.string.ok
             ) { dialogInterface: DialogInterface?, i: Int ->
-                val action: String
-                action = if (Build.VERSION.SDK_INT >= 22) {
-                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-                } else {
-                    "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
-                }
-                startActivity(Intent(action))
+
+                fragmentBlankBinding.engineLayout.setBackgroundColor(0)
+                alert_ack=true
             }
+
 
 
         val snackbar_tyrealert = AlertDialog.Builder(this.context)
@@ -203,14 +199,15 @@ class EngineDisplay : UIFragment(250)
             .setPositiveButton(
                 android.R.string.ok
             ) { dialogInterface: DialogInterface?, i: Int ->
-                val action: String
-                action = if (Build.VERSION.SDK_INT >= 22) {
-                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-                } else {
-                    "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
-                }
-                startActivity(Intent(action))
+
+                fragmentBlankBinding.engineLayout.setBackgroundColor(0)
+                alert_ack=true
+                tyre_calul4alert=false
+
             }
+
+            alert_ack=false
+            alert_set=false
 
 
             timerTask = {
@@ -252,6 +249,9 @@ class EngineDisplay : UIFragment(250)
 
                         var oil_alert=125
 
+                        tyre_calul4alert=false
+
+
                         if (rst_vehicleMode==3)
                         {
                              psi_limit_low_AVAR=1950
@@ -278,9 +278,10 @@ class EngineDisplay : UIFragment(250)
                             offset_tyrepress +  (flbrake_press.toFloat()/1000)
                         )
 
-                        tyre_calul4alert=false
 
-                        if (rst_vehicleMode!=3) {
+
+                        if (rst_vehicleMode!=3)
+                             {
 
                          // affectation des couleurs pressions & temp pour conduite normal / sport
 
@@ -378,7 +379,7 @@ class EngineDisplay : UIFragment(250)
 
                             press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
-                            if (press_color==R.color.rouge)
+                            if (flbrake_press > psi_limit_high_AV  )
                                 tyre_calul4alert=true
 
                             press_color = when {
@@ -390,7 +391,7 @@ class EngineDisplay : UIFragment(250)
 
                             press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
-                            if (press_color==R.color.rouge)
+                            if (frbrake_press > psi_limit_high_AV)
                                 tyre_calul4alert=true
 
                             press_color = when {
@@ -402,7 +403,7 @@ class EngineDisplay : UIFragment(250)
 
                             press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
-                            if (press_color==R.color.rouge)
+                            if (rlbrake_press > psi_limit_high_AV)
                                 tyre_calul4alert=true
 
                             press_color = when {
@@ -414,7 +415,7 @@ class EngineDisplay : UIFragment(250)
 
                             press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
-                            if (press_color==R.color.rouge)
+                            if (rrbrake_press > psi_limit_high_AV)
                                 tyre_calul4alert=true
 
                             temp_color = when {
@@ -428,7 +429,7 @@ class EngineDisplay : UIFragment(250)
 
                             temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
-                            if (temp_color==R.color.rouge && tyretemp_fl2> tyretemp_limit_high)
+                            if (tyretemp_fl2 > tyretemp_limit_high)
                                 tyre_calul4alert=true
 
                             temp_color = when {
@@ -440,7 +441,7 @@ class EngineDisplay : UIFragment(250)
 
                             }
 
-                            if (temp_color==R.color.rouge && tyretemp_rl2> tyretemp_limit_high)
+                            if (tyretemp_rl2 > tyretemp_limit_high)
                                 tyre_calul4alert=true
 
                             temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
@@ -454,7 +455,7 @@ class EngineDisplay : UIFragment(250)
 
                             }
 
-                            if (temp_color==R.color.rouge && tyretemp_fr2> tyretemp_limit_high)
+                            if (tyretemp_fr2> tyretemp_limit_high)
                                 tyre_calul4alert=true
 
                             temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
@@ -468,7 +469,7 @@ class EngineDisplay : UIFragment(250)
 
                             }
 
-                            if (temp_color==R.color.rouge && tyretemp_rr2> tyretemp_limit_high)
+                            if (tyretemp_rr2> tyretemp_limit_high)
                                 tyre_calul4alert=true
 
                             temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
@@ -500,15 +501,50 @@ class EngineDisplay : UIFragment(250)
 
 
 
-                        if (tyre_calul4alert)
-                                    snackbar_tyrealert.show()
+                        if (!alert_ack && !alert_set && tyre_calul4alert) {
+                            alert_set = true
+                            snackbar_tyrealert.show()
+
+                        }
+                        else
+                        {
+                            if (!tyre_calul4alert)
+                            {
+                                alert_set=false
+                                alert_ack=false
+                            }
+                        }
 
                         oil_temp.speedTo((alpineServices.get_OilTemperature() - 40).toFloat())
 
                         if ((alpineServices.get_OilTemperature() - 40)>oil_alert)
-                            snackbar_oilalert.show()
+                        {
+                           if (!alert_ack && !alert_set) {
+                               alert_set = true
+                               snackbar_oilalert.show()
+                           }
+                        }
+                        else
+                        {
+                            if (alert_ack && !alert_set)
+                            {alert_set=false
+                            alert_ack=false
+                            }
+                        }
 
 
+                        if (!alert_ack && alert_set)
+                        {
+                            if (blink_switch) {
+
+                                fragmentBlankBinding.engineLayout.setBackgroundResource(R.drawable.background_alert)
+                                blink_switch = false
+                            }
+                            else {
+                                fragmentBlankBinding.engineLayout.setBackgroundColor(0)
+                                blink_switch = true
+                            }
+                        }
 
                         cool_temp.speedTo((alpineServices.get_EngineCoolantTemp() - 40).toFloat())
                         intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
@@ -570,18 +606,5 @@ class EngineDisplay : UIFragment(250)
         offset_tpms = sharedPreferences.getInt("offset_tpms", 0)
     }
 
-    class SnackDialog : DialogFragment() {
-        fun onCreateDialog(savedInstanceState: Bundle?, message:String): Dialog {
-            return activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.setMessage(message)
-                    .setPositiveButton("OK") { _, _ ->
-                        // Code à exécuter lorsque l'utilisateur appuie sur le bouton "OK"
-                    }
-
-                builder.create()
-            } ?: throw IllegalStateException("Activity cannot be null")
-        }
-    }
 }
 

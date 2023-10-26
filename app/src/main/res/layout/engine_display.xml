@@ -7,6 +7,7 @@
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
+        android:id="@+id/engineLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

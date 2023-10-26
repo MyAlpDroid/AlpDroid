@@ -3,6 +3,7 @@ package com.alpdroid.huGen10.ui;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ public class NowPlayingFragment extends Fragment {
 
     }
 
+    private MediaPlayer mediaPlayer; // Vous devez initialiser cela en fonction de votre logique
+
     private final EventBus eventBus = new EventBus();
     private  final String TAG = NowPlayingFragment.class.getName();
 
@@ -48,9 +51,69 @@ public class NowPlayingFragment extends Fragment {
         titleTextView = rootView.findViewById(R.id.now_playing_title);
         artistTextView = rootView.findViewById(R.id.now_playing_artist);
         nothingPlayingTextView = rootView.findViewById(R.id.now_playing_nothing_playing);
+
+        /* Vos initialisations de vues ici
+        ImageButton rewindButton = rootView.findViewById(R.id.button_rewind);
+        ImageButton pauseButton = rootView.findViewById(R.id.button_pause);
+        ImageButton playButton = rootView.findViewById(R.id.button_play);
+        ImageButton fastForwardButton = rootView.findViewById(R.id.button_fast_forward);
+
+        // Ajout des listeners
+        rewindButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rewind();
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pause();
+            }
+        });
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                play();
+            }
+        });
+
+        fastForwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fastForward();
+            }
+        });
+*/
+
         return rootView;
     }
 
+    private void rewind() {
+        // Logique pour revenir en arrière dans la lecture
+        mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000); // Par exemple, recule de 5 secondes
+    }
+
+    private void pause() {
+        // Logique pour mettre en pause la lecture
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    private void play() {
+        // Logique pour démarrer ou reprendre la lecture
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    private void fastForward() {
+        // Logique pour avancer rapidement dans la lecture
+        mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000); // Par exemple, avance de 5 secondes
+    }
     @Override
     public void onStart() {
         super.onStart();

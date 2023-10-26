@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -22,6 +21,7 @@ import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
 import com.github.anastr.speedviewlib.TubeSpeedometer
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 
 @ExperimentalUnsignedTypes
@@ -72,7 +72,7 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var temp_RR2: TextView
     lateinit var oddo_Rate: TextView
     lateinit var fuel_inst: TextView
-    lateinit var fuel_level: TextView
+
 
 
     lateinit var cardessin : ImageView
@@ -141,7 +141,7 @@ class ConfortDisplay : UIFragment(250) {
 
         enginestate=fragmentBlankBinding!!.engineState
 
-        washerlevel=fragmentBlankBinding!!.washerLevel!!
+        washerlevel= fragmentBlankBinding!!.washerLevel
 
         fanspeedstate=fragmentBlankBinding!!.fanSpeedstate
 
@@ -152,14 +152,14 @@ class ConfortDisplay : UIFragment(250) {
         opendoorLeft=fragmentBlankBinding!!.cardoorLeft
         opendoorRight=fragmentBlankBinding!!.cardoorRight
 
-        startstopstate=fragmentBlankBinding!!.startstopState!!
-        escstate=fragmentBlankBinding!!.escState!!
-        absstate=fragmentBlankBinding!!.absstate!!
+        startstopstate=fragmentBlankBinding!!.startstopState
+        escstate=fragmentBlankBinding!!.escState
+        absstate=fragmentBlankBinding!!.absstate
 
-        climfanspeed=fragmentBlankBinding!!.fanspeedGauge!!
+        climfanspeed=fragmentBlankBinding!!.fanspeedGauge
 
-        humidityvalue=fragmentBlankBinding!!.humidity!!
-        humiditypicture=fragmentBlankBinding!!.humidityState!!
+        humidityvalue=fragmentBlankBinding!!.humidity
+        humiditypicture=fragmentBlankBinding!!.humidityState
 
         humiditypicture.setImageResource(R.drawable.humid_clim)
 
@@ -183,21 +183,21 @@ class ConfortDisplay : UIFragment(250) {
         temp_RL2 = fragmentBlankBinding!!.textTempRL2
         temp_RR2 = fragmentBlankBinding!!.textTempRR2
 
-        fragmentBlankBinding!!.imageTempFl2!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imagePressFl!!.setImageResource(R.drawable.unite_bar)
-        fragmentBlankBinding!!.imageTempFl!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageTempFl2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imagePressFl.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding!!.imageTempFl.setImageResource(R.drawable.degre_c)
 
-        fragmentBlankBinding!!.imageTempRl2!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imagePressRl!!.setImageResource(R.drawable.unite_bar)
-        fragmentBlankBinding!!.imageTempRl!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageTempRl2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imagePressRl.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding!!.imageTempRl.setImageResource(R.drawable.degre_c)
 
-        fragmentBlankBinding!!.imageTempFR2!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imagePressFR!!.setImageResource(R.drawable.unite_bar)
-        fragmentBlankBinding!!.imageTempFr!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageTempFR2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imagePressFR.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding!!.imageTempFr.setImageResource(R.drawable.degre_c)
 
-        fragmentBlankBinding!!.imageTempRR2!!.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding!!.imagePressRR!!.setImageResource(R.drawable.unite_bar)
-        fragmentBlankBinding!!.imageTempRr!!.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imageTempRR2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding!!.imagePressRR.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding!!.imageTempRr.setImageResource(R.drawable.degre_c)
 
         timerTask = {
             activity?.runOnUiThread {
@@ -488,7 +488,7 @@ class ConfortDisplay : UIFragment(250) {
         val offsetTyrePressureEditText: EditText = dialogView.findViewById(R.id.offsetTyrePressureEditText)
         val offsetTyreTempEditText: EditText = dialogView.findViewById(R.id.offsetTyreTempEditText)
         val offsetTpmsEditText:EditText = dialogView.findViewById(R.id.offsetTpmsEditText)
-        val switchBrakeTemp: Switch = dialogView.findViewById(R.id.switchBrakeTemp)
+        val switchBrakeTemp: SwitchMaterial = dialogView.findViewById(R.id.switchBrakeTemp)
 
 
         // Pré-remplir les champs avec les valeurs actuelles
@@ -506,8 +506,6 @@ class ConfortDisplay : UIFragment(250) {
 
             // Stocker les valeurs dans SharedPreferences
             saveToSharedPreferences()
-
-            // Mettre à jour vos variables globales si nécessaire
 
             // Afficher un message Toast pour informer l'utilisateur
             Toast.makeText(requireContext(), "Paramètres sauvegardés", Toast.LENGTH_SHORT).show()

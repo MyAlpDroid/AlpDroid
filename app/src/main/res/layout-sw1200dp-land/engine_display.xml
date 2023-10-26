@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/engineLayout"
         android:orientation="vertical">
 
 
@@ -22,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/imageView6"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_temp_FR2"
                 app:layout_constraintStart_toEndOf="@+id/text_temp_FR2"
                 app:layout_constraintTop_toTopOf="@+id/text_temp_FR2"
@@ -31,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/imageView7"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_temp_RR2"
                 app:layout_constraintStart_toEndOf="@+id/text_temp_RR2"
                 app:layout_constraintTop_toTopOf="@+id/text_temp_RR2"
@@ -40,8 +41,8 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_temp_FL2"
                 app:layout_constraintStart_toEndOf="@+id/text_temp_FL2"
                 app:layout_constraintTop_toTopOf="@+id/text_temp_FL2"
@@ -49,8 +50,8 @@
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_temp_RL2"
                 app:layout_constraintStart_toEndOf="@+id/text_temp_RL2"
                 app:layout_constraintTop_toTopOf="@+id/text_temp_RL2"
@@ -58,8 +59,8 @@
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_press_RR"
                 app:layout_constraintEnd_toEndOf="@+id/imagetpms2"
                 app:layout_constraintStart_toEndOf="@+id/text_press_RR"
@@ -69,8 +70,8 @@
 
             <ImageView
                 android:id="@+id/imageView12"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_marginBottom="1dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/text_press_FR"
@@ -81,8 +82,8 @@
 
             <ImageView
                 android:id="@+id/imageView10"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_press_RL"
                 app:layout_constraintStart_toEndOf="@+id/text_press_RL"
                 app:layout_constraintTop_toTopOf="@+id/text_press_RL"
@@ -90,8 +91,8 @@
 
             <ImageView
                 android:id="@+id/imageView11"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_press_FL"
                 app:layout_constraintStart_toEndOf="@+id/text_press_FL"
                 app:layout_constraintTop_toTopOf="@+id/text_press_FL"
@@ -106,7 +107,7 @@
                 android:text="0,0"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/text_temp_FL2"
                 app:layout_constraintTop_toBottomOf="@+id/text_temp_FL2" />
@@ -116,13 +117,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
-                app:layout_constraintEnd_toEndOf="@+id/imagetpms1"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imagetpms1"
                 app:layout_constraintTop_toBottomOf="@+id/imagetpms1" />
 
             <TextView
@@ -133,7 +134,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/text_press_FL"
                 app:layout_constraintTop_toBottomOf="@+id/text_press_FL" />
@@ -145,7 +146,7 @@
                 android:gravity="center"
                 android:text="0,0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/text_press_FL"
                 app:layout_constraintTop_toBottomOf="@+id/text_temp_RL2" />
@@ -157,7 +158,7 @@
                 android:gravity="center"
                 android:text="0,0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/text_temp_FR2"
                 app:layout_constraintTop_toBottomOf="@+id/text_temp_FR2" />
@@ -166,12 +167,14 @@
                 android:id="@+id/text_temp_FR2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintEnd_toEndOf="@+id/imagetpms2"
+                app:layout_constraintHorizontal_bias="0.31"
                 app:layout_constraintStart_toStartOf="@+id/imagetpms2"
                 app:layout_constraintTop_toBottomOf="@+id/imagetpms2" />
 
@@ -183,7 +186,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/text_press_FR"
                 app:layout_constraintTop_toBottomOf="@+id/text_press_FR" />
@@ -195,7 +198,7 @@
                 android:gravity="center"
                 android:text="0,0"
                 android:textColor="#FFFFFF"
-                android:textSize="36sp"
+                android:textSize="48sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintStart_toStartOf="@+id/text_temp_RR2"
                 app:layout_constraintTop_toBottomOf="@+id/text_temp_RR2" />
@@ -222,7 +225,7 @@
                 app:sv_orientation="HORIZONTAL"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
-                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPadding="36dp"
                 app:sv_speedTextPosition="BOTTOM_RIGHT"
                 app:sv_speedTextSize="36dp"
                 app:sv_speedometerBackColor="#720A1E59"
@@ -261,8 +264,8 @@
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/OIL_jauge"
                 android:layout_width="700dp"
-                android:layout_height="450dp"
-                android:layout_marginStart="32dp"
+                android:layout_height="480dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toEndOf="@+id/imagetpms1"
                 app:layout_constraintTop_toTopOf="parent"
@@ -299,7 +302,7 @@
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Intake_jauge"
                 android:layout_width="700dp"
-                android:layout_height="450dp"
+                android:layout_height="480dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintBottom_toBottomOf="@+id/Oil_Pressure"
                 app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
@@ -334,8 +337,8 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Oil_Pressure"
-                android:layout_width="700dp"
-                android:layout_height="450dp"
+                android:layout_width="523dp"
+                android:layout_height="480dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
@@ -375,7 +378,7 @@
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/CooL_jauge"
                 android:layout_width="700dp"
-                android:layout_height="450dp"
+                android:layout_height="480dp"
                 android:layout_marginStart="40dp"
                 app:layout_constraintBottom_toBottomOf="@+id/OIL_jauge"
                 app:layout_constraintStart_toEndOf="@+id/OIL_jauge"
@@ -412,7 +415,7 @@
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Gear_jauge"
                 android:layout_width="700dp"
-                android:layout_height="450dp"
+                android:layout_height="480dp"
                 android:layout_marginStart="40dp"
                 app:layout_constraintBottom_toBottomOf="@+id/CooL_jauge"
                 app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
@@ -450,7 +453,7 @@
                 android:layout_width="93dp"
                 android:layout_height="123dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="36dp"
                 app:layout_constraintStart_toStartOf="@+id/text_speed"
                 app:layout_constraintTop_toBottomOf="@+id/text_speed"
                 app:srcCompat="@drawable/gastank_levelfull" />
@@ -459,8 +462,8 @@
                 android:id="@+id/text_fueLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
                 android:contentDescription="Fuel level"
                 android:text="0 l"
                 android:textAlignment="center"
@@ -496,7 +499,7 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/AppTheme"
                 android:textColor="@color/white_text"
-                android:textSize="26sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/CooL_jauge"
                 app:layout_constraintHorizontal_bias="0.496"
@@ -511,7 +514,7 @@
                 android:text="@string/gear_c"
                 android:textAlignment="center"
                 android:textColor="#F1F6F6"
-                android:textSize="26sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
                 app:layout_constraintStart_toStartOf="@+id/Gear_jauge"
@@ -525,7 +528,7 @@
                 android:text="@string/intake"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="26sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/Intake_jauge"
                 app:layout_constraintHorizontal_bias="0.522"
@@ -540,7 +543,7 @@
                 android:text="@string/oil_pressure"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="26sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/Oil_Pressure"
                 app:layout_constraintStart_toStartOf="@+id/Oil_Pressure"

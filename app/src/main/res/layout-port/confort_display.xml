@@ -519,6 +519,98 @@
                 app:layout_constraintStart_toStartOf="@+id/text_oddoRate"
                 app:layout_constraintTop_toBottomOf="@+id/text_oddoRate" />
 
+            <ImageView
+                android:id="@+id/absstate"
+                android:layout_width="56dp"
+                android:layout_height="48dp"
+                android:src="@drawable/abs"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/washer_level"
+                app:layout_constraintTop_toBottomOf="@+id/washer_level" />
+
+            <ImageView
+                android:id="@+id/escState"
+                android:layout_width="56dp"
+                android:layout_height="48dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/washer_level"
+                app:layout_constraintTop_toTopOf="@+id/washer_level"
+                app:srcCompat="@drawable/esc_on" />
+
+            <ImageView
+                android:id="@+id/washer_level"
+                android:layout_width="56dp"
+                android:layout_height="48dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:srcCompat="@drawable/washerlevel_norm" />
+
+            <ImageView
+                android:id="@+id/startstopState"
+                android:layout_width="56dp"
+                android:layout_height="48dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/escState"
+                app:layout_constraintTop_toBottomOf="@+id/escState"
+                app:srcCompat="@drawable/sas_on" />
+
+            <ImageView
+                android:id="@+id/humidityState"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/startstopState"
+                app:layout_constraintStart_toEndOf="@+id/escState"
+                app:srcCompat="@drawable/humid_clim" />
+
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/humidityState"
+                app:layout_constraintStart_toEndOf="@+id/humidityState" />
+
+            <com.github.anastr.speedviewlib.TubeSpeedometer
+                android:id="@+id/fanspeed_gauge"
+                android:layout_width="70dp"
+                android:layout_height="62dp"
+                android:layout_marginStart="43dp"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/humidity"
+                app:layout_constraintTop_toTopOf="@+id/humidity"
+                app:sv_indicatorColor="#3C54DA"
+                app:sv_markWidth="25dp"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedometerBackColor="#86A0A3"
+                app:sv_speedometerWidth="25dp"
+                app:sv_unit="%"
+                app:sv_unitTextColor="#FFFFFFFF"
+                app:sv_unitTextSize="24sp"
+                app:sv_withTremble="false" />
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fan_speed"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/fanspeed_gauge"
+                app:layout_constraintTop_toBottomOf="@+id/fanspeed_gauge" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>

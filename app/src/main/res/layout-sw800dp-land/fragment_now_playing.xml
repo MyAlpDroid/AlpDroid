@@ -59,7 +59,7 @@
                 android:textColorHint="#F4F4EE"
                 android:textSize="42sp" />
 
-        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/now_playing_nothing_playing"
@@ -70,6 +70,47 @@
             android:text="@string/nothing_playing"
             android:textAlignment="center"
             android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- Barre de boutons multimédia -->
+        <LinearLayout
+            android:id="@+id/media_controls_layout"
+            android:layout_width="1280dp"
+            android:layout_height="128dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/now_playing_detail"
+            tools:layout_editor_absoluteX="0dp">
+
+            <!-- Bouton de recul rapide -->
+            <ImageButton
+                android:id="@+id/button_rewind"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_media_rew" />
+
+            <!-- Bouton de pause -->
+            <ImageButton
+                android:id="@+id/button_pause"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_media_pause" />
+
+            <!-- Bouton de lecture -->
+            <ImageButton
+                android:id="@+id/button_play"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_media_play" />
+
+            <!-- Bouton d'avance rapide -->
+            <ImageButton
+                android:id="@+id/button_fast_forward"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_media_ff" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
+
