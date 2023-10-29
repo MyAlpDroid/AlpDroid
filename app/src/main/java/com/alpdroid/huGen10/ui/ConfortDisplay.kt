@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -21,7 +22,6 @@ import com.alpdroid.huGen10.AlpdroidApplication
 import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
 import com.github.anastr.speedviewlib.TubeSpeedometer
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 
 @ExperimentalUnsignedTypes
@@ -255,40 +255,40 @@ class ConfortDisplay : UIFragment(250) {
                 )
 
                 if (flbrake_press<2000)
-                    press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else if (flbrake_press<2400)
-                    press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else
-                    press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 if (rlbrake_press<2000)
-                    press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else if (rlbrake_press<2400)
-                    press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else
-                    press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 if (rrbrake_press<2000)
-                    press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else if (rrbrake_press<2400)
-                    press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else
-                    press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
 
                 if (frbrake_press<2000)
-                    press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else if (frbrake_press<2400)
-                    press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else
-                    press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 if (tyretemp_fr2<35)
-                    temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (tyretemp_fr2<90)
-                    temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 press_RL.text = String.format(
                     "%.2f",
@@ -296,19 +296,19 @@ class ConfortDisplay : UIFragment(250) {
                 )
 
                 if (tyretemp_fl2<35)
-                    temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (tyretemp_fl2<90)
-                    temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
 
                 if (tyretemp_rr2<35)
-                    temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (tyretemp_rr2<90)
-                    temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 press_FL.text = String.format(
                     "%.2f",
@@ -322,11 +322,11 @@ class ConfortDisplay : UIFragment(250) {
                 )
 
                 if (tyretemp_rl2<35)
-                    temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (tyretemp_rl2<90)
-                    temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 press_FR.text = String.format(
                     "%.2f",
@@ -334,19 +334,19 @@ class ConfortDisplay : UIFragment(250) {
                 )
 
                 if (flbrake_temp<120)
-                    temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (flbrake_temp<250)
-                    temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
 
                 if (rlbrake_temp<120)
-                    temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (rlbrake_temp<250)
-                    temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 temp_RL.text = String.format(
                     "%d",
@@ -359,11 +359,11 @@ class ConfortDisplay : UIFragment(250) {
                 )
 
                 if (frbrake_temp<120)
-                    temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (frbrake_temp<250)
-                    temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 temp_RR.text = String.format(
                     "%d",
@@ -371,15 +371,15 @@ class ConfortDisplay : UIFragment(250) {
                 )
 
                 if (rrbrake_temp<120)
-                    temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), android.R.color.transparent, null))
+                    temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
                 else if (rrbrake_temp<250)
-                    temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
                 else
-                    temp_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
                 oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
 
-                val fuel_instant = (alpineServices.get_FuelConsumption().toFloat()/0.0125/1000).toFloat()
+                var fuel_instant = (alpineServices.get_TripAverageConsumption().toFloat()/10)
 
                 fuel_inst.text = String.format(
                     " %.1f l/100",
@@ -488,7 +488,7 @@ class ConfortDisplay : UIFragment(250) {
         val offsetTyrePressureEditText: EditText = dialogView.findViewById(R.id.offsetTyrePressureEditText)
         val offsetTyreTempEditText: EditText = dialogView.findViewById(R.id.offsetTyreTempEditText)
         val offsetTpmsEditText:EditText = dialogView.findViewById(R.id.offsetTpmsEditText)
-        val switchBrakeTemp: SwitchMaterial = dialogView.findViewById(R.id.switchBrakeTemp)
+        val switchBrakeTemp: Switch = dialogView.findViewById(R.id.switchBrakeTemp)
 
 
         // Pré-remplir les champs avec les valeurs actuelles

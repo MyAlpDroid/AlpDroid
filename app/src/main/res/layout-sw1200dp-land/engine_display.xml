@@ -21,187 +21,239 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_temp_FR2"
-                app:layout_constraintStart_toEndOf="@+id/text_temp_FR2"
-                app:layout_constraintTop_toTopOf="@+id/text_temp_FR2"
-                app:srcCompat="@drawable/degre_c" />
 
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_temp_RR2"
-                app:layout_constraintStart_toEndOf="@+id/text_temp_RR2"
-                app:layout_constraintTop_toTopOf="@+id/text_temp_RR2"
-                app:srcCompat="@drawable/degre_c" />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_temp_FL2"
-                app:layout_constraintStart_toEndOf="@+id/text_temp_FL2"
-                app:layout_constraintTop_toTopOf="@+id/text_temp_FL2"
-                app:srcCompat="@drawable/degre_c" />
-
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_temp_RL2"
-                app:layout_constraintStart_toEndOf="@+id/text_temp_RL2"
-                app:layout_constraintTop_toTopOf="@+id/text_temp_RL2"
-                app:srcCompat="@drawable/degre_c" />
-
-            <ImageView
-                android:id="@+id/imageView9"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_press_RR"
-                app:layout_constraintEnd_toEndOf="@+id/imagetpms2"
-                app:layout_constraintStart_toEndOf="@+id/text_press_RR"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_RR2"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/unite_bar" />
-
-            <ImageView
-                android:id="@+id/imageView12"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginBottom="1dp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/text_press_FR"
-                app:layout_constraintStart_toEndOf="@+id/text_press_FR"
-                app:layout_constraintTop_toTopOf="@+id/text_press_FR"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/unite_bar" />
-
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_press_RL"
-                app:layout_constraintStart_toEndOf="@+id/text_press_RL"
-                app:layout_constraintTop_toTopOf="@+id/text_press_RL"
-                app:srcCompat="@drawable/unite_bar" />
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:layout_constraintBottom_toBottomOf="@+id/text_press_FL"
-                app:layout_constraintStart_toEndOf="@+id/text_press_FL"
-                app:layout_constraintTop_toTopOf="@+id/text_press_FL"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/unite_bar" />
-
-            <TextView
-                android:id="@+id/text_press_FL"
+            <TableLayout
+                android:id="@+id/tableLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="0,0"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_temp_FL2"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_FL2" />
+                app:layout_constraintStart_toStartOf="@+id/imagetpmsFL"
+                app:layout_constraintTop_toBottomOf="@+id/imagetpmsFL">
 
-            <TextView
-                android:id="@+id/text_temp_FL2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/imagetpms1"
-                app:layout_constraintTop_toBottomOf="@+id/imagetpms1" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text_temp_RL2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_press_FL"
-                app:layout_constraintTop_toBottomOf="@+id/text_press_FL" />
+                    <LinearLayout
+                        android:id="@+id/frontleftrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        >
 
-            <TextView
-                android:id="@+id/text_press_RL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="0,0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_press_FL"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_RL2" />
+                        <TextView
+                            android:id="@+id/text_temp_FL2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold"
+                            />
 
-            <TextView
-                android:id="@+id/text_press_FR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="0,0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_temp_FR2"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_FR2" />
+                        <ImageView
+                            android:id="@+id/imageView_Temp_FL2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
 
-            <TextView
-                android:id="@+id/text_temp_FR2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintEnd_toEndOf="@+id/imagetpms2"
-                app:layout_constraintHorizontal_bias="0.31"
-                app:layout_constraintStart_toStartOf="@+id/imagetpms2"
-                app:layout_constraintTop_toBottomOf="@+id/imagetpms2" />
+                    </LinearLayout>
 
-            <TextView
-                android:id="@+id/text_temp_RR2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_press_FR"
-                app:layout_constraintTop_toBottomOf="@+id/text_press_FR" />
 
-            <TextView
-                android:id="@+id/text_press_RR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="0,0"
-                android:textColor="#FFFFFF"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                app:layout_constraintStart_toStartOf="@+id/text_temp_RR2"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_RR2" />
+
+                    <LinearLayout
+                        android:id="@+id/frontrightrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_temp_FR2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold" />
+
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_FR2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/frontlefttrowpress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                    >
+
+                        <TextView
+                            android:id="@+id/text_press_FL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold"
+                            />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_FL"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:id="@+id/frontrightrowpress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_press_FR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_FR"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/rearleftrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                    >
+
+                        <TextView
+                            android:id="@+id/text_temp_RL2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_RL2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:id="@+id/rearrightrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_temp_RR2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_RR2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/rearlefttrowpress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                    >
+
+                        <TextView
+                            android:id="@+id/text_press_RL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_RL"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/rearrightrowpress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_press_RR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="48sp"
+                            android:textStyle="normal|bold" />
+
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_RR"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+
 
             <ImageView
                 android:id="@+id/gear_Active"
@@ -265,9 +317,9 @@
                 android:id="@+id/OIL_jauge"
                 android:layout_width="700dp"
                 android:layout_height="480dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/imagetpms1"
+                app:layout_constraintStart_toEndOf="@+id/tableLayout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:sv_image="@drawable/compteur_354_oil"
                 app:sv_indicator="NeedleIndicator"
@@ -279,8 +331,8 @@
                 app:sv_markWidth="4dp"
                 app:sv_marksNumber="21"
                 app:sv_marksPadding="48dp"
-                app:sv_maxSpeed="165"
-                app:sv_minSpeed="55"
+                app:sv_maxSpeed="135"
+                app:sv_minSpeed="85"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="92dp"
@@ -289,7 +341,7 @@
                 app:sv_textColor="#FFFFFF"
                 app:sv_textSize="24dp"
                 app:sv_tickNumber="7"
-                app:sv_tickPadding="75dp"
+                app:sv_tickPadding="78dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
@@ -303,10 +355,10 @@
                 android:id="@+id/Intake_jauge"
                 android:layout_width="700dp"
                 android:layout_height="480dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/Oil_Pressure"
                 app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:layout_constraintVertical_bias="1.0"
                 app:sv_image="@drawable/compteur_354_aircool"
                 app:sv_indicator="NeedleIndicator"
@@ -327,7 +379,7 @@
                 app:sv_textColor="#FFFFFF"
                 app:sv_textSize="24dp"
                 app:sv_tickNumber="7"
-                app:sv_tickPadding="75dp"
+                app:sv_tickPadding="78dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
@@ -340,11 +392,11 @@
                 android:layout_width="523dp"
                 android:layout_height="480dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
                 app:layout_constraintHorizontal_bias="0.52"
                 app:layout_constraintStart_toEndOf="@+id/throttle_Press"
-                app:layout_constraintTop_toBottomOf="@+id/Gear_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
                 app:sv_image="@drawable/compteur_354"
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#EA0A0A"
@@ -365,7 +417,7 @@
                 app:sv_textColor="#FFFFFF"
                 app:sv_textSize="24dp"
                 app:sv_tickNumber="7"
-                app:sv_tickPadding="75dp"
+                app:sv_tickPadding="78dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="FLOAT"
                 app:sv_unit=" Bar"
@@ -389,13 +441,13 @@
                 app:sv_indicator="NeedleIndicator"
                 app:sv_indicatorColor="#DDECF3"
                 app:sv_markColor="#FFFFFF"
-                app:sv_markHeight="14dp"
+                app:sv_markHeight="24dp"
                 app:sv_markStyle="ROUND"
                 app:sv_markWidth="4dp"
                 app:sv_marksNumber="21"
                 app:sv_marksPadding="48dp"
-                app:sv_maxSpeed="145"
-                app:sv_minSpeed="55"
+                app:sv_maxSpeed="135"
+                app:sv_minSpeed="85"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="92dp"
@@ -404,7 +456,7 @@
                 app:sv_textColor="#DDECF3"
                 app:sv_textSize="24dp"
                 app:sv_tickNumber="5"
-                app:sv_tickPadding="75dp"
+                app:sv_tickPadding="78dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
@@ -430,8 +482,8 @@
                 app:sv_markWidth="4dp"
                 app:sv_marksNumber="21"
                 app:sv_marksPadding="48dp"
-                app:sv_maxSpeed="160"
-                app:sv_minSpeed="60"
+                app:sv_maxSpeed="135"
+                app:sv_minSpeed="85"
                 app:sv_speedTextColor="#FFFFFF"
                 app:sv_speedTextFormat="INTEGER"
                 app:sv_speedTextPadding="92dp"
@@ -440,7 +492,7 @@
                 app:sv_textColor="#FFFFFF"
                 app:sv_textSize="24dp"
                 app:sv_tickNumber="7"
-                app:sv_tickPadding="75dp"
+                app:sv_tickPadding="78dp"
                 app:sv_tickRotation="false"
                 app:sv_tickTextFormat="INTEGER"
                 app:sv_unit="°C"
@@ -584,8 +636,8 @@
                 app:srcCompat="@drawable/fleche" />
 
             <ImageView
-                android:id="@+id/imagetpms1"
-                android:layout_width="173dp"
+                android:id="@+id/imagetpmsFL"
+                android:layout_width="90dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="24dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -593,14 +645,28 @@
                 app:srcCompat="@drawable/tpms_checks" />
 
             <ImageView
-                android:id="@+id/imagetpms2"
-                android:layout_width="173dp"
+                android:id="@+id/imagetpmsFR"
+                android:layout_width="90dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="@+id/tableLayout"
+                app:layout_constraintTop_toTopOf="@+id/imagetpmsFL"
+                app:srcCompat="@drawable/tpms_checks_right" />
+
+            <ImageView
+                android:id="@+id/imagetpmsRL"
+                android:layout_width="90dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/Gear_jauge"
-                app:layout_constraintTop_toTopOf="@+id/imagetpms1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+                app:srcCompat="@drawable/tpms_checks" />
+
+            <ImageView
+                android:id="@+id/imagetpmsRR"
+                android:layout_width="90dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="@+id/tableLayout"
+                app:layout_constraintTop_toTopOf="@+id/imagetpmsRL"
                 app:srcCompat="@drawable/tpms_checks_right" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

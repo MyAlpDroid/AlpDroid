@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
+import android.media.session.MediaController
 import android.os.IBinder
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
@@ -15,8 +16,6 @@ import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
 import com.manicben.physicaloid.lib.Boards
 import com.manicben.physicaloid.lib.Physicaloid
-import com.alpdroid.huGen10.BuildConfig
-import com.alpdroid.huGen10.R
 
 
 class AlpdroidApplication : Application() {
@@ -284,10 +283,12 @@ class AlpdroidApplication : Application() {
         }
 
         lateinit var app : AlpdroidApplication
+        lateinit var controller: MediaController
 
         fun setContext(con: AlpdroidApplication) {
             app =con
         }
+
 
 
     }

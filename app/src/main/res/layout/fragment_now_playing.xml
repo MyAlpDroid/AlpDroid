@@ -61,6 +61,44 @@
                 android:textColor="#F4F4EE"
                 android:textColorHint="#F4F4EE"
                 android:textSize="42sp" />
+            <!-- Barre de boutons multimédia -->
+            <LinearLayout
+                android:id="@+id/media_controls_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/now_playing_artist"
+                android:gravity="center"
+                android:orientation="horizontal"
+                >
+
+                <!-- Bouton de recul rapide -->
+                <ImageButton
+                    android:id="@+id/button_rewind"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@android:drawable/ic_media_previous" />
+
+                <!-- Bouton de pause -->
+                <ImageButton
+                    android:id="@+id/button_pause"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@android:drawable/ic_media_pause" />
+
+                <!-- Bouton de lecture -->
+                <ImageButton
+                    android:id="@+id/button_play"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <!-- Bouton d'avance rapide -->
+                <ImageButton
+                    android:id="@+id/button_fast_forward"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@android:drawable/ic_media_next" />
+            </LinearLayout>
 
         </RelativeLayout>
 

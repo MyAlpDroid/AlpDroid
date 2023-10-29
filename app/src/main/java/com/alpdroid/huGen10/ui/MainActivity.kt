@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.session.MediaSession
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
@@ -94,6 +95,8 @@ class MainActivity : FragmentActivity()  {
         application=getApplication() as AlpdroidApplication
 
         AlpdroidApplication.setContext(application)
+
+        AlpdroidApplication.controller = MediaSession(application, TAG).controller
 
         application.startVehicleServices()
         application.alpdroidData = VehicleServices()

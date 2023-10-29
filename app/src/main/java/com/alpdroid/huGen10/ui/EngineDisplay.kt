@@ -5,11 +5,14 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.res.ResourcesCompat
@@ -20,6 +23,8 @@ import com.alpdroid.huGen10.databinding.EngineDisplayBinding
 import com.github.anastr.speedviewlib.ImageSpeedometer
 import com.github.anastr.speedviewlib.ProgressiveGauge
 import com.github.anastr.speedviewlib.components.indicators.ImageIndicator
+import com.github.anastr.speedviewlib.components.note.Note
+import com.github.anastr.speedviewlib.components.note.TextNote
 
 
 @ExperimentalUnsignedTypes
@@ -32,7 +37,7 @@ class EngineDisplay : UIFragment(250)
     private lateinit var fragmentBlankBinding: EngineDisplayBinding
     
 
-    private lateinit var press_FL : TextView
+    private lateinit var press_FL: TextView
     private lateinit var press_RL: TextView
     private lateinit var press_FR: TextView
     private lateinit var press_RR: TextView
@@ -41,6 +46,17 @@ class EngineDisplay : UIFragment(250)
     private lateinit var temp_FR2: TextView
     private lateinit var temp_RL2: TextView
     private lateinit var temp_RR2: TextView
+
+    private lateinit var frontleftrow : LinearLayout
+    private lateinit var frontrightrow : LinearLayout
+    private lateinit var frontleftrowpress : LinearLayout
+    private lateinit var frontrighttrowpress : LinearLayout
+
+    private lateinit var rearleftrow : LinearLayout
+    private lateinit var rearrightrow : LinearLayout
+    private lateinit var rearleftrowpress : LinearLayout
+    private lateinit var rearrighttrowpress : LinearLayout
+
 
     lateinit var fuel_level: TextView
     lateinit var gear_active: ImageView
@@ -78,8 +94,6 @@ class EngineDisplay : UIFragment(250)
     }
 
     override fun onDestroyView() {
-        // Consider not storing the binding instance in a field, if not needed.
-        //fragmentBlankBinding = null
         super.onDestroyView()
     }
 
@@ -89,7 +103,9 @@ class EngineDisplay : UIFragment(250)
 
 
         var press_color:Int
+        var press_val:Int
         var temp_color:Int
+        var tyre_check: Int
 
         var tyre_calul4alert:Boolean
 
@@ -106,6 +122,17 @@ class EngineDisplay : UIFragment(250)
         temp_RR2 = fragmentBlankBinding.textTempRR2
 
 
+        frontleftrow=fragmentBlankBinding.frontleftrow
+        frontleftrowpress=fragmentBlankBinding.frontlefttrowpress
+
+        frontrightrow=fragmentBlankBinding.frontrightrow
+        frontrighttrowpress=fragmentBlankBinding.frontrightrowpress
+
+        rearleftrow=fragmentBlankBinding.rearleftrow
+        rearleftrowpress=fragmentBlankBinding.rearlefttrowpress
+
+        rearrightrow=fragmentBlankBinding.rearrightrow
+        rearrighttrowpress=fragmentBlankBinding.rearrightrowpress
 
         speed = fragmentBlankBinding.textSpeed
 
@@ -127,20 +154,23 @@ class EngineDisplay : UIFragment(250)
 
         tanklevel= fragmentBlankBinding.gastankLevel
 
-        fragmentBlankBinding.imagetpms1.setImageResource(R.drawable.tpms_checks)
-        fragmentBlankBinding.imagetpms2.setImageResource(R.drawable.tpms_checks_right)
+        fragmentBlankBinding.imagetpmsFL.setImageResource(R.drawable.tpms_checks)
+        fragmentBlankBinding.imagetpmsFR.setImageResource(R.drawable.tpms_checks_right)
 
-        fragmentBlankBinding.imageView3.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding.imageView11.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imagetpmsRL.setImageResource(R.drawable.tpms_checks)
+        fragmentBlankBinding.imagetpmsRR.setImageResource(R.drawable.tpms_checks_right)
 
-        fragmentBlankBinding.imageView5.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding.imageView10.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageViewTempFL2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageViewPressFL.setImageResource(R.drawable.unite_bar)
 
-        fragmentBlankBinding.imageView6.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding.imageView12.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageViewTempRL2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageViewPressRL.setImageResource(R.drawable.unite_bar)
 
-        fragmentBlankBinding.imageView7.setImageResource(R.drawable.degre_c)
-        fragmentBlankBinding.imageView9.setImageResource(R.drawable.unite_bar)
+        fragmentBlankBinding.imageViewTempFR2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageViewPressFR.setImageResource(R.drawable.unite_bar)
+
+        fragmentBlankBinding.imageViewTempRR2.setImageResource(R.drawable.degre_c)
+        fragmentBlankBinding.imageViewPressRR.setImageResource(R.drawable.unite_bar)
 
         loadPreferences()
 
@@ -279,200 +309,401 @@ class EngineDisplay : UIFragment(250)
                         )
 
 
+                        tyre_check=0
 
                         if (rst_vehicleMode!=3)
-                             {
+                           {
+                           // affectation des couleurs pressions & temp pour conduite normal / sport
 
-                         // affectation des couleurs pressions & temp pour conduite normal / sport
+                               when {
+                                   flbrake_press < psi_limit_low_AVAR -> {
+                                       press_color = R.color.rouge
+                                       tyre_check = 3
+                                   }
+                                   flbrake_press < psi_limit_mid_AV -> {
+                                       press_color = R.color.vert
+                                       tyre_check = 1
+                                   }
+                                   flbrake_press < psi_limit_high_AV -> {
+                                       press_color = R.color.orange
+                                       tyre_check = 2
+                                   }
+                                   else -> {
+                                       press_color = R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                                       tyre_check = 3
+                                   }
+                               }
 
-                            press_color = when {
-                                flbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                flbrake_press < psi_limit_mid_AV -> R.color.vert
-                                flbrake_press < psi_limit_high_AV -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            frontleftrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            tyre_check=(tyre_check shl 3)
+
+                             when {
+                                frbrake_press < psi_limit_low_AVAR -> {
+                                 press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                frbrake_press < psi_limit_mid_AV -> {
+                                    press_color = R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                frbrake_press < psi_limit_high_AV -> {
+                                    press_color = R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                else -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }     // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            frontrighttrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            tyre_check=(tyre_check shl 3)
+
+                            when {
+                                rlbrake_press < psi_limit_low_AVAR -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                rlbrake_press < psi_limit_mid_AV -> {
+                                    press_color = R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                rlbrake_press < psi_limit_high_AV -> {
+                                    press_color = R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                else -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }     // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            rearleftrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                            tyre_check=(tyre_check shl 3)
+
+
+                            when {
+                                rrbrake_press < psi_limit_low_AVAR -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                rrbrake_press < psi_limit_mid_AV -> {
+                                    press_color = R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                rrbrake_press < psi_limit_high_AV -> {
+                                    press_color = R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                else -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }  // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+
+                            rearrighttrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+
+                             when {
+                                tyretemp_fl2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check  or (2 shl 9)
+                                }
+                                tyretemp_fl2 < tyretemp_limit_mid_step2 -> {
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check  or (1 shl 9)
+                                }
+                                else -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or (3 shl 9)
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
                             }
 
 
-                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+                            frontleftrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
-                            press_color = when {
-                                frbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                frbrake_press < psi_limit_mid_AV -> R.color.vert
-                                frbrake_press < psi_limit_high_AV -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
-                            }
+                               when {
+                                   tyretemp_fr2 < tyretemp_limit_low ->  {
+                                       temp_color=R.color.orange
+                                       tyre_check = tyre_check  or (2 shl 6)
+                                   }
+                                   tyretemp_fr2 < tyretemp_limit_mid_step2 -> {
+                                       temp_color=R.color.vert
+                                       tyre_check = tyre_check  or (1 shl 6)
+                                   }
+                                   else -> {
+                                       temp_color=R.color.rouge
+                                       tyre_check = tyre_check or (3 shl 6)
+                                   } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
+                               }
 
-                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+                               frontrightrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
-                            press_color = when {
-                                rlbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                rlbrake_press < psi_limit_mid_AV -> R.color.vert
-                                rlbrake_press < psi_limit_high_AV -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
-                            }
-
-                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
-
-
-                            press_color = when {
-                                rrbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                rrbrake_press < psi_limit_mid_AV -> R.color.vert
-                                rrbrake_press < psi_limit_high_AV -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
-                            }
-
-
-                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
-
-                            temp_color = when {
-                                tyretemp_fl2 < tyretemp_limit_low -> R.color.orange
-                                tyretemp_fl2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                               when {
+                                tyretemp_rl2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check  or (2 shl 3)
+                                }
+                                tyretemp_rl2 < tyretemp_limit_mid_step2 ->{
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check  or (1 shl 3)
+                                }
+                                else -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or (3 shl 3)
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
                             }
 
+                            rearleftrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
-                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
-
-                            temp_color = when {
-                                tyretemp_rl2 < tyretemp_limit_low -> R.color.orange
-                                tyretemp_rl2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
-
-                            }
-
-                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
-
-                            temp_color = when {
-                                tyretemp_fr2 < tyretemp_limit_low -> R.color.orange
-                                tyretemp_fr2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
-
-                            }
-
-                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
-
-                            temp_color = when {
-                                tyretemp_rr2 < tyretemp_limit_low -> R.color.orange
-                                tyretemp_rr2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                             when {
+                                tyretemp_rr2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check  or 2
+                                }
+                                tyretemp_rr2 < tyretemp_limit_mid_step2 -> {
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check  or 1
+                                }
+                                else -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
                             }
 
-                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+                            rearrightrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
 
                         }
                         else
                         {
 
-
                             // affectation des couleurs pressions & temp pour conduite track
 
-                            press_color = when {
-                                flbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                flbrake_press < psi_limit_mid_AV -> R.color.orange
-                                flbrake_press < psi_limit_high_AV -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            when {
+                                flbrake_press < psi_limit_low_AVAR -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                flbrake_press < psi_limit_mid_AV ->  {
+                                    press_color =R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                flbrake_press < psi_limit_high_AV ->  {
+                                    press_color =R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                else ->  {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
                             }
 
-                            press_FL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+                            frontleftrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
                             if (flbrake_press > psi_limit_high_AV  )
                                 tyre_calul4alert=true
 
-                            press_color = when {
-                                frbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                frbrake_press < psi_limit_mid_AV -> R.color.orange
-                                frbrake_press < psi_limit_high_AV -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            tyre_check=(tyre_check shl 3)
+
+                            when {
+                                frbrake_press < psi_limit_low_AVAR -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                frbrake_press < psi_limit_mid_AV ->  {
+                                    press_color =R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                frbrake_press < psi_limit_high_AV ->  {
+                                    press_color =R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                else ->  {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
                             }
 
-                            press_FR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+                            frontrighttrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
                             if (frbrake_press > psi_limit_high_AV)
                                 tyre_calul4alert=true
 
-                            press_color = when {
-                                rlbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                rlbrake_press < psi_limit_mid_AR -> R.color.orange
-                                rlbrake_press < psi_limit_high_AR -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
-                            }
+                            tyre_check=(tyre_check shl 3)
 
-                            press_RL.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+                            when {
+                                rlbrake_press < psi_limit_low_AVAR -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                rlbrake_press < psi_limit_mid_AV ->  {
+                                    press_color =R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                rlbrake_press < psi_limit_high_AV ->  {
+                                    press_color =R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                else ->  {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            }
+                            rearleftrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
                             if (rlbrake_press > psi_limit_high_AV)
                                 tyre_calul4alert=true
 
-                            press_color = when {
-                                rrbrake_press < psi_limit_low_AVAR -> R.color.rouge
-                                rrbrake_press < psi_limit_mid_AR -> R.color.orange
-                                rrbrake_press < psi_limit_high_AR -> R.color.vert
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            tyre_check=(tyre_check shl 3)
+
+                            when {
+                                rrbrake_press < psi_limit_low_AVAR -> {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                }
+                                rrbrake_press < psi_limit_mid_AV ->  {
+                                    press_color =R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                rrbrake_press < psi_limit_high_AV ->  {
+                                    press_color =R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                else ->  {
+                                    press_color =R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
                             }
 
-                            press_RR.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
+                            rearrighttrowpress.setBackgroundColor(ResourcesCompat.getColor(getResources(), press_color, null))
 
                             if (rrbrake_press > psi_limit_high_AV)
                                 tyre_calul4alert=true
 
-                            temp_color = when {
-                                tyretemp_fl2 < tyretemp_limit_low -> R.color.rouge
-                                tyretemp_fl2 < tyretemp_limit_mid_step1 -> R.color.orange
-                                tyretemp_fl2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                tyretemp_fl2 < tyretemp_limit_high -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            when {
+                                tyretemp_fl2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check  or (3 shl 9)
+                                }
+                                tyretemp_fl2 < tyretemp_limit_mid_step1 -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or (2 shl 9)
+                                }
+                                tyretemp_fl2 < tyretemp_limit_mid_step2 -> {
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check or (1 shl 9)
+                                }
+                                tyretemp_fl2 < tyretemp_limit_high -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or (2 shl 9)
+                                }
+                                else ->{
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or (3 shl 9)
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
-                            }
+                             }
 
-                            temp_FL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+                            frontleftrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
                             if (tyretemp_fl2 > tyretemp_limit_high)
                                 tyre_calul4alert=true
 
-                            temp_color = when {
-                                tyretemp_rl2 < tyretemp_limit_low -> R.color.rouge
-                                tyretemp_rl2 < tyretemp_limit_mid_step1 -> R.color.orange
-                                tyretemp_rl2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                tyretemp_rl2 < tyretemp_limit_high -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
-                            }
-
-                            if (tyretemp_rl2 > tyretemp_limit_high)
-                                tyre_calul4alert=true
-
-                            temp_RL2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
-
-                            temp_color = when {
-                                tyretemp_fr2 < tyretemp_limit_low -> R.color.rouge
-                                tyretemp_fr2 < tyretemp_limit_mid_step1 -> R.color.orange
-                                tyretemp_fr2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                tyretemp_fr2 < tyretemp_limit_high -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            when {
+                                tyretemp_fr2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check  or (3 shl 6)
+                                }
+                                tyretemp_fr2 < tyretemp_limit_mid_step1 -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or (2 shl 6)
+                                }
+                                tyretemp_fr2 < tyretemp_limit_mid_step2 -> {
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check or (1 shl 6)
+                                }
+                                tyretemp_fr2 < tyretemp_limit_high -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or (2 shl 6)
+                                }
+                                else ->{
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or (3 shl 6)
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
                             }
 
                             if (tyretemp_fr2> tyretemp_limit_high)
                                 tyre_calul4alert=true
 
-                            temp_FR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+                            frontrightrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
-                            temp_color = when {
-                                tyretemp_rr2 < tyretemp_limit_low -> R.color.rouge
-                                tyretemp_rr2 < tyretemp_limit_mid_step1 -> R.color.orange
-                                tyretemp_rr2 < tyretemp_limit_mid_step2 -> R.color.vert
-                                tyretemp_rr2 < tyretemp_limit_high -> R.color.orange
-                                else -> R.color.rouge // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+                            when {
+                                tyretemp_rl2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check  or (3 shl 3)
+                                }
+                                tyretemp_rl2 < tyretemp_limit_mid_step1 -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or (2 shl 3)
+                                }
+                                tyretemp_rl2 < tyretemp_limit_mid_step2 -> {
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check or (1 shl 3)
+                                }
+                                tyretemp_rl2 < tyretemp_limit_high -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or (2 shl 3)
+                                }
+                                else ->{
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or (3 shl 3)
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
 
                             }
+
+                            if (tyretemp_rl2 > tyretemp_limit_high)
+                                tyre_calul4alert=true
+
+                            rearleftrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+
+                            when {
+                                tyretemp_rr2 < tyretemp_limit_low -> {
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check  or 3
+                                }
+                                tyretemp_rr2 < tyretemp_limit_mid_step1 -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                tyretemp_rr2 < tyretemp_limit_mid_step2 -> {
+                                    temp_color=R.color.vert
+                                    tyre_check = tyre_check or 1
+                                }
+                                tyretemp_rr2 < tyretemp_limit_high -> {
+                                    temp_color=R.color.orange
+                                    tyre_check = tyre_check or 2
+                                }
+                                else ->{
+                                    temp_color=R.color.rouge
+                                    tyre_check = tyre_check or 3
+                                } // Valeur par défaut si aucune des conditions ci-dessus n'est satisfaite
+
+                            }
+
 
                             if (tyretemp_rr2> tyretemp_limit_high)
                                 tyre_calul4alert=true
 
-                            temp_RR2.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
+                            rearrightrow.setBackgroundColor(ResourcesCompat.getColor(getResources(), temp_color, null))
 
                         }
 
@@ -500,6 +731,42 @@ class EngineDisplay : UIFragment(250)
                         )
 
 
+                        when ((tyre_check shr 9) and 0b111)
+                        {
+                            1->   fragmentBlankBinding.imagetpmsFL.setImageResource(R.drawable.tpms_checks_green)
+                            2->   fragmentBlankBinding.imagetpmsFL.setImageResource(R.drawable.tpms_checks_orange)
+                            3->   fragmentBlankBinding.imagetpmsFL.setImageResource(R.drawable.tpms_checks_red)
+                            else
+                               -> fragmentBlankBinding.imagetpmsFL.setImageResource(R.drawable.tpms_checks)
+                           }
+
+                        when ((tyre_check shr 6) and 0b111)
+                        {
+                            1->   fragmentBlankBinding.imagetpmsFR.setImageResource(R.drawable.tpms_checks_right_green)
+                            2->   fragmentBlankBinding.imagetpmsFR.setImageResource(R.drawable.tpms_checks_right_orange)
+                            3->   fragmentBlankBinding.imagetpmsFR.setImageResource(R.drawable.tpms_checks_right_red)
+                            else
+                            -> fragmentBlankBinding.imagetpmsFR.setImageResource(R.drawable.tpms_checks_right)
+                        }
+
+
+                        when ((tyre_check shr 3) and 0b111)
+                        {
+                            1->   fragmentBlankBinding.imagetpmsRL.setImageResource(R.drawable.tpms_checks_green)
+                            2->   fragmentBlankBinding.imagetpmsRL.setImageResource(R.drawable.tpms_checks_orange)
+                            3->   fragmentBlankBinding.imagetpmsRL.setImageResource(R.drawable.tpms_checks_red)
+                            else
+                            -> fragmentBlankBinding.imagetpmsRL.setImageResource(R.drawable.tpms_checks)
+                        }
+
+                        when ((tyre_check) and 0b111)
+                        {
+                            1->   fragmentBlankBinding.imagetpmsRR.setImageResource(R.drawable.tpms_checks_right_green)
+                            2->   fragmentBlankBinding.imagetpmsRR.setImageResource(R.drawable.tpms_checks_right_orange)
+                            3->   fragmentBlankBinding.imagetpmsRR.setImageResource(R.drawable.tpms_checks_right_red)
+                            else
+                            -> fragmentBlankBinding.imagetpmsRR.setImageResource(R.drawable.tpms_checks_right)
+                        }
 
                         if (!alert_ack && !alert_set && tyre_calul4alert) {
                             alert_set = true
@@ -516,6 +783,20 @@ class EngineDisplay : UIFragment(250)
                         }
 
                         oil_temp.speedTo((alpineServices.get_OilTemperature() - 40).toFloat())
+
+
+                        if ((alpineServices.get_OilTemperature() - 40)<85)
+                        {
+                            val note = TextNote(AlpdroidApplication.app, (alpineServices.get_OilTemperature() - 40).toString()+"°C")
+                                .setPosition(Note.Position.CenterSpeedometer) // position of Note.
+                                .setAlign(Note.Align.Bottom) // Note Align.
+                                .setTextTypeFace(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)) // style, or font.
+                                .setBackgroundColor(Color.parseColor("#5BA0B2")) // change dialog color.
+                                .setCornersRound(90f) // dialog's rectangle Corners Round.
+                                .setTextSize(oil_temp.dpTOpx(16f))
+
+                            oil_temp.addNote(note,400)
+                        }
 
                         if ((alpineServices.get_OilTemperature() - 40)>oil_alert)
                         {
@@ -547,8 +828,38 @@ class EngineDisplay : UIFragment(250)
                         }
 
                         cool_temp.speedTo((alpineServices.get_EngineCoolantTemp() - 40).toFloat())
+
+                        if ((alpineServices.get_EngineCoolantTemp() - 40)<85)
+                        {
+                            val note = TextNote(AlpdroidApplication.app, (alpineServices.get_EngineCoolantTemp() - 40).toString()+"°C")
+                                .setPosition(Note.Position.CenterSpeedometer) // position of Note.
+                                .setAlign(Note.Align.Bottom) // Note Align.
+                                .setTextTypeFace(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)) // style, or font.
+                                .setBackgroundColor(Color.parseColor("#5BA0B2")) // change dialog color.
+                                .setCornersRound(90f) // dialog's rectangle Corners Round.
+                                .setTextSize(cool_temp.dpTOpx(16f))
+
+                            cool_temp.addNote(note,400)
+                        }
+
                         intake_temp.speedTo((alpineServices.get_IntakeAirTemperature() - 40).toFloat())
+
                         gear_temp.speedTo((alpineServices.get_RST_ATClutchTemperature() + 60).toFloat())
+
+                        if ((alpineServices.get_RST_ATClutchTemperature() + 60)<85)
+                        {
+                            val note = TextNote(AlpdroidApplication.app, (alpineServices.get_RST_ATClutchTemperature() + 60).toString()+"°C")
+                                .setPosition(Note.Position.CenterSpeedometer) // position of Note.
+                                .setAlign(Note.Align.Bottom) // Note Align.
+                                .setTextTypeFace(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)) // style, or font.
+                                .setBackgroundColor(Color.parseColor("#5BA0B2")) // change dialog color.
+                                .setCornersRound(90f) // dialog's rectangle Corners Round.
+                                .setTextSize(gear_temp.dpTOpx(16f))
+
+                            gear_temp.addNote(note,400)
+                        }
+
+
 
                         speed_100=(alpineServices.get_Disp_Speed_MM()/100)
                         speed.text = String.format("%d Km/h", speed_100)
@@ -606,5 +917,5 @@ class EngineDisplay : UIFragment(250)
         offset_tpms = sharedPreferences.getInt("offset_tpms", 0)
     }
 
-}
 
+}

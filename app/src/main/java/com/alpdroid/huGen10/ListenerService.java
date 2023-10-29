@@ -148,6 +148,8 @@ public class ListenerService extends NotificationListenerService
                 continue;
             }
 
+            AlpdroidApplication.controller=controller;
+
             MediaController.Callback callback =
                     new MediaController.Callback() {
                         @Override

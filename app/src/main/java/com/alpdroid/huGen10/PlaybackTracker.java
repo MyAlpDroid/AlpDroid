@@ -14,6 +14,8 @@ public class PlaybackTracker {
     private final Map<String, PlayerState> playerStates = new HashMap<>();
     public static int playerType=0;
 
+
+
     public PlaybackTracker(
      AlpdroidEr alpdroidEr) {
         this.alpdroidEr = alpdroidEr;
@@ -27,6 +29,7 @@ public class PlaybackTracker {
 
         PlayerState playerState = getOrCreatePlayerState(player);
         playerState.setPlaybackState(playbackState);
+
     }
 
 
