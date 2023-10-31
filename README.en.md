@@ -3,6 +3,9 @@
 
 [Français](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.md)    [English](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.en.md)
 
+<H1> Alpine : MyAlpdroid Video Demo </H1>
+[![MyAlpdroid demo video](http://img.youtube.com/vi/Bp5J63jpd3E/0.jpg)](http://www.youtube.com/watch?v=Bp5J63jpd3E)
+
 <H1> Alpine: Replace the multimedia head unit with an Android station</H1>
 
 The Alpine multimedia head unit has 2 drawbacks: it is not Android Auto/Apple CarPlay compatible. It gradually lost interesting apps like Spotify via MySpin. One might add that the 7-inch screen might seem a bit small.
