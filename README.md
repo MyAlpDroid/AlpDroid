@@ -5,9 +5,7 @@
 
 [Français](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.md)    [English](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.en.md)
 
-[![MyAlprdoird demo video](https://img.youtube.com/vi/Bp5J63jpd3E/0.jpg)]([https://youtu.be/Bp5J63jpd3E)
-
-
+[![MyAlpdroid demo video](http://img.youtube.com/vi/Bp5J63jpd3E/0.jpg)](http://www.youtube.com/watch?v=Bp5J63jpd3E)
 
 <H1> Alpine : Remplacer le poste multimédia  par un poste Android </H1>
 
