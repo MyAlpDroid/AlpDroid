@@ -152,6 +152,16 @@ class ConfortDisplay : UIFragment(250) {
         opendoorLeft=fragmentBlankBinding!!.cardoorLeft
         opendoorRight=fragmentBlankBinding!!.cardoorRight
 
+        opendoorFront.setImageResource((R.drawable.cardoor_frontopen))
+        opendoorLeft.setImageResource((R.drawable.cardoor_leftopen))
+        opendoorRight.setImageResource(R.drawable.cardoor_rightopen)
+        opendoorRear.setImageResource(R.drawable.cardoor_rearopen)
+
+        opendoorFront.visibility=View.INVISIBLE
+        opendoorRear.visibility=View.INVISIBLE
+        opendoorLeft.visibility=View.INVISIBLE
+        opendoorRight.visibility=View.INVISIBLE
+
         startstopstate=fragmentBlankBinding!!.startstopState
         escstate=fragmentBlankBinding!!.escState
         absstate=fragmentBlankBinding!!.absstate
@@ -201,281 +211,304 @@ class ConfortDisplay : UIFragment(250) {
 
         timerTask = {
             activity?.runOnUiThread {
-            if (AlpdroidApplication.app.isBound) {
+                if (AlpdroidApplication.app.isBound) {
 
-                val alpineServices= AlpdroidApplication.app.alpdroidData
+                    val alpineServices= AlpdroidApplication.app.alpdroidData
 
-                val flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
-                val frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
-                val rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
-                val rrbrake_temp:Int = (alpineServices.get_RearRightBrakeTemperature() * 5) - 50
+                    val flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
+                    val frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
+                    val rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
+                    val rrbrake_temp:Int = (alpineServices.get_RearRightBrakeTemperature() * 5) - 50
 
-                val flbrake_press:Int = alpineServices.get_FrontLeftWheelPressure_V2() * 30
-                val frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
-                val rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
-                val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
-
-                val tyretemp_fl2:Int =alpineServices.get_TyreTemperature1()
-                val tyretemp_fr2:Int =alpineServices.get_TyreTemperature2()
-                val tyretemp_rl2:Int =alpineServices.get_TyreTemperature3()
-                val tyretemp_rr2:Int =alpineServices.get_TyreTemperature4()
-
-                if (toggle_braketemp) {
-                    temp_FL.visibility=View.INVISIBLE
-                    temp_RL.visibility=View.INVISIBLE
-                    temp_FR.visibility=View.INVISIBLE
-                    temp_RR.visibility=View.INVISIBLE
-                    fragmentBlankBinding!!.imageTempRr.visibility=View.INVISIBLE
-                    fragmentBlankBinding!!.imageTempFl.visibility=View.INVISIBLE
-                    fragmentBlankBinding!!.imageTempRl.visibility=View.INVISIBLE
-                    fragmentBlankBinding!!.imageTempFr.visibility=View.INVISIBLE
-
-                }
-                else
-                {
-                    temp_FL.visibility=View.VISIBLE
-                    temp_RL.visibility=View.VISIBLE
-                    temp_FR.visibility=View.VISIBLE
-                    temp_RR.visibility=View.VISIBLE
-                    fragmentBlankBinding!!.imageTempRr.visibility=View.VISIBLE
-                    fragmentBlankBinding!!.imageTempFl.visibility=View.VISIBLE
-                    fragmentBlankBinding!!.imageTempRl.visibility=View.VISIBLE
-                    fragmentBlankBinding!!.imageTempFr.visibility=View.VISIBLE
-                }
-
-                // temp
-                temp_FL2.text= String.format("%d", tyretemp_fl2+offset_tyretemp)
-                temp_FR2.text= String.format("%d",tyretemp_fr2+offset_tyretemp)
-                temp_RL2.text= String.format("%d",tyretemp_rl2+offset_tyretemp)
-                temp_RR2.text= String.format("%d",tyretemp_rr2+offset_tyretemp)
-
-                temp_FL.text = String.format(
-                    "%d",
-                    flbrake_temp
-                )
-
-                if (flbrake_press<2000)
-                    press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else if (flbrake_press<2400)
-                    press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else
-                    press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                if (rlbrake_press<2000)
-                    press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else if (rlbrake_press<2400)
-                    press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else
-                    press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                if (rrbrake_press<2000)
-                    press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else if (rrbrake_press<2400)
-                    press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else
-                    press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    val flbrake_press:Int = alpineServices.get_FrontLeftWheelPressure_V2() * 30
+                    val frbrake_press:Int = alpineServices.get_FrontRightWheelPressure_V2() * 30
+                    val rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
+                    val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
 
 
-                if (frbrake_press<2000)
-                    press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else if (frbrake_press<2400)
-                    press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else
-                    press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    val tyretemp_fl2:Int =alpineServices.get_TyreTemperature1()
+                    val tyretemp_fr2:Int =alpineServices.get_TyreTemperature2()
+                    val tyretemp_rl2:Int =alpineServices.get_TyreTemperature3()
+                    val tyretemp_rr2:Int =alpineServices.get_TyreTemperature4()
 
-                if (tyretemp_fr2<35)
-                    temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (tyretemp_fr2<90)
-                    temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    if (toggle_braketemp) {
+                        temp_FL.visibility=View.INVISIBLE
+                        temp_RL.visibility=View.INVISIBLE
+                        temp_FR.visibility=View.INVISIBLE
+                        temp_RR.visibility=View.INVISIBLE
+                        fragmentBlankBinding!!.imageTempRr.visibility=View.INVISIBLE
+                        fragmentBlankBinding!!.imageTempFl.visibility=View.INVISIBLE
+                        fragmentBlankBinding!!.imageTempRl.visibility=View.INVISIBLE
+                        fragmentBlankBinding!!.imageTempFr.visibility=View.INVISIBLE
 
-                press_RL.text = String.format(
-                    "%.2f",
-                    offset_tyrepress + (rlbrake_press.toFloat()/1000)
-                )
+                    }
+                    else
+                    {
+                        temp_FL.visibility=View.VISIBLE
+                        temp_RL.visibility=View.VISIBLE
+                        temp_FR.visibility=View.VISIBLE
+                        temp_RR.visibility=View.VISIBLE
+                        fragmentBlankBinding!!.imageTempRr.visibility=View.VISIBLE
+                        fragmentBlankBinding!!.imageTempFl.visibility=View.VISIBLE
+                        fragmentBlankBinding!!.imageTempRl.visibility=View.VISIBLE
+                        fragmentBlankBinding!!.imageTempFr.visibility=View.VISIBLE
+                    }
 
-                if (tyretemp_fl2<35)
-                    temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (tyretemp_fl2<90)
-                    temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    // temp
+                    temp_FL2.text = if (tyretemp_fl2 != -30 && tyretemp_fl2 != 97) {
+                        String.format("%d","${tyretemp_fl2 + offset_tyretemp}")
+                    } else {
+                        "--"
+                    }
 
+                    temp_FR2.text= if (tyretemp_fr2 != -30 && tyretemp_fr2 != 97) {
+                        String.format("%d","${tyretemp_fr2 + offset_tyretemp}")
+                    } else {
+                        "--"
+                    }
 
-                if (tyretemp_rr2<35)
-                    temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (tyretemp_rr2<90)
-                    temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+                    temp_RL2.text= if (tyretemp_rl2 != -30 && tyretemp_rl2 != 97) {
+                        String.format("%d","${tyretemp_rl2 + offset_tyretemp}")
+                    } else {
+                        "--"
+                    }
+                    temp_RR2.text= if (tyretemp_rr2 != -30 && tyretemp_rr2 != 97) {
+                        String.format("%d","${tyretemp_rr2 + offset_tyretemp}")
+                    } else {
+                        "--"
+                    }
 
-                press_FL.text = String.format(
-                    "%.2f",
-                    offset_tyrepress + (flbrake_press.toFloat()/1000)
-                )
-
-
-                press_RR.text = String.format(
-                    "%.2f",
-                    offset_tyrepress + (rrbrake_press.toFloat()/1000)
-                )
-
-                if (tyretemp_rl2<35)
-                    temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (tyretemp_rl2<90)
-                    temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                press_FR.text = String.format(
-                    "%.2f",
-                    offset_tyrepress +  (frbrake_press.toFloat()/1000)
-                )
-
-                if (flbrake_temp<120)
-                    temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (flbrake_temp<250)
-                    temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-
-                if (rlbrake_temp<120)
-                    temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (rlbrake_temp<250)
-                    temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                temp_RL.text = String.format(
-                    "%d",
-                    rlbrake_temp
-                )
-
-                temp_FR.text = String.format(
-                    "%d",
-                    frbrake_temp
-                )
-
-                if (frbrake_temp<120)
-                    temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (frbrake_temp<250)
-                    temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                temp_RR.text = String.format(
-                    "%d",
-                    rrbrake_temp
-                )
-
-                if (rrbrake_temp<120)
-                    temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
-                else if (rrbrake_temp<250)
-                    temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
-                else
-                    temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
-
-                oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
-
-                var fuel_instant = (alpineServices.get_TripAverageConsumption().toFloat()/10)
-
-                fuel_inst.text = String.format(
-                    " %.1f l/100",
-                    fuel_instant
-                )
-
-                climfanspeed.speedTo(alpineServices.get_IH_CoolingFanSpeed(),2)
-
-                humidityvalue.text=String.format("%.1f %%", alpineServices.get_IH_humidity())
-
-                externaltemp.text=String.format(
-                    "%d °C",
-                    alpineServices.get_MM_ExternalTemp()-40)
-
-                internaltemp.text=String.format(
-                    "%.1f °C",
-                    alpineServices.get_internalTemp())
-
-                battvalue= 6+((alpineServices.get_BatteryVoltage_V2())/16.67).toFloat()
-
-                tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
-
-
-                nextoverhaul.text= String.format(" %d Km ou %d Jours", alpineServices.get_MilageMinBeforeOverhaul()*250,alpineServices.get_TimeBeforeOverhaul())
-
-                battstate.setImageResource(R.drawable.batterie_ok)
-                batttext.text=String.format(
-                    "%.2f V",
-                    battvalue)
-
-                if (battvalue<9.5)
-                    battstate.setImageResource(R.drawable.batterie_ko)
-                else if (battvalue<13.5)
-                    battstate.setImageResource(R.drawable.batterie_norm)
-
-                tanklevel.setImageResource(R.drawable.gastank_levelfull)
-                tanktext.text=String.format(
-                    "%.2f l",
-                   tankvalue)
-
-                if (tankvalue<5)
-                    tanklevel.setImageResource(R.drawable.gastank_levellow)
-                else if (tankvalue<15)
-                    tanklevel.setImageResource(R.drawable.gastank_levelmed)
-
-                enginestate.setImageResource(R.drawable.engine_ok)
-                enginevalue= alpineServices.get_GlobalVehicleWarningState()
-                if (enginevalue!=0)
-                    enginestate.setImageResource(R.drawable.engine_check)
-
-                washerlevel.setImageResource(R.drawable.washerlevel_norm)
-
-                if (alpineServices.get_WasherLevelWarningState())
-                    washerlevel.setImageResource(R.drawable.washerlevel_low)
-
-                val id =
-                    resources.getIdentifier(
-                        "enginefanspeed_on${alpineServices.get_CoolingFanSpeedStatus()}",
-                        "drawable",
-                        context?.packageName
+                    temp_FL.text = String.format(
+                        "%d",
+                        flbrake_temp
                     )
 
-                fanspeedstate.setImageResource(id)
+                    if (flbrake_press<2000)
+                        press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else if (flbrake_press<2400)
+                        press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else
+                        press_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                if (alpineServices.get_FrontLeftDoorOpenWarning()>0)
-                    opendoorLeft.setImageResource((R.drawable.cardoor_leftopen))
-                else
-                    opendoorLeft.setImageResource((R.drawable.cardoor_left))
-                if (alpineServices.get_FrontRightDoorOpenWarning()>0)
-                    opendoorRight.setImageResource(R.drawable.cardoor_rightopen)
-                else
-                    opendoorRight.setImageResource(R.drawable.cardoor_right)
-                if (alpineServices.get_BootOpenWarning()>0)
-                    opendoorRear.setImageResource(R.drawable.cardoor_rearopen)
-                else
-                    opendoorRear.setImageResource(R.drawable.cardoor_rear)
+                    if (rlbrake_press<2000)
+                        press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else if (rlbrake_press<2400)
+                        press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else
+                        press_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                opendoorFront.setImageResource((R.drawable.cardoor_front))
+                    if (rrbrake_press<2000)
+                        press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else if (rrbrake_press<2400)
+                        press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else
+                        press_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
 
-                when (alpineServices.get_StartAutoAuthorization()) {
-                    0 -> startstopstate.setImageResource(R.drawable.sas_available)
-                    1 -> startstopstate.setImageResource(R.drawable.sas_on)
-                    2 -> startstopstate.setImageResource(R.drawable.sas_off)
-                    3 -> startstopstate.setImageResource(R.drawable.sas_off)
+
+                    if (frbrake_press<2000)
+                        press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else if (frbrake_press<2400)
+                        press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else
+                        press_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    if (tyretemp_fr2<35)
+                        temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (tyretemp_fr2<90)
+                        temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_FR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    press_RL.text = if (rlbrake_press < 7000) {
+                        String.format("%.2f",
+                            offset_tyrepress + (rlbrake_press.toFloat()/1000))
+                    } else {
+                        "--"
+                    }
+
+                    if (tyretemp_fl2<35)
+                        temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (tyretemp_fl2<90)
+                        temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_FL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+
+                    if (tyretemp_rr2<35)
+                        temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (tyretemp_rr2<90)
+                        temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_RR2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    press_FL.text = if (flbrake_press < 7000) {
+                        String.format("%.2f",
+                            offset_tyrepress + (flbrake_press.toFloat()/1000))
+                    } else {
+                        "--"
+                    }
+
+                    press_RR.text = if (rrbrake_press < 7000) {
+                        String.format("%.2f",
+                            offset_tyrepress + (rrbrake_press.toFloat()/1000))
+                    } else {
+                        "--"
+                    }
+
+                    if (tyretemp_rl2<35)
+                        temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (tyretemp_rl2<90)
+                        temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_RL2.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    press_FR.text = if (frbrake_press < 7000) {
+                        String.format("%.2f",
+                            offset_tyrepress + (frbrake_press.toFloat()/1000))
+                    } else {
+                        "--"
+                    }
+
+                    if (flbrake_temp<120)
+                        temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (flbrake_temp<250)
+                        temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_FL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+
+                    if (rlbrake_temp<120)
+                        temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (rlbrake_temp<250)
+                        temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_RL.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    temp_RL.text =  String.format(
+                        "%d",
+                        rlbrake_temp
+                    )
+
+                    temp_FR.text = String.format(
+                        "%d",
+                        frbrake_temp
+                    )
+
+                    if (frbrake_temp<120)
+                        temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (frbrake_temp<250)
+                        temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_FR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    temp_RR.text = String.format(
+                        "%d",
+                        rrbrake_temp
+                    )
+
+                    if (rrbrake_temp<120)
+                        temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.vert, null))
+                    else if (rrbrake_temp<250)
+                        temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.orange, null))
+                    else
+                        temp_RR.setTextColor(ResourcesCompat.getColor(getResources(), R.color.rouge, null))
+
+                    oddo_Rate.text = String.format(" %.2f km", (alpineServices.get_DistanceTotalizer_MM()).toFloat()/100)
+
+                    var fuel_instant = ((alpineServices.get_TripConsumption().toFloat()/10)/(alpineServices.get_TripDistance().toFloat()/10))
+
+                    fuel_inst.text = String.format(
+                        " %.1f l/100",
+                        fuel_instant
+                    )
+
+                    climfanspeed.speedTo(alpineServices.get_IH_CoolingFanSpeed(),2)
+
+                    humidityvalue.text=String.format("%.1f %%", alpineServices.get_IH_humidity())
+
+                    externaltemp.text=String.format(
+                        "%d °C",
+                        alpineServices.get_ExternalTemp()-40)
+
+                    internaltemp.text=String.format(
+                        "%.1f °C",
+                        alpineServices.get_internalTemp())
+
+                    battvalue= 6+((alpineServices.get_BatteryVoltage_V2())/16.67).toFloat()
+
+                    tankvalue= alpineServices.get_FuelLevelDisplayed().toFloat()
+
+
+                    nextoverhaul.text= String.format(" %d Km ou %d Jours", alpineServices.get_MilageMinBeforeOverhaul()*250,alpineServices.get_TimeBeforeOverhaul())
+
+                    battstate.setImageResource(R.drawable.batterie_ok)
+                    batttext.text=String.format(
+                        "%.2f V",
+                        battvalue)
+
+                    if (battvalue<9.5)
+                        battstate.setImageResource(R.drawable.batterie_ko)
+                    else if (battvalue<13.5)
+                        battstate.setImageResource(R.drawable.batterie_norm)
+
+                    tanklevel.setImageResource(R.drawable.gastank_levelfull)
+                    tanktext.text=String.format(
+                        "%.2f l",
+                        tankvalue)
+
+                    if (tankvalue<5)
+                        tanklevel.setImageResource(R.drawable.gastank_levellow)
+                    else if (tankvalue<15)
+                        tanklevel.setImageResource(R.drawable.gastank_levelmed)
+
+                    enginestate.setImageResource(R.drawable.engine_ok)
+                    enginevalue= alpineServices.get_GlobalVehicleWarningState()
+                    if (enginevalue!=0)
+                        enginestate.setImageResource(R.drawable.engine_check)
+
+                    washerlevel.setImageResource(R.drawable.washerlevel_norm)
+
+                    if (alpineServices.get_WasherLevelWarningState())
+                        washerlevel.setImageResource(R.drawable.washerlevel_low)
+
+                    val id =
+                        resources.getIdentifier(
+                            "enginefanspeed_on${alpineServices.get_CoolingFanSpeedStatus()}",
+                            "drawable",
+                            context?.packageName
+                        )
+
+                    fanspeedstate.setImageResource(id)
+
+                    if (alpineServices.get_FrontLeftDoorOpenWarning()>0)
+                        opendoorLeft.visibility=View.VISIBLE
+                    else
+                        opendoorLeft.visibility=View.INVISIBLE
+                    if (alpineServices.get_FrontRightDoorOpenWarning()>0)
+                        opendoorRight.visibility=View.VISIBLE
+                    else
+                        opendoorRight.visibility=View.INVISIBLE
+                    if (alpineServices.get_BootOpenWarning()>0)
+                        opendoorRear.visibility=View.VISIBLE
+                    else
+                        opendoorRear.visibility=View.INVISIBLE
+
+                    if (alpineServices.get_GlasshatchOpenWarning()>0)
+                        opendoorFront.visibility=View.VISIBLE
+                    else
+                        opendoorFront.visibility=View.INVISIBLE
+
+
+                    if (alpineServices.get_ESPDeactivatedByDriverForDisplay())
+                        escstate.setImageResource(R.drawable.esc_off)
+                    else
+                        escstate.setImageResource(R.drawable.esc_on)
+
                 }
-
-                if (alpineServices.get_ESPDeactivatedByDriverForDisplay())
-                    escstate.setImageResource(R.drawable.esc_off)
-                else
-                    escstate.setImageResource(R.drawable.esc_on)
-
-            }
 
             }
         }
-   }
+    }
 
     private fun showPopupDialog() {
         val builder = AlertDialog.Builder(requireContext())

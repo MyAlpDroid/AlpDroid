@@ -25,6 +25,7 @@
                 android:id="@+id/imagetpmsFL"
                 android:layout_width="90dp"
                 android:layout_height="150dp"
+                android:layout_marginStart="64dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/OIL_jauge"
                 app:srcCompat="@drawable/tpms_checks" />
@@ -41,6 +42,7 @@
                 android:id="@+id/imagetpmsRL"
                 android:layout_width="90dp"
                 android:layout_height="150dp"
+                android:layout_marginStart="64dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tableLayout"
                 app:srcCompat="@drawable/tpms_checks" />
@@ -340,8 +342,9 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/OIL_jauge"
-                android:layout_width="257dp"
-                android:layout_height="254dp"
+                android:layout_width="278dp"
+                android:layout_height="278dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toEndOf="@+id/imagetpmsFR"
                 app:layout_constraintTop_toTopOf="parent"
@@ -377,8 +380,8 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Intake_jauge"
-                android:layout_width="290dp"
-                android:layout_height="254dp"
+                android:layout_width="278dp"
+                android:layout_height="278dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintBottom_toBottomOf="@+id/Oil_Pressure"
                 app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
@@ -413,8 +416,8 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Oil_Pressure"
-                android:layout_width="290dp"
-                android:layout_height="254dp"
+                android:layout_width="278dp"
+                android:layout_height="278dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
                 app:layout_constraintTop_toBottomOf="@+id/Gear_jauge"
@@ -449,8 +452,8 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/CooL_jauge"
-                android:layout_width="290dp"
-                android:layout_height="254dp"
+                android:layout_width="278dp"
+                android:layout_height="278dp"
                 android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/OIL_jauge"
                 app:layout_constraintStart_toEndOf="@+id/OIL_jauge"
@@ -486,8 +489,8 @@
 
             <com.github.anastr.speedviewlib.ImageSpeedometer
                 android:id="@+id/Gear_jauge"
-                android:layout_width="290dp"
-                android:layout_height="254dp"
+                android:layout_width="278dp"
+                android:layout_height="278dp"
                 android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/CooL_jauge"
                 app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
@@ -600,7 +603,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/intake"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="#4CAF50"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/Intake_jauge"
@@ -633,7 +636,7 @@
                 android:gravity="center"
                 android:justificationMode="none"
                 android:singleLine="true"
-                android:text="0 Km/h"
+                android:text="33 Km/h"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 android:textColor="#FFFFFF"
                 android:textSize="38dp"
@@ -654,7 +657,7 @@
                 app:layout_constraintTop_toTopOf="@+id/text_fueLevel"
                 app:srcCompat="@drawable/fleche" />
 
-    
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -144,6 +144,7 @@ class AlpdroidApplication : Application() {
         eventBus.register(this)
      //   initLog.
       //  MLog.i(TAG,"OnCreate Fin")
+
     }
 
 
@@ -224,7 +225,7 @@ class AlpdroidApplication : Application() {
     fun getplayerType(player: String):Int {
         var playerType = 4
         if ((player.contains("radio", true) or player.contains("tuner",true) or player.contains("zoulou",true))) playerType =
-            1 else if (player.contains("com.syu.bt", true) or player.contains("carlink",true)) playerType =
+            1 else if (player.contains("com.syu.bt", true) or player.contains("carlink",true) or player.contains("carradio",true)) playerType =
             7
         return playerType
     }

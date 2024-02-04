@@ -434,43 +434,45 @@
 
             <ImageView
                 android:id="@+id/cardoorFront"
-                android:layout_width="149dp"
-                android:layout_height="96dp"
+                android:layout_width="140dp"
+                android:layout_height="98dp"
+                android:layout_marginTop="14dp"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintHorizontal_bias="0.489"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/dessinCar"
-                app:srcCompat="@drawable/cardoor_front" />
+                app:srcCompat="@drawable/cardoor_frontopen" />
 
             <ImageView
                 android:id="@+id/cardoorRear"
-                android:layout_width="320dp"
-                android:layout_height="76dp"
-                android:src="@drawable/cardoor_rear"
+                android:layout_width="200dp"
+                android:layout_height="37dp"
+                android:layout_marginBottom="14dp"
+                android:src="@drawable/cardoor_rearopen"
                 app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar" />
-
 
             <ImageView
                 android:id="@+id/cardoorLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="28dp"
-                android:src="@drawable/cardoor_left"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
+                android:layout_width="73dp"
+                android:layout_height="129dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/cardoor_leftopen"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_FL" />
+                app:layout_constraintTop_toBottomOf="@+id/cardoorFront" />
 
             <ImageView
                 android:id="@+id/cardoorRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/cardoor_right"
+                android:layout_width="73dp"
+                android:layout_height="129dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="28dp"
+                android:src="@drawable/cardoor_rightopen"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_FR" />
+                app:layout_constraintTop_toBottomOf="@+id/cardoorFront" />
 
             <TextView
                 android:id="@+id/text_oddoRate"

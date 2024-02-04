@@ -61,7 +61,7 @@ class RoadBook:UIFragment(500) {
         adapter = CustomListAdapter(AlpdroidApplication.app, R.layout.list_item, roadInfoList)
         roadListView.adapter = adapter
 
-        var kmDepart =0.0f // Récupérez ces valeurs depuis votre source de données
+        var kmDepart: Float  // Récupérez ces valeurs depuis votre source de données
         var kmStep = 0.0f
         var timeLastStep:Long = 0
         var timePrevStep:Long = 0

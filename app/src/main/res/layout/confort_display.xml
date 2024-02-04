@@ -449,40 +449,41 @@
                 android:id="@+id/cardoorFront"
                 android:layout_width="149dp"
                 android:layout_height="96dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar"
                 app:layout_constraintTop_toTopOf="@+id/dessinCar"
-                app:srcCompat="@drawable/cardoor_front" />
+                app:srcCompat="@drawable/cardoor_frontopen" />
 
             <ImageView
                 android:id="@+id/cardoorRear"
-                android:layout_width="320dp"
-                android:layout_height="76dp"
-                android:src="@drawable/cardoor_rear"
+                android:layout_width="219dp"
+                android:layout_height="42dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/cardoor_rearopen"
                 app:layout_constraintBottom_toBottomOf="@+id/dessinCar"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
+                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar" />
 
             <ImageView
                 android:id="@+id/cardoorLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="73dp"
+                android:layout_height="127dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="92dp"
-                android:src="@drawable/cardoor_left"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
+                android:src="@drawable/cardoor_leftopen"
                 app:layout_constraintStart_toStartOf="@+id/dessinCar"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_FL2" />
+                tools:layout_editor_absoluteY="275dp" />
 
             <ImageView
                 android:id="@+id/cardoorRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/cardoor_right"
+                android:layout_width="73dp"
+                android:layout_height="127dp"
+                android:layout_marginEnd="28dp"
+                android:src="@drawable/cardoor_rightopen"
                 app:layout_constraintEnd_toEndOf="@+id/dessinCar"
-                app:layout_constraintTop_toBottomOf="@+id/text_temp_FR" />
+                tools:layout_editor_absoluteY="275dp" />
 
             <ImageView
                 android:id="@+id/absstate"

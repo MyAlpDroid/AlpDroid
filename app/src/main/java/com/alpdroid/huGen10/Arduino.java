@@ -34,7 +34,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
     private UsbDevice lastArduinoAttached;
 
     private int baudRate;
-    private boolean isOpened;
+    private boolean isOpened=false;
     private boolean islistening;
     boolean txWarning;
     private List<Integer> vendorIds;
@@ -62,6 +62,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         this.islistening = false;
         this.vendorIds = new ArrayList<>();
         this.vendorIds.add(9025); //arduino ID rev 3
+        this.vendorIds.add(6790); // clone arduino
         this.bytesReceived = new ArrayList<>();
         this.delimiter = DEFAULT_DELIMITER;
     }
@@ -102,6 +103,7 @@ public class Arduino implements UsbSerialInterface.UsbReadCallback {
         }
         usbManager.requestPermission(device, permissionIntent);
     }
+
 
     public void reopen() {
         open(lastArduinoAttached);

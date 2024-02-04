@@ -7,14 +7,12 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.util.Log
-import com.alpdroid.huGen10.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-
 
 // Main CLass, writing and reading canFrame value
 // giving other value to Cluster like Location, Compass, Directions
@@ -328,6 +326,26 @@ class VehicleServices : LocationListener {
 
     }
 
+    suspend fun get_VIN():String
+    {
+        pushOBDParams(CanECUAddrs.CANECUSEND_ETT.idcan, 0xF190, 0x22, ByteArray(0))
+        val tempo = System.currentTimeMillis()
+
+        while (!isOBDParams(
+                0xF190,
+                0x62,
+                CanECUAddrs.CANECUREC_ETT.idcan
+            ) && tempo + 700 > System.currentTimeMillis()
+        ) {
+            // do nothing .. waiting for VIN _ number
+        }
+
+        if (isOBDParams(0xF190, 0x62,CanECUAddrs.CANECUREC_ETT.idcan)) {
+            return getOBDLongParams(0xF190,0x62, CanECUAddrs.CANECUREC_ETT.idcan).toString()
+        }
+        return "Unable to get VIN"
+    }
+
     private fun get_climdata(): ByteArray? =
         this.getOBDLongParams(0x52, 0x61, CanECUAddrs.CANECUREC_CLIM.idcan)
 
@@ -392,10 +410,10 @@ class VehicleServices : LocationListener {
         this.getOBDParams(0x8032, 0x62, CanECUAddrs.CANECUREC_TPS.idcan, 0, 8) - 30
 
     suspend fun ask_OBDTyreTemperature() {
-           pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8011, 0x22, ByteArray(0))
-           pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8018, 0x22, ByteArray(0))
-           pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8025, 0x22, ByteArray(0))
-           pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8032, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8011, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8018, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8025, 0x22, ByteArray(0))
+        pushOBDParams(CanECUAddrs.CANECUSEND_TPS.idcan,0x8032, 0x22, ByteArray(0))
 
     }
 
@@ -444,7 +462,7 @@ class VehicleServices : LocationListener {
                 0x81,
                 0x50,
                 ecu+0x20
-            ) && tempo + 2700 > System.currentTimeMillis()
+            ) && tempo + 500 > System.currentTimeMillis()
         ) {
             // do nothing .. waiting for folding _ state
         }
@@ -465,13 +483,13 @@ class VehicleServices : LocationListener {
         val tempo = System.currentTimeMillis()
 
         while ( !isOBDParams(
-                    0xC0,
-                    0x50,
-                    ecu + 0x20
-                ) && tempo + 1000 > System.currentTimeMillis()
-            ) {
-                // do nothing .. waiting for extend _ state : could be longer thant 500ms
-            }
+                0xC0,
+                0x50,
+                ecu + 0x20
+            ) && tempo + 500 > System.currentTimeMillis()
+        ) {
+            // do nothing .. waiting for extend _ state : could be longer thant 500ms
+        }
 
         if (isOBDParams(0xC0, 0x50,ecu+0x20)) {
             return true
@@ -492,7 +510,7 @@ class VehicleServices : LocationListener {
                 0x03,
                 0x51,
                 ecu+0x20
-            ) && tempo + 1000 > System.currentTimeMillis()
+            ) && tempo + 500 > System.currentTimeMillis()
         ) {
             // do nothing .. waiting for folding _ state
         }
@@ -544,7 +562,17 @@ class VehicleServices : LocationListener {
                     result += String.format("\r\n" + context.getString(R.string.start_stop_string) + " : On")
                 }
 
-                delay(150)
+                val tempo = System.currentTimeMillis()
+
+                while (!isOBDParams(
+                        0x00AD,
+                        0x6E,
+                        CanECUAddrs.CANECUREC_TPS.idcan
+                    ) && ((tempo + 250) > System.currentTimeMillis())
+                ) {
+                    // do nothing .. waiting for folding _ state
+                }
+
 
                 testbool = ecu_softreset(CanECUAddrs.CANECUSEND_TPS.idcan)
                 result += String.format(
@@ -558,7 +586,7 @@ class VehicleServices : LocationListener {
                 )
             }
         }
-            else result+="\r\n"+ context.getString(R.string.unable_to_set_start_stop_mode)
+        else result+="\r\n"+ context.getString(R.string.unable_to_set_start_stop_mode)
 
         return result
     }
@@ -578,7 +606,7 @@ class VehicleServices : LocationListener {
                 0x00AD,
                 0x62,
                 CanECUAddrs.CANECUREC_TPS.idcan
-            ) && ((tempo + 1000) > System.currentTimeMillis())
+            ) && ((tempo + 250) > System.currentTimeMillis())
         ) {
             // do nothing .. waiting for folding _ state
         }
@@ -637,7 +665,17 @@ class VehicleServices : LocationListener {
                     )
                 )
 
-                delay(150)
+                val tempo = System.currentTimeMillis()
+
+                while (!isOBDParams(
+                        0x1F,
+                        0x7B,
+                        CanECUAddrs.CANECUREC_EMM.idcan
+                    ) && tempo + 250 > System.currentTimeMillis()
+                ) {
+                    // do nothing .. waiting for folding _ state
+                }
+
                 // back to default mode
                 testbool = ecu_softreset(CanECUAddrs.CANECUSEND_EMM.idcan)
                 result += String.format(
@@ -672,7 +710,7 @@ class VehicleServices : LocationListener {
                 0x1F,
                 0x61,
                 CanECUAddrs.CANECUREC_EMM.idcan
-            ) && tempo + 300 > System.currentTimeMillis()
+            ) && tempo + 250 > System.currentTimeMillis()
         ) {
             // do nothing .. waiting for folding _ state
         }
@@ -692,50 +730,61 @@ class VehicleServices : LocationListener {
 
         result+= String.format("%2X", coldCountryMode)
 
-        if (coldCountryMode != 255) {
+        if (coldCountryMode != 255)
+        {
 
             if (coldCountryMode == 0) {
-                        coldCountryMode = 1
-                        result += "\r\n"+ context.getString(R.string.mode_coldcountry)+" On"
-                    } else {
-                        coldCountryMode = 0
-                        result += "\r\n"+context.getString(R.string.mode_coldcountry)+" Off"
-              }
+                coldCountryMode = 1
+                result += "\r\n"+ context.getString(R.string.mode_coldcountry)+" On"
+            } else {
+                coldCountryMode = 0
+                result += "\r\n"+context.getString(R.string.mode_coldcountry)+" Off"
+            }
 
             var testbool = set_extendedsession(
-                        CanECUAddrs.CANECUSEND_ABS.idcan
-                    )
+                CanECUAddrs.CANECUSEND_ABS.idcan)
 
             result+=String.format("\r\n"+ context.getString(R.string.start_programming_mode)+" : %s",testbool.toString())
 
-            if (testbool) {
-                        pushOBDParams(
-                            CanECUAddrs.CANECUSEND_ABS.idcan,
-                            0x4BC0,
-                            0x2E,
-                            byteArrayOf(coldCountryMode.toByte())
-                        )
+            if (testbool)
+            {
+                pushOBDParams(
+                    CanECUAddrs.CANECUSEND_ABS.idcan,
+                    0x4BC0,
+                    0x2E,
+                    byteArrayOf(coldCountryMode.toByte())
+                )
 
-                        delay(150)
-                        // back to default mode
-                        testbool = ecu_softreset(CanECUAddrs.CANECUSEND_ABS.idcan)
-                        result += String.format("\r\n"+ context.getString(R.string.reset_ecu)+" : %s", testbool.toString())
-                        testbool = set_defaultsession(CanECUAddrs.CANECUSEND_ABS.idcan)
-                        result += String.format("\r\n"+ context.getString(R.string.ecu_in_default_mode)+": %s", testbool.toString())
-                    }
+                val tempo = System.currentTimeMillis()
+
+                while (!isOBDParams(
+                        0x4BC0,
+                        0x6E,
+                        CanECUAddrs.CANECUREC_ABS.idcan
+                    ) && tempo + 250 > System.currentTimeMillis()
+                )
+                {
+                    // do nothing .. waiting for folding _ state
                 }
-                else result += "\r\n"+ context.getString(R.string.unable_to_set_coldcountry_mode)
-
-
-                return result
-
+                // back to default mode
+                testbool = ecu_softreset(CanECUAddrs.CANECUSEND_ABS.idcan)
+                result += String.format("\r\n"+ context.getString(R.string.reset_ecu)+" : %s", testbool.toString())
+                testbool = set_defaultsession(CanECUAddrs.CANECUSEND_ABS.idcan)
+                result += String.format("\r\n"+ context.getString(R.string.ecu_in_default_mode)+": %s", testbool.toString())
+            }
         }
+        else result += "\r\n"+ context.getString(R.string.unable_to_set_coldcountry_mode)
+
+        return result
+
+    }
 
     suspend fun get_apbconfiguration_country_state(): Int {
 
         try {removeOBDFrame(0x4BC0, 0x62, CanECUAddrs.CANECUREC_ABS.idcan)}
         catch (_:Exception)
         {
+            // not managed
         }
 
         pushOBDParams(CanECUAddrs.CANECUSEND_ABS.idcan, 0x4BC0, 0x22, ByteArray(0))
@@ -746,7 +795,7 @@ class VehicleServices : LocationListener {
                 0x4BC0,
                 0x62,
                 CanECUAddrs.CANECUREC_ABS.idcan
-            ) && tempo + 1000 > System.currentTimeMillis()
+            ) && tempo + 250 > System.currentTimeMillis()
         ) {
             // do nothing .. waiting for country _ state
         }
@@ -756,6 +805,11 @@ class VehicleServices : LocationListener {
         }
         return 255
     }
+
+
+    /** Get code 499**/
+    fun get_fakecode(): Int =
+        this.getFrameParamsFromBus(1,0x499, 0, 8)
 
     /** Get code GearboxOilTemperature **/
     fun get_GearboxOilTemperature(): Int =
@@ -1389,13 +1443,15 @@ class VehicleServices : LocationListener {
     /** Get MM_ExternalTemp **/
     fun get_MM_ExternalTemp(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 0, 8)
 
+    fun get_ExternalTemp(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.CLUSTER_CANHS_R_04.idcan, 0, 8)
+
     /** Get MMNightRheostatedLightMaxPercent **/
     fun get_MMNightRheostatedLightMaxPercent(): Int =
         this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 8, 8)
 
     /** Get MM_DayNightStatusForBacklights **/
-    fun get_MM_DayNightStatusForBacklights(): Boolean =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.CLUSTER_CANM_01.idcan, 16, 1) != 0
+    fun get_DayNightStatusForBacklights(): Boolean =
+        this.getFrameParamsFromBus(1,CanECUAddrs.CLUSTER_CANHS_R_04.idcan, 16, 1) != 0
 
     /** Get MM_CustomerDeparture **/
     fun get_MM_CustomerDeparture(): Int =
@@ -1445,10 +1501,16 @@ class VehicleServices : LocationListener {
     /** Get DisplayedSpeed from Cluster **/
     fun get_Disp_Speed_MM(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Chassis_Data1.idcan, 16, 16)
 
+    fun get_Disp_Speed(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.BRAKE_CANHS_R_01.idcan, 0, 16)
+
 
     /** Get EspAsrSport Mode **/
     fun get_EspAsrSportMode_MM(): Int =
         this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Chassis_Data1.idcan, 32, 3)
+
+
+    fun get_EspAsrSportMode(): Int =
+        this.getFrameParamsFromBus(1,CanECUAddrs.MMI_BRAKE_CANHS_RNr_01.idcan, 16, 3)
 
 
     /** Get ClutchSwitchMaximumTravel **/
@@ -1487,7 +1549,7 @@ class VehicleServices : LocationListener {
 
 
     /** Get VehicleSpeed **/
-    fun get_VehicleSpeed(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Chassis_Data1.idcan, 48, 16)
+    fun get_VehicleSpeed(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.BRAKE_CANHS_RNr_03.idcan, 48, 16)
 
 
     //** Get Fuel Temperature **/
@@ -1525,28 +1587,29 @@ class VehicleServices : LocationListener {
      **/
 
     /** Get Engine RPM**/
-    fun get_EngineRPM_MMI(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 0, 16)
+    fun get_EngineRPM_MMI(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 0, 16)
+
 
     /** Get LaunchControlReady **/
     fun get_RST_LaunchControlReady(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 16, 2)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 16, 2)
 
     /** Get RST_LaunchControlReady_MMI **/
     fun get_RST_LaunchControlReady_MMI(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 18, 2)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 18, 2)
 
     /** Get RST_ATMode **/
-    fun get_RST_ATMode(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 20, 1)
+    fun get_RST_ATMode(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 20, 1)
 
 
     /** Get RST_ATPreSelectedRange **/
     fun get_RST_ATPreSelectedRange(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 21, 3)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 21, 3)
 
 
     /** Get ATCVT_RangeIndication **/
     fun get_ATCVT_RangeIndication(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 24, 5)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 24, 5)
 
 
     /** Get RST_CentralShifterPosition **/
@@ -1556,65 +1619,65 @@ class VehicleServices : LocationListener {
 
     /** Get RST_ATOilTemperature **/
     fun get_RST_ATOilTemperature(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 32, 8)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 32, 8)
 
 
     /** Get RST_ATClutchTemperature **/
     fun get_RST_ATClutchTemperature(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 40, 8)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 40, 8)
 
     /** Get AT_MMIParkActivation **/
     fun get_AT_MMIParkActivation(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 48, 2)
+        this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 48, 2)
 
     /** Get AT_Parkfailure **/
-    fun get_AT_Parkfailure(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_AT_Data.idcan, 50, 1)
+    fun get_AT_Parkfailure(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.AT_CANV_Rst_01.idcan, 50, 1)
 
     /**
      *  Cool temp, Oil Temp, etc
      **/
 
     /** Get EngineCoolantTemp **/
-    fun get_EngineCoolantTemp(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 0, 8)
+    fun get_EngineCoolantTemp(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 0, 8)
 
 
     /** Get FuelConsumption **/
-    fun get_FuelConsumption(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 8, 8)
+    fun get_FuelConsumption(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 8, 8)
 
 
     /** Get OilTemperature **/
-    fun get_OilTemperature(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 16, 8)
+    fun get_OilTemperature(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 16, 8)
 
 
     /** Get IntakeAirTemperature **/
     fun get_IntakeAirTemperature(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 24, 8)
+        this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 24, 8)
 
 
     /** Get BoostPressure **/
-    fun get_BoostPressure(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 32, 6)
+    fun get_BoostPressure(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 32, 6)
 
 
     /** Get EngineStatus **/
-    fun get_EngineStatus(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 38, 2)
+    fun get_EngineStatus(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 38, 2)
 
 
     /** Get PowerTrainSetPoint **/
     fun get_PowerTrainSetPoint(): Int =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 40, 10)
+        this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 40, 10)
 
 
     /** Get CurrentGear **/
-    fun get_CurrentGear(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 50, 3)
+    fun get_CurrentGear(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 50, 3)
 
 
     /** Get OvertorqueState **/
-    fun get_OvertorqueState(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 53, 2)
+    fun get_OvertorqueState(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 53, 2)
 
 
     /** Get KickDownActivated **/
     fun get_KickDownActivated(): Boolean =
-        this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 55, 1) != 0
+        this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 55, 1) != 0
 
     /** Get TorqueEstimated **/
     fun get_EstimatedPowertrainWheelTorque(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.TORQUE_AT_CANHS_RNr_01.idcan, 48, 16)
@@ -1625,7 +1688,7 @@ class VehicleServices : LocationListener {
 
 
     /** Get EngineOilPressure **/
-    fun get_EngineOilPressure(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data1.idcan, 57, 7)
+    fun get_EngineOilPressure(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.MMI_ECM_CANHS_Rst_01.idcan, 57, 7)
 
 
     /**
@@ -1639,28 +1702,22 @@ class VehicleServices : LocationListener {
      *  Throttle, Brake Pressure, Gear
      **/
 
-    /** Get EngineRPM **/
-    fun get_EngineRPM(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 0, 16)
-
 
     /** Get MeanEffTorque **/
-    fun get_MeanEffTorque(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 16, 12)
-
-    /** Get RearGearEngaged **/
-    fun get_RearGearEngaged(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 28, 2)
+    fun get_MeanEffTorque(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.TORQUE_ECM_CANHS_RNr_01.idcan, 16, 12)
 
 
     /** Get NeutralContact **/
     fun get_NeutralContact(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 30, 2)
 
     /** Get RawSensor **/
-    fun get_RawSensor(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 32, 10)
+    fun get_RawSensor(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.TORQUE_ECM_CANHS_RNr_01.idcan, 40, 10)
 
     /** Get GearShiff **/
     fun get_GearShift(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 47, 1)
 
     /** Get BrakingPressure **/
-    fun get_BrakingPressure(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_Engine_Data2.idcan, 48, 8)
+    fun get_BrakingPressure(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.BRAKE_CANHS_R_06.idcan, 0, 8)
 
     /**
      * Steering Wheel Angle
@@ -1747,7 +1804,7 @@ class VehicleServices : LocationListener {
      *  Distance Totalizer
      **/
 
-    fun get_DistanceTotalizer_MM(): Int = this.getFrameParamsFromBus(0,CanMCUAddrs.GW_DiagInfo.idcan, 0, 28)
+    fun get_DistanceTotalizer_MM(): Int = this.getFrameParamsFromBus(1,CanECUAddrs.BRAKE_CANHS_R_01.idcan, 16, 28)
 
     /**
      * BCM and StopStart

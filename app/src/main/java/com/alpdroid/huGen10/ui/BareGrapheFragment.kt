@@ -424,7 +424,6 @@ class BargrapheFragment : UIFragment(500) {
 
         var bargrapheListCopy =
             barGrapheList.toList() // Créez une copie immuable de progressBarList
-        var currentMillis = System.currentTimeMillis()
 
         timerTask = {
             activity?.runOnUiThread {

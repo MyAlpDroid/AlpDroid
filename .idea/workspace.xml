@@ -18,18 +18,51 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
+        <device id="Nexus 9" />
+        <device id="_android_virtual_device_id_Tablette_Alpine_1280x720_API_29" />
+        <device id="automotive_1024p_landscape" />
+        <device id="_device_class_foldable" />
         <device id="_device_class_tablet" />
         <device id="_device_class_desktop" />
-        <device id="_device_class_foldable" />
         <device id="_device_class_phone" />
-        <device id="automotive_1024p_landscape" />
-        <device id="Nexus 9" />
         <device id="desktop_medium" />
         <device id="pixel_c" />
         <device id="Nexus 10" />
         <target>android-29</target>
       </config>
     </shared>
+    <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-port/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw720dp/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw720dp/engine_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw800dp/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+    </layouts>
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="AID" />
@@ -40,16 +73,31 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;   redesign counters &amp; media buttons&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;   update img&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-11_165520.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_pcb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_prl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_sch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-11_165110.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-19_125559.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-20_072353.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-24_150528.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-27_190259.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kicad/shield_can_30_11_22.kicad_prl" beforeDir="false" afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22.kicad_prl" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/10.1_WXGA_Tablet_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/New_Device_1_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -66,30 +114,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyAlpineDroid" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyAlpineDroid" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyAlpineDroid" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyAlpineDroid" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="other" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -175,26 +200,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED&quot;: &quot;true&quot;,
-    &quot;android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED&quot;: &quot;RecyclerView&quot;,
-    &quot;android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/com.github.anastr/speedviewlib/1.6.1/9194b6b7c873811676270be4e3feb21e462a7071/speedviewlib-1.6.1-sources.jar!/com/github/anastr/speedviewlib/Gauge.kt_SELECTED&quot;: &quot;Gauge&quot;,
-    &quot;android-custom-view/Users/philippetangre/Library/Android/sdk/sources/android-33/android/widget/GridView.java_SELECTED&quot;: &quot;GridView&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/xml&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "PROJECT_TRUSTED_KEY": "true",
+    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WORKMANAGER_INSPECTOR_NOTIFICATION_DISMISSED": "true",
+    "android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED": "RecyclerView",
+    "android-custom-view/Users/philippetangre/.gradle/caches/modules-2/files-2.1/com.github.anastr/speedviewlib/1.6.1/9194b6b7c873811676270be4e3feb21e462a7071/speedviewlib-1.6.1-sources.jar!/com/github/anastr/speedviewlib/Gauge.kt_SELECTED": "Gauge",
+    "android-custom-view/Users/philippetangre/Library/Android/sdk/sources/android-33/android/widget/GridView.java_SELECTED": "GridView",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.emulator.zoom.toolbar.visible": "false",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/drawable",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Default Config" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -202,11 +229,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/xml" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
       <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/xml" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/src/main/res/values" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
@@ -253,6 +280,7 @@
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
       <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
@@ -663,7 +691,7 @@
       <option name="project" value="LOCAL" />
       <updated>1698581608802</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -675,7 +703,6 @@
         <entry key="386cae2b-c563-4edc-8629-f93729009e1c">
           <value>
             <State>
-              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -694,6 +721,7 @@
                   </entry>
                 </map>
               </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
             </State>
           </value>
         </entry>
@@ -719,7 +747,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;OBD support / Legacy PID and Renault PID" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;OBD support / Legacy PID and Renault PID 1st Test" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;Widget Test" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;OBD DTC Fault ok" />
@@ -744,7 +771,8 @@
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;   review&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;   new engine &amp; confort screens&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
     <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;   redesign counters &amp; media buttons&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;   redesign counters &amp; media buttons&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <MESSAGE value="Merge remote-tracking branch 'remote/main'&#10;&#10;   update img&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'remote/main'&#10;&#10;   update img&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

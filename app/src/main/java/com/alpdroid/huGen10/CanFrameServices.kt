@@ -19,7 +19,6 @@ import android.util.Log
 import com.alpdroid.huGen10.ui.MainActivity
 import com.alpdroid.huGen10.util.IntegerUtil
 import com.google.gson.GsonBuilder
-import com.alpdroid.huGen10.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -292,6 +291,16 @@ class CanFrameServices : Service(), ArduinoListener {
 
     fun isArduinoWorking():Boolean {
         return arduino.txWarning
+    }
+
+    fun isArduinoOpen():Boolean
+    {
+        try {
+            return arduino.isOpened()
+        }
+        catch (e:Exception)
+        {return false}
+
     }
 
     override fun onArduinoAttached(device: UsbDevice?) {

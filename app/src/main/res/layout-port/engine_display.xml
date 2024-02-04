@@ -652,7 +652,6 @@
                 app:layout_constraintStart_toStartOf="@+id/imagetpmsRL"
                 app:layout_constraintTop_toBottomOf="@+id/imagetpmsRL"
                 app:srcCompat="@drawable/fleche" />
-            
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

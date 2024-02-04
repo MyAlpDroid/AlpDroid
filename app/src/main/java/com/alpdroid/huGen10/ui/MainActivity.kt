@@ -2,7 +2,10 @@ package com.alpdroid.huGen10.ui
 
 
 import android.Manifest
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.annotation.SuppressLint
+import android.app.admin.DevicePolicyManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -15,6 +18,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
+import android.provider.Settings
 import android.util.Log
 import android.view.Window
 import android.widget.Toast
@@ -31,8 +35,14 @@ import com.alpdroid.huGen10.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import kotlin.time.ExperimentalTime
+
 
 @OptIn(ExperimentalTime::class)
 class MainActivity : FragmentActivity()  {
@@ -42,6 +52,9 @@ class MainActivity : FragmentActivity()  {
     lateinit var application: AlpdroidApplication
 
     private var sharedPreferences: SharedPreferences? = null
+
+    private lateinit var myRef : DatabaseReference
+    private lateinit var database:FirebaseDatabase
 
 
     companion object {
@@ -85,16 +98,79 @@ class MainActivity : FragmentActivity()  {
     }
 
 
+    fun getGoogleAccountName(context: Context): String? {
+        val accountManager = AccountManager.get(context)
+        val googleAccountType = "com.google"
+
+        val accounts = accountManager.getAccountsByType(googleAccountType)
+        if (accounts.isNotEmpty()) {
+            // Assuming the first Google account found is the one you want
+            val googleAccount = accounts[0] as Account
+            return googleAccount.name
+        }
+
+        return "not found"
+    }
+
+     private fun logAppInstallEvent(uniqueId: String) {
+
+
+         val devicePolicyManager =
+             this@MainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+
+         val androidId = Settings.Secure.getString(
+             this.contentResolver,
+            Settings.Secure.ANDROID_ID
+         )
+
+
+         val hardwareInfo = "Model: ${Build.MODEL}, Product: ${Build.PRODUCT}, Hardware: ${Build.HARDWARE}"
+
+         val versionCode=BuildConfig.VERSION_CODE
+
+         myRef = database.getReference("MyAlpDroid Installation - $versionCode")
+
+         myRef.child("UniqueID-$androidId").child("Version").setValue(BuildConfig.VERSION_NAME)
+         myRef.child("UniqueID-$androidId").child("hardwareKey").setValue(hardwareInfo)
+         myRef.child("UniqueID-$androidId").child("dateformat").setValue(uniqueId)
+         myRef.child("UniqueID-$androidId").child("accountName").setValue(getGoogleAccountName(application))
+
+         myRef.child("UniqueID-$androidId").child("num_install").get().addOnSuccessListener {
+             if (it.value!=null)
+                myRef.child("UniqueID-$androidId").child("num_install").setValue(it.value.toString().toInt()+1)
+             else
+                 myRef.child("UniqueID-$androidId").child("num_install").setValue(1.toString())
+         }.addOnFailureListener{
+             Log.d(TAG, "Failure data Firebase")
+         }
+
+
+
+     }
+
+    fun getCurrentDateFormatted(): String {
+        val currentTimeMillis = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("ddMMyy", Locale.getDefault())
+        val date = Date(currentTimeMillis)
+        return dateFormat.format(date)
+    }
 
     @SuppressLint("NoLoggedException")
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-            super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
+
 
         application=getApplication() as AlpdroidApplication
 
         AlpdroidApplication.setContext(application)
+
+        FirebaseApp.initializeApp(this)
+
+        database = FirebaseDatabase.getInstance()
+
+        logAppInstallEvent(getCurrentDateFormatted())
 
         AlpdroidApplication.controller = MediaSession(application, TAG).controller
 
@@ -168,6 +244,13 @@ class MainActivity : FragmentActivity()  {
             Toast.makeText(this, "Arduino code updated",5.toInt()).show()
             sharedPreferences!!.edit().putBoolean(getString(R.string.isdownload_UNO),false).apply()
         }
+
+        if (application.alpdroidServices.isArduinoOpen())
+        {
+            Toast.makeText(this, "Arduino is Open",20.toInt()).show()
+        }
+        else
+            Toast.makeText(this, "Arduino is not Up",20.toInt()).show()
 
     }
 
@@ -311,12 +394,14 @@ class MainActivity : FragmentActivity()  {
             ComputerDisplay(),
            BargrapheFragment(),
             RoadBook(),
-            SettingsDisplay()
+            SettingsDisplay(),
+            SimpleCounterDisplay(),
         )
 
         override fun createFragment(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+
             return fragments[position]
         }
 
@@ -333,6 +418,7 @@ class MainActivity : FragmentActivity()  {
                 4 -> return "Télémétrie"
                 4 -> return "RoadBook"
                 5 -> return getString(R.string.settings)
+                6 -> return "Simple"
             }
             return null
         }
