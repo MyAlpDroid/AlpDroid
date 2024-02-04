@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+
+    <RelativeLayout
+        android:id="@+id/teamsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <com.github.anastr.speedviewlib.ImageLinearGauge
+                android:id="@+id/brake_Press"
+                android:layout_width="60dp"
+                android:layout_height="812dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sv_image="@drawable/lineargauge"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_orientation="VERTICAL"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_RIGHT"
+                app:sv_speedometerBackColor="#720A1E59"
+                app:sv_speedometerColor="#F42828"
+                app:sv_textColor="#FFFFFF"
+                app:sv_unit="Bar"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitUnderSpeedText="false"
+                app:sv_withTremble="false" />
+
+            <com.github.anastr.speedviewlib.ImageLinearGauge
+                android:id="@+id/throttle_Press"
+                android:layout_width="60dp"
+                android:layout_height="285dp"
+                android:verticalScrollbarPosition="defaultPosition"
+                app:layout_constraintEnd_toStartOf="@+id/Intake_jauge"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sv_image="@drawable/lineargauge"
+                app:sv_maxSpeed="100"
+                app:sv_minSpeed="0"
+                app:sv_orientation="VERTICAL"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="4dp"
+                app:sv_speedTextPosition="TOP_LEFT"
+                app:sv_speedometerBackColor="#720A1E59"
+                app:sv_speedometerColor="#3AE641"
+                app:sv_textColor="#FFFFFF"
+                app:sv_unit="%"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitUnderSpeedText="false"
+                app:sv_withTremble="false" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/OIL_jauge"
+                android:layout_width="340dp"
+                android:layout_height="340dp"
+                app:layout_constraintStart_toStartOf="@+id/brake_Press"
+                app:layout_constraintTop_toBottomOf="@+id/brake_Press"
+                app:sv_image="@drawable/compteur_354_oil"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#157CB3"
+                app:sv_indicatorWidth="16dp"
+                app:sv_markColor="#FFFFFF"
+                app:sv_markHeight="16dp"
+                app:sv_markStyle="ROUND"
+                app:sv_markWidth="2dp"
+                app:sv_marksNumber="21"
+                app:sv_marksPadding="42dp"
+                app:sv_maxSpeed="135"
+                app:sv_minSpeed="85"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="62dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_speedTextSize="28dp"
+                app:sv_textColor="#FFFFFF"
+                app:sv_textSize="16dp"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="55dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitTextSize="28dp"
+                app:sv_withIndicatorLight="true"
+                app:sv_withTremble="false"
+                tools:ignore="MissingConstraints" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/Intake_jauge"
+                android:layout_width="205dp"
+                android:layout_height="183dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sv_image="@drawable/compteur_354_aircool"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#3158B8"
+                app:sv_markColor="#FFFFFF"
+                app:sv_markHeight="12dp"
+                app:sv_markStyle="ROUND"
+                app:sv_markWidth="2dp"
+                app:sv_marksNumber="21"
+                app:sv_marksPadding="22dp"
+                app:sv_maxSpeed="50"
+                app:sv_minSpeed="-5"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="42dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_speedTextSize="28dp"
+                app:sv_textColor="#FFFFFF"
+                app:sv_textSize="14dp"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="32dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitTextSize="18dp"
+                app:sv_withTremble="false" />
+
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/CooL_jauge"
+                android:layout_width="340dp"
+                android:layout_height="340dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/OIL_jauge"
+                app:layout_constraintStart_toEndOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toTopOf="@+id/OIL_jauge"
+                app:layout_constraintVertical_bias="0.0"
+                app:sv_backgroundCircleColor="#2035BD"
+                app:sv_image="@drawable/compteur_354_aircool"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#DDECF3"
+                app:sv_markColor="#FFFFFF"
+                app:sv_markHeight="16dp"
+                app:sv_markStyle="ROUND"
+                app:sv_markWidth="2dp"
+                app:sv_marksNumber="21"
+                app:sv_marksPadding="42dp"
+                app:sv_maxSpeed="135"
+                app:sv_minSpeed="85"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="62dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_speedTextSize="28dp"
+                app:sv_textColor="#DDECF3"
+                app:sv_textSize="16dp"
+                app:sv_tickNumber="5"
+                app:sv_tickPadding="55dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitTextSize="28dp"
+                app:sv_withTremble="false" />
+
+            <com.github.anastr.speedviewlib.ImageSpeedometer
+                android:id="@+id/Gear_jauge"
+                android:layout_width="340dp"
+                android:layout_height="340dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/CooL_jauge"
+                app:layout_constraintStart_toEndOf="@+id/CooL_jauge"
+                app:layout_constraintTop_toTopOf="@+id/CooL_jauge"
+                app:layout_constraintVertical_bias="0.0"
+                app:sv_image="@drawable/compteur_354_oil"
+                app:sv_indicator="NeedleIndicator"
+                app:sv_indicatorColor="#EA0A0A"
+                app:sv_markColor="#FFFFFF"
+                app:sv_markHeight="18dp"
+                app:sv_markStyle="ROUND"
+                app:sv_markWidth="2dp"
+                app:sv_marksNumber="21"
+                app:sv_marksPadding="42dp"
+                app:sv_maxSpeed="135"
+                app:sv_minSpeed="85"
+                app:sv_speedTextColor="#FFFFFF"
+                app:sv_speedTextFormat="INTEGER"
+                app:sv_speedTextPadding="62dp"
+                app:sv_speedTextPosition="BOTTOM_CENTER"
+                app:sv_speedTextSize="28dp"
+                app:sv_textColor="#FFFFFF"
+                app:sv_textSize="16dp"
+                app:sv_tickNumber="7"
+                app:sv_tickPadding="55dp"
+                app:sv_tickRotation="false"
+                app:sv_tickTextFormat="INTEGER"
+                app:sv_unit="°C"
+                app:sv_unitTextColor="#FFFFFF"
+                app:sv_unitTextSize="28dp"
+                app:sv_withTremble="false" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/oil"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/OIL_jauge"
+                app:layout_constraintHorizontal_bias="0.473"
+                app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_horizontal"
+                android:text="@string/cool"
+                android:textAlignment="center"
+                android:textAppearance="@style/AppTheme"
+                android:textColor="@color/white_text"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/CooL_jauge"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="@+id/CooL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/CooL_jauge" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/gear_c"
+                android:textAlignment="center"
+                android:textColor="#F1F6F6"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/Gear_jauge"
+                app:layout_constraintStart_toStartOf="@+id/Gear_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/Gear_jauge" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/intake"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/Intake_jauge"
+                app:layout_constraintHorizontal_bias="0.522"
+                app:layout_constraintStart_toStartOf="@+id/Intake_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/Intake_jauge" />
+
+            <ImageView
+                android:id="@+id/imagetpmsFL"
+                android:layout_width="70dp"
+                android:layout_height="62dp"
+                android:layout_marginStart="364dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/brake_Press"
+                app:layout_constraintTop_toTopOf="@id/tableLayout"
+                app:srcCompat="@drawable/tpms_checks" />
+
+            <ImageView
+                android:id="@+id/imagetpmsFR"
+                android:layout_width="70dp"
+                android:layout_height="62dp"
+                app:layout_constraintStart_toEndOf="@+id/tableLayout"
+                app:layout_constraintTop_toTopOf="@+id/imagetpmsFL"
+                app:srcCompat="@drawable/tpms_checks_right" />
+
+            <ImageView
+                android:id="@+id/imagetpmsRL"
+                android:layout_width="70dp"
+                android:layout_height="62dp"
+                app:layout_constraintStart_toStartOf="@+id/imagetpmsFL"
+                app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
+                app:srcCompat="@drawable/tpms_checks" />
+
+            <ImageView
+                android:id="@+id/imagetpmsRR"
+                android:layout_width="70dp"
+                android:layout_height="62dp"
+                app:layout_constraintStart_toEndOf="@+id/tableLayout"
+                app:layout_constraintTop_toTopOf="@+id/imagetpmsRL"
+                app:srcCompat="@drawable/tpms_checks_right" />
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/imagetpmsFL"
+                app:layout_constraintTop_toTopOf="@+id/imagetpmsFL">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/frontleftrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/text_temp_FL2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_FL2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/frontrightrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_temp_FR2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_FR2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/frontlefttrowpress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/text_press_FL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_FL"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/frontrightrowpress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_press_FR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_FR"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/rearleftrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/text_temp_RL2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_RL2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/rearrightrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/text_temp_RR2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Temp_RR2"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/degre_c" />
+
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/rearlefttrowpress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/text_press_RL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_RL"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/rearrightrowpress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right">
+
+
+                        <TextView
+                            android:id="@+id/text_press_RR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0,01"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp"
+                            android:textStyle="normal|bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView_Press_RR"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:srcCompat="@drawable/unite_bar" />
+                    </LinearLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                style="@style/Widget.AppCompat.SeekBar"
+                android:layout_width="230dp"
+
+                android:layout_height="41dp"
+                android:max="50"
+                android:progress="25"
+                android:progressDrawable="@drawable/custom_progress"
+                android:thumb="@drawable/custom_thumb"
+                tools:layout_editor_absoluteX="189dp"
+                tools:layout_editor_absoluteY="29dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

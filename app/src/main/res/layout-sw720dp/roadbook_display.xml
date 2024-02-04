@@ -1,0 +1,218 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/startRoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white_text"
+        android:text="Start" />
+
+
+
+    <!-- Placez vos TextViews ici -->
+    <RelativeLayout
+        android:id="@+id/upperLeftLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/startRoad"
+        app:layout_constraintEnd_toStartOf="@+id/middleLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/book_duree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/white_text"
+            android:text="@string/dur_e_d_part"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/roadduree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_duree"
+            android:layout_alignStart="@id/book_duree"
+            android:textColor="@color/white_text"
+            android:text="00:00:00"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/middleLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/startRoad"
+        app:layout_constraintEnd_toStartOf="@+id/upperCenterLayout"
+        app:layout_constraintStart_toEndOf="@+id/upperLeftLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/top_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            android:padding="6dp"/>
+
+        <ListView
+            android:id="@+id/road_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_row"
+            android:layout_marginTop="-18dp"
+            android:background="@android:color/transparent" />
+
+        <!-- Shown for empty collection due to rv.setEmptyView(R.id.widget_list, R.id.empty_view) being called: -->
+
+        <TextView
+            android:id="@+id/road_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/road_list"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:text="---"
+            android:textColor="@android:color/white"
+            tools:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/upperCenterLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toEndOf="@id/middleLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/startRoad"
+        >
+
+
+        <TextView
+            android:id="@+id/roadmoyenne"
+            android:layout_width="248sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bookmoyenne"
+            android:layout_alignStart="@+id/bookmoyenne"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@color/white_text"
+            android:text="0"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bookmoyenne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/moyenne_km_h"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white_text"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/lowerLeftLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/startRoad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startRoad"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/bookdistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="64dp"
+            android:textColor="@color/white_text"
+            android:text="@string/roaddistance_km"
+
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/roaddistance"
+            android:layout_width="214sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bookdistance"
+            android:layout_alignStart="@id/bookdistance"
+            android:textColor="@color/white_text"
+            android:text="0"
+            android:gravity="center"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lowerRightLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80102078"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:textColor="@color/white_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/startRoad"
+        app:layout_constraintTop_toBottomOf="@id/startRoad"
+        app:layout_constraintBottom_toBottomOf="parent">
+    <ImageView
+        android:id="@+id/compassdir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        app:srcCompat="@drawable/compas_road" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/razButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="RAZ"
+        app:layout_constraintEnd_toEndOf="@+id/startRoad"
+        app:layout_constraintStart_toStartOf="@+id/startRoad"
+        app:layout_constraintTop_toBottomOf="@+id/startRoad" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

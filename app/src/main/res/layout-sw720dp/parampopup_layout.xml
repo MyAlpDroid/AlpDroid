@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Offset Tyre Pressure"
+        />
+
+    <EditText
+        android:id="@+id/offsetTyrePressureEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Offset Tyre Pressure"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Offset Tyre Temp"
+        />
+
+    <EditText
+        android:id="@+id/offsetTyreTempEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Offset Tyre Temp"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Offset Tpms delta (Connect/Alpine)"
+        />
+
+    <EditText
+        android:id="@+id/offsetTpmsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Offset Tpms delta (Connect/Alpine)"
+        android:inputType="number" />
+
+    <Switch
+        android:id="@+id/switchBrakeTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch Brake Temp" />
+
+</LinearLayout>

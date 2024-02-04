@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal" >
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24sp"
+        android:gravity="center_horizontal"
+        android:text="Bargraphes"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/question"
+        android:layout_width="38sp"
+        android:layout_height="39sp"
+        android:foreground="@android:drawable/ic_dialog_info" />
+
+    <LinearLayout
+        android:id="@+id/bargraphContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTextView"
+        android:layout_marginTop="8sp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal" />
+
+</RelativeLayout>

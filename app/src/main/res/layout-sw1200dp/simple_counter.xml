@@ -1,0 +1,396 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/simpleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/oilvalue"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="12,01"
+            android:textAlignment="viewStart"
+            android:textColor="#FFFFFF"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/coolvalue"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_alignTop="@+id/oilvalue"
+            android:layout_alignParentEnd="true"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/border"
+            android:text="12,02"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/oilvalue"
+            app:layout_constraintTop_toTopOf="@+id/oilvalue" />
+
+        <TextView
+            android:id="@+id/gearvalue"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:gravity="center"
+            android:layout_marginStart="32dp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            android:text="12,03"
+            app:layout_constraintStart_toEndOf="@+id/coolvalue"
+            app:layout_constraintTop_toTopOf="@+id/coolvalue" />
+
+        <TextView
+            android:id="@+id/clutchvalue"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/border"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            android:text="12,04"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@+id/gearvalue"
+            app:layout_constraintTop_toTopOf="@+id/gearvalue"  />
+
+        <ImageView
+            android:id="@+id/imagetpmsFL"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_marginStart="76dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/coolvalue"
+            app:layout_constraintTop_toBottomOf="@+id/oiltext"
+            app:srcCompat="@drawable/tpms_checks" />
+
+        <ImageView
+            android:id="@+id/imagetpmsFR"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            app:layout_constraintStart_toEndOf="@+id/tableLayout"
+            app:layout_constraintTop_toTopOf="@+id/imagetpmsFL"
+            app:srcCompat="@drawable/tpms_checks_right" />
+
+        <ImageView
+            android:id="@+id/imagetpmsRL"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            app:layout_constraintStart_toStartOf="@+id/imagetpmsFL"
+            app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
+            app:srcCompat="@drawable/tpms_checks" />
+
+        <ImageView
+            android:id="@+id/imagetpmsRR"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            app:layout_constraintStart_toEndOf="@+id/tableLayout"
+            app:layout_constraintTop_toTopOf="@+id/imagetpmsRL"
+            app:srcCompat="@drawable/tpms_checks_right" />
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/imagetpmsFL"
+            app:layout_constraintTop_toTopOf="@+id/imagetpmsFL">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/frontleftrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/text_temp_FL2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Temp_FL2"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/degre_c" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/frontrightrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/text_temp_FR2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView_Temp_FR2"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/degre_c" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/frontlefttrowpress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/text_press_FL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0,01"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Press_FL"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/unite_bar" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/frontrightrowpress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/text_press_FR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0,01"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Press_FR"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/unite_bar" />
+                </LinearLayout>
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/rearleftrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/text_temp_RL2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Temp_RL2"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/degre_c" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/rearrightrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/text_temp_RR2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Temp_RR2"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/degre_c" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/rearlefttrowpress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/text_press_RL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0,01"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Press_RL"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/unite_bar" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/rearrightrowpress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+
+                    <TextView
+                        android:id="@+id/text_press_RR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0,01"
+                        android:textColor="#FFFFFF"
+                        android:textSize="78dp"
+                        android:textStyle="normal|bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Press_RR"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/unite_bar" />
+                </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/oiltext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Huile"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/oilvalue"
+            app:layout_constraintStart_toStartOf="@+id/oilvalue"
+            app:layout_constraintTop_toBottomOf="@+id/oilvalue" />
+
+        <TextView
+            android:id="@+id/cooltext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cool"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/coolvalue"
+            app:layout_constraintStart_toStartOf="@+id/coolvalue"
+            app:layout_constraintTop_toBottomOf="@+id/coolvalue" />
+
+        <TextView
+            android:id="@+id/geartext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Gear"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/gearvalue"
+            app:layout_constraintStart_toStartOf="@+id/gearvalue"
+            app:layout_constraintTop_toBottomOf="@+id/gearvalue" />
+
+        <TextView
+            android:id="@+id/clutchtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Clutch"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/clutchvalue"
+            app:layout_constraintStart_toStartOf="@+id/clutchvalue"
+            app:layout_constraintTop_toBottomOf="@+id/clutchvalue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
