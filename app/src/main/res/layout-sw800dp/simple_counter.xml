@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/rootLayout">
 
     <RelativeLayout
         android:id="@+id/simpleLayout"
@@ -88,12 +89,12 @@
             android:id="@+id/imagetpmsFL"
             android:layout_width="84dp"
             android:layout_height="84dp"
-            android:layout_marginStart="76dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="16dp"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/coolvalue"
+            app:layout_constraintStart_toEndOf="@+id/oiltext"
             app:layout_constraintTop_toBottomOf="@+id/oiltext"
-            app:srcCompat="@drawable/tpms_checks" />
+            app:srcCompat="@drawable/ps43" />
 
         <ImageView
             android:id="@+id/imagetpmsFR"
@@ -101,7 +102,7 @@
             android:layout_height="84dp"
             app:layout_constraintStart_toEndOf="@+id/tableLayout"
             app:layout_constraintTop_toTopOf="@+id/imagetpmsFL"
-            app:srcCompat="@drawable/tpms_checks_right" />
+            app:srcCompat="@drawable/ps43" />
 
         <ImageView
             android:id="@+id/imagetpmsRL"
@@ -109,7 +110,7 @@
             android:layout_height="84dp"
             app:layout_constraintStart_toStartOf="@+id/imagetpmsFL"
             app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
-            app:srcCompat="@drawable/tpms_checks" />
+            app:srcCompat="@drawable/ps43" />
 
         <ImageView
             android:id="@+id/imagetpmsRR"
@@ -117,7 +118,7 @@
             android:layout_height="84dp"
             app:layout_constraintStart_toEndOf="@+id/tableLayout"
             app:layout_constraintTop_toTopOf="@+id/imagetpmsRL"
-            app:srcCompat="@drawable/tpms_checks_right" />
+            app:srcCompat="@drawable/ps43" />
 
         <TableLayout
             android:id="@+id/tableLayout"
@@ -346,7 +347,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Huile"
+            android:text="@string/oil"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/oilvalue"
@@ -358,7 +359,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Cool"
+            android:text="@string/cool"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/coolvalue"
@@ -370,7 +371,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Gear"
+            android:text="@string/gear_c"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/gearvalue"
@@ -382,12 +383,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Clutch"
+            android:text="@string/clutch"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/clutchvalue"
             app:layout_constraintStart_toStartOf="@+id/clutchvalue"
             app:layout_constraintTop_toBottomOf="@+id/clutchvalue" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

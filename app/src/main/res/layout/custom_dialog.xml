@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#164671"
+        android:text="@string/seuils_alertes_pneus"
+        android:textColor="@color/white_text"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_text"
+        android:text="@string/temperature" />
+
+    <TextView
+        android:id="@+id/tempOffsetValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_text"
+        android:text="@string/zone_de_fonctionnement" />
+
+
+    <com.google.android.material.slider.RangeSlider
+    android:id="@+id/tempOffsetDoubleSeekBar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    style="@style/SliderStyle"
+    app:trackColor="@color/rouge"
+    android:valueFrom="10.0"
+    android:valueTo="90.0"
+    android:stepSize="1.0"
+    app:values="@array/initial_slider_temp_values"
+    />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_text"
+        android:text="@string/pression" />
+
+
+
+    <TextView
+        android:id="@+id/pressOffsetValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_text"
+        android:text="@string/zone_de_fonctionnement" />
+
+
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/pressOffsetDoubleSeekBar"
+        android:valueFrom="1.6"
+        android:valueTo="2.5"
+        style="@style/SliderStyle"
+        app:values="@array/initial_slider_press_values"
+        app:trackColor="@color/rouge"
+        android:stepSize="0.05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Switch
+        android:id="@+id/switchLevelIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/afficher_les_seuils_o_n"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

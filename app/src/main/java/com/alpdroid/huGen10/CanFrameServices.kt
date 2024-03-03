@@ -389,14 +389,12 @@ class CanFrameServices : Service(), ArduinoListener {
                 //convert to obd but  this is a following frame
                 application.alpineOBDFrame.addFrame(frame, 2)
 
-                //send acknowledge
-                //sendFrame(CanFrame(1,frame.id, byteArrayOf(0x30,0x1)))
+
             }
-           //frame number in data[0] & 0x0F
-          //  3-> application.alpineOBDFrame.sendMultiFrame(frame,next) //case of reply to continue
+
         }
 
-      //  application.alpdroidServices.
+
 
     }
 
@@ -424,10 +422,7 @@ class CanFrameServices : Service(), ArduinoListener {
     fun checkFrame(bus:Int,ecuAddrs:Int):Boolean {
 
         // check if the frame is valuable
-        if (application.alpineCanFrame.getFrame(ecuAddrs shl (bus*0x10))!=null) {
-            return true
-        }
-        return false
+        return application.alpineCanFrame.getFrame(ecuAddrs shl (bus*0x10))!=null
     }
 
     @Synchronized

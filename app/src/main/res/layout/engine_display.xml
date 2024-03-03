@@ -24,36 +24,36 @@
             <ImageView
                 android:id="@+id/imagetpmsFL"
                 android:layout_width="90dp"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 android:layout_marginStart="64dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/OIL_jauge"
-                app:srcCompat="@drawable/tpms_checks" />
+                app:srcCompat="@drawable/ps43" />
 
             <ImageView
                 android:id="@+id/imagetpmsFR"
                 android:layout_width="90dp"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 app:layout_constraintEnd_toEndOf="@+id/tableLayout"
                 app:layout_constraintTop_toTopOf="@+id/imagetpmsFL"
-                app:srcCompat="@drawable/tpms_checks_right" />
+                app:srcCompat="@drawable/ps43" />
 
             <ImageView
                 android:id="@+id/imagetpmsRL"
                 android:layout_width="90dp"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 android:layout_marginStart="64dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-                app:srcCompat="@drawable/tpms_checks" />
+                app:srcCompat="@drawable/ps43" />
 
             <ImageView
                 android:id="@+id/imagetpmsRR"
                 android:layout_width="90dp"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 app:layout_constraintEnd_toEndOf="@+id/tableLayout"
                 app:layout_constraintTop_toTopOf="@+id/imagetpmsRL"
-                app:srcCompat="@drawable/tpms_checks_right" />
+                app:srcCompat="@drawable/ps43" />
 
             <TableLayout
                 android:id="@+id/tableLayout"
@@ -382,10 +382,10 @@
                 android:id="@+id/Intake_jauge"
                 android:layout_width="278dp"
                 android:layout_height="278dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintBottom_toBottomOf="@+id/Oil_Pressure"
                 app:layout_constraintStart_toStartOf="@+id/OIL_jauge"
-                app:layout_constraintTop_toBottomOf="@+id/OIL_jauge"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:layout_constraintVertical_bias="1.0"
                 app:sv_image="@drawable/compteur_354_aircool"
                 app:sv_indicator="NeedleIndicator"

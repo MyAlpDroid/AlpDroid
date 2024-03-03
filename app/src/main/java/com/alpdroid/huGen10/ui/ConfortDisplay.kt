@@ -23,7 +23,6 @@ import com.alpdroid.huGen10.R
 import com.alpdroid.huGen10.databinding.ConfortDisplayBinding
 import com.github.anastr.speedviewlib.TubeSpeedometer
 
-
 @ExperimentalUnsignedTypes
 @ExperimentalStdlibApi
 class ConfortDisplay : UIFragment(250) {
@@ -57,7 +56,6 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var escstate : ImageView
     lateinit var absstate:ImageView
 
-
     lateinit var press_FL : TextView
     lateinit var press_RL: TextView
     lateinit var press_FR: TextView
@@ -73,20 +71,18 @@ class ConfortDisplay : UIFragment(250) {
     lateinit var oddo_Rate: TextView
     lateinit var fuel_inst: TextView
 
-
-
     lateinit var cardessin : ImageView
 
     // offset b2r1S
     var offset_tyretemp: Int = 0
     var offset_tyrepress: Float = 0.0f
     var toggle_braketemp: Boolean = false
-    var offset_tpms:Int = 0 // si différence entre connect & tpms Alpine de 15 ?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val binding: ConfortDisplayBinding = ConfortDisplayBinding.inflate(inflater, container, false)
         fragmentBlankBinding = binding
+
 
         try {
             if (this.context?.let {
@@ -174,6 +170,7 @@ class ConfortDisplay : UIFragment(250) {
         humiditypicture.setImageResource(R.drawable.humid_clim)
 
 
+
         loadPreferences()
 
         // Ajout d'un listener sur cardessin
@@ -185,8 +182,6 @@ class ConfortDisplay : UIFragment(250) {
         press_RL = fragmentBlankBinding!!.textPressRL
         press_FR = fragmentBlankBinding!!.textPressFR
         press_RR = fragmentBlankBinding!!.textPressRR
-
-
 
         temp_FL2 = fragmentBlankBinding!!.textTempFL2
         temp_FR2 = fragmentBlankBinding!!.textTempFR2
@@ -215,6 +210,7 @@ class ConfortDisplay : UIFragment(250) {
 
                     val alpineServices= AlpdroidApplication.app.alpdroidData
 
+
                     val flbrake_temp:Int = (alpineServices.get_FrontLeftBrakeTemperature() * 5) - 50
                     val frbrake_temp:Int = (alpineServices.get_FrontRightBrakeTemperature() * 5) - 50
                     val rlbrake_temp:Int = (alpineServices.get_RearLeftBrakeTemperature() * 5) - 50
@@ -225,11 +221,11 @@ class ConfortDisplay : UIFragment(250) {
                     val rlbrake_press:Int = alpineServices.get_RearLeftWheelPressure_V2() * 30
                     val rrbrake_press:Int = alpineServices.get_RearRightWheelPressure_V2() * 30
 
-
                     val tyretemp_fl2:Int =alpineServices.get_TyreTemperature1()
                     val tyretemp_fr2:Int =alpineServices.get_TyreTemperature2()
                     val tyretemp_rl2:Int =alpineServices.get_TyreTemperature3()
                     val tyretemp_rr2:Int =alpineServices.get_TyreTemperature4()
+
 
                     if (toggle_braketemp) {
                         temp_FL.visibility=View.INVISIBLE
@@ -256,27 +252,29 @@ class ConfortDisplay : UIFragment(250) {
 
                     // temp
                     temp_FL2.text = if (tyretemp_fl2 != -30 && tyretemp_fl2 != 97) {
-                        String.format("%d","${tyretemp_fl2 + offset_tyretemp}")
+                        String.format("%d",tyretemp_fl2 + offset_tyretemp)
                     } else {
                         "--"
                     }
 
                     temp_FR2.text= if (tyretemp_fr2 != -30 && tyretemp_fr2 != 97) {
-                        String.format("%d","${tyretemp_fr2 + offset_tyretemp}")
+                        String.format("%d",tyretemp_fr2 + offset_tyretemp)
                     } else {
                         "--"
                     }
 
                     temp_RL2.text= if (tyretemp_rl2 != -30 && tyretemp_rl2 != 97) {
-                        String.format("%d","${tyretemp_rl2 + offset_tyretemp}")
+                        String.format("%d",tyretemp_rl2 + offset_tyretemp)
                     } else {
                         "--"
                     }
                     temp_RR2.text= if (tyretemp_rr2 != -30 && tyretemp_rr2 != 97) {
-                        String.format("%d","${tyretemp_rr2 + offset_tyretemp}")
+                        String.format("%d",tyretemp_rr2 + offset_tyretemp)
                     } else {
                         "--"
                     }
+
+
 
                     temp_FL.text = String.format(
                         "%d",
@@ -493,7 +491,7 @@ class ConfortDisplay : UIFragment(250) {
                     else
                         opendoorRear.visibility=View.INVISIBLE
 
-                    if (alpineServices.get_GlasshatchOpenWarning()>0)
+                    if (alpineServices.get_EngineHoodState()==1)
                         opendoorFront.visibility=View.VISIBLE
                     else
                         opendoorFront.visibility=View.INVISIBLE
@@ -514,27 +512,26 @@ class ConfortDisplay : UIFragment(250) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Paramètres")
 
+
         val inflater = requireActivity().layoutInflater
-        val dialogView = inflater.inflate(R.layout.parampopup_layout, null)
+        val dialogView = inflater.inflate(R.layout.parampopup_layout,null)
         builder.setView(dialogView)
+
 
         val offsetTyrePressureEditText: EditText = dialogView.findViewById(R.id.offsetTyrePressureEditText)
         val offsetTyreTempEditText: EditText = dialogView.findViewById(R.id.offsetTyreTempEditText)
-        val offsetTpmsEditText:EditText = dialogView.findViewById(R.id.offsetTpmsEditText)
         val switchBrakeTemp: Switch = dialogView.findViewById(R.id.switchBrakeTemp)
 
 
         // Pré-remplir les champs avec les valeurs actuelles
         offsetTyrePressureEditText.setText(offset_tyrepress.toString())
         offsetTyreTempEditText.setText(offset_tyretemp.toString())
-        offsetTpmsEditText.setText(offset_tpms.toString())
         switchBrakeTemp.isChecked = toggle_braketemp
 
         builder.setPositiveButton("OK") { _, _ ->
             // Capturer les valeurs des champs
             offset_tyrepress = offsetTyrePressureEditText.text.toString().toFloat()
             offset_tyretemp = (offsetTyreTempEditText.text).toString().toInt()
-            offset_tpms = (offsetTpmsEditText.text).toString().toInt()
             toggle_braketemp = switchBrakeTemp.isChecked
 
             // Stocker les valeurs dans SharedPreferences
@@ -555,7 +552,6 @@ class ConfortDisplay : UIFragment(250) {
         offset_tyretemp = sharedPreferences.getInt("offset_tyretemp", 0)
         offset_tyrepress = sharedPreferences.getFloat("offset_tyrepress", 0.0f)
         toggle_braketemp = sharedPreferences.getBoolean("toggle_braketemp", false)
-        offset_tpms = sharedPreferences.getInt("offset_tpms", 0)
 
     }
 
@@ -567,7 +563,6 @@ class ConfortDisplay : UIFragment(250) {
         editor.putInt("offset_tyretemp", offset_tyretemp)
         editor.putFloat("offset_tyrepress", offset_tyrepress)
         editor.putBoolean("toggle_braketemp", toggle_braketemp)
-        editor.putInt("offset_tpms", offset_tpms)
 
         editor.apply()
     }

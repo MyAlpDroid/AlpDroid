@@ -104,7 +104,7 @@
     <string name="car_parameters">Paramètres Alpine</string>
     <string name="mirror_autofolding">Rabat Rétroviseurs</string>
     <string name="start_stop">Start and Stop</string>
-    <string name="car_park_signal">Beep frein à main</string>
+    <string name="car_park_signal">Désactivation du frein de parc automatique</string>
     <string name="overspeed_buzzer">Beep limiteur</string>
     <string name="start_stop_is_disable">Start Stop désactivé</string>
     <string name="car_sound_is_disable">Beep frein désactivé</string>
@@ -173,5 +173,14 @@
     <string name="engine_alert_title">Alerte</string>
     <string name="engine_alert_text">Tour de refroidissement moteur</string>
     <string name="tyre_alert_text">Tour de refroidissement pneus</string>
+    <string name="clutch">Embrayage</string>
+    <string name="brakepress">Freins</string>
+    <string name="throttle">Accélération</string>
+    <string name="afficher_les_seuils_o_n">Afficher les seuils (O/N)</string>
+    <string name="switch_brake_temp">Afficher la température freins</string>
+    <string name="zone_de_fonctionnement">Zone de fonctionnement : 0.0 à 0.0</string>
+    <string name="temperature">Température :</string>
+    <string name="seuils_alertes_pneus">Seuils alertes pneus</string>
+    <string name="pression">Pression :</string>
 
 </resources>

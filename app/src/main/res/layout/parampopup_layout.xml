@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Offset Tyre Pressure"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Offset Tyre Temp"
-        android:inputType="number" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Offset Tpms delta (Connect/Alpine)"
-        android:inputType="number" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <Switch
         android:id="@+id/switchBrakeTemp"

@@ -14,19 +14,8 @@
         tools:ignore="QueryAllPackagesPermission" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <!-- Request legacy Bluetooth permissions on older devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30" />
-    <!-- Needed only if your app communicates with already-paired Bluetooth
-            devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-
-
 
     <queries>
         <package android:name="net.osmand" />
@@ -38,7 +27,6 @@
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:enableOnBackInvokedCallback="true"
             tools:targetApi="30">
 
         <!--

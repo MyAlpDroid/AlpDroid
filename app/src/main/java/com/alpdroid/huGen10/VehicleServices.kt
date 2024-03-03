@@ -1403,6 +1403,9 @@ class VehicleServices : LocationListener {
     fun get_GlasshatchOpenWarning(): Int =
         this.getFrameParamsFromBus(1,CanECUAddrs.MMI_BCM_CANHS_R_01.idcan, 60, 2)
 
+    fun get_EngineHoodState():Int =
+        this.getFrameParamsFromBus(1,CanECUAddrs.BCM_CANHS_R_04.idcan, 48, 2)
+
     /** Get         EcoModeStatusDisplay **/
     fun get_EcoModeStatusDisplay(): Int =
         this.getFrameParamsFromBus(1,CanECUAddrs.MMI_BCM_CANHS_R_01.idcan, 62, 2)

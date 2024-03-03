@@ -6,6 +6,16 @@
 
     <string name="appwidget_text" translatable="false">MyAlpDroid</string>
 
+    <string name="add_widget" translatable="false">Add widget</string>
+    <string name="author" translatable="false">By MyAlpDroid</string>
+    <string name="msg_permission_required" translatable="false">Storage Permission is required for core functionality, Please enable it to be able to use the widget.</string>
+    <string name="open_settings" translatable="false">Open Settings</string>
+    <string name="permission_dialog_title" translatable="false">Permission required</string>
+    <string name="storage_permission" translatable="false">Storage Permission</string>
+    <string name="let_s_do_it" translatable="false">Let\'s do it!</string>
+    <string name="you_re_all_set" translatable="false">You\'re all set!</string>
+
+
     <!-- Enabled players settings -->
     <string name="traduction_title">Langue Français / English</string>
     <string name="traduction" translatable="false">Langue</string>
@@ -103,7 +113,7 @@
     <string name="car_parameters">Paramètres Alpine</string>
     <string name="mirror_autofolding">Rabat Rétroviseurs</string>
     <string name="start_stop">Start and Stop</string>
-    <string name="car_park_signal">Beep frein à main</string>
+    <string name="car_park_signal">Désactivation du frein de parc automatique</string>
     <string name="overspeed_buzzer">Beep limiteur</string>
     <string name="start_stop_is_disable">Start Stop désactivé</string>
     <string name="car_sound_is_disable">Beep frein désactivé</string>
@@ -175,5 +185,16 @@
     <string name="engine_alert_title">Alerte</string>
     <string name="engine_alert_text">Tour de refroidissement moteur</string>
     <string name="tyre_alert_text">Tour de refroidissement pneus</string>
+    <string name="clutch">Embrayage</string>
+    <string name="brakepress">Freins</string>
+    <string name="throttle">Accélération</string>
+    <string name="afficher_les_seuils_o_n">Afficher les seuils (O/N)</string>
+    <string name="switch_brake_temp">Afficher la température freins</string>
+    <string name="offset_tyre_pressure">Offset Tyre Pressure</string>
+    <string name="offset_tyre_temp">Offset Tyre Temp</string>
+    <string name="zone_de_fonctionnement">Zone de fonctionnement : 0.0 à 0.0</string>
+    <string name="temperature">Température :</string>
+    <string name="seuils_alertes_pneus">Seuils alertes pneus</string>
+    <string name="pression">Pression :</string>
 
 </resources>

@@ -18,12 +18,12 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <device id="Nexus 9" />
         <device id="_android_virtual_device_id_Tablette_Alpine_1280x720_API_29" />
         <device id="automotive_1024p_landscape" />
-        <device id="_device_class_foldable" />
         <device id="_device_class_tablet" />
         <device id="_device_class_desktop" />
+        <device id="Nexus 9" />
+        <device id="_device_class_foldable" />
         <device id="_device_class_phone" />
         <device id="desktop_medium" />
         <device id="pixel_c" />
@@ -37,7 +37,22 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-port/engine_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/engine_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/simple_counter.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -52,12 +67,32 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw800dp/computer_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw800dp/confort_display.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw800dp/engine_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-sw800dp/simple_counter.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/confort_display.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -74,17 +109,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50b4dc8d-23be-416d-b0ca-9d64cfc3aa1f" name="Changes" comment="Merge remote-tracking branch 'remote/main'&#10;&#10;   update img&#10;&#10;Signed-off-by: MyAlpDroid &lt;myalpdroid@gmail.com&gt;">
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-11_165520.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_pcb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_prl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2022-12-31_120537/shield_can_30_11_22.kicad_sch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-11_165110.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-19_125559.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-20_072353.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-24_150528.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22-backups/shield_can_30_11_22-2023-12-27_190259.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kicad/shield_can_30_11_22.kicad_prl" beforeDir="false" afterPath="$PROJECT_DIR$/Kicad/shield_can_30_11_22.kicad_prl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/CanFrameServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ClusterInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/VehicleServices.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ConfortDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/ConfortDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/EngineDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SimpleCounterDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alpdroid/huGen10/ui/SimpleCounterDisplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/simple_counter.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw1200dp/simple_counter.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw720dp/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw720dp/confort_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw720dp/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw720dp/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp/simple_counter.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw800dp/simple_counter.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/confort_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/confort_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/engine_display.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +138,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/New_Device_1_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/philippetangre/.android/avd/Copy_of_10.1_WXGA_Tablet_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -114,7 +155,12 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MyAlpineDroid" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -215,15 +261,15 @@
     "com.android.tools.idea.emulator.zoom.toolbar.visible": "false",
     "com.google.services.firebase.aqiPopupShown": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/philippetangre/StudioProjects/AlpDroid/app/src/main/res/drawable",
-    "project.structure.last.edited": "Modules",
+    "last_opened_file_path": "/Users/philippetangre/StudioProjects/AlpDroid",
+    "project.structure.last.edited": "Suggestions",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Default Config" />
+    <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
@@ -691,7 +737,7 @@
       <option name="project" value="LOCAL" />
       <updated>1698581608802</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">

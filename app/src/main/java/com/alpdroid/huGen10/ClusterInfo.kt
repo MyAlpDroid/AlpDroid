@@ -74,11 +74,6 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
     private var raceMode:Int=0
 
-     var valun:Int=0
-     var valdeux:Int=0
-     var val2deux:Int=0
-     var val2un:Int=0
-
 
 
     init {
@@ -184,7 +179,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
         CoroutineScope(Dispatchers.IO).launch {
 
             mAidlHelper = OsmAndAidlHelper(app, this@ClusterInfo)
-            var ptc_index=0
+            var ptc_index=5
 
             while (true) {
 
@@ -197,7 +192,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
 
                         try {
                             // Cluster's Frame
-                            raceMode = application.alpdroidData.get_EspAsrSportMode_MM()
+                            raceMode = application.alpdroidData.get_EspAsrSportMode()
                             clusterInfoUpdate()
                             application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.Audio_Info.idcan + 0)
                             application.alpineCanFrame.pushFifoFrame(0,CanMCUAddrs.CustomerClockSync.idcan + 0)
@@ -605,73 +600,7 @@ class ClusterInfo (var application: AlpdroidApplication):OnOsmandMissingListener
                 }
             }
 
-/*
-        if (raceMode==3)
-        {
-          var frame2change = application.alpineCanFrame.getFrame(CanMCUAddrs.Audio_Display.idcan + 5)
-            /*
-                        if (frame2change != null) {
-                            frame2change.setBitRange(0, 8, val2un)
-                            frame2change.setBitRange(8, 8, value = this.valun)
-                            frame2change.setBitRange(16, 8, val2un)
-                            frame2change.setBitRange(24, 8, valun)
-                            frame2change.setBitRange(32, 8, val2un)
-                            frame2change.setBitRange(40, 8, valun)
-                            frame2change.setBitRange(48, 8, val2un)
-                            frame2change.setBitRange(56, 8, valun)
 
-                            frame2change.numtodataByte()
-
-                            application.alpineCanFrame.addFrame(frame2change)
-                        }*/
-
-
-            if (frame2change!=null) {
-                frame2change.setBitRange(0, 8, 0xFF)
-                frame2change.setBitRange(8, 8, 0x62)
-
-                frame2change.numtodataByte()
-
-                application.alpineCanFrame.addFrame(frame2change)
-            }
-
-                frame2change = application.alpineCanFrame.getFrame(CanMCUAddrs.Audio_Display.idcan + 6)
-                if (frame2change!=null) {
-
-                    frame2change.setBitRange(16, 8, 0xFF)
-                    frame2change.setBitRange(24, 8, 0xA1)
-
-                    frame2change.numtodataByte()
-
-                    application.alpineCanFrame.addFrame(frame2change)
-                }
-
-            frame2change = application.alpineCanFrame.getFrame(CanMCUAddrs.Audio_Display.idcan + 7)
-            if (frame2change!=null) {
-
-                frame2change.setBitRange(32, 8, 0xFF)
-                frame2change.setBitRange(40, 8, 0x63)
-
-                frame2change.numtodataByte()
-
-                application.alpineCanFrame.addFrame(frame2change)
-            }
-
-            frame2change = application.alpineCanFrame.getFrame(CanMCUAddrs.Audio_Display.idcan + 8)
-            if (frame2change!=null) {
-
-                frame2change.setBitRange(48, 8, 0xFF)
-                frame2change.setBitRange(56, 8, 0x63)
-
-                frame2change.numtodataByte()
-
-                application.alpineCanFrame.addFrame(frame2change)
-            }
-
-        }
-
-
-*/
 
         // Setting audio Info to Internet Source
 

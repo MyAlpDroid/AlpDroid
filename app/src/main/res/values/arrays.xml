@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="initial_slider_temp_values">
+        <item>10.0</item>
+        <item>70.0</item>
+    </array>
+    <array name="initial_slider_press_values">
+        <item>1.9</item>
+        <item>2.1</item>
+    </array>
+</resources>
