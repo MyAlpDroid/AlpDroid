@@ -1,5 +1,5 @@
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MyAlpDroid)
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
+<H1> There is now a commercial version of the solution offered and installed by the best preparers on the market </H1>
+
 
 [Français](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.md)    [English](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.en.md)
 
@@ -39,10 +39,6 @@ But first of all, this project aims to share all the experience and allow those 
 **Please note that this is an experimental project, that there may be malfunctions in the components as well as in the programs which can lead to alarms or stopping the vehicle for safety. You use the results of this project at your own risk and peril, the author will not provide any support or guarantee following the use of the programs and information resulting from this project.**
 
 For more information, see the Wiki:[here](https://github.com/MyAlpDroid/AlpDroid/wiki)
-
-Don't forget to sponsor me:
-
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MyAlpDroid)
 
 The project uses the results of the following projects:
 
