@@ -1,7 +1,5 @@
 
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MyAlpDroid)
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/myalpdroid?country.x=FR&locale.x=fr_FR)
-
+<H1> Il existe désormais une version commerciale de la solution proposée et installée par les meilleurs préparateurs du marché </H1>
 
 [Français](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.md)    [English](https://github.com/MyAlpDroid/AlpDroid/blob/main/README.en.md)
 
@@ -42,9 +40,6 @@ Mais en premier, ce projet a pour objet de partager toute l'expérience et de pe
 
 Pour plus d'information, Consulter le Wiki :[ici](https://github.com/MyAlpDroid/AlpDroid/wiki)
 
-N'oubliez pas de me sponsoriser :
-
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/MyAlpDroid)
 
 Le projet s'inspire et utilise les résultats des projets suivants :
 
